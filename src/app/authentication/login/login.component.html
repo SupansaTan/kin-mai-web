@@ -1,43 +1,53 @@
-<div class="container">
-    <div class="row">
+<div class="container-fluid">
+    <div class="row ">
       <!--image half-->
-      <div class="col ">
-        <img src="../../../../assets/image/logo.png" alt="logo" style="height:100vh; width: 80vh;">
+      <div class="col-sm-12 col-sm-pull col-md-5 col-lg-7 d-flex flex-column justify-content-start ">
+        <img class="ms-0" src="../../../../assets/image/logo.png" alt="logo" style="height:100vh; width: 95vh;">
       </div>
 
-    <!-- The content half -->
-      <div class="col-xxl-5  d-flex flex-column align-items-center justify-content-center content-wrapper ">
-        <h1 class="mb-4">Login</h1>
+      <!-- The content half -->
+      <div class="col-sm-12 col-sm-push col-md-7 col-lg-5 d-flex flex-column justify-content-center "> 
 
-        <!-- login form -->
+        <h1 class="my-4">Login</h1>
+        <a class="text-muted mb-4" href="#!"> Don't have an account ?</a>
+
+          <!-- login form -->
           <form >
-            <!-- Email input -->
-            <div class="form-outline mb-4">
-              <input type="email" id="form3Example3" class="form-control form-control-xl"
-                placeholder="Email" />
-
+           
+            <div class="mb-4 position-relative">
+              <i class="fas fa-user"></i>
+              <input id="inputEmail" type="email" placeholder="Email" formControlName="email" class="form-control border-0 border-bottom px-4 ps-5 bg-transparent shadow-none"
+                name="email" >
             </div>
 
-            <!-- Password input -->
-            <div class="form-outline mb-3">
-              <input type="password" id="form3Example4" class="form-control form-control-xl"
-                placeholder="Password" />
-
+            <div class="mb-4 position-relative">
+              <i class="fas fa-lock"></i>
+              <input id="inputPassword" type="password" placeholder="Password" formControlName="password" class="form-control border-0 border-bottom px-4 text-primary ps-5 bg-transparent shadow-none"
+                name="password">
             </div>
 
-            <!-- Submit button -->
-              <button type="submit" class="btn btn-primary btn-xl btn-block ">Sign in</button>
+            <a class="text-muted d-flex justify-content-end" href="#!">Forgot password?</a>
 
+            <!-- Signin button -->
+            <div class="signin d-flex justify-content-center my-2">
+              <button class="btn btn-signin mb-4 " style="padding-left: 2.5rem; padding-right: 2.5rem;"> Sign in</button>
+            </div>
 
             <!-- OR -->
-            <div class="divider d-flex align-items-center my-4">
+            <div class="divider d-flex align-items-center my-4" >
               <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
+              
             </div>
-
-            <a class="btn btn-primary btn-xl btn-block" style="background-color: #c24747" href="#!"
-              role="button">
-              <i class="fab fa-google-f me-2"></i>Continue with Google
-            </a>
+            
+            <!--Google bt-->
+            <div class="signin d-flex justify-content-center my-3">              
+              <div class="google-btn">
+                <div class="google-icon-wrapper">
+                  <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
+                </div>
+                <p class="btn-text"><b>Sign in with google</b></p>
+              </div>
+            </div>
 
           </form>
       </div>
