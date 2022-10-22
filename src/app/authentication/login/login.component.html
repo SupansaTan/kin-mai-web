@@ -1,36 +1,37 @@
+<!--ขาด icon -->
 <div class="container-fluid">
-    <div class="row ">
+    <div class="row">
       <!--image half-->
-      <div class="col-sm-12 col-sm-pull col-md-5 col-lg-7 d-flex flex-column justify-content-start ">
+      <div class="col-sm-12 col-sm-pull col-md-6 col-lg-7 d-flex flex-column justify-content-start ">
         <img class="ms-0" src="../../../../assets/image/logo.png" alt="logo" style="height:100vh; width: 95vh;">
       </div>
 
       <!-- The content half -->
-      <div class="col-sm-12 col-sm-push col-md-7 col-lg-5 d-flex flex-column justify-content-center "> 
+      <div class="col-sm-12 col-sm-push col-md-6 col-lg-5 d-flex flex-column justify-content-center "> 
 
         <h1 class="my-4">Login</h1>
-        <a class="text-muted mb-4" href="#!"> Don't have an account ?</a>
+        <a class="text-muted mb-4" href="http://localhost:4200/auth/regis"> Don't have an account ?</a>
 
           <!-- login form -->
           <form >
            
             <div class="mb-4 position-relative">
-              <i class="fas fa-user"></i>
+              <i class="fa-light fa-user"></i>
               <input id="inputEmail" type="email" placeholder="Email" formControlName="email" class="form-control border-0 border-bottom px-4 ps-5 bg-transparent shadow-none"
                 name="email" >
             </div>
 
             <div class="mb-4 position-relative">
-              <i class="fas fa-lock"></i>
+              <i class="fa-regular fa-lock"></i>
               <input id="inputPassword" type="password" placeholder="Password" formControlName="password" class="form-control border-0 border-bottom px-4 text-primary ps-5 bg-transparent shadow-none"
                 name="password">
             </div>
 
-            <a class="text-muted d-flex justify-content-end" href="#!">Forgot password?</a>
+            <a class="text-muted d-flex justify-content-end mb-3" href="http://localhost:4200/auth/reset">Forgot password?</a>
 
             <!-- Signin button -->
             <div class="signin d-flex justify-content-center my-2">
-              <button class="btn btn-signin mb-4 " style="padding-left: 2.5rem; padding-right: 2.5rem;"> Sign in</button>
+              <button  type="button"  class="btn btn-lg btn-signin  mb-4 "> Sign in</button>
             </div>
 
             <!-- OR -->

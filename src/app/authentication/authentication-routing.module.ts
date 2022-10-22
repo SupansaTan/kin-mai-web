@@ -12,8 +12,8 @@ const routes: Routes = [
   },
   {
 
-  path: 'regis',
-  component: RegisterComponent
+    path: 'regis',
+    component: RegisterComponent
 
   },
 
