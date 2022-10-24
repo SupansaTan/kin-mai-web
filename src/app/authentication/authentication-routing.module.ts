@@ -4,12 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetComponent } from './reset/reset.component';
+
+
 const routes: Routes = [
   { 
     path: 'login', 
     component: LoginComponent 
   
   },
+
   {
 
     path: 'regis',
@@ -17,11 +20,12 @@ const routes: Routes = [
 
   },
 
+
   {
     path: 'reset',
     component: ResetComponent
   
-  },
+  }
 
 ];
 
