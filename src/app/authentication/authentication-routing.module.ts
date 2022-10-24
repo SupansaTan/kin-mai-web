@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetComponent } from './reset/reset.component';
+import { RegisReviewComponent } from './regis-review/regis-review.component';
+import { RegisRestuarantComponent } from './regis-restuarant/regis-restuarant.component';
 
 
 const routes: Routes = [
@@ -20,12 +22,26 @@ const routes: Routes = [
 
   },
 
+  {
+
+    path: 'regis/review',
+    component: RegisReviewComponent
+
+  },
+
+  {
+
+    path: 'regis/restaurant',
+    component: RegisRestuarantComponent
+
+  },
 
   {
     path: 'reset',
     component: ResetComponent
 
   },
+
   {
     path: '',
     redirectTo: '/auth/login',
