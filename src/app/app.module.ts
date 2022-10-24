@@ -12,8 +12,7 @@ import { RegisterComponent } from './authentication/register/register.component'
   declarations: [
     AppComponent,
     ResetComponent,
-    RegisterComponent,
- 
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

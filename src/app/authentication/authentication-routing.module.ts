@@ -7,10 +7,10 @@ import { ResetComponent } from './reset/reset.component';
 
 
 const routes: Routes = [
-  { 
-    path: 'login', 
-    component: LoginComponent 
-  
+  {
+    path: 'login',
+    component: LoginComponent
+
   },
 
   {
@@ -24,9 +24,13 @@ const routes: Routes = [
   {
     path: 'reset',
     component: ResetComponent
-  
-  }
 
+  },
+  {
+    path: '',
+    redirectTo: '/auth/login',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({
