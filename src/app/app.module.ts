@@ -10,9 +10,7 @@ import { RegisterComponent } from './authentication/register/register.component'
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ResetComponent,
-    RegisterComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
