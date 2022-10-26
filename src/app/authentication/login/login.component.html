@@ -13,7 +13,7 @@
       <!-- login form -->
       <form [formGroup]="loginForm">
         <div class="mb-4 position-relative">
-          <i class="fa-light fa-user"></i>
+          <i class="bi bi-person"></i>
           <input id="inputEmail" type="email" placeholder="Email" formControlName="email" name="email"
             class="form-control border-0 border-bottom px-4 ps-5 bg-transparent shadow-none"
           >
@@ -28,6 +28,10 @@
 
         <a class="text-muted d-flex justify-content-end mb-3" href="/auth/reset-password">Forgot password?</a>
 
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-lg">Sign In</button>
+        </div>
+        
         <!-- OR -->
         <div class="divider d-flex align-items-center my-4" >
           <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>

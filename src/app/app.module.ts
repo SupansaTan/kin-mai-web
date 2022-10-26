@@ -5,8 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ResetComponent } from './authentication/reset/reset.component';
-import { RegisterComponent } from './authentication/register/register.component';
+
 
 @NgModule({
   declarations: [
