@@ -9,7 +9,6 @@ import { RegisterReviewerComponent } from './register-reviewer/register-reviewer
 import { RegisterComponent } from './register/register.component';
 import { ResetComponent } from './reset/reset.component';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -23,8 +22,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AuthenticationRoutingModule,
-    FontAwesomeModule
+    AuthenticationRoutingModule
   ]
 })
+
 export class AuthenticationModule { }

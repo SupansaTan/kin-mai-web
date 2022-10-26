@@ -1,6 +1,6 @@
-import { AuthenticationRoutingModule } from './authentication/authentication-routing.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 
 const routes: Routes = [
@@ -13,10 +13,12 @@ const routes: Routes = [
     redirectTo: '/auth/login',
     pathMatch: 'full'
   }
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [CommonModule,
+    RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
