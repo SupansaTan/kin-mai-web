@@ -12,18 +12,23 @@
 
       <!-- login form -->
       <form [formGroup]="loginForm">
+
         <div class="mb-4 position-relative">
-          <i class="bi bi-person"></i>
-          <input id="inputEmail" type="email" placeholder="Email" formControlName="email" name="email"
-            class="form-control border-0 border-bottom px-4 ps-5 bg-transparent shadow-none"
-          >
+          <div class="input-group">
+            <i class="bi bi-person form-icon"></i>
+            <input id="inputPassword" type="email" placeholder="Email" formControlName="email" name="email"
+              class="form-control border-0 border-bottom text-primary bg-transparent shadow-none"
+            >
+          </div>
         </div>
 
         <div class="mb-4 position-relative">
-          <i class="bi bi-lock"></i>
-          <input id="inputPassword" type="password" placeholder="Password" formControlName="password" name="password"
-            class="form-control border-0 border-bottom px-4 text-primary ps-5 bg-transparent shadow-none"
-          >
+          <div class="input-group">
+            <i class="bi bi-lock form-icon"></i>
+            <input id="inputPassword" type="password" placeholder="Password" formControlName="password" name="password"
+              class="form-control border-0 border-bottom text-primary bg-transparent shadow-none"
+            >
+          </div>
         </div>
 
         <a class="text-muted d-flex justify-content-end mb-3" href="/auth/reset-password">Forgot password?</a>
@@ -43,7 +48,7 @@
             <div class="google-icon-wrapper">
               <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
             </div>
-            <p class="btn-text"><b>Sign in with google</b></p>
+            <p class="btn-text">Sign in with google</p>
           </div>
         </div>
       </form>
