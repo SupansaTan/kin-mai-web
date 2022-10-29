@@ -6,8 +6,47 @@ height: 1px;
 background: rgba(71, 71, 71, 0.281);
 }
 
-.btn {
+.container-fluid {
+  height: 100%;
+  width: 90%;
+}
 
+/* Split the screen in half */
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+  left: 0;
+  background-color: #911F27;
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  background-color: transparent;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.centered img {
+  width: 100%;
+}
+
+
+.btn {
   background-color: rgb(250, 206, 127);
 }
 
