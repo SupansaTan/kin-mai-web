@@ -13,6 +13,10 @@ const routes: Routes = [
     loadChildren: () => import('./restaurant/restaurant.module').then(m => m.RestaurantModule)
   },
   {
+    path: 'reviewer',
+    loadChildren: () => import('./reviewer/reviewer.module').then(m => m.ReviewerModule)
+  },
+  {
     path: '',
     redirectTo: '/auth/login',
     pathMatch: 'full'
