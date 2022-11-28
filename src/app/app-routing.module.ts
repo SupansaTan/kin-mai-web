@@ -9,11 +9,14 @@ const routes: Routes = [
     loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   {
+    path: 'restaurant',
+    loadChildren: () => import('./restaurant/restaurant.module').then(m => m.RestaurantModule)
+  },
+  {
     path: '',
     redirectTo: '/auth/login',
     pathMatch: 'full'
   }
-
 ];
 
 @NgModule({
