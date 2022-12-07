@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountType } from 'src/enum/account-type.enum';
 
 @Component({
   selector: 'app-navbar',
@@ -7,11 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
   username: string = '';
+  isLogin: boolean = true;
+  accountType: number = AccountType.ReviewerAndRestaurantOwner;
+  restaurantName: string = '';
+  isReviewerAccount: boolean = false;
+
+  AccountTypeEnum = AccountType;
 
   constructor() { }
 
   ngOnInit(): void {
-    this.username = 'username';
+    this.username = 'Somchai';
+    this.restaurantName = 'คุณป้าใจป้ำ';
   }
 
 }
