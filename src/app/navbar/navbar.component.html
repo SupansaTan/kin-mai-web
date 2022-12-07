@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark-red">
+  <div class="container-md">
+    <!-- logo -->
+    <a class="navbar-brand" href="#">
+      <img src="assets/image/logo.png" routerLink="/" alt="KinMai Logo" width="auto" height="25">
+    </a>
+
+    <!-- button for collapse navbar -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar"
+      aria-expanded="false" aria-label="toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link py-0" href="#">กินไหมกินอะไรดี</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <!-- <li class="nav-item">
+          <a class="nav-link py-0" href="#">เข้าสู่ระบบ</a>
+        </li> -->
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" [routerLink]="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ username }}
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">แก้ไขโปรไฟล์</a></li>
+            <li><a class="dropdown-item" href="#">ร้านอาหารที่ถูกใจ</a></li>
+            <li><a class="dropdown-item" href="#">เปลี่ยนรหัสผ่าน</a></li>
+            <li><a class="dropdown-item" href="#">ออกจากระบบ</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
