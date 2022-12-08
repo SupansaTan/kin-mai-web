@@ -6,21 +6,20 @@
     </a>
 
     <!-- button for collapse navbar -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar"
-      aria-expanded="false" aria-label="toggle navigation">
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbar">
+    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li *ngIf="isLogin && isReviewerAccount" class="nav-item">
-          <a class="nav-link py-0" href="#"><i class="bi bi-controller me-2"></i>กินไหมกินอะไรดี</a>
+          <a class="nav-link py-0" href="#" (click)="isMenuCollapsed = true"><i class="bi bi-controller me-2"></i>กินไหมกินอะไรดี</a>
         </li>
       </ul>
 
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li *ngIf="!isLogin" class="nav-item">
-          <a class="nav-link py-0" routerLink="/auth/login">เข้าสู่ระบบ</a>
+          <a class="nav-link py-0" routerLink="/auth/login" (click)="isMenuCollapsed = true">เข้าสู่ระบบ</a>
         </li>
 
         <li *ngIf="isLogin" ngbDropdown class="nav-item" container="body" display="dynamic" placement="bottom-end">

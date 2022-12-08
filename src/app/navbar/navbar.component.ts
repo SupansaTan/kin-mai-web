@@ -12,6 +12,7 @@ export class NavbarComponent implements OnInit {
   accountType: number = AccountType.ReviewerAndRestaurantOwner;
   restaurantName: string = '';
   isReviewerAccount: boolean = true;
+  isMenuCollapsed: boolean = true;
 
   AccountTypeEnum = AccountType;
 
