@@ -11,7 +11,7 @@ export class NavbarComponent implements OnInit {
   isLogin: boolean = true;
   accountType: number = AccountType.ReviewerAndRestaurantOwner;
   restaurantName: string = '';
-  isReviewerAccount: boolean = false;
+  isReviewerAccount: boolean = true;
 
   AccountTypeEnum = AccountType;
 

@@ -14,7 +14,7 @@
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li *ngIf="isLogin && isReviewerAccount" class="nav-item">
-          <a class="nav-link py-0" href="#">กินไหมกินอะไรดี</a>
+          <a class="nav-link py-0" href="#"><i class="bi bi-controller me-2"></i>กินไหมกินอะไรดี</a>
         </li>
       </ul>
 
@@ -24,31 +24,32 @@
         </li>
 
         <li *ngIf="isLogin" ngbDropdown class="nav-item" container="body" display="dynamic" placement="bottom-end">
-          <a class="nav-link" href (click)="false" ngbDropdownToggle>
+          <a class="nav-link font-semi-bold" href (click)="false" ngbDropdownToggle>
             {{ isReviewerAccount ? username : restaurantName }}
           </a>
-          <ul class="dropdown-menu" ngbDropdownMenu>
+          <ul class="dropdown-menu border-0 shadow" ngbDropdownMenu>
             <p class="mx-3 mb-1 fw-semibold fs-5">{{ isReviewerAccount ? username : restaurantName }}</p>
 
             <!-- shuffle account -->
             <p *ngIf="accountType === AccountTypeEnum.ReviewerAndRestaurantOwner" class="mx-3 px-2 bg-light-yellow rounded-4">
-              สลับไปใช้บัญชี <span class="fw-bold">{{ isReviewerAccount ? restaurantName : username }}</span>
+              <i class="bi bi-arrow-repeat me-1"></i>
+              สลับไปใช้บัญชี <span class="font-bold">{{ isReviewerAccount ? restaurantName : username }}</span>
             </p>
             <div class="dropdown-divider"></div>
 
             <!-- dropdown menu for reviewer -->
             <ng-container *ngIf="isReviewerAccount">
-              <li><a ngbDropdownItem>แก้ไขโปรไฟล์</a></li>
-              <li><a ngbDropdownItem>ร้านอาหารที่ถูกใจ</a></li>
-              <li><a ngbDropdownItem>เปลี่ยนรหัสผ่าน</a></li>
-              <li><a ngbDropdownItem>ออกจากระบบ</a></li>
+              <li><a ngbDropdownItem><i class="bi bi-pencil-square me-2"></i>แก้ไขโปรไฟล์</a></li>
+              <li><a ngbDropdownItem><i class="bi bi-heart me-2"></i>ร้านอาหารที่ถูกใจ</a></li>
+              <li><a ngbDropdownItem><i class="bi bi-key me-2"></i>เปลี่ยนรหัสผ่าน</a></li>
+              <li><a ngbDropdownItem><i class="bi bi-box-arrow-right me-2"></i>ออกจากระบบ</a></li>
             </ng-container>
 
             <!-- dropdown menu for restaurant owner -->
             <ng-container *ngIf="!isReviewerAccount">
-              <li><a ngbDropdownItem>แก้ไขรายละเอียดร้าน</a></li>
-              <li><a ngbDropdownItem>เปลี่ยนรหัสผ่าน</a></li>
-              <li><a ngbDropdownItem>ออกจากระบบ</a></li>
+              <li><a ngbDropdownItem><i class="bi bi-pencil-square me-2"></i>แก้ไขรายละเอียดร้าน</a></li>
+              <li><a ngbDropdownItem><i class="bi bi-key me-2"></i>เปลี่ยนรหัสผ่าน</a></li>
+              <li><a ngbDropdownItem><i class="bi bi-box-arrow-right me-2"></i>ออกจากระบบ</a></li>
             </ng-container>
           </ul>
         </li>
