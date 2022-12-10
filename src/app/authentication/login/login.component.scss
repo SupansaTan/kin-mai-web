@@ -1,99 +1,13 @@
-.divider:after,
-.divider:before {
-content: "";
-flex: 1;
-height: 1px;
-background: rgba(71, 71, 71, 0.281);
+.text-divider {
+  height: 10px;
+  border-bottom: 1px solid #dbdbdb;
 }
 
-.container-fluid {
-  height: 100%;
-  width: 90%;
+.wave {
+  top: -100px;
+  transform: rotate(-8deg) scale(1.1);
 }
 
-/* Split the screen in half */
-.split {
-  height: 100%;
-  width: 50%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  overflow-x: hidden;
-  padding-top: 20px;
+.w-30 {
+  width: 30%;
 }
-
-/* Control the left side */
-.left {
-  left: 0;
-  background-color: #911F27;
-}
-
-/* Control the right side */
-.right {
-  right: 0;
-  background-color: transparent;
-}
-
-.centered {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.centered img {
-  width: 100%;
-}
-
-
-.btn {
-  background-color: rgb(250, 206, 127);
-}
-
-.form-icon {
-  margin-top: 5px;
-}
-
-$white: #fff;
-$google-blue: #4285f4;
-$button-active-blue: #1669F2;
-
-.google-btn {
-  width: 184px;
-  height: 42px;
-  background-color: $google-blue;
-  border-radius: 2px;
-  box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
-  .google-icon-wrapper {
-    position: absolute;
-    margin-top: 1px;
-    margin-left: 1px;
-    width: 40px;
-    height: 40px;
-    border-radius: 2px;
-    background-color: $white;
-  }
-  .google-icon {
-    position: absolute;
-    margin-top: 11px;
-    margin-left: 11px;
-    width: 18px;
-    height: 18px;
-  }
-  .btn-text {
-    float: right;
-    margin: 11px 11px 0 0;
-    color: $white;
-    font-size: 14px;
-    letter-spacing: 0.2px;
-    font-family: "Roboto";
-  }
-  &:hover {
-    box-shadow: 0 0 6px $google-blue;
-  }
-  &:active {
-    background: $button-active-blue;
-  }
-}
-
-@import url(https://fonts.googleapis.com/css?family=Roboto:500);
