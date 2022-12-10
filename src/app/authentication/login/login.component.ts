@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  isShowPassword: boolean = false;
 
   constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({

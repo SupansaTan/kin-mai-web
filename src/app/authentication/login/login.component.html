@@ -20,9 +20,14 @@
           <!-- password -->
           <div class="mb-3">
             <label for="password" class="form-label fw-bolder">Password</label>
-            <input id="password" type="password" placeholder="Password" formControlName="password" name="password"
-              class="form-control shadow-none"
-            >
+            <div class="position-relative">
+              <input id="password" [type]="isShowPassword ? 'text':'password'" placeholder="Password" formControlName="password" name="password"
+                class="form-control shadow-none"
+              >
+              <i class="bi eye-icon position-absolute" role="button" (click)="isShowPassword = !isShowPassword"
+                [ngClass]="isShowPassword ? 'bi-eye-slash':'bi-eye'">
+              </i>
+            </div>
             <a class="text-muted text-decoration-none d-flex justify-content-end mt-2" routerLink="/auth/reset-password">
               Forgot password?
             </a>
