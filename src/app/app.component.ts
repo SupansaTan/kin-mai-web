@@ -10,13 +10,13 @@ import { filter } from 'rxjs/operators';
 export class AppComponent implements OnInit {
   title = 'kin-mai-web';
   isLogin = false;
-  public currentPath: string = '';
+  currentPath: string = '';
 
   constructor(private router: Router) {
     this.router.events
       .pipe(filter((event: any) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
-        this.currentPath = event.url;
+        this.currentPath = event.urlAfterRedirects;
       });
   }
 
