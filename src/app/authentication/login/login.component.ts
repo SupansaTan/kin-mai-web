@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EmailValidator, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { EmailValidator, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -7,15 +7,15 @@ import { EmailValidator, FormBuilder, FormControl, FormGroup, Validators } from 
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
     this.loginForm = this.fb.group({
-      username: new FormControl('', [
+      username: new UntypedFormControl('', [
         Validators.email,
         Validators.required
       ]),
-      password: new FormControl('', [
+      password: new UntypedFormControl('', [
         Validators.min(8),
         Validators.required
       ])
