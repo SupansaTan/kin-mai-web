@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
         Validators.required
       ]),
       password: new FormControl('', [
-        Validators.min(8),
+        Validators.minLength(8),
         Validators.required
       ])
     });
@@ -27,8 +27,12 @@ export class LoginComponent implements OnInit {
 
   }
 
+  get f(): { [key: string]: AbstractControl } {
+    return this.loginForm.controls;
+  }
+
   submit() {
-    this.loginForm.markAsTouched();
+    this.loginForm.markAllAsTouched();
 
     if (this.loginForm.valid) {
       // form valid
