@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegisRestuarantComponent } from './regis-restuarant.component';
+import { RandomFoodComponent } from './random-food.component';
 
-describe('RegisRestuarantComponent', () => {
-  let component: RegisRestuarantComponent;
-  let fixture: ComponentFixture<RegisRestuarantComponent>;
+describe('RandomFoodComponent', () => {
+  let component: RandomFoodComponent;
+  let fixture: ComponentFixture<RandomFoodComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RegisRestuarantComponent ]
+      declarations: [ RandomFoodComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegisRestuarantComponent);
+    fixture = TestBed.createComponent(RandomFoodComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

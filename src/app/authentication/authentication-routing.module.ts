@@ -4,44 +4,31 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetComponent } from './reset/reset.component';
-import { RegisReviewComponent } from './regis-review/regis-review.component';
-import { RegisRestuarantComponent } from './regis-restuarant/regis-restuarant.component';
+import { RegisterReviewerComponent } from './register-reviewer/register-reviewer.component';
+import { RegisterRestuarantComponent } from './register-restuarant/register-restuarant.component';
 
 
 const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
-
   },
-
   {
-
-    path: 'regis',
+    path: 'register',
     component: RegisterComponent
-
   },
-
   {
-
-    path: 'regis/review',
-    component: RegisReviewComponent
-
+    path: 'register/reviewer',
+    component: RegisterReviewerComponent
   },
-
   {
-
-    path: 'regis/restaurant',
-    component: RegisRestuarantComponent
-
+    path: 'register/restaurant',
+    component: RegisterRestuarantComponent
   },
-
   {
-    path: 'reset',
+    path: 'reset-password',
     component: ResetComponent
-
   },
-
   {
     path: '',
     redirectTo: '/auth/login',
