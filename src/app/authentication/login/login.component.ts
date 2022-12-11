@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EmailValidator, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -7,16 +7,17 @@ import { EmailValidator, UntypedFormBuilder, UntypedFormControl, UntypedFormGrou
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  loginForm: UntypedFormGroup;
+  loginForm: FormGroup;
+  isShowPassword: boolean = false;
 
-  constructor(private fb: UntypedFormBuilder) {
+  constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({
-      username: new UntypedFormControl('', [
+      username: new FormControl('', [
         Validators.email,
         Validators.required
       ]),
-      password: new UntypedFormControl('', [
-        Validators.min(8),
+      password: new FormControl('', [
+        Validators.minLength(8),
         Validators.required
       ])
     });
@@ -26,8 +27,12 @@ export class LoginComponent implements OnInit {
 
   }
 
+  get f(): { [key: string]: AbstractControl } {
+    return this.loginForm.controls;
+  }
+
   submit() {
-    this.loginForm.markAsTouched();
+    this.loginForm.markAllAsTouched();
 
     if (this.loginForm.valid) {
       // form valid

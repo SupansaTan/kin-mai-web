@@ -1,0 +1,15 @@
+.btn-yellow {
+  background-color: $yellow;
+
+  &:hover, &:focus {
+    background-color: #ffca68;
+  }
+}
+
+.btn-light-yellow {
+  background-color: $light-yellow;
+
+  &:hover, &:focus {
+    background-color: #f8e29b;
+  }
+}

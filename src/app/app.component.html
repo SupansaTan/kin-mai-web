@@ -1,4 +1,4 @@
-<app-navbar *ngIf="currentPath !== '/auth/login'"></app-navbar>
-<div class="container">
+<app-navbar *ngIf="!isLogin"></app-navbar>
+<div [ngClass]="isLogin ? 'vh-100':'container page-height'">
   <router-outlet></router-outlet>
 </div>
