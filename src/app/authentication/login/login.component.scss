@@ -3,11 +3,6 @@
   border-bottom: 1px solid #dbdbdb;
 }
 
-.wave {
-  top: -100px;
-  transform: rotate(-8deg) scale(1.1);
-}
-
 .w-30 {
   width: 30%;
 }
@@ -16,4 +11,24 @@
   top: 50%;
   right: 15px;
   transform: translateY(-50%);
+}
+
+/* wave */
+.wave {
+  top: 30px;
+  transform: rotate(-10deg) scale(2);
+}
+
+@media (min-width: 992px) {
+  .wave {
+    top: -50px;
+    transform: rotate(-10deg) scale(1.2);
+  }
+}
+
+@media (min-width: 1400px) {
+  .wave {
+    top: -180px;
+    transform: rotate(-10deg) scale(1.1);
+  }
 }
