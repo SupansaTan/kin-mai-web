@@ -7,20 +7,15 @@ import { filter } from 'rxjs/operators';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'kin-mai-web';
   isLogin = false;
-  currentPath: string = '';
 
   constructor(private router: Router) {
     this.router.events
       .pipe(filter((event: any) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
-        this.currentPath = event.urlAfterRedirects;
+        this.isLogin = event.urlAfterRedirects === '/auth/login';
       });
-  }
-
-  ngOnInit() {
-    this.currentPath = this.router.url;
   }
 }

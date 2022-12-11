@@ -1,61 +1,73 @@
-<div class="container-fluid">
+<div class="row h-100 m-0">
+  <img class="position-fixed wave px-0" src="../../../assets/image/wave.svg"/>
 
-  <!--image half-->
-  <div class="split left">
-    <div class="centered">
-      <img src="../../../../assets/image/logo-nobg.png" alt="logo">
-    </div>
-  </div>
-  
-  <!-- The content half -->
-  <div class="split right">
-    <div class="centered col-sm-12 col-md-6 col-lg-5 d-flex flex-column">
-      <h1 class="my-4">Login</h1>
-      <a class="text-muted mb-4" href="/auth/register"> Don't have an account ?</a>
+  <div class="d-flex justify-content-center align-items-center px-0">
+    <div class="card border-0 rounded-2 shadow-lg align-self-center col-11 col-md-7 col-lg-6 col-xl-4">
+      <div class="card-body p-4">
+        <div class="row d-flex align-items-center mb-3">
+          <h1 class="col-12 col-sm-auto mb-0 pt-2 pe-2">Welcome to</h1>
+          <img class="col-auto ps-2 mt-2 ps-sm-0 mt-sm-0" alt="kinmai-logo" src="../../../assets/image/red-logo.png" height="37px"/>
+        </div>
+        <a class="text-muted text-decoration-none mb-4" routerLink="/auth/register">Don't have an account?</a>
 
-      <!-- login form -->
-      <form [formGroup]="loginForm">
-
-        <div class="mb-4 position-relative">
-          <div class="input-group">
-            <i class="bi bi-person form-icon"></i>
-            <input id="inputPassword" type="email" placeholder="Email" formControlName="email" name="email"
-              class="form-control border-0 border-bottom text-primary bg-transparent shadow-none"
+        <!-- login form -->
+        <form [formGroup]="loginForm">
+          <!-- email -->
+          <div class="my-3">
+            <label for="username" class="form-label fw-bolder">Email</label>
+            <input id="username" type="email" placeholder="Email" formControlName="username" class="form-control shadow-none"
+              [ngClass]="{ 'border-danger': f['username'].invalid && f['username'].touched }"
             >
-          </div>
-        </div>
 
-        <div class="mb-4 position-relative">
-          <div class="input-group">
-            <i class="bi bi-lock form-icon"></i>
-            <input id="inputPassword" type="password" placeholder="Password" formControlName="password" name="password"
-              class="form-control border-0 border-bottom text-primary bg-transparent shadow-none"
-            >
-          </div>
-        </div>
-
-        <a class="text-muted d-flex justify-content-end mb-3" href="/auth/reset-password">Forgot password?</a>
-
-        <!--button-->
-        <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-lg">Sign In</button>
-        </div>
-        
-        <!-- OR -->
-        <div class="divider d-flex align-items-center my-4" >
-          <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
-        </div>
-
-        <!--Google bt-->
-        <div class="signin d-flex justify-content-center my-3">
-          <div class="google-btn">
-            <div class="google-icon-wrapper">
-              <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
+            <div *ngIf="f['username'].invalid && f['username'].touched" class="text-danger mt-2">
+              <div *ngIf="f['username'].errors?.['required']">
+                Email is required.
+              </div>
+              <div *ngIf="f['username'].errors?.['email']">
+                Email is invalid format.
+              </div>
             </div>
-            <p class="btn-text">Sign in with google</p>
           </div>
-        </div>
-      </form>
+
+          <!-- password -->
+          <div class="mb-3 d-flex flex-column">
+            <label for="password" class="form-label fw-bolder">Password</label>
+            <div class="position-relative">
+              <input id="password" [type]="isShowPassword ? 'text':'password'" placeholder="Password" formControlName="password" class="form-control shadow-none"
+                [ngClass]="{ 'border-danger': f['password'].invalid && f['password'].touched }"
+              >
+              <i class="bi eye-icon position-absolute" role="button" (click)="isShowPassword = !isShowPassword"
+                [ngClass]="isShowPassword ? 'bi-eye-slash':'bi-eye'">
+              </i>
+            </div>
+
+            <div *ngIf="f['password'].invalid && f['password'].touched" class="text-danger mt-2">
+              <div *ngIf="f['password'].errors?.['required']">
+                Password is required.
+              </div>
+              <div *ngIf="f['password'].errors?.['minlength']">
+                Password must be at least 8 characters.
+              </div>
+            </div>
+
+            <a class="text-muted text-decoration-none text-end mt-2" routerLink="/auth/reset-password">
+              Forgot password?
+            </a>
+          </div>
+
+          <!-- button group -->
+          <button type="button" class="btn btn-yellow px-4 fw-bold w-100" (click)="submit()">Log in</button>
+
+          <div class="text-divider w-100 text-muted text-center my-3">
+            <span class="bg-white px-2">OR</span>
+          </div>
+
+          <button type="button" class="btn btn-light-yellow mt-4 fw-bold d-flex align-items-center justify-content-center w-100">
+            <img class="me-1" alt="google-icon" src="../../../assets/image/google.svg" height="23px"/>
+            Continue with Google
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 </div>

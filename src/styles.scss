@@ -6,7 +6,12 @@
 @import 'scss/variable';
 @import 'scss/colors';
 @import 'scss/font';
+@import 'scss/button';
 
 * {
   font-family: 'Comfortaa', 'Prompt', sans-serif;
+}
+
+body {
+  background-color: #f1f1f1;
 }
