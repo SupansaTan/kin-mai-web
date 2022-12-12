@@ -1,7 +1,7 @@
 <form [formGroup]="registerForm">
   <!-- step progress -->
   <div class="row d-flex justify-content-center align-items-center my-2">
-    <div class="d-flex justify-content-between align-items-center position-relative col-3 px-0">
+    <div class="d-flex justify-content-between align-items-center position-relative col-7 col-md-5 col-lg-3 px-0">
       <progress class="progress" [value]="stage-1" max=1></progress>
 
       <ng-container *ngFor="let step of steps">
@@ -9,8 +9,8 @@
           <button class="step-button fw-bolder text-center rounded-circle border-yellow bg-yellow fs-4" type="button"
             [ngClass]="(step.step > 1 && stage === 1)? 'bg-white text-yellow':'bg-yellow'"
           >
-            <i *ngIf="step.step === 1 && stage > 1" class="bi bi-check-circle-fill fs-2 text-white"></i>
-            <p *ngIf="!(step.step === 1 && stage > 1)" class="mt-1 pt-1">{{ step.step }}</p>
+            <i *ngIf="stage > step.step" class="bi bi-check-circle-fill fs-2 text-white"></i>
+            <p *ngIf="stage <= step.step" class="mt-1 pt-1">{{ step.step }}</p>
           </button>
 
           <div class="step-title fw-semibold mt-1">
@@ -23,7 +23,7 @@
 
   <!-- register form -->
   <div class="row d-flex align-items-center justify-content-center">
-    <div class="col-12 col-lg-10 row row-cols-2 bg-white rounded-3 mt-4 pb-4 gy-3">
+    <div class="col-11 col-lg-10 row row-cols-1 row-cols-md-2 bg-white rounded-3 mt-4 pb-4 gy-3">
       <!-- firstname -->
       <div class="col">
         <label for="firstname" class="form-label">ชื่อ <span class="text-danger">*</span></label>
@@ -137,7 +137,7 @@
       </div>
     </div>
 
-    <div class="col-auto mt-3">
+    <div class="col-auto my-3">
       <button type="button" class="btn btn-light-grey mx-2 px-5"
         (click)="stage === 1? resetUserType() : changeToPreviousStage()"
       >
