@@ -1,39 +1,130 @@
-<div class="container-fluid">
-  
-  <div class="row">
-    <div class="d-flex flex-row  mb-4">
-      <div>
-        <img src="../../../../assets/image/review.png" alt="logo">
-      </div>  
-      <div class="d-flex flex-column justify-content-center  ms-4">
-        <h3>สร้างบัญชีสายรีวิว</h3>
-      </div> 
-    </div>     
-  </div>
+<form [formGroup]="registerForm">
+  <div class="row d-flex align-items-center justify-content-center">
+    <div class="col-12 col-lg-10 row row-cols-2 bg-white rounded-3 mt-4 pb-4 gy-3">
+      <!-- firstname -->
+      <div class="col">
+        <label for="firstname" class="form-label">ชื่อ</label>
+        <input id="firstname" type="text" placeholder="ชื่อ" formControlName="firstname" class="form-control shadow-none"
+          [ngClass]="{ 'border-danger': f['firstname'].invalid && f['firstname'].touched }"
+        >
 
-  <div class="row">
+        <div *ngIf="f['firstname'].invalid && f['firstname'].touched" class="text-danger mt-2">
+          <div *ngIf="f['firstname'].errors?.['required']">
+            Firstname is required.
+          </div>
+          <div *ngIf="f['firstname'].errors?.['minlength']">
+            Firstname must be at least 3 characters.
+          </div>
+        </div>
+      </div>
 
-    <div class="d-flex justify-content-center">
-    
-      <form>
-        
-        <input type="text" class="form-control" placeholder="ชื่อ"><br>
-        <input type="text" class="form-control" placeholder="นามสกุล"><br>
-        <input type="text" class="form-control" placeholder="Username"><br>
-        <input type="text" class="form-control" placeholder="Email"><br>
-        <input type="text" class="form-control" placeholder="Password"><br>
-        <input type="text" class="form-control" placeholder="Confirm Password"><br>
-    
-      </form>
-      
+      <!-- lastname -->
+      <div class="col">
+        <label for="firstname" class="form-label">นามสกุล</label>
+        <input id="lastname" type="text" placeholder="นามสกุล" formControlName="lastname" class="form-control shadow-none"
+          [ngClass]="{ 'border-danger': f['lastname'].invalid && f['lastname'].touched }"
+        >
+
+        <div *ngIf="f['lastname'].invalid && f['lastname'].touched" class="text-danger mt-2">
+          <div *ngIf="f['lastname'].errors?.['required']">
+            Lastname is required.
+          </div>
+          <div *ngIf="f['lastname'].errors?.['minlength']">
+            Lastname must be at least 3 characters.
+          </div>
+        </div>
+      </div>
+
+      <!-- username -->
+      <div class="col">
+        <label for="username" class="form-label">ชื่อบัญชีผู้ใช้</label>
+        <input id="username" type="text" placeholder="ชื่อบัญชีผู้ใช้" formControlName="username" class="form-control shadow-none"
+          [ngClass]="{ 'border-danger': f['username'].invalid && f['username'].touched }"
+        >
+
+        <div *ngIf="f['username'].invalid && f['username'].touched" class="text-danger mt-2">
+          <div *ngIf="f['username'].errors?.['required']">
+            Username is required.
+          </div>
+          <div *ngIf="f['username'].errors?.['minlength']">
+            Username must be at least 5 characters.
+          </div>
+        </div>
+      </div>
+
+      <!-- email -->
+      <div class="col">
+        <label for="email" class="form-label">อีเมล</label>
+        <input id="email" type="email" placeholder="Email" formControlName="email" class="form-control shadow-none"
+          [ngClass]="{ 'border-danger': f['email'].invalid && f['email'].touched }"
+        >
+
+        <div *ngIf="f['email'].invalid && f['email'].touched" class="text-danger mt-2">
+          <div *ngIf="f['email'].errors?.['required']">
+            Email is required.
+          </div>
+          <div *ngIf="f['email'].errors?.['email']">
+            Email is invalid format.
+          </div>
+        </div>
+      </div>
+
+      <!-- password -->
+      <div class="col">
+        <label for="password" class="form-label">รหัสผ่าน</label>
+        <div class="position-relative">
+          <input id="password" [type]="isShowPassword ? 'text':'password'" placeholder="Password" formControlName="password" class="form-control shadow-none"
+            [ngClass]="{ 'border-danger': f['password'].invalid && f['password'].touched }"
+          >
+          <i class="bi eye-icon position-absolute" role="button" (click)="isShowPassword = !isShowPassword"
+            [ngClass]="isShowPassword ? 'bi-eye-slash':'bi-eye'">
+          </i>
+        </div>
+
+        <div *ngIf="f['password'].invalid && f['password'].touched" class="text-danger mt-2">
+          <div *ngIf="f['password'].errors?.['required']">
+            Password is required.
+          </div>
+          <div *ngIf="f['password'].errors?.['minlength']">
+            Password must be at least 8 characters.
+          </div>
+        </div>
+      </div>
+
+      <!-- confirm password -->
+      <div class="col">
+        <label for="confirmPassword" class="form-label">ยืนยันรหัสผ่าน</label>
+        <div class="position-relative">
+          <input id="confirmPassword" [type]="isShowPassword ? 'text':'password'" placeholder="Confirm Password" formControlName="confirmPassword" class="form-control shadow-none"
+            [ngClass]="{ 'border-danger': f['confirmPassword'].invalid && f['confirmPassword'].touched }"
+          >
+          <i class="bi eye-icon position-absolute" role="button" (click)="isShowConfirmPassword = !isShowConfirmPassword"
+            [ngClass]="isShowConfirmPassword ? 'bi-eye-slash':'bi-eye'">
+          </i>
+        </div>
+
+        <div *ngIf="f['confirmPassword'].invalid && f['confirmPassword'].touched" class="text-danger mt-2">
+          <div *ngIf="f['confirmPassword'].errors?.['required']">
+            Confirm Password is required.
+          </div>
+          <div *ngIf="f['confirmPassword'].errors?.['minlength']">
+            Confirm Password must be at least 8 characters.
+          </div>
+        </div>
+      </div>
     </div>
 
-  </div>
-  <div class="row">
-
-    <div class="d-flex justify-content-center ">
-      <button type="button" class="btn btn-success btn-md">ยืนยัน</button>
+    <div class="col-auto mt-3">
+      <button type="button" class="btn btn-light-grey mx-2 px-5"
+        (click)="stage === 1? resetUserType() : changeToPreviousStage()"
+      >
+        {{ stage === 1? 'ยกเลิก' : 'ก่อนหน้า' }}
+      </button>
+      <button type="button" class="btn btn-yellow px-5 mx-2"
+        (click)="stage === 1? changeToNextStage(): submit()"
+      >
+        {{ stage === 1? 'ถัดไป' : 'ยืนยัน' }}
+      </button>
     </div>
-
   </div>
-</div>
+</form>

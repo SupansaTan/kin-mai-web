@@ -7,7 +7,7 @@ import { AccountType } from 'src/enum/account-type.enum';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  isSelectedUserType: boolean = false;
+  isSelectedUserType: boolean = true;
   userType: AccountType = AccountType.Reviewer;
   accountType = AccountType;
 
@@ -19,5 +19,9 @@ export class RegisterComponent implements OnInit {
   setUserType(userType: AccountType) {
     this.isSelectedUserType = true;
     this.userType = userType;
+  }
+
+  resetUserType() {
+    this.isSelectedUserType = false;
   }
 }

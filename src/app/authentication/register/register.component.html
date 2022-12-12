@@ -20,7 +20,7 @@
 
   <!-- register as reviewer -->
   <ng-container *ngIf="isSelectedUserType && userType === accountType.Reviewer">
-    <app-regis-review></app-regis-review>
+    <app-regis-review (onResetUserType)="resetUserType()"></app-regis-review>
   </ng-container>
 
   <!-- register as restaurant owner -->
