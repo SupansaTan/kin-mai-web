@@ -1,6 +1,8 @@
-import { ConfirmPasswordValidator } from './../../../../components/password-match-validator.component';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { ModalSuccessComponent } from './../../../shared/modal-success/modal-success.component';
+import { ConfirmPasswordValidator } from '../../../shared/password-match-validator.component';
 import { ReviewerStepItems, StepItem } from './../../../../models/step-item.model';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -9,6 +11,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
   styleUrls: ['./register-reviewer.component.scss']
 })
 export class RegisterReviewerComponent implements OnInit {
+  @ViewChild('successModalComponent') successModal: ModalSuccessComponent;
   @Output() onResetUserType = new EventEmitter<boolean>();
 
   steps: Array<StepItem> = new Array<StepItem>();
@@ -76,7 +79,7 @@ export class RegisterReviewerComponent implements OnInit {
 
   submit() {
     if (this.registerForm.valid) {
-      // form valid
+      this.successModal.openSuccessModal(true, 'สร้างบัญชีผู้ใช้สำเร็จ');
     }
   }
 }

@@ -1,7 +1,8 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterRestuarantComponent } from './register/register-restuarant/register-restuarant.component';
@@ -9,6 +10,8 @@ import { RegisterReviewerComponent } from './register/register-reviewer/register
 import { RegisterComponent } from './register/register.component';
 import { ResetComponent } from './reset/reset.component';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
+import { AuthenticationService } from './authentication.service';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -22,8 +25,14 @@ import { AuthenticationRoutingModule } from './authentication-routing.module';
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AuthenticationRoutingModule
-  ]
+    AuthenticationRoutingModule,
+    ModalModule.forRoot(),
+    SharedModule,
+  ],
+  providers: [
+    AuthenticationService
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 
 export class AuthenticationModule { }
