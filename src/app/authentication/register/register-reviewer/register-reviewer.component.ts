@@ -1,3 +1,4 @@
+import { ReviewerStepItems, StepItem } from './../../../../models/step-item.model';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -9,6 +10,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 export class RegisterReviewerComponent implements OnInit {
   @Output() onResetUserType = new EventEmitter<boolean>();
 
+  steps: Array<StepItem> = new Array<StepItem>();
   registerForm: FormGroup;
   stage: number = 1;
   isShowPassword: boolean = false;
@@ -44,6 +46,7 @@ export class RegisterReviewerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.steps = ReviewerStepItems;
   }
 
   get f(): { [key: string]: AbstractControl } {
