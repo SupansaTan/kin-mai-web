@@ -130,8 +130,8 @@
           <div *ngIf="f['confirmPassword'].errors?.['required']">
             Confirm Password is required.
           </div>
-          <div *ngIf="f['confirmPassword'].errors?.['minlength']">
-            Confirm Password must be at least 8 characters.
+          <div *ngIf="f['confirmPassword'].errors?.['ConfirmPassword']">
+            Password doesn't match.
           </div>
         </div>
       </div>

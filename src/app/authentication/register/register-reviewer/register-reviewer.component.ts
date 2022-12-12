@@ -1,3 +1,4 @@
+import { ConfirmPasswordValidator } from './../../../../components/password-match-validator.component';
 import { ReviewerStepItems, StepItem } from './../../../../models/step-item.model';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -42,6 +43,8 @@ export class RegisterReviewerComponent implements OnInit {
         Validators.minLength(8),
         Validators.required
       ])
+    }, {
+      validators: ConfirmPasswordValidator.MatchPassword
     });
   }
 
@@ -54,6 +57,7 @@ export class RegisterReviewerComponent implements OnInit {
   }
 
   changeToPreviousStage() {
+    this.registerForm.enable();
     this.stage = 1;
   }
 
