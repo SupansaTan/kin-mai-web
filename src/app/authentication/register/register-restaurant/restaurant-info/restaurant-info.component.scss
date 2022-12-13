@@ -8,3 +8,8 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+
+/* select dropdown */
+::ng-deep .ng-select.ng-touched.ng-invalid .ng-select-container {
+  border: 1px solid #dc3545;
+}

@@ -66,6 +66,86 @@
           </div>
         </div>
       </div>
+
+      <!-- address -->
+      <div class="col">
+        <label for="address" class="form-label">ที่อยู่ร้านอาหาร <span class="text-danger">*</span></label>
+        <textarea id="address" type="text" formControlName="address" class="form-control shadow-none" rows="3"
+          [ngClass]="{ 'border-danger': registerRestaurantForm.controls['address'].invalid && registerRestaurantForm.controls['address'].touched }"
+        >
+        </textarea>
+
+        <div *ngIf="registerRestaurantForm.controls['address'].invalid && registerRestaurantForm.controls['address'].touched" class="text-danger mt-2">
+          <div *ngIf="registerRestaurantForm.controls['address'].errors?.['required']">
+            Address is required.
+          </div>
+        </div>
+      </div>
+
+      <!-- pin address -->
+      <div class="col">
+        <label for="address" class="form-label">ปักหมุดของร้าน</label>
+      </div>
+
+      <!-- restaurant type -->
+      <div class="col">
+        <label for="restaurantType" class="form-label">หมวดหมู่ร้านอาหาร <span class="text-danger">*</span></label>
+        <ng-select [items]="restaurantType" bindLabel="name" bindValue="id" placeholder="เลือกหมวดหมู่" formControlName="restaurantType"
+          [searchable]="false"
+        >
+        </ng-select>
+
+        <div *ngIf="registerRestaurantForm.controls['restaurantType'].invalid && registerRestaurantForm.controls['restaurantType'].touched" class="text-danger mt-2">
+          <div *ngIf="registerRestaurantForm.controls['restaurantType'].errors?.['required']">
+            Restaurant type is required.
+          </div>
+        </div>
+      </div>
+
+      <!-- food category -->
+      <div class="col">
+        <label for="foodCategory" class="form-label">ประเภทอาหารที่ขาย</label>
+        <ng-select [items]="foodCategory" bindLabel="name" bindValue="id" placeholder="เลือกประเภทอาหาร" formArrayName="foodCategory"
+          [multiple]="true" [clearable]="false">
+          <ng-template ng-multi-label-tmp let-item="item" let-items="items" let-clear="clear">
+            <label>{{ items.length }} ประเภท</label>
+          </ng-template>
+        </ng-select>
+      </div>
+
+      <!-- delivery type -->
+      <div class="col">
+        <label for="deliveryType" class="form-label">ประเภทการจัดส่งที่รองรับ</label>
+        <ng-select [items]="deliveryType" bindLabel="name" bindValue="id" placeholder="เลือกประเภทการจัดส่ง" formArrayName="deliveryType"
+          [multiple]="true" [clearable]="false">
+          <ng-template ng-multi-label-tmp let-item="item" let-items="items" let-clear="clear">
+            <span>{{ items.length }} ประเภท</span>
+          </ng-template>
+        </ng-select>
+      </div>
+
+      <!-- payment method -->
+      <div class="col">
+        <label for="paymentMethod" class="form-label">วิธีการจ่ายเงินที่รองรับ</label>
+        <ng-select [items]="paymentMethod" bindLabel="name" bindValue="id" placeholder="เลือกวิธีการจ่ายเงิน" formArrayName="paymentMethod"
+          [multiple]="true" [clearable]="false">
+          <ng-template ng-multi-label-tmp let-item="item" let-items="items" let-clear="clear">
+            <span>{{ items.length }} ประเภท</span>
+          </ng-template>
+        </ng-select>
+      </div>
+
+      <!-- social contact -->
+      <div class="col">
+        <label for="socialContact" class="form-label">ช่องทางการติดต่อ</label>
+
+      </div>
+
+      <!-- business hours -->
+      <div class="col">
+        <label for="socialContact" class="form-label">วันและเวลาทำการ <span class="text-danger">*</span></label>
+
+      </div>
     </div>
   </div>
 </form>

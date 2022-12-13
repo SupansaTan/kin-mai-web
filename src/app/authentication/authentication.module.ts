@@ -1,8 +1,9 @@
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterRestaurantComponent } from './register/register-restaurant/register-restaurant.component';
@@ -32,6 +33,8 @@ import { PersonalInfoComponent } from './register/register-restaurant/personal-i
     AuthenticationRoutingModule,
     ModalModule.forRoot(),
     SharedModule,
+    NgSelectModule,
+    FormsModule
   ],
   providers: [
     AuthenticationService

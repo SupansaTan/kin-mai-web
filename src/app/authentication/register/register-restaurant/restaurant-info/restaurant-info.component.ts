@@ -1,3 +1,7 @@
+import { DeliveryType } from './../../../../../constant/delivery-type.constant';
+import { PaymentMethod } from './../../../../../constant/payment-method.constant';
+import { FoodCategory } from './../../../../../constant/food-category.constant';
+import { RestaurantType } from './../../../../../constant/restaurant-type.constant';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
@@ -10,6 +14,10 @@ export class RestaurantInfoComponent implements OnInit {
   @Output() isFormValid = new EventEmitter<boolean>();
 
   registerRestaurantForm: FormGroup;
+  restaurantType = RestaurantType;
+  foodCategory = FoodCategory;
+  paymentMethod = PaymentMethod;
+  deliveryType = DeliveryType;
 
   constructor(private fb: FormBuilder) {
     this.registerRestaurantForm = this.fb.group({
@@ -26,24 +34,23 @@ export class RestaurantInfoComponent implements OnInit {
         Validators.required
       ]),
       address: new FormControl('', [
-        Validators.minLength(10),
         Validators.required
       ]),
       restaurantType: new FormControl(null, [
-        Validators.minLength(1),
         Validators.required
       ]),
-      restaurantCategory: new FormArray([]),
+      foodCategory: new FormArray([]),
       deliveryType: new FormArray([]),
       paymentMethod: new FormArray([]),
-      socialContact: new FormGroup({
-        contact: new FormControl(null),
-        contactValue: new FormControl('')
-      }),
+      socialContact: this.fb.array([
+        new FormGroup({
+          contact: new FormControl(null),
+          contactValue: new FormControl('')
+        })
+      ]),
       businessHour: this.fb.array([
         new FormGroup({
           day: new FormControl(null, [
-            Validators.minLength(1),
             Validators.required
           ]),
           time: new FormControl('', [
@@ -63,6 +70,11 @@ export class RestaurantInfoComponent implements OnInit {
     if (this.registerRestaurantForm.valid) {
       this.isFormValid.emit(true);
     }
+  }
+
+  get DeliveryTypeArray() {
+    console.log(this.registerRestaurantForm.get('deliveryType') as FormArray)
+    return this.registerRestaurantForm.get('deliveryType') as FormArray;
   }
 }
 
