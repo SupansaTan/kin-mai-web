@@ -25,6 +25,6 @@
 
   <!-- register as restaurant owner -->
   <ng-container *ngIf="isSelectedUserType && userType === accountType.RestaurantOwner">
-    <app-regis-restuarant></app-regis-restuarant>
+    <app-regis-restuarant (onResetUserType)="resetUserType()"></app-regis-restuarant>
   </ng-container>
 </div>
