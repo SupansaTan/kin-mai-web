@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { LoginComponent } from './login/login.component';
-import { RegisterRestuarantComponent } from './register/register-restuarant/register-restuarant.component';
+import { RegisterRestaurantComponent } from './register/register-restaurant/register-restaurant.component';
 import { RegisterReviewerComponent } from './register/register-reviewer/register-reviewer.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetComponent } from './reset/reset.component';
@@ -19,7 +19,7 @@ import { SharedModule } from '../shared/shared.module';
     ResetComponent,
     RegisterComponent,
     RegisterReviewerComponent,
-    RegisterRestuarantComponent
+    RegisterRestaurantComponent
   ],
   imports: [
     CommonModule,

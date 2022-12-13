@@ -5,11 +5,11 @@ import { ConfirmPasswordValidator } from 'src/app/shared/password-match-validato
 import { ReataurantStepItems, StepItem } from 'src/models/step-item.model';
 
 @Component({
-  selector: 'app-regis-restuarant',
-  templateUrl: './register-restuarant.component.html',
-  styleUrls: ['./register-restuarant.component.scss']
+  selector: 'app-register-restaurant',
+  templateUrl: './register-restaurant.component.html',
+  styleUrls: ['./register-restaurant.component.scss']
 })
-export class RegisterRestuarantComponent implements OnInit {
+export class RegisterRestaurantComponent implements OnInit {
   @ViewChild('successModalComponent') successModal: ModalSuccessComponent;
   @Output() onResetUserType = new EventEmitter<boolean>();
 

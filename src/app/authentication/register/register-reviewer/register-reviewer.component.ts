@@ -6,7 +6,7 @@ import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/cor
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-regis-review',
+  selector: 'app-register-reviewer',
   templateUrl: './register-reviewer.component.html',
   styleUrls: ['./register-reviewer.component.scss']
 })

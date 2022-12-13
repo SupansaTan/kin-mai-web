@@ -20,11 +20,11 @@
 
   <!-- register as reviewer -->
   <ng-container *ngIf="isSelectedUserType && userType === accountType.Reviewer">
-    <app-regis-review (onResetUserType)="resetUserType()"></app-regis-review>
+    <app-register-reviewer (onResetUserType)="resetUserType()"></app-register-reviewer>
   </ng-container>
 
   <!-- register as restaurant owner -->
   <ng-container *ngIf="isSelectedUserType && userType === accountType.RestaurantOwner">
-    <app-regis-restuarant (onResetUserType)="resetUserType()"></app-regis-restuarant>
+    <app-register-restaurant (onResetUserType)="resetUserType()"></app-register-restaurant>
   </ng-container>
 </div>
