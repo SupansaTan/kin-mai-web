@@ -1,0 +1,71 @@
+<form [formGroup]="registerRestaurantForm">
+  <div class="row d-flex align-items-center justify-content-center">
+    <div class="col-11 col-lg-10 row row-cols-1 row-cols-md-2 bg-white rounded-3 mt-4 pb-4 gy-3">
+      <!-- restaurant name -->
+      <div class="col">
+        <label for="restaurantName" class="form-label">ชื่อร้านอาหาร <span class="text-danger">*</span></label>
+        <input id="restaurantName" type="text" placeholder="ชื่อร้านอาหาร" formControlName="restaurantName" class="form-control shadow-none"
+          [ngClass]="{ 'border-danger': registerRestaurantForm.controls['restaurantName'].invalid && registerRestaurantForm.controls['restaurantName'].touched }"
+        >
+
+        <div *ngIf="registerRestaurantForm.controls['restaurantName'].invalid && registerRestaurantForm.controls['restaurantName'].touched" class="text-danger mt-2">
+          <div *ngIf="registerRestaurantForm.controls['restaurantName'].errors?.['required']">
+            Firstname is required.
+          </div>
+          <div *ngIf="registerRestaurantForm.controls['restaurantName'].errors?.['minlength']">
+            Firstname must be at least 3 characters.
+          </div>
+        </div>
+      </div>
+
+      <!-- price rate -->
+      <div class="col">
+        <label class="form-label">
+          ช่วงเรทราคา
+          <span class="text-danger">*</span>
+          <span class="text-muted ms-2">(ขั้นต่ำ - สูงสุด)</span>
+        </label>
+        <div class="row mx-0 d-flex align-items-center">
+          <div class="col px-0 position-relative">
+            <input id="minPriceRate" type="number" placeholder="0" formControlName="minPriceRate" class="form-control shadow-none text-end pe-4"
+              [ngClass]="{ 'border-danger': registerRestaurantForm.controls['minPriceRate'].invalid
+                                            && registerRestaurantForm.controls['minPriceRate'].touched }"
+            >
+            <label for="minPriceRate" class="text-muted position-absolute currency-symbol">฿</label>
+          </div>
+          <span class="col-auto fw-bold">-</span>
+          <div class="col px-0 position-relative">
+            <input id="maxPriceRate" type="number" placeholder="0" formControlName="maxPriceRate" class="form-control shadow-none text-end pe-4"
+              [ngClass]="{ 'border-danger': registerRestaurantForm.controls['maxPriceRate'].invalid
+                                            && registerRestaurantForm.controls['maxPriceRate'].touched }"
+            >
+            <label for="maxPriceRate" class="text-muted position-absolute currency-symbol">฿</label>
+          </div>
+        </div>
+
+        <div
+          *ngIf="(registerRestaurantForm.controls['minPriceRate'].invalid && registerRestaurantForm.controls['minPriceRate'].touched)
+                 || (registerRestaurantForm.controls['maxPriceRate'].invalid && registerRestaurantForm.controls['maxPriceRate'].touched)"
+          class="text-danger mt-2"
+        >
+          <div *ngIf="registerRestaurantForm.controls['minPriceRate'].errors?.['required']
+                      && registerRestaurantForm.controls['minPriceRate'].touched
+                      && registerRestaurantForm.controls['maxPriceRate'].valid">
+            Minimum price is required.
+          </div>
+          <div *ngIf="registerRestaurantForm.controls['maxPriceRate'].errors?.['required']
+                      && registerRestaurantForm.controls['maxPriceRate'].touched
+                      && registerRestaurantForm.controls['minPriceRate'].valid">
+            Maximum price is required.
+          </div>
+          <div *ngIf="registerRestaurantForm.controls['maxPriceRate'].errors?.['required']
+                      && registerRestaurantForm.controls['maxPriceRate'].touched
+                      && registerRestaurantForm.controls['minPriceRate'].errors?.['required']
+                      && registerRestaurantForm.controls['minPriceRate'].touched">
+            Minimum and maximum price is required.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

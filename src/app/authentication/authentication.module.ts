@@ -12,6 +12,8 @@ import { ResetComponent } from './reset/reset.component';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
 import { AuthenticationService } from './authentication.service';
 import { SharedModule } from '../shared/shared.module';
+import { RestaurantInfoComponent } from './register/register-restaurant/restaurant-info/restaurant-info.component';
+import { PersonalInfoComponent } from './register/register-restaurant/personal-info/personal-info.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { SharedModule } from '../shared/shared.module';
     ResetComponent,
     RegisterComponent,
     RegisterReviewerComponent,
-    RegisterRestaurantComponent
+    RegisterRestaurantComponent,
+    RestaurantInfoComponent,
+    PersonalInfoComponent
   ],
   imports: [
     CommonModule,

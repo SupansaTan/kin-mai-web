@@ -1,3 +1,5 @@
+import { RestaurantInfoComponent } from './restaurant-info/restaurant-info.component';
+import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-success.component';
@@ -11,104 +13,44 @@ import { ReataurantStepItems, StepItem } from 'src/models/step-item.model';
 })
 export class RegisterRestaurantComponent implements OnInit {
   @ViewChild('successModalComponent') successModal: ModalSuccessComponent;
+  @ViewChild('personalInfo') personalInfo: PersonalInfoComponent;
+  @ViewChild('restaurantInfo') restaurantInfo: RestaurantInfoComponent;
   @Output() onResetUserType = new EventEmitter<boolean>();
 
   steps: Array<StepItem> = new Array<StepItem>();
-  registerReviewerForm: FormGroup;
-  registerRestaurantForm: FormGroup;
-  stage: number = 1;
+  stage: number = 2;
   isShowPassword: boolean = false;
+  isFormValid: boolean = false;
   isShowConfirmPassword: boolean = false;
 
-  constructor(private fb: FormBuilder) {
-    // reviewer form
-    this.registerReviewerForm = this.fb.group({
-      firstname: new FormControl('', [
-        Validators.minLength(3),
-        Validators.required
-      ]),
-      lastname: new FormControl('', [
-        Validators.minLength(3),
-        Validators.required
-      ]),
-      username: new FormControl('', [
-        Validators.minLength(5),
-        Validators.required
-      ]),
-      email: new FormControl('', [
-        Validators.email,
-        Validators.required
-      ]),
-      password: new FormControl('', [
-        Validators.minLength(8),
-        Validators.required
-      ]),
-      confirmPassword: new FormControl('', [
-        Validators.minLength(8),
-        Validators.required
-      ])
-    }, {
-      validators: ConfirmPasswordValidator.MatchPassword
-    });
-
-    // restaurant form
-    this.registerRestaurantForm = this.fb.group({
-      restaurantName: new FormControl('', [
-        Validators.minLength(3),
-        Validators.required
-      ]),
-      minPriceRate: new FormControl(null, [
-        Validators.minLength(1),
-        Validators.required
-      ]),
-      maxPriceRate: new FormControl(null, [
-        Validators.minLength(1),
-        Validators.required
-      ]),
-      address: new FormControl('', [
-        Validators.minLength(10),
-        Validators.required
-      ]),
-      restaurantType: new FormControl(null, [
-        Validators.minLength(1),
-        Validators.required
-      ]),
-      restaurantCategory: new FormArray([]),
-      deliveryType: new FormArray([]),
-      paymentMethod: new FormArray([]),
-      socialContact: new FormGroup({
-        contact: new FormControl(null),
-        contactValue: new FormControl('')
-      }),
-      businessHour: this.fb.array([
-        new FormGroup({
-          day: new FormControl(null, [
-            Validators.minLength(1),
-            Validators.required
-          ]),
-          time: new FormControl('', [
-            Validators.required
-          ])
-        })
-      ])
-    })
-  }
+  constructor() { }
 
   ngOnInit(): void {
     this.steps = ReataurantStepItems;
   }
 
+  changeStage(isValid: boolean) {
+    if (isValid) {
+      this.stage += 1;
+    }
+  }
+
   changeToPreviousStage() {
-    this.registerReviewerForm.enable();
-    this.stage = 1;
+    if (this.stage > 1) {
+      this.onResetUserType.emit();
+    } else {
+      this.stage -= 1;
+    }
   }
 
   changeToNextStage() {
-    this.registerReviewerForm.markAllAsTouched();
-
-    if (this.registerReviewerForm.valid) {
-      this.registerReviewerForm.disable();
-      this.stage = 2;
+    switch(this.stage) {
+      case 1:
+        this.personalInfo.checkFormIsValid();
+        break;
+      case 2:
+        this.restaurantInfo.checkFormIsValid();
+        break;
     }
   }
 
@@ -117,8 +59,6 @@ export class RegisterRestaurantComponent implements OnInit {
   }
 
   submit() {
-    if (this.registerReviewerForm.valid) {
-      this.successModal.openSuccessModal(true, 'สร้างบัญชีผู้ใช้สำเร็จ');
-    }
+    this.successModal.openSuccessModal(true, 'สร้างบัญชีผู้ใช้สำเร็จ');
   }
 }

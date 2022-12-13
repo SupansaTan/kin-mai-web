@@ -22,123 +22,11 @@
 
 <!-- register reviewer form -->
 <ng-container *ngIf="(stage === 1) || (stage === 4)">
-  <form [formGroup]="registerReviewerForm">
-    <div class="row d-flex align-items-center justify-content-center">
-      <div class="col-11 col-lg-10 row row-cols-1 row-cols-md-2 bg-white rounded-3 mt-4 pb-4 gy-3">
-        <!-- firstname -->
-        <div class="col">
-          <label for="firstname" class="form-label">ชื่อ <span class="text-danger">*</span></label>
-          <input id="firstname" type="text" placeholder="ชื่อ" formControlName="firstname" class="form-control shadow-none"
-            [ngClass]="{ 'border-danger': registerReviewerForm.controls['firstname'].invalid && registerReviewerForm.controls['firstname'].touched }"
-          >
+  <app-personal-info #personalInfo (isFormValid)="changeStage($event)"></app-personal-info>
+</ng-container>
 
-          <div *ngIf="registerReviewerForm.controls['firstname'].invalid && registerReviewerForm.controls['firstname'].touched" class="text-danger mt-2">
-            <div *ngIf="registerReviewerForm.controls['firstname'].errors?.['required']">
-              Firstname is required.
-            </div>
-            <div *ngIf="registerReviewerForm.controls['firstname'].errors?.['minlength']">
-              Firstname must be at least 3 characters.
-            </div>
-          </div>
-        </div>
-
-        <!-- lastname -->
-        <div class="col">
-          <label for="firstname" class="form-label">นามสกุล <span class="text-danger">*</span></label>
-          <input id="lastname" type="text" placeholder="นามสกุล" formControlName="lastname" class="form-control shadow-none"
-            [ngClass]="{ 'border-danger': registerReviewerForm.controls['lastname'].invalid && registerReviewerForm.controls['lastname'].touched }"
-          >
-
-          <div *ngIf="registerReviewerForm.controls['lastname'].invalid && registerReviewerForm.controls['lastname'].touched" class="text-danger mt-2">
-            <div *ngIf="registerReviewerForm.controls['lastname'].errors?.['required']">
-              Lastname is required.
-            </div>
-            <div *ngIf="registerReviewerForm.controls['lastname'].errors?.['minlength']">
-              Lastname must be at least 3 characters.
-            </div>
-          </div>
-        </div>
-
-        <!-- username -->
-        <div class="col">
-          <label for="username" class="form-label">ชื่อบัญชีผู้ใช้ <span class="text-danger">*</span></label>
-          <input id="username" type="text" placeholder="ชื่อบัญชีผู้ใช้" formControlName="username" class="form-control shadow-none"
-            [ngClass]="{ 'border-danger': registerReviewerForm.controls['username'].invalid && registerReviewerForm.controls['username'].touched }"
-          >
-
-          <div *ngIf="registerReviewerForm.controls['username'].invalid && registerReviewerForm.controls['username'].touched" class="text-danger mt-2">
-            <div *ngIf="registerReviewerForm.controls['username'].errors?.['required']">
-              Username is required.
-            </div>
-            <div *ngIf="registerReviewerForm.controls['username'].errors?.['minlength']">
-              Username must be at least 5 characters.
-            </div>
-          </div>
-        </div>
-
-        <!-- email -->
-        <div class="col">
-          <label for="email" class="form-label">อีเมล <span class="text-danger">*</span></label>
-          <input id="email" type="email" placeholder="Email" formControlName="email" class="form-control shadow-none"
-            [ngClass]="{ 'border-danger': registerReviewerForm.controls['email'].invalid && registerReviewerForm.controls['email'].touched }"
-          >
-
-          <div *ngIf="registerReviewerForm.controls['email'].invalid && registerReviewerForm.controls['email'].touched" class="text-danger mt-2">
-            <div *ngIf="registerReviewerForm.controls['email'].errors?.['required']">
-              Email is required.
-            </div>
-            <div *ngIf="registerReviewerForm.controls['email'].errors?.['email']">
-              Email is invalid format.
-            </div>
-          </div>
-        </div>
-
-        <!-- password -->
-        <div class="col">
-          <label for="password" class="form-label">รหัสผ่าน <span class="text-danger">*</span></label>
-          <div class="position-relative">
-            <input id="password" [type]="isShowPassword ? 'text':'password'" placeholder="Password" formControlName="password" class="form-control shadow-none"
-              [ngClass]="{ 'border-danger': registerReviewerForm.controls['password'].invalid && registerReviewerForm.controls['password'].touched }"
-            >
-            <i class="bi eye-icon position-absolute" role="button" (click)="isShowPassword = !isShowPassword"
-              [ngClass]="isShowPassword ? 'bi-eye-slash':'bi-eye'">
-            </i>
-          </div>
-
-          <div *ngIf="registerReviewerForm.controls['password'].invalid && registerReviewerForm.controls['password'].touched" class="text-danger mt-2">
-            <div *ngIf="registerReviewerForm.controls['password'].errors?.['required']">
-              Password is required.
-            </div>
-            <div *ngIf="registerReviewerForm.controls['password'].errors?.['minlength']">
-              Password must be at least 8 characters.
-            </div>
-          </div>
-        </div>
-
-        <!-- confirm password -->
-        <div class="col">
-          <label for="confirmPassword" class="form-label">ยืนยันรหัสผ่าน <span class="text-danger">*</span></label>
-          <div class="position-relative">
-            <input id="confirmPassword" [type]="isShowConfirmPassword ? 'text':'password'" placeholder="Confirm Password" formControlName="confirmPassword" class="form-control shadow-none"
-              [ngClass]="{ 'border-danger': registerReviewerForm.controls['confirmPassword'].invalid && registerReviewerForm.controls['confirmPassword'].touched }"
-            >
-            <i class="bi eye-icon position-absolute" role="button" (click)="isShowConfirmPassword = !isShowConfirmPassword"
-              [ngClass]="isShowConfirmPassword ? 'bi-eye-slash':'bi-eye'">
-            </i>
-          </div>
-
-          <div *ngIf="registerReviewerForm.controls['confirmPassword'].invalid && registerReviewerForm.controls['confirmPassword'].touched" class="text-danger mt-2">
-            <div *ngIf="registerReviewerForm.controls['confirmPassword'].errors?.['required']">
-              Confirm Password is required.
-            </div>
-            <div *ngIf="registerReviewerForm.controls['confirmPassword'].errors?.['ConfirmPassword']">
-              Password doesn't match.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
+<ng-container *ngIf="(stage === 2) || (stage === 4)">
+  <app-restaurant-info #restaurantInfo (isFormValid)="changeStage($event)"></app-restaurant-info>
 </ng-container>
 
 <!-- button group -->
@@ -150,7 +38,7 @@
       {{ stage === 1? 'ยกเลิก' : 'ก่อนหน้า' }}
     </button>
     <button type="button" class="btn btn-yellow px-5 mx-2"
-      (click)="stage === 1? changeToNextStage(): submit()"
+      (click)="stage === 4? submit(): changeToNextStage()"
     >
       {{ stage === 4? 'ยืนยัน' : 'ถัดไป' }}
     </button>
