@@ -10,10 +10,10 @@
 
         <div *ngIf="registerRestaurantForm.controls['restaurantName'].invalid && registerRestaurantForm.controls['restaurantName'].touched" class="text-danger mt-2">
           <div *ngIf="registerRestaurantForm.controls['restaurantName'].errors?.['required']">
-            Firstname is required.
+            Restaurant name is required.
           </div>
           <div *ngIf="registerRestaurantForm.controls['restaurantName'].errors?.['minlength']">
-            Firstname must be at least 3 characters.
+            Restaurant name must be at least 3 characters.
           </div>
         </div>
       </div>
@@ -129,22 +129,79 @@
         <label for="paymentMethod" class="form-label">วิธีการจ่ายเงินที่รองรับ</label>
         <ng-select [items]="paymentMethod" bindLabel="name" bindValue="id" placeholder="เลือกวิธีการจ่ายเงิน" formArrayName="paymentMethod"
           [multiple]="true" [clearable]="false">
-          <ng-template ng-multi-label-tmp let-item="item" let-items="items" let-clear="clear">
-            <span>{{ items.length }} ประเภท</span>
+          <ng-template ng-multi-label-tmp let-item="item" let-items="items">
+            <div class="ng-value" *ngIf="items.length < paymentMethod.length">
+              <span class="ng-value-label font-Sarabun bg-white">{{ items.length }} ประเภท</span>
+            </div>
+            <div class="ng-value" *ngIf="items.length === paymentMethod.length">
+              <span class="ng-value-label font-Sarabun bg-white">ทั้งหมด</span>
+            </div>
           </ng-template>
         </ng-select>
       </div>
 
       <!-- social contact -->
       <div class="col">
-        <label for="socialContact" class="form-label">ช่องทางการติดต่อ</label>
+        <label for="socialContact" class="form-label">ช่องทางการติดต่อ
+          <span class="mx-2 px-2 py-1 rounded-4 bg-yellow" role="button" (click)="addSocialContact()">
+            <i class="bi bi-plus-circle me-2"></i>เพิ่มช่องทาง
+          </span>
+        </label>
 
+        <ng-container formArrayName="socialContact">
+          <div class="row mb-2 d-flex align-items-center" *ngFor="let item of SocialContactArray.controls; let i = index;">
+            <!-- select social -->
+            <div class="col-5" [formGroupName]="i">
+              <ng-select [items]="socialContactType" bindLabel="name" bindValue="id" placeholder="เลือกช่องทาง" formControlName="contact"
+                [searchable]="false" >
+              </ng-select>
+            </div>
+
+            <!-- contact value -->
+            <div class="col ps-0" [formGroupName]="i">
+              <input type="text" class="font-Sarabun email-input form-control" id="contactValue" name="contactValue"
+                formControlName="contactValue" maxlength="320"
+                [ngClass]="{ 'border-danger' : getContactValueFormControl(i).errors && getContactValueFormControl(i).touched }"
+              />
+            </div>
+            <i class="bi bi-trash col-auto fs-4 ps-0 text-danger" role="button" (click)="removeSocialContact(i)"></i>
+          </div>
+
+          <!-- any contact -->
+          <p *ngIf="SocialContactArray.controls.length === 0"
+            class="text-muted text-center bg-light-grey rounded-2 py-2"
+          >
+            ไม่มีช่องทางการติดต่อ
+          </p>
+        </ng-container>
       </div>
 
       <!-- business hours -->
       <div class="col">
-        <label for="socialContact" class="form-label">วันและเวลาทำการ <span class="text-danger">*</span></label>
+        <label for="businessHour" class="form-label">วันและเวลาทำการ <span class="text-danger">*</span>
+          <span class="mx-2 px-2 py-1 rounded-4 bg-yellow" role="button" (click)="addBusinessHour()">
+            <i class="bi bi-plus-circle me-2"></i>เพิ่มวันทำการ
+          </span>
+        </label>
 
+        <ng-container formArrayName="businessHour">
+          <div class="row mb-2 d-flex align-items-center" *ngFor="let item of BusinessHourArray.controls; let j = index;">
+            <!-- select day -->
+            <div class="col-5" [formGroupName]="j">
+              <ng-select [items]="socialContactType" bindLabel="name" bindValue="id" placeholder="เลือกวัน" formControlName="day"
+                [searchable]="false" >
+              </ng-select>
+            </div>
+
+            <!-- range of open/close time -->
+            <div class="col ps-0" [formGroupName]="j">
+              <input type="text" class="font-Sarabun email-input form-control" id="time" name="time"
+                formControlName="time"
+              />
+            </div>
+            <i *ngIf="j > 0" class="bi bi-trash col-auto fs-4 ps-0 text-danger" role="button" (click)="removeBusinessHour(j)"></i>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>
