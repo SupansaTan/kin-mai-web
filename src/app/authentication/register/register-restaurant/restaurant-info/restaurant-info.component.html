@@ -105,30 +105,54 @@
       <!-- food category -->
       <div class="col">
         <label for="foodCategory" class="form-label">ประเภทอาหารที่ขาย</label>
-        <ng-select [items]="foodCategory" bindLabel="name" bindValue="id" placeholder="เลือกประเภทอาหาร" formArrayName="foodCategory"
+        <ng-select [items]="foodCategory" bindLabel="name" bindValue="id" placeholder="เลือกประเภทอาหาร" formControlName="foodCategory"
           [multiple]="true" [clearable]="false">
           <ng-template ng-multi-label-tmp let-item="item" let-items="items" let-clear="clear">
             <label>{{ items.length }} ประเภท</label>
           </ng-template>
         </ng-select>
+
+        <div class="d-flex flex-wrap">
+          <ng-container *ngFor="let item of FoodCategoryList; let i = index">
+            <div class="px-2 py-1 bg-light-grey rounded-5 d-flex align-items-center mt-2 me-2">
+              <span>{{ item }}</span>
+              <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" (click)="removeFoodCategorySelected(i)"></i>
+            </div>
+          </ng-container>
+        </div>
       </div>
 
       <!-- delivery type -->
       <div class="col">
         <label for="deliveryType" class="form-label">ประเภทการจัดส่งที่รองรับ</label>
-        <ng-select [items]="deliveryType" bindLabel="name" bindValue="id" placeholder="เลือกประเภทการจัดส่ง" formArrayName="deliveryType"
-          [multiple]="true" [clearable]="false">
-          <ng-template ng-multi-label-tmp let-item="item" let-items="items" let-clear="clear">
-            <span>{{ items.length }} ประเภท</span>
+        <ng-select [items]="deliveryType" bindLabel="name" bindValue="id" placeholder="เลือกประเภทการจัดส่ง"
+          [multiple]="true" [clearable]="false" formControlName="deliveryType" [searchable]="false" [closeOnSelect]="false"
+        >
+          <ng-template ng-multi-label-tmp let-item="item" let-items="items">
+            <div class="ng-value" *ngIf="items.length < deliveryType.length">
+              <span class="ng-value-label font-Sarabun bg-white">{{ items.length }} ประเภท</span>
+            </div>
+            <div class="ng-value" *ngIf="items.length === deliveryType.length">
+              <span class="ng-value-label font-Sarabun bg-white">ทั้งหมด</span>
+            </div>
           </ng-template>
         </ng-select>
+
+        <div class="d-flex flex-wrap">
+          <ng-container *ngFor="let item of DeliveryTypeList; let i = index">
+            <div class="px-2 py-1 bg-light-grey rounded-5 d-flex align-items-center mt-2 me-2">
+              <span>{{ item }}</span>
+              <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" (click)="removeDeliveryTypeSelected(i)"></i>
+            </div>
+          </ng-container>
+        </div>
       </div>
 
       <!-- payment method -->
       <div class="col">
         <label for="paymentMethod" class="form-label">วิธีการจ่ายเงินที่รองรับ</label>
-        <ng-select [items]="paymentMethod" bindLabel="name" bindValue="id" placeholder="เลือกวิธีการจ่ายเงิน" formArrayName="paymentMethod"
-          [multiple]="true" [clearable]="false">
+        <ng-select [items]="paymentMethod" bindLabel="name" bindValue="id" placeholder="เลือกวิธีการจ่ายเงิน" formControlName="paymentMethod"
+          [multiple]="true" [clearable]="false" [searchable]="false" [closeOnSelect]="false">
           <ng-template ng-multi-label-tmp let-item="item" let-items="items">
             <div class="ng-value" *ngIf="items.length < paymentMethod.length">
               <span class="ng-value-label font-Sarabun bg-white">{{ items.length }} ประเภท</span>
@@ -138,6 +162,15 @@
             </div>
           </ng-template>
         </ng-select>
+
+        <div class="d-flex flex-wrap">
+          <ng-container *ngFor="let item of PaymentMethodList; let i = index">
+            <div class="px-2 py-1 bg-light-grey rounded-5 d-flex align-items-center mt-2 me-2">
+              <span>{{ item }}</span>
+              <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" (click)="removePaymentMethodSelected(i)"></i>
+            </div>
+          </ng-container>
+        </div>
       </div>
 
       <!-- social contact -->

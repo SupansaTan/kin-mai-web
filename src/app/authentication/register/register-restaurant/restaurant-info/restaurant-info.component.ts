@@ -15,6 +15,8 @@ export class RestaurantInfoComponent implements OnInit {
   @Output() isFormValid = new EventEmitter<boolean>();
 
   registerRestaurantForm: FormGroup;
+  deliveryTypeInput: FormControl = new FormControl([]);
+  paymentMethodInput: FormControl = new FormControl([]);
   restaurantType = RestaurantType;
   foodCategory = FoodCategory;
   paymentMethod = PaymentMethod;
@@ -41,9 +43,9 @@ export class RestaurantInfoComponent implements OnInit {
       restaurantType: new FormControl(null, [
         Validators.required
       ]),
-      foodCategory: new FormArray([]),
-      deliveryType: new FormArray([]),
-      paymentMethod: new FormArray([]),
+      foodCategory: new FormControl([]),
+      deliveryType: new FormControl([]),
+      paymentMethod: new FormControl([]),
       socialContact: this.fb.array([]),
       businessHour: this.fb.array([
         this.fb.group({
@@ -61,12 +63,16 @@ export class RestaurantInfoComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  get FoodCategoryArray(): FormArray {
-    return this.registerRestaurantForm.get('foodCategory') as FormArray;
+  get FoodCategoryFormControl(): FormControl {
+    return this.registerRestaurantForm.get('foodCategory') as FormControl;
   }
 
-  get PaymentMethodArray(): FormArray {
-    return this.registerRestaurantForm.get('paymentMethod') as FormArray;
+  get PaymentMethodFormControl(): FormControl {
+    return this.registerRestaurantForm.get('paymentMethod') as FormControl;
+  }
+
+  get DeliveryTypeFormControl(): FormControl {
+    return this.registerRestaurantForm.get('deliveryType') as FormControl;
   }
 
   get SocialContactArray(): FormArray {
@@ -75,10 +81,6 @@ export class RestaurantInfoComponent implements OnInit {
 
   get BusinessHourArray(): FormArray {
     return this.registerRestaurantForm.get('businessHour') as FormArray;
-  }
-
-  get DeliveryTypeArray(): FormArray {
-    return this.registerRestaurantForm.get('deliveryType') as FormArray;
   }
 
   getContactValueFormControl(index: number): AbstractControl {
@@ -97,13 +99,27 @@ export class RestaurantInfoComponent implements OnInit {
   }
 
   get FoodCategoryList(): Array<string> {
-    const foodCategoryForm = this.registerRestaurantForm.get('foodCategory')?.value;
-    return Array.from(foodCategoryForm);
+    let foodCategoryList = new Array<string>();
+    for (let item of this.FoodCategoryFormControl.value) {
+      foodCategoryList.push(FoodCategory[item-1].name);
+    }
+    return foodCategoryList;
+  }
+
+  get PaymentMethodList(): Array<string> {
+    let paymentMethodList = new Array<string>();
+    for (let item of this.PaymentMethodFormControl.value) {
+      paymentMethodList.push(PaymentMethod[item-1].name);
+    }
+    return paymentMethodList;
   }
 
   get DeliveryTypeList(): Array<string> {
-    const deliveryTypeForm = this.registerRestaurantForm.get('deliveryType')?.value;
-    return Array.from(deliveryTypeForm);
+    let deliveryTypeList = new Array<string>();
+    for (let item of this.DeliveryTypeFormControl.value) {
+      deliveryTypeList.push(DeliveryType[item-1].name);
+    }
+    return deliveryTypeList;
   }
 
   addSocialContact() {
@@ -144,6 +160,36 @@ export class RestaurantInfoComponent implements OnInit {
 
   removeBusinessHour(index: number) {
     this.BusinessHourArray.removeAt(index);
+  }
+
+  removeFoodCategorySelected(index: number) {
+    if (index > -1) {
+      let foodCategoryList = this.FoodCategoryFormControl.value;
+      foodCategoryList.splice(index, 1);
+      this.FoodCategoryFormControl.setValue(foodCategoryList);
+    } else {
+      this.FoodCategoryFormControl.reset();
+    }
+  }
+
+  removePaymentMethodSelected(index: number) {
+    if (index > -1) {
+      let paymentMethodList = this.PaymentMethodFormControl.value;
+      paymentMethodList.splice(index, 1);
+      this.PaymentMethodFormControl.setValue(paymentMethodList);
+    } else {
+      this.PaymentMethodFormControl.reset();
+    }
+  }
+
+  removeDeliveryTypeSelected(index: number) {
+    if (index > -1) {
+      let deliveryTypeList = this.DeliveryTypeFormControl.value;
+      deliveryTypeList.splice(index, 1);
+      this.DeliveryTypeFormControl.setValue(deliveryTypeList);
+    } else {
+      this.DeliveryTypeFormControl.reset();
+    }
   }
 
   checkFormIsValid() {
