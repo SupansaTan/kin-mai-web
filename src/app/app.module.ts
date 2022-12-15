@@ -1,3 +1,4 @@
+import { MbscModule } from '@mobiscroll/angular';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -15,7 +16,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     AppComponent,
     NavbarComponent,
   ],
-  imports: [
+  imports: [ 
+    MbscModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,

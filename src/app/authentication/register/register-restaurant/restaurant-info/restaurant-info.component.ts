@@ -1,10 +1,19 @@
 import { SocialContactType } from './../../../../../constant/social-contact-type.constant';
 import { DeliveryType } from './../../../../../constant/delivery-type.constant';
 import { PaymentMethod } from './../../../../../constant/payment-method.constant';
-import { FoodCategory } from './../../../../../constant/food-category.constant';
+import { DrinkAndDessertCategory, FoodCategory } from './../../../../../constant/food-category.constant';
 import { RestaurantType } from './../../../../../constant/restaurant-type.constant';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, FormArray, AbstractControl } from '@angular/forms';
+import { setOptions , localeTh } from '@mobiscroll/angular';
+import { DayList } from 'src/constant/day-list.constant';
+import { RestaurantTypeEnum } from 'src/enum/restaurant-type.enum';
+
+setOptions({
+  locale: localeTh,
+  theme: 'ios',
+  themeVariant: 'light'
+});
 
 @Component({
   selector: 'app-restaurant-info',
@@ -18,10 +27,11 @@ export class RestaurantInfoComponent implements OnInit {
   deliveryTypeInput: FormControl = new FormControl([]);
   paymentMethodInput: FormControl = new FormControl([]);
   restaurantType = RestaurantType;
-  foodCategory = FoodCategory;
+  foodCategory = [...FoodCategory, ...DrinkAndDessertCategory];
   paymentMethod = PaymentMethod;
   deliveryType = DeliveryType;
   socialContactType = SocialContactType;
+  dayList = DayList;
 
   constructor(private fb: FormBuilder) {
     this.registerRestaurantForm = this.fb.group({
@@ -54,7 +64,9 @@ export class RestaurantInfoComponent implements OnInit {
           ]),
           time: new FormControl('', [
             Validators.required
-          ])
+          ]),
+        }, {
+          validators: this.timeRageValidator
         })
       ])
     })
@@ -101,7 +113,11 @@ export class RestaurantInfoComponent implements OnInit {
   get FoodCategoryList(): Array<string> {
     let foodCategoryList = new Array<string>();
     for (let item of this.FoodCategoryFormControl.value) {
-      foodCategoryList.push(FoodCategory[item-1].name);
+      if (item < 9) {
+        foodCategoryList.push(FoodCategory[item-1].name);
+      } else {
+        foodCategoryList.push(DrinkAndDessertCategory[item-9].name);
+      }
     }
     return foodCategoryList;
   }
@@ -120,6 +136,23 @@ export class RestaurantInfoComponent implements OnInit {
       deliveryTypeList.push(DeliveryType[item-1].name);
     }
     return deliveryTypeList;
+  }
+
+  setFoodCategorySelector() {
+    const restaurantType = this.registerRestaurantForm.get('restaurantType')?.value;
+    switch(restaurantType) {
+      case RestaurantTypeEnum.All:
+        this.foodCategory = [...FoodCategory, ...DrinkAndDessertCategory];
+        break;
+      case RestaurantTypeEnum.Food:
+        this.foodCategory = FoodCategory;
+        break;
+      case RestaurantTypeEnum.DrinkAndDessert:
+        this.foodCategory = DrinkAndDessertCategory;
+        break;
+      default:
+        this.foodCategory = [...FoodCategory, ...DrinkAndDessertCategory];
+    }
   }
 
   addSocialContact() {
@@ -149,7 +182,9 @@ export class RestaurantInfoComponent implements OnInit {
         time: new FormControl('', [
           Validators.required
         ])
-      })
+      }, {
+        validators: this.timeRageValidator
+      });
       this.BusinessHourArray.push(newBusinessHourForm);
     }
   }
@@ -190,6 +225,17 @@ export class RestaurantInfoComponent implements OnInit {
     } else {
       this.DeliveryTypeFormControl.reset();
     }
+  }
+
+  timeRageValidator(control: AbstractControl) {
+    const [start, end] = control.get('time')?.value;
+
+    if (!(start && end)) {
+      control.get('time')?.setErrors({ 'incorrect': true });
+    } else {
+      return null;
+    }
+    return null;
   }
 
   checkFormIsValid() {

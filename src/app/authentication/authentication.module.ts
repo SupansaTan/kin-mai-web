@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MbscModule } from '@mobiscroll/angular';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterRestaurantComponent } from './register/register-restaurant/register-restaurant.component';
@@ -34,7 +35,8 @@ import { PersonalInfoComponent } from './register/register-restaurant/personal-i
     ModalModule.forRoot(),
     SharedModule,
     NgSelectModule,
-    FormsModule
+    FormsModule,
+    MbscModule,
   ],
   providers: [
     AuthenticationService
