@@ -1,0 +1,13 @@
+i.remove {
+  top: -10px;
+  right: -10px;
+  padding: 1px 5px;
+}
+
+.upload-image {
+  border: 1px solid #ced4da;
+
+  &.border-danger {
+    border: 1px solid rgb(220, 53, 69);
+  }
+}

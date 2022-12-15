@@ -16,6 +16,7 @@ import { AuthenticationService } from './authentication.service';
 import { SharedModule } from '../shared/shared.module';
 import { RestaurantInfoComponent } from './register/register-restaurant/restaurant-info/restaurant-info.component';
 import { PersonalInfoComponent } from './register/register-restaurant/personal-info/personal-info.component';
+import { UploadPhotoComponent } from './register/register-restaurant/upload-photo/upload-photo.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { PersonalInfoComponent } from './register/register-restaurant/personal-i
     RegisterReviewerComponent,
     RegisterRestaurantComponent,
     RestaurantInfoComponent,
-    PersonalInfoComponent
+    PersonalInfoComponent,
+    UploadPhotoComponent
   ],
   imports: [
     CommonModule,

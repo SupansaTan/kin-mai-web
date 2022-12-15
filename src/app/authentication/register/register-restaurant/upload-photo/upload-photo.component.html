@@ -1,0 +1,46 @@
+<form [formGroup]="uploadPhotoForm">
+  <div class="row d-flex align-items-center justify-content-center">
+    <div class="col-11 col-lg-10 row row-cols-1 bg-white rounded-3 mt-4 pb-4 gy-3">
+      <!-- upload photo of menu or restaurant -->
+      <div class="col">
+        <label class="form-label">อัพโหลดรูปภาพเมนูหรือร้านอาหาร <span class="text-danger">*</span></label>
+        <div class="d-flex flex-wrap">
+          <!-- show all image is selected -->
+          <ng-container *ngFor="let image of restaurantImageList">
+            <div class="position-relative me-3 mt-1">
+              <img
+                [src]="image"
+                class="rounded-2 shadow-sm"
+                style="width: auto; height: 93px; object-fit: cover;"
+              />
+              <i class="bi bi-x bg-danger text-white rounded-circle position-absolute remove"></i>
+            </div>
+          </ng-container>
+
+          <!-- upload image button -->
+          <label role="button" for="photo"
+            class="bg-light-grey rounded-2 py-3 px-2 d-flex align-items-center justify-content-center flex-column shadow-sm mt-1 upload-image"
+            [ngClass]="{ 'border-danger': uploadPhotoForm.controls['photo'].invalid && uploadPhotoForm.controls['photo'].touched }">
+            <i class="bi bi-camera-fill" style="font-size: 25px;"></i>
+            <span>อัพโหลดรูป</span>
+            <input id="photo" type="file" [multiple]="true" formControlName="photo" class="d-none"
+              (change)="onSelectFile($event)">
+          </label>
+        </div>
+
+        <div *ngIf="uploadPhotoForm.controls['photo'].invalid && uploadPhotoForm.controls['photo'].touched"
+          class="text-danger mt-2">
+          Image of menu or restaurant is reqiured.
+        </div>
+      </div>
+
+      <!-- restaurant status -->
+      <div class="col">
+        <label for="restaurantStatus" class="form-label">คำแนะนำร้าน</label>
+        <textarea id="restaurantStatus" type="text" rows="3" formControlName="restaurantStatus"
+          class="form-control shadow-none" placeholder="อาหารอร่อยทุกอย่าง มาลองกันได้น้า">
+        </textarea>
+      </div>
+    </div>
+  </div>
+</form>

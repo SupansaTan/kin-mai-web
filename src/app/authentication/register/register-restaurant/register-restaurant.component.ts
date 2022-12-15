@@ -1,9 +1,8 @@
+import { UploadPhotoComponent } from './upload-photo/upload-photo.component';
 import { RestaurantInfoComponent } from './restaurant-info/restaurant-info.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-success.component';
-import { ConfirmPasswordValidator } from 'src/app/shared/password-match-validator.component';
 import { ReataurantStepItems, StepItem } from 'src/models/step-item.model';
 
 @Component({
@@ -15,6 +14,7 @@ export class RegisterRestaurantComponent implements OnInit {
   @ViewChild('successModalComponent') successModal: ModalSuccessComponent;
   @ViewChild('personalInfo') personalInfo: PersonalInfoComponent;
   @ViewChild('restaurantInfo') restaurantInfo: RestaurantInfoComponent;
+  @ViewChild('uploadPhoto') uploadPhoto: UploadPhotoComponent;
   @Output() onResetUserType = new EventEmitter<boolean>();
 
   steps: Array<StepItem> = new Array<StepItem>();
@@ -50,6 +50,9 @@ export class RegisterRestaurantComponent implements OnInit {
         break;
       case 2:
         this.restaurantInfo.checkFormIsValid();
+        break;
+      case 3:
+        this.uploadPhoto.checkFormIsValid();
         break;
     }
   }
