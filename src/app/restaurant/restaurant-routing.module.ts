@@ -3,11 +3,16 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { RestaurantDashboardComponent } from './dashboard/dashboard.component';
 import { EditRestaurantDetailComponent } from './edit-detail/edit-detail.component';
+import { DetailComponent } from './detail/detail.component';
 
 const routes: Routes = [
   {
     path: '',
     component: RestaurantDashboardComponent
+  },
+  {
+    path: 'detail',
+    component: DetailComponent
   },
   {
     path: 'edit',
