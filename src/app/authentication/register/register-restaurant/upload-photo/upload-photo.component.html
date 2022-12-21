@@ -3,28 +3,35 @@
     <div class="col-11 col-lg-10 row row-cols-1 bg-white rounded-3 mt-4 pb-4 gy-3">
       <!-- upload photo of menu or restaurant -->
       <div class="col">
-        <label class="form-label">อัพโหลดรูปภาพเมนูหรือร้านอาหาร <span class="text-danger">*</span></label>
-        <div class="d-flex flex-wrap">
+        <label class="form-label fw-semibold">อัพโหลดรูปภาพเมนูหรือร้านอาหาร <span class="text-danger">*</span></label>
+        <p class="px-3 mb-1"><i class="bi bi-dot"></i>สามารถกดค้างและลาก เพื่อจัดอันดับของรูปภาพได้</p>
+        <p class="px-3 mb-1"><i class="bi bi-dot"></i>รูปแรกเป็นรูปหน้าปกร้าน</p>
+        <p class="px-3 mb-0"><i class="bi bi-dot"></i>รูปภาพรองรับเฉพาะไฟล์ JPEG และ PNG</p>
+
+        <div cdkDropListGroup class="d-flex flex-wrap">
           <!-- show all image is selected -->
-          <ng-container *ngFor="let image of restaurantImageList">
-            <div class="position-relative me-3 mt-1">
-              <img
-                [src]="image"
-                class="rounded-2 shadow-sm"
-                style="width: auto; height: 93px; object-fit: cover;"
-              />
-              <i class="bi bi-x bg-danger text-white rounded-circle position-absolute remove"></i>
+          <ng-container *ngFor="let image of restaurantImageList; let i = index">
+            <div cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="{item:image,index:i}" (cdkDropListDropped)="drop($event)">
+              <div class="position-relative me-4 mt-3" role="button" cdkDrag>
+                <div *cdkDragPlaceholder></div>
+                <img
+                  [src]="image"
+                  class="rounded-2 shadow-sm"
+                  style="width: auto; height: 93px; object-fit: cover;"
+                />
+                <i class="bi bi-x bg-danger text-white rounded-circle position-absolute remove" (click)="removeImage(i)" [hidden]="stage === 4"></i>
+              </div>
             </div>
           </ng-container>
 
           <!-- upload image button -->
-          <label role="button" for="photo"
-            class="bg-light-grey rounded-2 py-3 px-2 d-flex align-items-center justify-content-center flex-column shadow-sm mt-1 upload-image"
+          <label *ngIf="stage != 4" role="button" for="photo"
+            class="bg-light-grey rounded-2 py-3 px-2 d-flex align-items-center justify-content-center flex-column shadow-sm mt-1 upload-image mt-3"
             [ngClass]="{ 'border-danger': uploadPhotoForm.controls['photo'].invalid && uploadPhotoForm.controls['photo'].touched }">
             <i class="bi bi-camera-fill" style="font-size: 25px;"></i>
             <span>อัพโหลดรูป</span>
             <input id="photo" type="file" [multiple]="true" formControlName="photo" class="d-none"
-              (change)="onSelectFile($event)">
+              (change)="onSelectFile($event)" accept="image/png, image/jpeg">
           </label>
         </div>
 
@@ -36,7 +43,7 @@
 
       <!-- restaurant status -->
       <div class="col">
-        <label for="restaurantStatus" class="form-label">คำแนะนำร้าน</label>
+        <label for="restaurantStatus" class="form-label fw-semibold">คำแนะนำร้าน</label>
         <textarea id="restaurantStatus" type="text" rows="3" formControlName="restaurantStatus"
           class="form-control shadow-none" placeholder="อาหารอร่อยทุกอย่าง มาลองกันได้น้า">
         </textarea>

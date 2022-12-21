@@ -11,3 +11,17 @@ i.remove {
     border: 1px solid rgb(220, 53, 69);
   }
 }
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+}
+
+.cdk-drop-list-dragging {
+  cursor: grabbing !important;
+}
+
+.cdk-drop-list {
+  display: flex;
+  padding-right: 7px;
+  padding-bottom: 7px;
+}

@@ -30,7 +30,7 @@
 </ng-container>
 
 <ng-container *ngIf="(stage === 3) || (stage === 4)">
-  <app-upload-photo #uploadPhoto (isFormValid)="changeStage($event)"></app-upload-photo>
+  <app-upload-photo #uploadPhoto (isFormValid)="changeStage($event)" [stage]="stage"></app-upload-photo>
 </ng-container>
 
 <!-- button group -->

@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MbscModule } from '@mobiscroll/angular';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterRestaurantComponent } from './register/register-restaurant/register-restaurant.component';
@@ -39,6 +40,7 @@ import { UploadPhotoComponent } from './register/register-restaurant/upload-phot
     NgSelectModule,
     FormsModule,
     MbscModule,
+    DragDropModule,
   ],
   providers: [
     AuthenticationService

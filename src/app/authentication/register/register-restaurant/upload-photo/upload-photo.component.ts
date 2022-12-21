@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -8,6 +9,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 })
 export class UploadPhotoComponent implements OnInit {
   @Output() isFormValid = new EventEmitter<boolean>();
+  @Input() stage: number = 0;
 
   uploadPhotoForm: FormGroup;
   restaurantImageList: Array<string> = new Array<string>();
@@ -45,7 +47,15 @@ export class UploadPhotoComponent implements OnInit {
     }
   }
 
+  drop(event: CdkDragDrop<any>) {
+    moveItemInArray(this.restaurantImageList, event.previousContainer.data.index, event.container.data.index);
+  }
 
+  removeImage(index: number) {
+    if (index > -1) {
+      this.restaurantImageList.splice(index, 1);
+    }
+  }
 
   checkFormIsValid() {
     this.uploadPhotoForm.markAllAsTouched();
