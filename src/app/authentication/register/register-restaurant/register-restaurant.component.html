@@ -26,7 +26,7 @@
 </ng-container>
 
 <ng-container *ngIf="(stage === 2) || (stage === 4)">
-  <app-restaurant-info #restaurantInfo (isFormValid)="changeStage($event)"></app-restaurant-info>
+  <app-restaurant-info #restaurantInfo (isFormValid)="changeStage($event)" [stage]="stage"></app-restaurant-info>
 </ng-container>
 
 <ng-container *ngIf="(stage === 3) || (stage === 4)">

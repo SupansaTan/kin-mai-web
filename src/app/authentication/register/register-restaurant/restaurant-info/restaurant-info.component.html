@@ -176,7 +176,7 @@
       <!-- social contact -->
       <div class="col">
         <label for="socialContact" class="form-label">ช่องทางการติดต่อ
-          <span class="mx-2 px-2 py-1 rounded-4 bg-yellow" role="button" (click)="addSocialContact()">
+          <span class="mx-2 px-2 py-1 rounded-4 bg-yellow" role="button" (click)="addSocialContact()" [hidden]="stage === 4">
             <i class="bi bi-plus-circle me-2"></i>เพิ่มช่องทาง
           </span>
         </label>
@@ -212,7 +212,7 @@
       <!-- business hours -->
       <div class="col">
         <label for="businessHour" class="form-label">วันและเวลาทำการ <span class="text-danger">*</span>
-          <span class="mx-2 px-2 py-1 rounded-4 bg-yellow" role="button" (click)="addBusinessHour()">
+          <span class="mx-2 px-2 py-1 rounded-4 bg-yellow" role="button" (click)="addBusinessHour()" [hidden]="stage === 4">
             <i class="bi bi-plus-circle me-2"></i>เพิ่มวันทำการ
           </span>
         </label>

@@ -3,7 +3,7 @@ import { DeliveryType } from './../../../../../constant/delivery-type.constant';
 import { PaymentMethod } from './../../../../../constant/payment-method.constant';
 import { DrinkAndDessertCategory, FoodCategory } from './../../../../../constant/food-category.constant';
 import { RestaurantType } from './../../../../../constant/restaurant-type.constant';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { setOptions , localeTh } from '@mobiscroll/angular';
 import { DayList } from 'src/constant/day-list.constant';
@@ -22,6 +22,7 @@ setOptions({
 })
 export class RestaurantInfoComponent implements OnInit {
   @Output() isFormValid = new EventEmitter<boolean>();
+  @Input() stage: number = 0;
 
   registerRestaurantForm: FormGroup;
   deliveryTypeInput: FormControl = new FormControl([]);
