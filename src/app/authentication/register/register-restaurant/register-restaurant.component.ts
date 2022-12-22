@@ -18,7 +18,7 @@ export class RegisterRestaurantComponent implements OnInit {
   @Output() onResetUserType = new EventEmitter<boolean>();
 
   steps: Array<StepItem> = new Array<StepItem>();
-  stage: number = 2;
+  stage: number = 1;
   isShowPassword: boolean = false;
   isFormValid: boolean = false;
   isShowConfirmPassword: boolean = false;

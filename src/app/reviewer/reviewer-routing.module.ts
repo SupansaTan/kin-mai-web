@@ -11,11 +11,11 @@ const routes: Routes = [
     component: ReviewerHomepageComponent
   },
   {
-    path: '/find',
+    path: 'find',
     component: SearchRestaurantComponent
   },
   {
-    path: '/random',
+    path: 'random',
     component: RandomFoodComponent
   },
   {
