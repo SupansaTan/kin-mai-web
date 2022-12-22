@@ -3,7 +3,7 @@
     <div class="col-11 col-lg-10 row row-cols-1 row-cols-md-2 bg-white rounded-3 mt-4 pb-4 gy-3">
       <!-- firstname -->
       <div class="col">
-        <label for="firstname" class="form-label">ชื่อ <span class="text-danger">*</span></label>
+        <label for="firstname" class="form-label fw-semibold">ชื่อ <span class="text-danger">*</span></label>
         <input id="firstname" type="text" placeholder="ชื่อ" formControlName="firstname" class="form-control shadow-none"
           [ngClass]="{ 'border-danger': registerReviewerForm.controls['firstname'].invalid && registerReviewerForm.controls['firstname'].touched }"
         >
@@ -20,7 +20,7 @@
 
       <!-- lastname -->
       <div class="col">
-        <label for="firstname" class="form-label">นามสกุล <span class="text-danger">*</span></label>
+        <label for="firstname" class="form-label fw-semibold">นามสกุล <span class="text-danger">*</span></label>
         <input id="lastname" type="text" placeholder="นามสกุล" formControlName="lastname" class="form-control shadow-none"
           [ngClass]="{ 'border-danger': registerReviewerForm.controls['lastname'].invalid && registerReviewerForm.controls['lastname'].touched }"
         >
@@ -37,7 +37,7 @@
 
       <!-- username -->
       <div class="col">
-        <label for="username" class="form-label">ชื่อบัญชีผู้ใช้ <span class="text-danger">*</span></label>
+        <label for="username" class="form-label fw-semibold">ชื่อบัญชีผู้ใช้ <span class="text-danger">*</span></label>
         <input id="username" type="text" placeholder="ชื่อบัญชีผู้ใช้" formControlName="username" class="form-control shadow-none"
           [ngClass]="{ 'border-danger': registerReviewerForm.controls['username'].invalid && registerReviewerForm.controls['username'].touched }"
         >
@@ -54,7 +54,7 @@
 
       <!-- email -->
       <div class="col">
-        <label for="email" class="form-label">อีเมล <span class="text-danger">*</span></label>
+        <label for="email" class="form-label fw-semibold">อีเมล <span class="text-danger">*</span></label>
         <input id="email" type="email" placeholder="Email" formControlName="email" class="form-control shadow-none"
           [ngClass]="{ 'border-danger': registerReviewerForm.controls['email'].invalid && registerReviewerForm.controls['email'].touched }"
         >
@@ -71,7 +71,7 @@
 
       <!-- password -->
       <div class="col">
-        <label for="password" class="form-label">รหัสผ่าน <span class="text-danger">*</span></label>
+        <label for="password" class="form-label fw-semibold">รหัสผ่าน <span class="text-danger">*</span></label>
         <div class="position-relative">
           <input id="password" [type]="isShowPassword ? 'text':'password'" placeholder="Password" formControlName="password" class="form-control shadow-none"
             [ngClass]="{ 'border-danger': registerReviewerForm.controls['password'].invalid && registerReviewerForm.controls['password'].touched }"
@@ -93,7 +93,7 @@
 
       <!-- confirm password -->
       <div class="col">
-        <label for="confirmPassword" class="form-label">ยืนยันรหัสผ่าน <span class="text-danger">*</span></label>
+        <label for="confirmPassword" class="form-label fw-semibold">ยืนยันรหัสผ่าน <span class="text-danger">*</span></label>
         <div class="position-relative">
           <input id="confirmPassword" [type]="isShowConfirmPassword ? 'text':'password'" placeholder="Confirm Password" formControlName="confirmPassword" class="form-control shadow-none"
             [ngClass]="{ 'border-danger': registerReviewerForm.controls['confirmPassword'].invalid && registerReviewerForm.controls['confirmPassword'].touched }"
