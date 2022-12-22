@@ -1,0 +1,53 @@
+<!-- step progress -->
+<div class="row d-flex justify-content-center align-items-center my-2">
+  <div class="d-flex justify-content-between align-items-center position-relative col-11 col-md-9 col-lg-6 px-0">
+    <progress class="progress" [value]="stage-1" max=3></progress>
+
+    <ng-container *ngFor="let step of steps">
+      <div class="step-item text-center">
+        <button class="step-button fw-bolder text-center rounded-circle border-yellow bg-yellow fs-4" type="button"
+          [ngClass]="((step.step === stage) || (stage > step.step))? 'bg-yellow':'bg-white text-yellow'"
+        >
+          <i *ngIf="stage > step.step" class="bi bi-check-circle-fill fs-2 text-white"></i>
+          <p *ngIf="stage <= step.step" class="mt-1 pt-1">{{ step.step }}</p>
+        </button>
+
+        <div class="step-title fw-semibold mt-1">
+          {{ step.title }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- register reviewer form -->
+<ng-container *ngIf="(stage === 1) || (stage === 4)">
+  <app-personal-info #personalInfo (isFormValid)="changeStage($event)" [stage]="stage"></app-personal-info>
+</ng-container>
+
+<ng-container *ngIf="(stage === 2) || (stage === 4)">
+  <app-restaurant-info #restaurantInfo (isFormValid)="changeStage($event)" [stage]="stage"></app-restaurant-info>
+</ng-container>
+
+<ng-container *ngIf="(stage === 3) || (stage === 4)">
+  <app-upload-photo #uploadPhoto (isFormValid)="changeStage($event)" [stage]="stage"></app-upload-photo>
+</ng-container>
+
+<!-- button group -->
+<div class="row d-flex align-items-center justify-content-center">
+  <div class="col-auto my-3">
+    <button type="button" class="btn btn-light-grey mx-2 px-5"
+      (click)="stage === 1? resetUserType() : changeToPreviousStage()"
+    >
+      {{ stage === 1? 'ยกเลิก' : 'ก่อนหน้า' }}
+    </button>
+    <button type="button" class="btn btn-yellow px-5 mx-2"
+      (click)="stage === 4? submit(): changeToNextStage()"
+    >
+      {{ stage === 4? 'ยืนยัน' : 'ถัดไป' }}
+    </button>
+  </div>
+</div>
+
+<!-- modal -->
+<app-modal-success #successModalComponent></app-modal-success>

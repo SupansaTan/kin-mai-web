@@ -13,3 +13,11 @@
     background-color: #f8e29b;
   }
 }
+
+.btn-light-grey {
+  background-color: #dfdfdf;
+
+  &:hover, &:focus {
+    background-color: #cecdcd;
+  }
+}
