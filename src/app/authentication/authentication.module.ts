@@ -1,14 +1,23 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { MbscModule } from '@mobiscroll/angular';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { LoginComponent } from './login/login.component';
-import { RegisterRestuarantComponent } from './register-restuarant/register-restuarant.component';
-import { RegisterReviewerComponent } from './register-reviewer/register-reviewer.component';
+import { RegisterRestaurantComponent } from './register/register-restaurant/register-restaurant.component';
+import { RegisterReviewerComponent } from './register/register-reviewer/register-reviewer.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetComponent } from './reset/reset.component';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
+import { AuthenticationService } from './authentication.service';
+import { SharedModule } from '../shared/shared.module';
+import { RestaurantInfoComponent } from './register/register-restaurant/restaurant-info/restaurant-info.component';
+import { PersonalInfoComponent } from './register/register-restaurant/personal-info/personal-info.component';
+import { UploadPhotoComponent } from './register/register-restaurant/upload-photo/upload-photo.component';
 
 @NgModule({
   declarations: [
@@ -16,14 +25,27 @@ import { AuthenticationRoutingModule } from './authentication-routing.module';
     ResetComponent,
     RegisterComponent,
     RegisterReviewerComponent,
-    RegisterRestuarantComponent
+    RegisterRestaurantComponent,
+    RestaurantInfoComponent,
+    PersonalInfoComponent,
+    UploadPhotoComponent
   ],
   imports: [
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AuthenticationRoutingModule
-  ]
+    AuthenticationRoutingModule,
+    ModalModule.forRoot(),
+    SharedModule,
+    NgSelectModule,
+    FormsModule,
+    MbscModule,
+    DragDropModule,
+  ],
+  providers: [
+    AuthenticationService
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 
 export class AuthenticationModule { }
