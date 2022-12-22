@@ -22,7 +22,7 @@
 
 <!-- register reviewer form -->
 <ng-container *ngIf="(stage === 1) || (stage === 4)">
-  <app-personal-info #personalInfo (isFormValid)="changeStage($event)"></app-personal-info>
+  <app-personal-info #personalInfo (isFormValid)="changeStage($event)" [stage]="stage"></app-personal-info>
 </ng-container>
 
 <ng-container *ngIf="(stage === 2) || (stage === 4)">

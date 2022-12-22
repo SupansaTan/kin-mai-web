@@ -22,11 +22,11 @@ setOptions({
 })
 export class RestaurantInfoComponent implements OnInit {
   @Output() isFormValid = new EventEmitter<boolean>();
-  @Input() stage: number = 0;
 
   registerRestaurantForm: FormGroup;
   deliveryTypeInput: FormControl = new FormControl([]);
   paymentMethodInput: FormControl = new FormControl([]);
+  currentStage: number = 0;
   restaurantType = RestaurantType;
   foodCategory = [...FoodCategory, ...DrinkAndDessertCategory];
   paymentMethod = PaymentMethod;
@@ -74,6 +74,21 @@ export class RestaurantInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  @Input()
+  set stage(value: number) {
+    this.currentStage = value;
+
+    if (value === 4) {
+      this.registerRestaurantForm.disable();
+    } else {
+      this.registerRestaurantForm.enable();
+    }
+  }
+
+  get stage() {
+    return this.currentStage;
   }
 
   get FoodCategoryFormControl(): FormControl {

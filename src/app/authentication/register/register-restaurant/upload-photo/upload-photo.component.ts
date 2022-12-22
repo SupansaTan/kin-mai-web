@@ -9,9 +9,9 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 })
 export class UploadPhotoComponent implements OnInit {
   @Output() isFormValid = new EventEmitter<boolean>();
-  @Input() stage: number = 0;
 
   uploadPhotoForm: FormGroup;
+  currentStage: number = 0;
   restaurantImageList: Array<string> = new Array<string>();
 
   constructor(private fb: FormBuilder, private cf: ChangeDetectorRef) {
@@ -26,6 +26,21 @@ export class UploadPhotoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  @Input()
+  set stage(value: number) {
+    this.currentStage = value;
+
+    if (value === 4) {
+      this.uploadPhotoForm.disable();
+    } else {
+      this.uploadPhotoForm.enable();
+    }
+  }
+
+  get stage() {
+    return this.currentStage;
   }
 
   onSelectFile(event: any) {

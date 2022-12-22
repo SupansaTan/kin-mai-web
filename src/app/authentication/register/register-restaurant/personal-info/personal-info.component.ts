@@ -48,6 +48,15 @@ export class PersonalInfoComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  @Input()
+  set stage(value: number) {
+    if (value === 4) {
+      this.registerReviewerForm.disable();
+    } else {
+      this.registerReviewerForm.enable();
+    }
+  }
+
   checkFormIsValid() {
     this.registerReviewerForm.markAllAsTouched();
 

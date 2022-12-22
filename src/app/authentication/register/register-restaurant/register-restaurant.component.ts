@@ -37,9 +37,9 @@ export class RegisterRestaurantComponent implements OnInit {
 
   changeToPreviousStage() {
     if (this.stage > 1) {
-      this.onResetUserType.emit();
-    } else {
       this.stage -= 1;
+    } else {
+      this.onResetUserType.emit();
     }
   }
 
