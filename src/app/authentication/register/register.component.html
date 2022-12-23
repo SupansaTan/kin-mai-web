@@ -1,31 +1,30 @@
-<div class="container-fluid">
+<div class="row d-flex align-items-center justify-content-center">
+  <h2 class="text-center mt-5">สร้างบัญชีผู้ใช้งาน</h2>
 
-  <div class="row">
-    <div class="yellow-card">
-      <h2 class="d-flex justify-content-center">สร้างบัญชีผู้ใช้งาน</h2>
+  <!-- select user type -->
+  <div *ngIf="!isSelectedUserType" class="col-12 col-lg-10 row mt-4">
+    <div class="col-6 d-flex align-items-center justify-content-center row zoom-on-hover" role="button"
+      (click)="setUserType(accountType.Reviewer)"
+    >
+      <img src="../../../../assets/image/reviewer.svg" alt="reviewer" height="350px">
+      <h4 class="mt-2 text-center">สายรีวิว</h4>
+    </div>
+
+    <div class="col-6 d-flex justify-items-center row zoom-on-hover" role="button"
+      (click)="setUserType(accountType.RestaurantOwner)"
+    >
+      <img class="" src="../../../../assets/image/restaurant-owner.svg" alt="restaurant-owner" height="350px">
+      <h4 class="mt-2 text-center">เจ้าของร้านอาหาร</h4>
     </div>
   </div>
 
-  <div class="row" style="margin-block: 30px;">
+  <!-- register as reviewer -->
+  <ng-container *ngIf="isSelectedUserType && userType === accountType.Reviewer">
+    <app-register-reviewer (onResetUserType)="resetUserType()"></app-register-reviewer>
+  </ng-container>
 
-      <div class="col d-flex justify-content-center">
-        <img class="mx-auto d-block logo order-1 order-md-4 w-50" src="../../../../assets/image/reviewer.png" alt="logo">
-      </div>
-
-      <div class="col d-flex justify-content-center">
-        <img class="mx-auto d-block logo order-1 order-md-4 w-50" src="../../../../assets/image/restaurant.png" alt="logo">
-      </div>
-   
-  </div>
-  
-  <div class="row">
-    <div class="col d-flex justify-content-center">
-      <a class="text-dark text bold" href="/auth/register/reviewer"><h4 class="review">สายรีวิว</h4></a>
-    </div>
-
-    <div class="col d-flex justify-content-center">
-      <a class="text-dark text" href="/auth/register/restaurant"><h4 class="shop">ร้านอาหาร</h4></a>
-    </div>
-
-  </div>
+  <!-- register as restaurant owner -->
+  <ng-container *ngIf="isSelectedUserType && userType === accountType.RestaurantOwner">
+    <app-register-restaurant (onResetUserType)="resetUserType()"></app-register-restaurant>
+  </ng-container>
 </div>

@@ -1,17 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
+@import "~@ng-select/ng-select/themes/default.theme.css";
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600;700;800&family=Prompt:wght@300;400;500;600;700;800&display=swap');
+@import "~@mobiscroll/angular/dist/css/mobiscroll.scss";
 
 @import 'scss/variable';
 @import 'scss/colors';
 @import 'scss/font';
 @import 'scss/button';
+@import 'scss/animate';
 
 * {
-  font-family: 'Comfortaa', 'Prompt', sans-serif;
+  font-family: 'Comfortaa', 'Prompt', sans-serif !important;
 }
 
 body {
+  margin: 0;
   background-color: #f1f1f1;
+}
+
+html, body {
+  height: 100%;
 }
