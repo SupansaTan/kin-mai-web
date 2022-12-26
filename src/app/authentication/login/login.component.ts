@@ -54,7 +54,16 @@ export class LoginComponent implements OnInit {
             this.localStorageService.set(LocalStorageKey.expirationToken, String(token.expiredToken));
             this.localStorageService.set(LocalStorageKey.refreshToken, token.refreshToken);
             this.localStorageService.set(LocalStorageKey.accessToken, token.token);
-            this.router.navigate([PageLink.reviewer.homepage]);
+
+            this.authenticationService.getUserInfo(email).subscribe((resp: any) => {
+              if (response?.status === 200) {
+                this.localStorageService.set(LocalStorageKey.userId, resp.data.userId);
+                this.localStorageService.set(LocalStorageKey.userName, resp.data.userName);
+                this.localStorageService.set(LocalStorageKey.restaurantName, resp.data.restaurantName);
+                this.localStorageService.set(LocalStorageKey.userType, resp.data.userType);
+                this.router.navigate([PageLink.reviewer.homepage]);
+              }
+            })
           }
         }
       });
