@@ -9,6 +9,7 @@ import { ModalFoodComponent } from './modal-food/modal-food.component';
 import { ModalDessertComponent } from './modal-dessert/modal-dessert.component';
 import { RandomFoodComponent } from './random-food/random-food.component';
 import { SearchRestaurantComponent } from './search-result/search-result.component';
+import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { SearchRestaurantComponent } from './search-result/search-result.compone
     ModalDessertComponent,
     RandomFoodComponent,
     SearchRestaurantComponent,
+    RestaurantDetailComponent,
   ],
   imports: [
     CommonModule,
