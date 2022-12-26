@@ -1,38 +1,79 @@
-<div class="container-fluid">
+<div class="container-fluid py-4">
 
-    <div class="py-4">
-        <div class="row gx-5">
-            <div class="col-3">
-              <div>
-                <div class="row">
-                  <div *ngFor="let item of Info.Images; index as i;" class="col-6 col-md-6">
-                    <img src="{{item}}" class="w-100"/>
-                  </div>
-                  <div class="col-6 col-md-6">
-                    <a href="/restaurant/detail"><img src="../../../assets/image/image.svg" class="w-100"/></a>
-                  </div>
-                </div>
-      
-              </div>
+    <div class="d-flex">
+        <div class="col-2 me-4">
+            <div>
+                <img src="../../../assets/image/image.svg" class="w-100"/>
             </div>
-      
-            <div class="col-2 text-center">
-              <div>
+            <div class="d-flex">
+                <div class="col" *ngFor="let item of Info.Images; index as i;">
+                    <img src="{{item}}" class="w-100"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="col me-3">
+            <p class="fs-5">ร้านคุณป้าใจป้ำ</p>
+            <div class="mb-2">
+                <i class="bi bi-shop me-2"></i>
+                <span class="badge rounded-pill bg-light text-dark border border-dark me-1 font-regular" *ngFor="let item of Info.Types; index as i;">{{item}}</span>
+              </div>
+              <div class="mb-2">
+                <i class="bi bi-cash-coin me-2"></i>
+                <span *ngFor="let item of Info.Payments; index as i;" class="badge rounded-pill bg-light text-dark border border-dark me-1 font-regular">{{item}}</span>
+              </div>
+          
+              <div class="mb-2">
+                <i class="bi bi-clock me-2"></i>
+                เวลาทำการ : 8:00 - 22:00 น.
+              </div>
+              <div class="mb-2">
+                <i class="bi bi-facebook text-primary me-2"></i>
+                ร้านคุณป้าใจป้ำ
+              </div>
+          
+              <div class="mb-2">
+                <i class="bi bi-telephone-fill me-2"></i>
+                0812345678
+              </div>
+              <div class="mb-2">
+                <i class="bi bi-line text-success me-2"></i>
+                @Pajaipum
+              </div>
+          
+              <div class="mb-2">
+                <i class="bi bi-geo-alt-fill me-2"></i>
+                ห่าง 500 เมตร
+              </div>
+              <div class="mb-2">
+                <i class="bi bi-instagram text-danger me-2"></i>
+                Pajaipum
+              </div>
+              <div class="my-3">55/55 หมู่ที่ 5 ถ.เลี่ยงเมืองปากเกร็ด ต.บางตลาด อ.ปากเกร็ด ต.บางตลาด ปากเกร็ด นนทบุรี 11120</div>
+          
+              <div class="my-2">
+                <i class="bi bi-emoji-smile"></i>
+                ร้านของเรามีอาหารหลากหลาย ใส่ใจในคุณภาพอาหารและความสะอาด
+              </div>
+        </div>
+
+        <div class="col-2">
+            <div>
                 <img src="../../../assets/image/restaurant_pin.png" class="w-50">
                 <p class="font-regular mb-2">นั่งรับประทานที่ร้าน</p>
-              </div>
-              <div>
+            </div>
+            <div>
                 <img src="../../../assets/image/motorbike.png" class="w-50">
                 <p class="font-regular mt-2">มีบริการจัดส่ง</p>
-              </div> 
-            </div>
-      
-            <div class="col-4">
-              <div class="card">
+            </div> 
+        </div>
+
+        <div class="col-4">
+            <div class="card">
                 <div class="card-body">
-                  <h3 class="card-title font-bold mt-2 fs-5">Rating</h3>
+                  <h3 class="card-title font-bold fs-5">Rating</h3>
       
-                  <div class="d-flex my-3">
+                  <div class="d-flex">
                     <div class="m-auto me-3">
                       <h2 class="my-auto font-bold">{{Info.Rating}}</h2>
                     </div>
@@ -53,102 +94,13 @@
       
                 </div>
               </div>
-            </div>
-          </div>
-      
-        <div class="row my-4">
-          <div class="col">
-            <i class="bi bi-shop me-2"></i>
-            <span class="badge rounded-pill bg-light text-dark border border-dark me-1 font-regular" *ngFor="let item of Info.Types; index as i;">{{item}}</span>
-          </div>
-          <div class="col">
-            <i class="bi bi-cash-coin me-2"></i>
-            <span *ngFor="let item of Info.Payments; index as i;" class="badge rounded-pill bg-light text-dark border border-dark me-1 font-regular">{{item}}</span>
-          </div>
-      
-          <div class="w-100 my-2"></div>
-      
-          <div class="col">
-            <i class="bi bi-clock me-2"></i>
-            เวลาทำการ : 8:00 - 22:00 น.
-          </div>
-          <div class="col">
-            <i class="bi bi-facebook text-primary me-2"></i>
-            ร้านคุณป้าใจป้ำ
-          </div>
-      
-          <div class="w-100 my-2"></div>
-      
-          <div class="col">
-            <i class="bi bi-telephone-fill me-2"></i>
-            0812345678
-          </div>
-          <div class="col">
-            <i class="bi bi-line text-success me-2"></i>
-            @Pajaipum
-          </div>
-      
-          <div class="w-100 my-2"></div>
-      
-          <div class="col">
-            <i class="bi bi-geo-alt-fill me-2"></i>
-            ห่าง 500 เมตร
-          </div>
-          <div class="col">
-            <i class="bi bi-instagram text-danger me-2"></i>
-            Pajaipum
-          </div>
-          <div class="my-4">55/55 หมู่ที่ 5 ถ.เลี่ยงเมืองปากเกร็ด ต.บางตลาด อ.ปากเกร็ด ต.บางตลาด ปากเกร็ด นนทบุรี 11120</div>
-      
-          <div>
-            map
-          </div>
-      
-          <div class="my-2">
-            <i class="bi bi-emoji-smile"></i>
-            ร้านของเรามีอาหารหลากหลาย ใส่ใจในคุณภาพอาหารและความสะอาด
-          </div>
-          
         </div>
-      </div>
+    </div>
 
-    <!-- <div class="d-flex">
-        <div class="col">
-            <div>
-                big image
-            </div>
-            <div class="d-flex">
-                <div class="col">
-                    small image 1
-                </div>
-                <div class="col">
-                    small image 2
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            Info
-        </div>
-
-        <div class="col">
-            <div>
-                eat here 
-            </div>
-            <div>
-                delivery 
-            </div>
-        </div>
-
-        <div class="col">
-            Rating
-        </div>
-    </div> -->
-
-    <p class="fs-5">Reviews</p>
     <div>
+        <p class="row fs-5">Reviews</p>
         <div class="row">
-            <div class="col-md-6 me-2">
+            <div class="col-md-6 ms-3 me-2">
                 <div class="row">
                     Search
                     <input class="form-control form-control-sm" type="text" placeholder="เมนูแนะนำ, ความคิดเห็น"/>
