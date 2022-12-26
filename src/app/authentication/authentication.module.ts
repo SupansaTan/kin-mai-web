@@ -18,6 +18,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RestaurantInfoComponent } from './register/register-restaurant/restaurant-info/restaurant-info.component';
 import { PersonalInfoComponent } from './register/register-restaurant/personal-info/personal-info.component';
 import { UploadPhotoComponent } from './register/register-restaurant/upload-photo/upload-photo.component';
+import { LocalStorageService } from '../service/local-storage.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { UploadPhotoComponent } from './register/register-restaurant/upload-phot
     DragDropModule,
   ],
   providers: [
-    AuthenticationService
+    AuthenticationService,
+    LocalStorageService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
