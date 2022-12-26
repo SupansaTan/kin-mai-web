@@ -1,58 +1,67 @@
-<div class="py-4">
-  <div class="row gx-5">
-      <div class="col-3">
-        <div>
-          <div class="row">
-            <div *ngFor="let item of Info.Images; index as i;" class="col-6 col-md-6">
-              <img src="{{item}}" class="w-100"/>
-            </div>
-            <div class="col-6 col-md-6">
-              <a href="/restaurant/detail"><img src="../../../assets/image/image.svg" class="w-100"/></a>
-            </div>
-          </div>
+<div class="container-fluid py-4">
+  <div class="row">
 
+    <div class="col pe-2">
+      <img src="../../../assets/image/image.jpg" class="h-100 w-100 rounded" style="object-fit:cover;"/>
+    </div>
+    <div class="col ps-2">
+      <div class="row">
+        <div class="col-md-6 mb-2" *ngFor="let item of Info.Images; index as i;">
+          <img src="{{item}}" class="h-100 w-100 rounded"/>
         </div>
-      </div>
-
-      <div class="col-2 text-center">
-        <div>
-          <img src="../../../assets/image/restaurant_pin.png" class="w-50">
-          <p class="font-regular mb-2 fs-5">นั่งรับประทานที่ร้าน</p>
-        </div>
-        <div>
-          <img src="../../../assets/image/motorbike.png" class="w-50">
-          <p class="font-regular mt-2 fs-5">มีบริการจัดส่ง</p>
-        </div> 
-      </div>
-
-      <div class="col-4">
-        <div class="card">
-          <div class="card-body">
-            <h3 class="card-title font-bold mt-2">Rating</h3>
-
-            <div class="d-flex my-3">
-              <div class="m-auto me-3">
-                <h2 class="my-auto font-bold">{{Info.Rating}}</h2>
+        <div class="col-md-6">
+          <div class="img-container">
+            <a href="/restaurant/detail" style="text-decoration:none; color:black;">
+              <img src="../../../assets/image/image.jpg" class="image h-100 w-100 rounded">
+              <div class="middle">
+                +2
               </div>
-              <div *ngFor="let item of Info.Stars; index as i;">
-                <img src="../../../assets/image/{{item}}.png" class="w-75">
-              </div>
-            </div>
-
-            <div class="d-flex my-3">
-              <i class="bi bi-person-fill"></i>
-              <p class="card-text mx-2 font-regular">ทั้งหมด {{Info.TotalReview}} รีวิว</p>
-            </div>
-            
-            <div>
-              <p class="card-text font-regular mb-3 fs-5">เมนูที่ได้รับการแนะนำ</p>
-              <span class="badge rounded-pill bg-light text-dark border border-dark me-1 fs-6 font-regular" *ngFor="let item of Info.Menus; index as i;">{{item}}</span>
-            </div>
-
+            </a>
           </div>
         </div>
       </div>
     </div>
+    
+
+    <div class="col-2 text-center">
+      <div>
+        <img src="../../../assets/image/restaurant_pin.png" class="w-50">
+        <p class="font-regular my-2 fs-5">นั่งรับประทานที่ร้าน</p>
+      </div>
+      <div>
+        <img src="../../../assets/image/motorbike.png" class="w-50">
+        <p class="font-regular my-2 fs-5">มีบริการจัดส่ง</p>
+      </div> 
+    </div>
+
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title font-bold mt-2">Rating</h3>
+
+          <div class="d-flex my-3">
+            <div class="m-auto me-3">
+              <h2 class="my-auto font-bold">{{Info.Rating}}</h2>
+            </div>
+            <div *ngFor="let item of Info.Stars; index as i;">
+              <img src="../../../assets/image/{{item}}.png" class="w-75">
+            </div>
+          </div>
+
+          <div class="d-flex my-3">
+            <i class="bi bi-person-fill"></i>
+            <p class="card-text mx-2 font-regular">ทั้งหมด {{Info.TotalReview}} รีวิว</p>
+          </div>
+          
+          <div>
+            <p class="card-text font-regular mb-3 fs-5">เมนูที่ได้รับการแนะนำ</p>
+            <span class="badge rounded-pill bg-light text-dark border border-dark me-1 fs-6 font-regular" *ngFor="let item of Info.Menus; index as i;">{{item}}</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="row my-4 fs-5">
     <div class="col">
