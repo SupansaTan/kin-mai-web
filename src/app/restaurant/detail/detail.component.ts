@@ -12,7 +12,7 @@ export class DetailComponent implements OnInit {
     Menus: ["กระเพรา", "ข้าวผัด", "ก๋วยเตี๋ยว"],
     Stars: [ "star", "star", "star", "star_half", "star_empty" ],
     Payments: [ "เงินสด", "รับโอน" ],
-    Images: [ "../../../assets/image/image.svg", "../../../assets/image/image.svg", "../../../assets/image/image.svg" ],
+    Images: [ "../../../assets/image/image.jpg", "../../../assets/image/image.jpg", "../../../assets/image/image.jpg" ],
     Types: [ "อาหาร", "เครื่องดื่ม"],
   }
   
