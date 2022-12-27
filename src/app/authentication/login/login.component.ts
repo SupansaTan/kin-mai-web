@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit {
                 this.localStorageService.set(LocalStorageKey.userName, resp.data.userName);
                 this.localStorageService.set(LocalStorageKey.restaurantName, resp.data.restaurantName);
                 this.localStorageService.set(LocalStorageKey.userType, resp.data.userType);
+                this.authenticationService.loginSuccessEvent(true);
                 this.router.navigate([PageLink.reviewer.homepage]);
               }
             })
