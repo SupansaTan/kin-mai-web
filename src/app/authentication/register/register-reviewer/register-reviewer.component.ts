@@ -1,9 +1,14 @@
+import { PageLink } from './../../../../constant/path-link.constant';
+import { ResponseModel } from './../../../../models/response.model';
+import { AuthenticationService } from './../../authentication.service';
+import { ReviewerRegisterModel } from './../../../../models/register.model';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ModalSuccessComponent } from './../../../shared/modal-success/modal-success.component';
 import { ConfirmPasswordValidator } from '../../../shared/password-match-validator.component';
 import { ReviewerStepItems, StepItem } from './../../../../models/step-item.model';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-reviewer',
@@ -17,17 +22,20 @@ export class RegisterReviewerComponent implements OnInit {
   steps: Array<StepItem> = new Array<StepItem>();
   registerForm: FormGroup;
   stage: number = 1;
+  isSubmit: boolean = false;
   isShowPassword: boolean = false;
   isShowConfirmPassword: boolean = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authenticationService: AuthenticationService
+    ) {
     this.registerForm = this.fb.group({
       firstname: new FormControl('', [
-        Validators.minLength(3),
         Validators.required
       ]),
       lastname: new FormControl('', [
-        Validators.minLength(3),
         Validators.required
       ]),
       username: new FormControl('', [
@@ -77,9 +85,37 @@ export class RegisterReviewerComponent implements OnInit {
     this.onResetUserType.emit();
   }
 
+  getRegisterFormValue() {
+    let registerModel = new ReviewerRegisterModel();
+    registerModel.firstName = this.registerForm.get('firstname')?.value;
+    registerModel.lastName = this.registerForm.get('lastname')?.value;
+    registerModel.username = this.registerForm.get('username')?.value;
+    registerModel.email = this.registerForm.get('email')?.value;
+    registerModel.password = this.registerForm.get('password')?.value;
+    registerModel.confirmPassword = this.registerForm.get('confirmPassword')?.value;
+    return registerModel;
+  }
+
   submit() {
+    this.registerForm.markAllAsTouched();
+    this.registerForm.enable();
+
     if (this.registerForm.valid) {
-      this.successModal.openSuccessModal(true, 'สร้างบัญชีผู้ใช้สำเร็จ');
+      this.isSubmit = true;
+      let registerModel = this.getRegisterFormValue();
+
+      this.authenticationService.reviewerRegister(registerModel)
+        .subscribe((response: ResponseModel<boolean>) => {
+          if (response?.status === 200) {
+            this.successModal.openSuccessModal(true, 'สร้างบัญชีผู้ใช้สำเร็จ');
+            setTimeout(() => {
+              this.isSubmit = false;
+              this.router.navigate([PageLink.reviewer.homepage]);
+            }, 200);
+          } else {
+            this.isSubmit = false;
+          }
+      })
     }
   }
 }

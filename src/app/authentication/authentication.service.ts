@@ -1,3 +1,4 @@
+import { ReviewerRegisterModel } from './../../models/register.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -22,6 +23,12 @@ export class AuthenticationService {
   getUserInfo(email: string) {
     const url = `${environment.kinMaiApi}/Authentication/GetUserInfo?email=${email}`;
     this.sub = this.http.get<ResponseModel<UserInfoModel>>(url);
+    return this.sub;
+  }
+
+  reviewerRegister(model: ReviewerRegisterModel) {
+    const url = `${environment.kinMaiApi}/Authentication/ReviewerRegister`;
+    this.sub = this.http.post<ResponseModel<boolean>>(url, model);
     return this.sub;
   }
 }
