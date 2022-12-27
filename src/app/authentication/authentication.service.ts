@@ -5,14 +5,24 @@ import { environment } from 'src/environments/environment';
 import { ResponseModel } from 'src/models/response.model';
 import { TokenResponseModel } from './../../models/token-response.model';
 import { UserInfoModel } from './../../models/user-info.model';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
+  private subject = new Subject();
   sub: any;
 
   constructor(private http: HttpClient) { }
+
+  get handleLoginSuccessEvent() {
+    return this.subject.asObservable();
+  }
+
+  loginSuccessEvent(isSuccess: boolean) {
+    this.subject.next(isSuccess);
+  }
 
   login(email: string, password: string) {
     const url = `${environment.kinMaiApi}/Authentication/Login`;

@@ -1,3 +1,4 @@
+import { LocalStorageService } from './service/local-storage.service';
 import { MbscModule } from '@mobiscroll/angular';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -11,13 +12,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthenticationService } from './authentication/authentication.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
   ],
-  imports: [ 
+  imports: [
     MbscModule,
     BrowserModule,
     AppRoutingModule,
@@ -28,7 +30,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ModalModule.forRoot(),
     BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [
+    AuthenticationService,
+    LocalStorageService
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
