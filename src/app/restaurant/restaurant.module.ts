@@ -6,11 +6,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RestaurantDashboardComponent } from './dashboard/dashboard.component';
 import { EditRestaurantDetailComponent } from './edit-detail/edit-detail.component';
 import { RestaurantRoutingModule } from './restaurant-routing.module';
+import { DetailComponent } from './detail/detail.component';
 
 @NgModule({
   declarations: [
     RestaurantDashboardComponent,
-    EditRestaurantDetailComponent
+    EditRestaurantDetailComponent,
+    DetailComponent
   ],
   imports: [
     CommonModule,
