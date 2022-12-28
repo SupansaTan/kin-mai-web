@@ -5,23 +5,28 @@ import { RandomFoodComponent } from './random-food/random-food.component';
 import { ReviewerHomepageComponent } from './homepage/homepage.component';
 import { SearchRestaurantComponent } from './search-result/search-result.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
+import { AuthGuardService } from '../service/auth-guard.service';
 
 const routes: Routes = [
   {
     path: '',
-    component: ReviewerHomepageComponent
+    component: ReviewerHomepageComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'find',
-    component: SearchRestaurantComponent
+    component: SearchRestaurantComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'random',
-    component: RandomFoodComponent
+    component: RandomFoodComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'restaurant',
-    component: RestaurantDetailComponent
+    component: RestaurantDetailComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: '',
