@@ -1,3 +1,4 @@
+import { GoogleAuthService } from './../service/google-auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -6,6 +7,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MbscModule } from '@mobiscroll/angular';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SocialLoginModule } from '@abacritt/angularx-social-login';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterRestaurantComponent } from './register/register-restaurant/register-restaurant.component';
@@ -42,10 +44,12 @@ import { LocalStorageService } from '../service/local-storage.service';
     FormsModule,
     MbscModule,
     DragDropModule,
+    SocialLoginModule,
   ],
   providers: [
     AuthenticationService,
-    LocalStorageService
+    LocalStorageService,
+    GoogleAuthService,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
