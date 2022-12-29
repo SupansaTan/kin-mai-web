@@ -13,7 +13,7 @@ export class ReviewerHomepageComponent implements OnInit {
 
   Info : any = {
   Stars: [ "star", "star", "star", "star", "star_half"],
-  Images: [ "../../../assets/image/image.svg", "../../../assets/image/image.svg", "../../../assets/image/image.svg" ]
+  Images: [ "../../../assets/image/food1.jpg", "../../../assets/image/food2.jpg", "../../../assets/image/food3.jpg" ]
   }
   constructor() { }
 

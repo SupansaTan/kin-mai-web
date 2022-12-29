@@ -5,3 +5,18 @@
   transform: translateY(-50%);
 }
 
+.image-cover {
+  max-height: 250px;
+  width: 100%;
+  background-size: cover;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.image-cover2 {
+  max-height: 250px;
+  width: 90px;
+  background-size: cover;
+  overflow: hidden;
+  border-radius: 10px;
+}
