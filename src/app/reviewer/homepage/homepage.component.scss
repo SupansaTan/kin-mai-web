@@ -5,18 +5,20 @@
   transform: translateY(-50%);
 }
 
-.image-cover {
-  max-height: 250px;
+.big-image-cover {
+  max-height: 200px;
   width: 100%;
   background-size: cover;
   overflow: hidden;
   border-radius: 10px;
+  object-fit: cover;
 }
 
-.image-cover2 {
-  max-height: 250px;
-  width: 90px;
+.mini-image-cover {
+  max-height: 60px;
+  width: 100%;
   background-size: cover;
   overflow: hidden;
   border-radius: 10px;
+  object-fit: cover;
 }
