@@ -6,9 +6,6 @@
   border-radius: 10px;
 }
 
-#filter{
-  width: 200px;
-}
 
 .cover-all{
   border-radius:15px;
@@ -24,12 +21,29 @@
   border-radius: 10px;
   object-fit: cover;
 }
+
+
+#reset{
+  position: relative;
+  left: 80px;
+  width: 50px;
+  height: 30px;
+  border-radius: 15px;
+  font-size: smaller;
+  font-weight: lighter;
+}
+
+#filter{
+  width: 200px;
+}
+
 #bt{
   border-radius: 20px;
   width: 200px;
   font-size: small;
   font-weight: normal;
 }
+
 #bt1{
   position: relative;
   left: 107px;
