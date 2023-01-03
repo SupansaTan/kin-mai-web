@@ -12,7 +12,7 @@ const routes: Routes = [
     component: ReviewerHomepageComponent
   },
   {
-    path: 'find',
+    path: 'search',
     component: SearchRestaurantComponent
   },
   {
