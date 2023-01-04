@@ -1,1 +1,178 @@
-<p>rest-homepage works!</p>
+<div class="row mt-3">
+  <div class="col">
+
+    <div class="card">
+      <div class="card-body">
+
+        <div class="d-flex">
+          <h1 class="totalR1">Total Rating</h1>
+          <p class="ms-4 mt-1">(2 reviews)</p>
+        </div>
+
+        <div class="d-flex">
+          <h1 class="me-4">4.5</h1>
+          <div class="me-1" *ngFor="let item of Info.Stars ; index as i">
+            <img src="../../../assets/image/{{item}}.png" class="star-cover ">
+          </div>
+        </div>
+
+        <h3 class="totalR2 ">Total Rating {{Info.Rating}}</h3>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="col ms-2">
+    <h2>ระดับความพึงพอใจ</h2>
+    <div class="d-flex">
+
+      <div class="col">
+        <div class="progress green">
+          <span class="progress-left">
+            <span class="progress-bar"></span>
+          </span>
+          <span class="progress-right">
+              <span class="progress-bar"></span>
+          </span>
+          <div class="progress-value">80%</div>
+        </div>
+        <div class="ms-5">
+          <p>50/60 คน</p>
+          <p>3-5 ดาว</p>
+        </div>
+
+      </div>
+
+      <div class="col">
+        <div class="progress yellow">
+          <span class="progress-left">
+              <span class="progress-bar"></span>
+          </span>
+          <span class="progress-right">
+              <span class="progress-bar"></span>
+          </span>
+          <div class="progress-value">20%</div>
+        </div>
+
+        <div class="ms-5">
+          <p>10/60 คน</p>
+          <p>1-2 ดาว</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="col">
+    <h2>เมนูที่ได้รับการแนะนำ</h2>
+    <span class="badge rounded-pill bg-light text-dark border border-dark me-1 mb-2" *ngFor="let item of Info.Menus; index as i;"><h4 class="m-0">{{item}}</h4></span>
+
+  </div>
+
+</div>
+
+
+<div class="row mt-4">
+  <h2 class="mb-1">Reviews</h2>
+  <div class="col-md me-2">
+    <div>
+      <h3 class="m-0 p-0">Search</h3>
+      <input class="form-control form-control-sm" type="text" placeholder="เมนูแนะนำ, ความคิดเห็น"/>
+    </div>
+  </div>
+
+  <div class="col-md row me-2">
+    <h3 class="m-0 p-0">จำนวนดาว</h3>
+    <div class="d-flex justify-content-between p-0">
+      <div class="col">
+        <select class="form-select form-select-sm">
+            <option>ทั้งหมด</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+      </div>
+      <div class="col-auto d-flex align-content-end flex-wrap mx-2 ">
+        <button type="button" class="btn btn-light-yellow border-warning rounded-0 rounded-start ">ทั้งหมด(60)</button>
+        <button type="button" class="btn btn-light-yellow border-warning rounded-0 " >มีรูปภาพ(20)</button>
+        <button type="button" class="btn btn-light-yellow border-warning rounded-0 " >มีความคิดเห็น(30)</button>
+        <button type="button" class="btn btn-light-yellow border-warning rounded-0 rounded-end " >มีเมนูแนะนำ(5)</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div *ngFor="let item of Reviews; index as i;" class="col-lg rounded bg-white p-3 m-3">
+    <div class="row">
+
+        <div class="col-2 px-1">
+            <img src="..\assets\image\bear.png" class="w-100">
+        </div>
+        <div class="col">
+          <div class="d-flex justify-content-between">
+            <p class="m-0 mb-1">B**r</p>
+            <p class="m-0">30 นาทีที่แล้ว</p>
+          </div>
+          <div class="col-auto d-flex align-items-center mb-2">
+            <div class="col-auto me-1" *ngFor="let item of Info.Stars; index as i;">
+              <img src="../../../assets/image/{{item}}.png" class="review-star-cover">
+            </div>
+            <p class="m-0">4.5</p>
+          </div>
+          <p class="text-break">อาหารอร่อย ร้านสะอาด ราคาถูกไม่แพง แต่รอนานไปนิส </p>
+
+          <div><button type="button" class="btn btn-yellow btn-sm" >
+            <i class="bi bi-arrow-return-left"></i>
+              ตอบกลับ
+          </button></div>
+
+        </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+<div class="row">
+
+  <div *ngFor="let item of Reviews; index as i;" class="col-lg rounded bg-white p-3 m-3">
+    <div class="row">
+
+        <div class="col-2 px-1">
+            <img src="..\assets\image\bear.png" class="w-100">
+        </div>
+        <div class="col">
+          <div class="d-flex justify-content-between">
+            <p class="m-0 mb-1">B**r</p>
+            <p class="m-0">30 นาทีที่แล้ว</p>
+          </div>
+          <div class="col-auto d-flex align-items-center mb-2">
+            <div class="col-auto me-1" *ngFor="let item of Info.Stars; index as i;">
+              <img src="../../../assets/image/{{item}}.png" class="review-star-cover">
+            </div>
+            <p class="m-0">4.5</p>
+          </div>
+          <p class="text-break">อาหารอร่อย ร้านสะอาด ราคาถูกไม่แพง แต่รอนานไปนิส </p>
+
+          <div><button type="button" class="btn btn-yellow btn-sm" >
+            <i class="bi bi-arrow-return-left"></i>
+              ตอบกลับ
+          </button></div>
+
+        </div>
+    </div>
+
+  </div>
+
+
+</div>
