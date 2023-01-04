@@ -113,7 +113,7 @@
                 </div>
               </div>
               <div>
-                <button class="btn btn-yellow d-flex align-items-center">
+                <button type="button" class="btn btn-yellow d-flex align-items-center" (click)="openModalReview()">
                   <i class="bi bi-pencil-square me-2"></i>
                   <h3 class="m-0">เขียนรีวิว</h3>
                 </button>
@@ -184,3 +184,6 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<app-modal-review #modalReviewComponent></app-modal-review>

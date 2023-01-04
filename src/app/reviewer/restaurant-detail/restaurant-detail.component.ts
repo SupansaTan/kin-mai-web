@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalReviewComponent } from '../modal-review/modal-review.component';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./restaurant-detail.component.scss']
 })
 export class RestaurantDetailComponent implements OnInit {
+
+  @ViewChild('modalReviewComponent') modalReview: ModalReviewComponent;
 
   Info: any = {
     Rating: 3.5,
@@ -23,5 +26,10 @@ export class RestaurantDetailComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  openModalReview() {
+    this.modalReview.openSuccessModal();
+  }
+
 
 }
