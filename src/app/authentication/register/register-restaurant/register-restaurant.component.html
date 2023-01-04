@@ -9,7 +9,7 @@
           [ngClass]="((step.step === stage) || (stage > step.step))? 'bg-yellow':'bg-white text-yellow'"
         >
           <i *ngIf="stage > step.step" class="bi bi-check-circle-fill fs-2 text-white"></i>
-          <p *ngIf="stage <= step.step" class="mt-1 pt-1">{{ step.step }}</p>
+          <p *ngIf="stage <= step.step" class="mt-2 pt-1">{{ step.step }}</p>
         </button>
 
         <div class="step-title fw-semibold mt-1">

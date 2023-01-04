@@ -16,21 +16,3 @@ input::-webkit-inner-spin-button {
   border: 1px solid #dc3545;
 }
 
-/* mbsc input (select range of time) */
-::ng-deep .mbsc-font {
-  font-family: $font-stack;
-}
-
-::ng-deep .mbsc-ios.mbsc-textfield {
-  height: 36px;
-
-  &-wrapper-outline {
-    margin: 0 !important;
-  }
-
-  &-outline {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-}
-

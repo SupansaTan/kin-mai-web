@@ -63,7 +63,10 @@ export class RestaurantInfoComponent implements OnInit {
           day: new FormControl(null, [
             Validators.required
           ]),
-          time: new FormControl('', [
+          startTime: new FormControl(null, [
+            Validators.required
+          ]),
+          endTime: new FormControl(null, [
             Validators.required
           ]),
         }, {
@@ -121,9 +124,14 @@ export class RestaurantInfoComponent implements OnInit {
     return businessHour.controls['day'];
   }
 
-  getTimeFormControl(index: number): AbstractControl {
+  getStartTimeFormControl(index: number): AbstractControl {
     const businessHour = this.BusinessHourArray.controls[index] as FormGroup;
-    return businessHour.controls['time'];
+    return businessHour.controls['startTime'];
+  }
+
+  getEndTimeFormControl(index: number): AbstractControl {
+    const businessHour = this.BusinessHourArray.controls[index] as FormGroup;
+    return businessHour.controls['endTime'];
   }
 
   get FoodCategoryList(): Array<string> {
@@ -195,9 +203,12 @@ export class RestaurantInfoComponent implements OnInit {
         day: new FormControl(null, [
           Validators.required
         ]),
-        time: new FormControl('', [
+        startTime: new FormControl(null, [
           Validators.required
-        ])
+        ]),
+        endTime: new FormControl(null, [
+          Validators.required
+        ]),
       }, {
         validators: this.timeRageValidator
       });
@@ -244,12 +255,20 @@ export class RestaurantInfoComponent implements OnInit {
   }
 
   timeRageValidator(control: AbstractControl) {
-    const [start, end] = control.get('time')?.value;
+    const start = control.get('startTime')?.value;
+    const end = control.get('endTime')?.value;
 
-    if (!(start && end)) {
-      control.get('time')?.setErrors({ 'incorrect': true });
-    } else {
-      return null;
+    if (start && end) {
+      let stime = new Date(`01/01/2001 ${start}:00`).getTime();
+      let etime = new Date(`01/01/2001 ${end}:00`).getTime();
+
+      if (stime >= etime) {
+        control.get('startTime')?.setErrors({ 'incorrect': true });
+        control.get('endTime')?.setErrors({ 'incorrect': true });
+      } else {
+        control.get('startTime')?.setErrors(null);
+        control.get('endTime')?.setErrors(null);
+      }
     }
     return null;
   }

@@ -218,30 +218,28 @@
         </label>
 
         <ng-container formArrayName="businessHour">
-          <div class="row mb-2 d-flex align-items-center" *ngFor="let item of BusinessHourArray.controls; let j = index;">
+          <div class="row mb-2 d-flex align-items-center gy-2" *ngFor="let item of BusinessHourArray.controls; let j = index;">
             <!-- select day -->
-            <div class="col-5" [formGroupName]="j">
+            <div class="col-12 col-xl-4" [formGroupName]="j">
               <ng-select [items]="dayList" bindLabel="name" bindValue="id" placeholder="เลือกวัน" formControlName="day"
                 [searchable]="false" >
               </ng-select>
             </div>
 
             <!-- range of open/close time -->
-            <div class="col ps-0" [formGroupName]="j">
-              <mbsc-datepicker
-                class="m-0"
-                inputStyle="outline"
-                [controls]="['time']"
-                [inputTyping]="false"
-                formControlName="time"
-                select="range"
-                [touchUi]="false"
-                timeFormat="HH:mm"
-                [stepMinute]="10"
-                placeholder="เลือกช่วงเวลา"
-                [error]="getTimeFormControl(j).invalid && getTimeFormControl(j).touched">
-              </mbsc-datepicker>
+
+            <div class="col ps-xl-0 pe-1" [formGroupName]="j">
+              <input type="time" class="form-control shadow-none" formControlName="startTime"
+                [ngClass]="{ 'border-danger': getStartTimeFormControl(j).invalid && getStartTimeFormControl(j).touched }"
+              >
             </div>
+            <span class="col-auto px-1 fw-bold">-</span>
+            <div class="col ps-1" [formGroupName]="j">
+              <input type="time" class="form-control shadow-none" formControlName="endTime"
+                [ngClass]="{ 'border-danger': getEndTimeFormControl(j).invalid && getEndTimeFormControl(j).touched }"
+              >
+            </div>
+
             <i *ngIf="j > 0" class="bi bi-trash col-auto fs-4 ps-0 text-danger" role="button" (click)="removeBusinessHour(j)"></i>
           </div>
         </ng-container>
