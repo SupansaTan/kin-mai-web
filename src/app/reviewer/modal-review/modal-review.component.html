@@ -4,17 +4,19 @@
         <button type="button" class="btn-close" (click)="closeModal()"></button>
     </div>
   
-    <div class="modal-body my-3 mx-3 ">
-        <div class="row align-items-center mb-2">
-            <div class="col-md-auto mb-2">
-                <h3 class="m-0 me-2">คุณภาพอาหาร & บรรยากาศร้านอาหาร</h3>
+    <div class="modal-body my-2 mx-3 ">
+        <div class="row align-items-center justify-content-center mb-4">
+            <div class="col-md-auto d-flex justify-content-center mb-2">
+                <h3 class="m-0 me-2">คุณภาพอาหาร & บรรยากาศร้านอาหาร :</h3>
             </div>
-            <div class="col d-flex mb-2">
-                <div class="col me-1" *ngFor="let item of Info.Stars; index as i;">
-                  <img src="../../../assets/image/{{item}}.png" class="star-cover">
-                </div>
+            <div class="col-auto mb-2">
+                <ngb-rating [(rate)]="currentRate" [max]="5">
+                    <ng-template let-fill="fill" let-index="index">
+                        <i class="bi-star{{fill === 100 ? '-fill' : ''}}"></i>
+                    </ng-template>
+                </ngb-rating>
             </div>
-            <div class="col mb-2">
+            <div class="col-md-auto d-flex justify-content-center mb-2">
                 <h3 class="m-0 me-2">สุดยอด!</h3>
             </div>
         </div>

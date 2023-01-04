@@ -23,6 +23,8 @@ export class ModalReviewComponent {
     Types: [ "อาหาร", "เครื่องดื่ม"],
   }
 
+  currentRate = 0;
+
   constructor(private modalService: BsModalService) { }
 
   public openSuccessModal(): void {
