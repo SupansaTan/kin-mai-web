@@ -1,3 +1,4 @@
+import { GoogleAuthService } from './../../service/google-auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -5,6 +6,7 @@ import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { LocalStorageService } from './../../service/local-storage.service';
 import { PageLink } from './../../../constant/path-link.constant';
 import { AuthenticationService } from './../authentication.service';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +22,8 @@ export class LoginComponent implements OnInit {
     , private router: Router
     , private localStorageService: LocalStorageService
     , private authenticationService: AuthenticationService
+    , private authService: SocialAuthService
+    , private googleAuthService: GoogleAuthService
     ) {
     this.loginForm = this.fb.group({
       username: new FormControl('', [
@@ -30,6 +34,10 @@ export class LoginComponent implements OnInit {
         Validators.minLength(8),
         Validators.required
       ])
+    });
+
+    this.authService.authState.subscribe((user) => {
+      this.googleAuthService.login(user);
     });
   }
 

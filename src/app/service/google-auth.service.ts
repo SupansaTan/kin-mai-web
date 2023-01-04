@@ -24,24 +24,21 @@ export class GoogleAuthService {
     private localStorageService: LocalStorageService,
     private router: Router
     ) {
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      this.login();
-    });
   }
 
-  login(): void {
-    const email = this.user.email;
+  login(user: SocialUser): void {
+    const email = user.email;
     this.authenticationService
       .checkIsLoginWithGoogleFirstTimes(email)
       .subscribe((response: ResponseModel<boolean>) => {
         if (response.status === 200) {
           if (response.data) {
             // login first time --> go to register
+            this.localStorageService.set(LocalStorageKey.accessToken, user.idToken);
             this.router.navigate([PageLink.authentication.register, {
-              firstName: this.user.firstName,
-              lastName: this.user.lastName,
-              email: this.user.email
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email
             }]);
           } else {
             // already have account --> get user info
