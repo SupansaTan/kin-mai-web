@@ -256,8 +256,10 @@ export class RestaurantInfoComponent implements OnInit {
 
   checkFormIsValid() {
     this.registerRestaurantForm.markAllAsTouched();
+    this.registerRestaurantForm.enable();
 
     if (this.registerRestaurantForm.valid) {
+      this.registerRestaurantForm.disable();
       this.isFormValid.emit(true);
     }
   }

@@ -74,8 +74,10 @@ export class UploadPhotoComponent implements OnInit {
 
   checkFormIsValid() {
     this.uploadPhotoForm.markAllAsTouched();
+    this.uploadPhotoForm.enable();
 
     if (this.uploadPhotoForm.valid) {
+      this.uploadPhotoForm.disable();
       this.isFormValid.emit(true);
     }
   }

@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { AccountType } from 'src/enum/account-type.enum';
 
 @Component({
@@ -7,28 +6,14 @@ import { AccountType } from 'src/enum/account-type.enum';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit, OnDestroy {
-  private sub: any;
-
+export class RegisterComponent implements OnInit {
   isSelectedUserType: boolean = false;
   userType: AccountType = AccountType.Reviewer;
   accountType = AccountType;
-  firstName: string;
-  lastName: string;
-  email: string;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.sub = this.route.params.subscribe(params => {
-      this.firstName = params['firstName'];
-      this.lastName = params['lastName'];
-      this.email = params['email'];
-   });
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 
   setUserType(userType: AccountType) {
