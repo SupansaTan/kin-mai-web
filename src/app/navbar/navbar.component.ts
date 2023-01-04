@@ -15,7 +15,7 @@ import { filter } from 'rxjs';
 export class NavbarComponent implements OnInit {
   username: string = '';
   isLogin: boolean = true;
-  accountType: number = AccountType.ReviewerAndRestaurantOwner;
+  accountType: number = AccountType.Reviewer;
   restaurantName: string = '';
   isReviewerAccount: boolean = true;
   isMenuCollapsed: boolean = true;
