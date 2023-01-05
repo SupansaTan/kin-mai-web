@@ -9,6 +9,7 @@ import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
 import { Router } from '@angular/router';
 import { LocalStorageService } from './local-storage.service';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
+import { AccountType } from 'src/enum/account-type.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -50,8 +51,14 @@ export class GoogleAuthService {
                   this.localStorageService.set(LocalStorageKey.userName, resp.data.userName);
                   this.localStorageService.set(LocalStorageKey.restaurantName, resp.data.restaurantName);
                   this.localStorageService.set(LocalStorageKey.userType, resp.data.userType);
+                  this.localStorageService.set(LocalStorageKey.viewMode,
+                    resp.data.userType === AccountType.Reviewer
+                    ? AccountType.Reviewer
+                    : AccountType.RestaurantOwner
+                  );
+
                   this.authenticationService.loginSuccessEvent(true);
-                  this.router.navigate([PageLink.reviewer.homepage]);
+                  this.routePage(resp.data.userType);
                 }
               }
             );
@@ -59,6 +66,17 @@ export class GoogleAuthService {
         }
       }
     );
+  }
+
+  routePage(mode: AccountType) {
+    switch(mode) {
+      case AccountType.Reviewer:
+        this.router.navigate([PageLink.reviewer.homepage]);
+        break;
+      case AccountType.RestaurantOwner:
+        this.router.navigate([PageLink.restaurant.dashboard]);
+        break;
+    }
   }
 
   refreshToken(): void {
