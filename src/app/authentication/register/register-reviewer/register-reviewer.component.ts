@@ -8,6 +8,9 @@ import { ReviewerStepItems, StepItem } from './../../../../models/step-item.mode
 import { Component, EventEmitter, OnInit, Output, ViewChild, OnDestroy } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
+import { LocalStorageService } from 'src/app/service/local-storage.service';
+import { AccountType } from 'src/enum/account-type.enum';
 
 @Component({
   selector: 'app-register-reviewer',
@@ -35,6 +38,7 @@ export class RegisterReviewerComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
+    private localStorageService: LocalStorageService,
     private authenticationService: AuthenticationService
     ) {
     this.registerForm = this.fb.group({
@@ -75,6 +79,8 @@ export class RegisterReviewerComponent implements OnInit, OnDestroy {
       if (this.firstname && this.email) {
         this.isLoginWithGoogle = true;
         this.setRegisterInfo();
+      } else {
+        this.isLoginWithGoogle = false;
       }
     });
   }
@@ -146,6 +152,28 @@ export class RegisterReviewerComponent implements OnInit, OnDestroy {
     return registerModel;
   }
 
+  routePage() {
+    if (this.isLoginWithGoogle) {
+      const email = this.registerForm.get('email')?.value;
+
+      this.authenticationService.getUserInfo(email).subscribe((resp: any) => {
+        if (resp?.status === 200) {
+          this.localStorageService.set(LocalStorageKey.userId, resp.data.userId);
+          this.localStorageService.set(LocalStorageKey.userName, resp.data.userName);
+          this.localStorageService.set(LocalStorageKey.restaurantName, resp.data.restaurantName);
+          this.localStorageService.set(LocalStorageKey.userType, resp.data.userType);
+          this.localStorageService.set(LocalStorageKey.viewMode, AccountType.Reviewer);
+          this.authenticationService.loginSuccessEvent(true);
+          this.router.navigate([PageLink.reviewer.homepage]);
+        } else {
+          this.router.navigate([PageLink.authentication.login]);
+        }
+      })
+    } else {
+      this.router.navigate([PageLink.authentication.login]);
+    }
+  }
+
   submit() {
     this.registerForm.markAllAsTouched();
     this.registerForm.enable();
@@ -160,9 +188,10 @@ export class RegisterReviewerComponent implements OnInit, OnDestroy {
             this.successModal.openSuccessModal(true, 'สร้างบัญชีผู้ใช้สำเร็จ');
             setTimeout(() => {
               this.isSubmit = false;
-              this.router.navigate([PageLink.reviewer.homepage]);
+              this.routePage();
             }, 200);
           } else {
+            this.successModal.openSuccessModal(false, 'ไม่สามารถสร้างบัญชีได้ในขณะนี้ โปรดลองอีกครั้ง');
             this.isSubmit = false;
           }
       })
