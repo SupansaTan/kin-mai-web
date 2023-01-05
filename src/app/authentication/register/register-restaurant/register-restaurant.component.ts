@@ -2,12 +2,12 @@ import { ReviewerRegisterModel, RestaurantInfoModel, RestaurantPhotoModel } from
 import { UploadPhotoComponent } from './upload-photo/upload-photo.component';
 import { RestaurantInfoComponent } from './restaurant-info/restaurant-info.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild, OnDestroy } from '@angular/core';
 import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-success.component';
 import { ReataurantStepItems, StepItem } from 'src/models/step-item.model';
 import { AuthenticationService } from '../../authentication.service';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { PageLink } from 'src/constant/path-link.constant';
 import { AccountType } from 'src/enum/account-type.enum';
@@ -17,14 +17,19 @@ import { AccountType } from 'src/enum/account-type.enum';
   templateUrl: './register-restaurant.component.html',
   styleUrls: ['./register-restaurant.component.scss']
 })
-export class RegisterRestaurantComponent implements OnInit {
+export class RegisterRestaurantComponent implements OnInit, OnDestroy {
   @ViewChild('successModalComponent') successModal: ModalSuccessComponent;
   @ViewChild('personalInfo') personalInfo: PersonalInfoComponent;
   @ViewChild('restaurantInfo') restaurantInfo: RestaurantInfoComponent;
   @ViewChild('uploadPhoto') uploadPhoto: UploadPhotoComponent;
   @Output() onResetUserType = new EventEmitter<boolean>();
 
+  private sub: any;
+
   steps: Array<StepItem> = new Array<StepItem>();
+  firstname: string;
+  lastname: string;
+  email: string;
   stage: number = 2;
   isShowPassword: boolean = false;
   isFormValid: boolean = false;
@@ -36,12 +41,26 @@ export class RegisterRestaurantComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private localStorageService: LocalStorageService,
     private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
     this.steps = ReataurantStepItems;
+    this.sub = this.route.params.subscribe(params => {
+      this.firstname = params['firstName'];
+      this.lastname = params['lastName'];
+      this.email = params['email'];
+
+      if (this.firstname && this.email) {
+        this.isLoginWithGoogle = true;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   changeStage(isValid: boolean) {
