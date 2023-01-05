@@ -1,3 +1,4 @@
+import { BusinessHourModel, RestaurantAddressModel, RestaurantInfoModel, RestaurantContactModel } from './../../../../../models/register.model';
 import { SocialContactType } from './../../../../../constant/social-contact-type.constant';
 import { DeliveryType } from './../../../../../constant/delivery-type.constant';
 import { PaymentMethod } from './../../../../../constant/payment-method.constant';
@@ -8,6 +9,7 @@ import { FormControl, FormGroup, FormBuilder, Validators, FormArray, AbstractCon
 import { setOptions , localeTh } from '@mobiscroll/angular';
 import { DayList } from 'src/constant/day-list.constant';
 import { RestaurantTypeEnum } from 'src/enum/restaurant-type.enum';
+import { DeliveryType as DeliveryTypeEnum } from 'src/enum/delivery-type.enum';
 
 setOptions({
   locale: localeTh,
@@ -22,6 +24,7 @@ setOptions({
 })
 export class RestaurantInfoComponent implements OnInit {
   @Output() isFormValid = new EventEmitter<boolean>();
+  @Output() restaurantInfoFormValue = new EventEmitter<RestaurantInfoModel>();
 
   registerRestaurantForm: FormGroup;
   deliveryTypeInput: FormControl = new FormControl([]);
@@ -273,12 +276,46 @@ export class RestaurantInfoComponent implements OnInit {
     return null;
   }
 
+  getRestaurantInfo() {
+    let restaurantInfo = new RestaurantInfoModel();
+    restaurantInfo.restaurantName = this.registerRestaurantForm.controls['restaurantName'].value;
+    restaurantInfo.minPriceRate = this.registerRestaurantForm.controls['minPriceRate'].value;
+    restaurantInfo.maxPriceRate = this.registerRestaurantForm.controls['maxPriceRate'].value;
+    restaurantInfo.restaurantType = this.registerRestaurantForm.controls['restaurantType'].value;
+    restaurantInfo.category = this.registerRestaurantForm.controls['foodCategory']?.value;
+    restaurantInfo.deliveryType = this.registerRestaurantForm.controls['deliveryType']?.value;
+    restaurantInfo.paymentMethod = this.registerRestaurantForm.controls['paymentMethod']?.value;
+    restaurantInfo.address = new RestaurantAddressModel(); // remain address
+    restaurantInfo.businessHour = new Array<BusinessHourModel>();
+    restaurantInfo.contact = new Array<RestaurantContactModel>();
+
+    for (let i=0; i<this.BusinessHourArray.length; i++) {
+      const businessHour = this.BusinessHourArray.controls[i] as FormGroup;
+      let businessHourInfo = new BusinessHourModel();
+      businessHourInfo.day = businessHour.controls['day'].value;
+      businessHourInfo.startTime = businessHour.controls['startTime'].value;
+      businessHourInfo.endTime = businessHour.controls['endTime'].value;
+      restaurantInfo.businessHour.push(businessHourInfo);
+    }
+
+    for (let j=0; j<this.SocialContactArray.length; j++) {
+      const contact = this.SocialContactArray.controls[j] as FormGroup;
+      let contactInfo = new RestaurantContactModel();
+      contactInfo.social = contact.controls['contact'].value;
+      contactInfo.contactValue = contact.controls['contactValue'].value;
+      restaurantInfo.contact.push(contactInfo);
+    }
+    return restaurantInfo;
+  }
+
   checkFormIsValid() {
     this.registerRestaurantForm.markAllAsTouched();
     this.registerRestaurantForm.enable();
 
     if (this.registerRestaurantForm.valid) {
+      let restaurantInfo = this.getRestaurantInfo();
       this.registerRestaurantForm.disable();
+      this.restaurantInfoFormValue.emit(restaurantInfo);
       this.isFormValid.emit(true);
     }
   }

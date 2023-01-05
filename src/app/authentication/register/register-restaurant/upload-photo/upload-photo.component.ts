@@ -1,3 +1,4 @@
+import { RestaurantPhotoModel } from './../../../../../models/register.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -9,6 +10,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 })
 export class UploadPhotoComponent implements OnInit {
   @Output() isFormValid = new EventEmitter<boolean>();
+  @Output() uploadPhotoFormValue = new EventEmitter<RestaurantPhotoModel>();
 
   uploadPhotoForm: FormGroup;
   currentStage: number = 0;
@@ -72,12 +74,21 @@ export class UploadPhotoComponent implements OnInit {
     }
   }
 
+  getRestaurantInfoValue() {
+    let restaurantInfo = new RestaurantPhotoModel();
+    restaurantInfo.photo = this.restaurantImageList;
+    restaurantInfo.restaurantStatus = this.uploadPhotoForm.controls['restaurantStatus']?.value;
+    return restaurantInfo;
+  }
+
   checkFormIsValid() {
     this.uploadPhotoForm.markAllAsTouched();
     this.uploadPhotoForm.enable();
 
     if (this.uploadPhotoForm.valid) {
+      let restaurantInfo = this.getRestaurantInfoValue();
       this.uploadPhotoForm.disable();
+      this.uploadPhotoFormValue.emit(restaurantInfo);
       this.isFormValid.emit(true);
     }
   }

@@ -22,15 +22,21 @@
 
 <!-- register reviewer form -->
 <ng-container *ngIf="(stage === 1) || (stage === 4)">
-  <app-personal-info #personalInfo (isFormValid)="changeStage($event)" [stage]="stage"></app-personal-info>
+  <app-personal-info #personalInfo (isFormValid)="changeStage($event)"
+    (personalInfoFormValue)="personalInfoFormValue" [stage]="stage">
+  </app-personal-info>
 </ng-container>
 
 <ng-container *ngIf="(stage === 2) || (stage === 4)">
-  <app-restaurant-info #restaurantInfo (isFormValid)="changeStage($event)" [stage]="stage"></app-restaurant-info>
+  <app-restaurant-info #restaurantInfo (isFormValid)="changeStage($event)"
+    (restaurantInfoFormValue)="restaurantInfoFormValue" [stage]="stage">
+  </app-restaurant-info>
 </ng-container>
 
 <ng-container *ngIf="(stage === 3) || (stage === 4)">
-  <app-upload-photo #uploadPhoto (isFormValid)="changeStage($event)" [stage]="stage"></app-upload-photo>
+  <app-upload-photo #uploadPhoto (isFormValid)="changeStage($event)"
+    (uploadPhotoFormValue)="restaurantPhotoFormValue" [stage]="stage">
+  </app-upload-photo>
 </ng-container>
 
 <!-- button group -->

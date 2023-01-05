@@ -1,9 +1,16 @@
+import { ReviewerRegisterModel, RestaurantInfoModel, RestaurantPhotoModel } from './../../../../models/register.model';
 import { UploadPhotoComponent } from './upload-photo/upload-photo.component';
 import { RestaurantInfoComponent } from './restaurant-info/restaurant-info.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-success.component';
 import { ReataurantStepItems, StepItem } from 'src/models/step-item.model';
+import { AuthenticationService } from '../../authentication.service';
+import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
+import { Router } from '@angular/router';
+import { LocalStorageService } from 'src/app/service/local-storage.service';
+import { PageLink } from 'src/constant/path-link.constant';
+import { AccountType } from 'src/enum/account-type.enum';
 
 @Component({
   selector: 'app-register-restaurant',
@@ -18,12 +25,20 @@ export class RegisterRestaurantComponent implements OnInit {
   @Output() onResetUserType = new EventEmitter<boolean>();
 
   steps: Array<StepItem> = new Array<StepItem>();
-  stage: number = 1;
+  stage: number = 2;
   isShowPassword: boolean = false;
   isFormValid: boolean = false;
+  isLoginWithGoogle: boolean = false;
   isShowConfirmPassword: boolean = false;
+  personalInfoForm: ReviewerRegisterModel;
+  restaurantInfoForm: RestaurantInfoModel;
+  restaurantPhotoForm: RestaurantPhotoModel;
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private localStorageService: LocalStorageService,
+    private authenticationService: AuthenticationService
+  ) { }
 
   ngOnInit(): void {
     this.steps = ReataurantStepItems;
@@ -59,6 +74,39 @@ export class RegisterRestaurantComponent implements OnInit {
 
   resetUserType() {
     this.onResetUserType.emit();
+  }
+
+  set personalInfoFormValue(personalInfo: ReviewerRegisterModel) {
+    this.personalInfoForm = personalInfo;
+  }
+
+  set restaurantInfoFormValue(restaurantInfo: RestaurantInfoModel) {
+    this.restaurantInfoForm = restaurantInfo;
+  }
+
+  set restaurantPhotoFormValue(restaurantPhoto: RestaurantPhotoModel) {
+    this.restaurantPhotoForm = restaurantPhoto;
+  }
+
+  routePage() {
+    if (this.isLoginWithGoogle) {
+      const email = this.personalInfoForm.email;
+      this.authenticationService.getUserInfo(email).subscribe((resp: any) => {
+        if (resp?.status === 200) {
+          this.localStorageService.set(LocalStorageKey.userId, resp.data.userId);
+          this.localStorageService.set(LocalStorageKey.userName, resp.data.userName);
+          this.localStorageService.set(LocalStorageKey.restaurantName, resp.data.restaurantName);
+          this.localStorageService.set(LocalStorageKey.userType, resp.data.userType);
+          this.localStorageService.set(LocalStorageKey.viewMode, AccountType.Reviewer);
+          this.authenticationService.loginSuccessEvent(true);
+          this.router.navigate([PageLink.restaurant.dashboard]);
+        } else {
+          this.router.navigate([PageLink.authentication.login]);
+        }
+      })
+    } else {
+      this.router.navigate([PageLink.authentication.login]);
+    }
   }
 
   submit() {
