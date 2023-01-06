@@ -122,6 +122,66 @@ export class RestaurantInfoComponent implements OnInit {
     return this.currentStage;
   }
 
+  getUserCurrentLocation() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        this.setMapCoordinate();
+      },
+      (err) => {
+        // User not allowed to get current position
+        // set coordinates at Bangkok, Thailand
+        this.lat = 13.736717;
+        this.lng = 100.523186;
+        this.setMapCoordinate();
+      },
+      {timeout:10000}
+    );
+  }
+
+  setMapCoordinate() {
+    this.options = {
+      center: {
+        lat: this.lat,
+        lng: this.lng
+      },
+      zoom: 15,
+      streetViewControl: false,
+      mapTypeControl: false,
+      fullscreenControl: false,
+    };
+  }
+
+  addMarker(event: google.maps.MapMouseEvent) {
+    let position = event.latLng?.toJSON();
+    if (position) {
+      this.markerPositions = position;
+      this.getAddressFromMarker();
+    }
+  }
+
+  setMarkerPosition(event: google.maps.MapMouseEvent) {
+    let position = event.latLng?.toJSON();
+    if (position) {
+      this.lat = position.lat;
+      this.lng = position.lng;
+      this.getAddressFromMarker();
+    }
+  }
+
+  getAddressFromMarker() {
+    let geocodeRequest = { 'location': this.markerPositions, 'language': 'th' };
+    this.geocoder
+      .geocode(geocodeRequest)
+      .subscribe((response: MapGeocoderResponse) => {
+        if (response.status === 'OK') {
+          const address = response.results[0].formatted_address;
+          this.registerRestaurantForm.controls['address'].setValue(address);
+        }
+    });
+  }
+
   get FoodCategoryFormControl(): FormControl {
     return this.registerRestaurantForm.get('foodCategory') as FormControl;
   }
@@ -310,9 +370,13 @@ export class RestaurantInfoComponent implements OnInit {
     restaurantInfo.category = this.registerRestaurantForm.controls['foodCategory']?.value;
     restaurantInfo.deliveryType = this.registerRestaurantForm.controls['deliveryType']?.value;
     restaurantInfo.paymentMethod = this.registerRestaurantForm.controls['paymentMethod']?.value;
-    restaurantInfo.address = new RestaurantAddressModel(); // remain address
     restaurantInfo.businessHour = new Array<BusinessHourModel>();
     restaurantInfo.contact = new Array<RestaurantContactModel>();
+
+    restaurantInfo.address = new RestaurantAddressModel();
+    restaurantInfo.address.address = this.registerRestaurantForm.controls['address'].value;
+    restaurantInfo.address.attitude = this.lat;
+    restaurantInfo.address.longtitude = this.lng;
 
     for (let i=0; i<this.BusinessHourArray.length; i++) {
       const businessHour = this.BusinessHourArray.controls[i] as FormGroup;
