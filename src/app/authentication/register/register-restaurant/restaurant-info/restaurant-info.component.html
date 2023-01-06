@@ -70,7 +70,7 @@
       <!-- address -->
       <div class="col">
         <label for="address" class="form-label fw-semibold">ที่อยู่ร้านอาหาร <span class="text-danger">*</span></label>
-        <textarea id="address" type="text" formControlName="address" class="form-control shadow-none" rows="3"
+        <textarea id="address" type="text" formControlName="address" class="form-control shadow-none" rows="4"
           [ngClass]="{ 'border-danger': registerRestaurantForm.controls['address'].invalid && registerRestaurantForm.controls['address'].touched }"
         >
         </textarea>
@@ -84,7 +84,22 @@
 
       <!-- pin address -->
       <div class="col">
-        <label for="address" class="form-label fw-semibold">ปักหมุดของร้าน</label>
+        <label for="address" class="form-label fw-semibold">ปักหมุดของร้าน <span class="text-danger">*</span></label>
+        <google-map
+          width="100%"
+          height="180"
+          [options]="options"
+          [lang]=""
+          (mapClick)="addMarker($event)"
+        >
+          <map-marker *ngIf="markerPositions"
+            [position]="markerPositions"
+            [options]="markerOptions"
+            [markerDraggable]="true"
+            (mapDragend)="setMarkerPosition($event)"
+          >
+          </map-marker>
+        </google-map>
       </div>
 
       <!-- restaurant type -->

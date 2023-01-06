@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { BusinessHourModel, RestaurantAddressModel, RestaurantInfoModel, RestaurantContactModel } from './../../../../../models/register.model';
 import { SocialContactType } from './../../../../../constant/social-contact-type.constant';
 import { DeliveryType } from './../../../../../constant/delivery-type.constant';
@@ -6,16 +7,11 @@ import { DrinkAndDessertCategory, FoodCategory } from './../../../../../constant
 import { RestaurantType } from './../../../../../constant/restaurant-type.constant';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, FormArray, AbstractControl } from '@angular/forms';
-import { setOptions , localeTh } from '@mobiscroll/angular';
 import { DayList } from 'src/constant/day-list.constant';
 import { RestaurantTypeEnum } from 'src/enum/restaurant-type.enum';
-import { DeliveryType as DeliveryTypeEnum } from 'src/enum/delivery-type.enum';
-
-setOptions({
-  locale: localeTh,
-  theme: 'ios',
-  themeVariant: 'light'
-});
+import { HttpClient } from '@angular/common/http';
+import { catchError, map, Observable, of } from 'rxjs';
+import { MapGeocoder, MapGeocoderResponse } from '@angular/google-maps';
 
 @Component({
   selector: 'app-restaurant-info',
@@ -37,7 +33,18 @@ export class RestaurantInfoComponent implements OnInit {
   socialContactType = SocialContactType;
   dayList = DayList;
 
-  constructor(private fb: FormBuilder) {
+  lat: number;
+  lng: number;
+  apiLoaded: Observable<boolean>;
+  options: google.maps.MapOptions;
+  markerOptions: google.maps.MarkerOptions = {draggable: true};
+  markerPositions: google.maps.LatLngLiteral;
+
+  constructor(
+    private fb: FormBuilder,
+    private httpClient: HttpClient,
+    private geocoder: MapGeocoder,
+    ) {
     this.registerRestaurantForm = this.fb.group({
       restaurantName: new FormControl('', [
         Validators.minLength(3),
@@ -80,6 +87,24 @@ export class RestaurantInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUserCurrentLocation();
+    this.apiLoaded = this.httpClient
+      .jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApi}`, 'callback')
+      .pipe(
+        map(() => true),
+        catchError(() => of(false)),
+      );
+    // set google map options
+    this.options = {
+      center: {
+        lat: 13.736717,
+        lng: 100.523186
+      },
+      zoom: 15,
+      streetViewControl: false,
+      mapTypeControl: false,
+      fullscreenControl: false,
+    };
   }
 
   @Input()

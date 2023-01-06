@@ -1,5 +1,4 @@
 import { LocalStorageService } from './service/local-storage.service';
-import { MbscModule } from '@mobiscroll/angular';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -11,6 +10,7 @@ import { NgProgressRouterModule } from 'ngx-progressbar/router';
 import { NgProgressHttpModule } from 'ngx-progressbar/http';
 import { SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -26,7 +26,6 @@ import { GoogleAuthService } from './service/google-auth.service';
     NavbarComponent,
   ],
   imports: [
-    MbscModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
@@ -36,6 +35,7 @@ import { GoogleAuthService } from './service/google-auth.service';
     ModalModule.forRoot(),
     BrowserAnimationsModule,
     NgProgressModule,
+    GoogleMapsModule,
     NgProgressHttpModule.withConfig({
       id: 'progressBar'
     }),
