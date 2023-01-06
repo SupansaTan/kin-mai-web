@@ -1,0 +1,48 @@
+<ng-template #modalReview>
+    <div class="modal-header">
+        <h2 class="m-0">รีวิวร้านอาหาร : ร้านคุณป้าใจป้ำ</h2>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+    </div>
+  
+    <div class="modal-body my-2 mx-3 ">
+        <div class="row align-items-center justify-content-center mb-4">
+            <div class="col-md-auto d-flex justify-content-center mb-2">
+                <h3 class="m-0 me-2">คุณภาพอาหาร & บรรยากาศร้านอาหาร :</h3>
+            </div>
+            <div class="col-auto mb-2">
+                <ngb-rating [(rate)]="currentRate" [max]="5">
+                    <ng-template let-fill="fill" let-index="index">
+                        <i class="bi-star{{fill === 100 ? '-fill' : ''}}"></i>
+                    </ng-template>
+                </ngb-rating>
+            </div>
+            <div class="col-md-auto d-flex justify-content-center mb-2">
+                <h3 class="m-0 me-2">สุดยอด!</h3>
+            </div>
+        </div>
+
+        <div class="row px-2">
+            <div class="col mb-2">
+                <button class="btn btn-word">อาหารถูกต้อง</button>
+            </div>
+            <div class="col mb-2">
+                <button class="btn btn-word">สะอาดและปลอดภัย</button>
+            </div>
+            <div class="col mb-2">
+                <button class="btn btn-word">อาหารคุณภาพดี</button>
+            </div>
+            <div class="col mb-2">
+                <button class="btn btn-word">บรรจุภัณฑ์เหมาะสม</button>
+            </div>
+
+            <div>
+                <input class="w-100" placeholder="เริ่มเขียนรีวิว!"/>
+            </div>
+        </div>
+        
+      
+        
+  
+    </div>
+  
+  </ng-template>
