@@ -32,8 +32,8 @@ export class RestaurantContactModel {
 
 export class RestaurantAddressModel {
   address: string;
-  attitude: number;
-  longtitude: number;
+  latitude: number;
+  longitude: number;
 }
 
 export class BusinessHourModel {

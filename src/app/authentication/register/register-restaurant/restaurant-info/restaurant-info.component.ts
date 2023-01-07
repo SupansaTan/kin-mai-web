@@ -38,6 +38,7 @@ export class RestaurantInfoComponent implements OnInit {
   lng: number;
   formatAddress: string = '';
   apiLoaded: Observable<boolean>;
+  isNotSetMarker: boolean = false;
   options: google.maps.MapOptions;
   markerOptions: google.maps.MarkerOptions = {draggable: true};
   markerPositions: google.maps.LatLngLiteral;
@@ -159,6 +160,7 @@ export class RestaurantInfoComponent implements OnInit {
     let position = event.latLng?.toJSON();
     if (position) {
       this.markerPositions = position;
+      this.isNotSetMarker = false;
       this.getAddressFromMarker();
     }
   }
@@ -169,6 +171,7 @@ export class RestaurantInfoComponent implements OnInit {
       this.lat = position.lat;
       this.lng = position.lng;
       this.markerPositions = position;
+      this.isNotSetMarker = false;
       this.getAddressFromMarker();
     }
   }
@@ -392,8 +395,8 @@ export class RestaurantInfoComponent implements OnInit {
 
     restaurantInfo.address = new RestaurantAddressModel();
     restaurantInfo.address.address = this.registerRestaurantForm.controls['address'].value;
-    restaurantInfo.address.attitude = this.lat;
-    restaurantInfo.address.longtitude = this.lng;
+    restaurantInfo.address.latitude = this.lat;
+    restaurantInfo.address.longitude = this.lng;
 
     for (let i=0; i<this.BusinessHourArray.length; i++) {
       const businessHour = this.BusinessHourArray.controls[i] as FormGroup;
@@ -418,11 +421,16 @@ export class RestaurantInfoComponent implements OnInit {
     this.registerRestaurantForm.markAllAsTouched();
     this.registerRestaurantForm.enable();
 
-    if (this.registerRestaurantForm.valid) {
+    if (this.registerRestaurantForm.valid && this.markerPositions) {
       let restaurantInfo = this.getRestaurantInfo();
       this.registerRestaurantForm.disable();
       this.restaurantInfoFormValue.emit(restaurantInfo);
       this.isFormValid.emit(true);
+    } else {
+      if (!this.markerPositions) {
+        // user don't set marker
+        this.isNotSetMarker = true;
+      }
     }
   }
 }
