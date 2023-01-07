@@ -34,6 +34,7 @@
     "bs5-lightbox": "^1.8.2",
     "font-awesome": "^4.7.0",
     "ngx-bootstrap": "^9.0.0",
+    "ngx-google-places-autocomplete": "^2.0.5",
     "ngx-progressbar": "^9.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

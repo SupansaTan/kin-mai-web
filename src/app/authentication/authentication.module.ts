@@ -8,6 +8,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SocialLoginModule } from '@abacritt/angularx-social-login';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 
 import { LoginComponent } from './login/login.component';
 import { RegisterRestaurantComponent } from './register/register-restaurant/register-restaurant.component';
@@ -45,6 +46,7 @@ import { LocalStorageService } from '../service/local-storage.service';
     DragDropModule,
     SocialLoginModule,
     GoogleMapsModule,
+    GooglePlaceModule,
   ],
   providers: [
     AuthenticationService,

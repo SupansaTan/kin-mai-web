@@ -12,6 +12,7 @@ import { RestaurantTypeEnum } from 'src/enum/restaurant-type.enum';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
 import { MapGeocoder, MapGeocoderResponse } from '@angular/google-maps';
+import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
 @Component({
   selector: 'app-restaurant-info',
@@ -35,6 +36,7 @@ export class RestaurantInfoComponent implements OnInit {
 
   lat: number;
   lng: number;
+  formatAddress: string = '';
   apiLoaded: Observable<boolean>;
   options: google.maps.MapOptions;
   markerOptions: google.maps.MarkerOptions = {draggable: true};
@@ -166,6 +168,7 @@ export class RestaurantInfoComponent implements OnInit {
     if (position) {
       this.lat = position.lat;
       this.lng = position.lng;
+      this.markerPositions = position;
       this.getAddressFromMarker();
     }
   }
@@ -176,10 +179,24 @@ export class RestaurantInfoComponent implements OnInit {
       .geocode(geocodeRequest)
       .subscribe((response: MapGeocoderResponse) => {
         if (response.status === 'OK') {
-          const address = response.results[0].formatted_address;
-          this.registerRestaurantForm.controls['address'].setValue(address);
+          let address = response.results[0].formatted_address;
+          this.formatAddress = address;
         }
     });
+  }
+
+  setRestaurantAddress() {
+    this.registerRestaurantForm.controls['address'].setValue(this.formatAddress);
+  }
+
+  addressChange(place: Address) {
+    if (place) {
+      this.formatAddress = place.formatted_address;
+      this.lat = place.geometry.location.lat();
+      this.lng = place.geometry.location.lng();
+      this.setMapCoordinate();
+      this.markerPositions = place.geometry.location.toJSON();
+    }
   }
 
   get FoodCategoryFormControl(): FormControl {
