@@ -1,3 +1,5 @@
+import { AccountType } from './../../../enum/account-type.enum';
+import { GoogleAuthService } from './../../service/google-auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -5,6 +7,7 @@ import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { LocalStorageService } from './../../service/local-storage.service';
 import { PageLink } from './../../../constant/path-link.constant';
 import { AuthenticationService } from './../authentication.service';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +23,8 @@ export class LoginComponent implements OnInit {
     , private router: Router
     , private localStorageService: LocalStorageService
     , private authenticationService: AuthenticationService
+    , private authService: SocialAuthService
+    , private googleAuthService: GoogleAuthService
     ) {
     this.loginForm = this.fb.group({
       username: new FormControl('', [
@@ -31,6 +36,10 @@ export class LoginComponent implements OnInit {
         Validators.required
       ])
     });
+
+    this.authService.authState.subscribe((user) => {
+      this.googleAuthService.login(user);
+    });
   }
 
   ngOnInit(): void {
@@ -39,6 +48,17 @@ export class LoginComponent implements OnInit {
 
   get f(): { [key: string]: AbstractControl } {
     return this.loginForm.controls;
+  }
+
+  routePage(mode: AccountType) {
+    switch(mode) {
+      case AccountType.Reviewer:
+        this.router.navigate([PageLink.reviewer.homepage]);
+        break;
+      case AccountType.RestaurantOwner:
+        this.router.navigate([PageLink.restaurant.dashboard]);
+        break;
+    }
   }
 
   submit() {
@@ -56,13 +76,19 @@ export class LoginComponent implements OnInit {
             this.localStorageService.set(LocalStorageKey.accessToken, token.token);
 
             this.authenticationService.getUserInfo(email).subscribe((resp: any) => {
-              if (response?.status === 200) {
+              if (resp.status === 200) {
                 this.localStorageService.set(LocalStorageKey.userId, resp.data.userId);
                 this.localStorageService.set(LocalStorageKey.userName, resp.data.userName);
                 this.localStorageService.set(LocalStorageKey.restaurantName, resp.data.restaurantName);
                 this.localStorageService.set(LocalStorageKey.userType, resp.data.userType);
+                this.localStorageService.set(LocalStorageKey.viewMode,
+                  resp.data.userType === AccountType.Reviewer
+                  ? AccountType.Reviewer
+                  : AccountType.RestaurantOwner
+                );
+
                 this.authenticationService.loginSuccessEvent(true);
-                this.router.navigate([PageLink.reviewer.homepage]);
+                this.routePage(resp.data.userType);
               }
             })
           }

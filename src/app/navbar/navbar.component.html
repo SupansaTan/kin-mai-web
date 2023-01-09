@@ -30,7 +30,8 @@
             <p class="mx-3 my-2 fw-semibold fs-5">{{ isReviewerAccount ? username : restaurantName }}</p>
 
             <!-- shuffle account -->
-            <p *ngIf="accountType === AccountTypeEnum.RestaurantOwner" class="mx-3 px-2 bg-light-yellow rounded-4">
+            <p *ngIf="accountType === AccountTypeEnum.RestaurantOwner" class="mx-3 px-2 bg-light-yellow rounded-4"
+              (click)="changeAccountMode(isReviewerAccount ? AccountTypeEnum.RestaurantOwner: AccountTypeEnum.Reviewer)">
               <i class="bi bi-arrow-repeat me-1"></i>
               สลับไปใช้บัญชี <span class="font-bold">{{ isReviewerAccount ? restaurantName : username }}</span>
             </p>

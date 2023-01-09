@@ -11,26 +11,12 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
-/* select dropdown */
-::ng-deep .ng-select.ng-touched.ng-invalid .ng-select-container {
+::ng-deep .border-danger .map-container {
   border: 1px solid #dc3545;
 }
 
-/* mbsc input (select range of time) */
-::ng-deep .mbsc-font {
-  font-family: $font-stack;
-}
-
-::ng-deep .mbsc-ios.mbsc-textfield {
-  height: 36px;
-
-  &-wrapper-outline {
-    margin: 0 !important;
-  }
-
-  &-outline {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
+/* select dropdown */
+::ng-deep .ng-select.ng-touched.ng-invalid .ng-select-container {
+  border: 1px solid #dc3545;
 }
 

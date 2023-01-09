@@ -1,3 +1,4 @@
+import { RestaurantPhotoModel } from './../../../../../models/register.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -9,10 +10,12 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 })
 export class UploadPhotoComponent implements OnInit {
   @Output() isFormValid = new EventEmitter<boolean>();
+  @Output() uploadPhotoFormValue = new EventEmitter<RestaurantPhotoModel>();
 
   uploadPhotoForm: FormGroup;
   currentStage: number = 0;
   restaurantImageList: Array<string> = new Array<string>();
+  imageFileList: Array<File> = new Array<File>();
 
   constructor(private fb: FormBuilder, private cf: ChangeDetectorRef) {
     this.uploadPhotoForm = this.fb.group({
@@ -46,9 +49,8 @@ export class UploadPhotoComponent implements OnInit {
   onSelectFile(event: any) {
     let file = event.target.files && event.target.files.length;
     if (file) {
-      let imageUrls = new Array<string>();
       for (const singlefile of event.target.files) {
-        imageUrls.push(singlefile);
+        this.imageFileList.push(singlefile);
         let reader = new FileReader();
         reader.readAsDataURL(singlefile);
         this.cf.detectChanges();
@@ -64,18 +66,31 @@ export class UploadPhotoComponent implements OnInit {
 
   drop(event: CdkDragDrop<any>) {
     moveItemInArray(this.restaurantImageList, event.previousContainer.data.index, event.container.data.index);
+    moveItemInArray(this.imageFileList, event.previousContainer.data.index, event.container.data.index);
   }
 
   removeImage(index: number) {
     if (index > -1) {
       this.restaurantImageList.splice(index, 1);
+      this.imageFileList.splice(index, 1);
     }
+  }
+
+  getRestaurantInfoValue() {
+    let restaurantInfo = new RestaurantPhotoModel();
+    restaurantInfo.imageFiles = this.imageFileList;
+    restaurantInfo.restaurantStatus = this.uploadPhotoForm.controls['restaurantStatus']?.value;
+    return restaurantInfo;
   }
 
   checkFormIsValid() {
     this.uploadPhotoForm.markAllAsTouched();
+    this.uploadPhotoForm.enable();
 
     if (this.uploadPhotoForm.valid) {
+      let restaurantInfo = this.getRestaurantInfoValue();
+      this.uploadPhotoForm.disable();
+      this.uploadPhotoFormValue.emit(restaurantInfo);
       this.isFormValid.emit(true);
     }
   }

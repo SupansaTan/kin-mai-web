@@ -41,4 +41,10 @@ export class AuthenticationService {
     this.sub = this.http.post<ResponseModel<boolean>>(url, model);
     return this.sub;
   }
+
+  checkIsLoginWithGoogleFirstTimes(email: string) {
+    const url = `${environment.kinMaiApi}/Authentication/CheckIsLoginWithGoogleFirstTimes?email=${email}`;
+    this.sub = this.http.get<ResponseModel<boolean>>(url);
+    return this.sub;
+  }
 }
