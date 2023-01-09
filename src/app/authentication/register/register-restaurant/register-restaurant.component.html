@@ -9,7 +9,7 @@
           [ngClass]="((step.step === stage) || (stage > step.step))? 'bg-yellow':'bg-white text-yellow'"
         >
           <i *ngIf="stage > step.step" class="bi bi-check-circle-fill fs-2 text-white"></i>
-          <p *ngIf="stage <= step.step" class="mt-1 pt-1">{{ step.step }}</p>
+          <p *ngIf="stage <= step.step" class="mt-2 pt-1">{{ step.step }}</p>
         </button>
 
         <div class="step-title fw-semibold mt-1">
@@ -22,15 +22,21 @@
 
 <!-- register reviewer form -->
 <ng-container *ngIf="(stage === 1) || (stage === 4)">
-  <app-personal-info #personalInfo (isFormValid)="changeStage($event)" [stage]="stage"></app-personal-info>
+  <app-personal-info #personalInfo (isFormValid)="changeStage($event)"
+    (personalInfoFormValue)="personalInfoFormValue" [stage]="stage">
+  </app-personal-info>
 </ng-container>
 
 <ng-container *ngIf="(stage === 2) || (stage === 4)">
-  <app-restaurant-info #restaurantInfo (isFormValid)="changeStage($event)" [stage]="stage"></app-restaurant-info>
+  <app-restaurant-info #restaurantInfo (isFormValid)="changeStage($event)"
+    (restaurantInfoFormValue)="restaurantInfoFormValue" [stage]="stage">
+  </app-restaurant-info>
 </ng-container>
 
 <ng-container *ngIf="(stage === 3) || (stage === 4)">
-  <app-upload-photo #uploadPhoto (isFormValid)="changeStage($event)" [stage]="stage"></app-upload-photo>
+  <app-upload-photo #uploadPhoto (isFormValid)="changeStage($event)"
+    (uploadPhotoFormValue)="restaurantPhotoFormValue" [stage]="stage">
+  </app-upload-photo>
 </ng-container>
 
 <!-- button group -->

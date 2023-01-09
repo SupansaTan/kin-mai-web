@@ -70,7 +70,7 @@
       </div>
 
       <!-- password -->
-      <div class="col">
+      <div *ngIf="!isLoginWithGoogle" class="col">
         <label for="password" class="form-label fw-semibold">รหัสผ่าน <span class="text-danger">*</span></label>
         <div class="position-relative">
           <input id="password" [type]="isShowPassword ? 'text':'password'" placeholder="Password" formControlName="password" class="form-control shadow-none"
@@ -92,7 +92,7 @@
       </div>
 
       <!-- confirm password -->
-      <div class="col">
+      <div *ngIf="!isLoginWithGoogle" class="col">
         <label for="confirmPassword" class="form-label fw-semibold">ยืนยันรหัสผ่าน <span class="text-danger">*</span></label>
         <div class="position-relative">
           <input id="confirmPassword" [type]="isShowConfirmPassword ? 'text':'password'" placeholder="Confirm Password" formControlName="confirmPassword" class="form-control shadow-none"

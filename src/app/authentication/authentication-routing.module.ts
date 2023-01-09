@@ -16,6 +16,10 @@ const routes: Routes = [
     component: RegisterComponent
   },
   {
+    path: 'register/:firstName/:lastName/:email',
+    component: RegisterComponent
+  },
+  {
     path: 'reset-password',
     component: ResetComponent
   },
