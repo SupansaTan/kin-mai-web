@@ -387,10 +387,10 @@ export class RestaurantInfoComponent implements OnInit {
     restaurantInfo.minPriceRate = this.registerRestaurantForm.controls['minPriceRate'].value;
     restaurantInfo.maxPriceRate = this.registerRestaurantForm.controls['maxPriceRate'].value;
     restaurantInfo.restaurantType = this.registerRestaurantForm.controls['restaurantType'].value;
-    restaurantInfo.category = this.registerRestaurantForm.controls['foodCategory']?.value;
+    restaurantInfo.categories = this.registerRestaurantForm.controls['foodCategory']?.value;
     restaurantInfo.deliveryType = this.registerRestaurantForm.controls['deliveryType']?.value;
-    restaurantInfo.paymentMethod = this.registerRestaurantForm.controls['paymentMethod']?.value;
-    restaurantInfo.businessHour = new Array<BusinessHourModel>();
+    restaurantInfo.paymentMethods = this.registerRestaurantForm.controls['paymentMethod']?.value;
+    restaurantInfo.businessHours = new Array<BusinessHourModel>();
     restaurantInfo.contact = new Array<RestaurantContactModel>();
 
     restaurantInfo.address = new RestaurantAddressModel();
@@ -404,7 +404,7 @@ export class RestaurantInfoComponent implements OnInit {
       businessHourInfo.day = businessHour.controls['day'].value;
       businessHourInfo.startTime = businessHour.controls['startTime'].value;
       businessHourInfo.endTime = businessHour.controls['endTime'].value;
-      restaurantInfo.businessHour.push(businessHourInfo);
+      restaurantInfo.businessHours.push(businessHourInfo);
     }
 
     for (let j=0; j<this.SocialContactArray.length; j++) {

@@ -19,10 +19,10 @@ export class RestaurantInfoModel {
   address: RestaurantAddressModel;
   restaurantType: RestaurantTypeEnum;
   deliveryType: Array<DeliveryType>;
-  category: Array<FoodCategories>;
-  paymentMethod: Array<PaymentMethod>;
+  categories: Array<FoodCategories>;
+  paymentMethods: Array<PaymentMethod>;
   contact: Array<RestaurantContactModel>;
-  businessHour: Array<BusinessHourModel>;
+  businessHours: Array<BusinessHourModel>;
 }
 
 export class RestaurantContactModel {
@@ -38,15 +38,25 @@ export class RestaurantAddressModel {
 
 export class BusinessHourModel {
   day: number;
-  startTime: number;
-  endTime: number;
+  startTime: TimeOnlyModel;
+  endTime: TimeOnlyModel;
 }
 
 export class RestaurantPhotoModel {
-  photo: Array<string>;
+  imageFiles: Array<File>;
   restaurantStatus: string;
 }
 
-export class RestaurantOwnerRegisterModel {
+export class RestaurantRegisterModel {
   personalInfo: ReviewerRegisterModel;
+  restaurantInfo: RestaurantInfoModel;
+  restaurantAdditionInfo: RestaurantPhotoModel;
+}
+
+export class TimeOnlyModel {
+  hour: number;
+  minute: number;
+  second: number;
+  millisecond: number;
+  ticks: number;
 }

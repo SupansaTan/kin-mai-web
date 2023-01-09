@@ -15,6 +15,7 @@ export class UploadPhotoComponent implements OnInit {
   uploadPhotoForm: FormGroup;
   currentStage: number = 0;
   restaurantImageList: Array<string> = new Array<string>();
+  imageFileList: Array<File> = new Array<File>();
 
   constructor(private fb: FormBuilder, private cf: ChangeDetectorRef) {
     this.uploadPhotoForm = this.fb.group({
@@ -48,9 +49,8 @@ export class UploadPhotoComponent implements OnInit {
   onSelectFile(event: any) {
     let file = event.target.files && event.target.files.length;
     if (file) {
-      let imageUrls = new Array<string>();
       for (const singlefile of event.target.files) {
-        imageUrls.push(singlefile);
+        this.imageFileList.push(singlefile);
         let reader = new FileReader();
         reader.readAsDataURL(singlefile);
         this.cf.detectChanges();
@@ -66,17 +66,19 @@ export class UploadPhotoComponent implements OnInit {
 
   drop(event: CdkDragDrop<any>) {
     moveItemInArray(this.restaurantImageList, event.previousContainer.data.index, event.container.data.index);
+    moveItemInArray(this.imageFileList, event.previousContainer.data.index, event.container.data.index);
   }
 
   removeImage(index: number) {
     if (index > -1) {
       this.restaurantImageList.splice(index, 1);
+      this.imageFileList.splice(index, 1);
     }
   }
 
   getRestaurantInfoValue() {
     let restaurantInfo = new RestaurantPhotoModel();
-    restaurantInfo.photo = this.restaurantImageList;
+    restaurantInfo.imageFiles = this.imageFileList;
     restaurantInfo.restaurantStatus = this.uploadPhotoForm.controls['restaurantStatus']?.value;
     return restaurantInfo;
   }
