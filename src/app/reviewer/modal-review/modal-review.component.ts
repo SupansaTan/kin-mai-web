@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
+import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-review',
@@ -24,6 +25,10 @@ export class ModalReviewComponent {
   }
 
   currentRate = 0;
+  ratingWord = "";
+
+  ctrl = new FormControl<number | null>(null, Validators.required);
+
 
   constructor(private modalService: BsModalService) { }
 
