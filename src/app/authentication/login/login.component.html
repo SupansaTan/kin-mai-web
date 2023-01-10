@@ -8,14 +8,15 @@
           <h1 class="col-12 col-sm-auto mb-0 pt-2 pe-2">Welcome to</h1>
           <img class="col-auto ps-2 mt-2 ps-sm-0 mt-sm-0" alt="kinmai-logo" src="../../../assets/image/red-logo.png" height="37px"/>
         </div>
-        <a class="text-muted text-decoration-none mb-4" routerLink="/auth/register">Don't have an account?</a>
+        <a class="text-muted text-decoration-none mb-4" data-cy="doNotHaveAccountBtn" routerLink="/auth/register">Don't have an account?</a>
 
         <!-- login form -->
-        <form [formGroup]="loginForm">
+        <form [formGroup]="loginForm" data-cy="loginForm">
           <!-- email -->
           <div class="my-3">
             <label for="username" class="form-label fw-bolder">Email</label>
             <input id="username" type="email" placeholder="Email" formControlName="username" class="form-control shadow-none"
+              data-cy="email"
               [ngClass]="{ 'border-danger': f['username'].invalid && f['username'].touched }"
             >
 
@@ -34,6 +35,7 @@
             <label for="password" class="form-label fw-bolder">Password</label>
             <div class="position-relative">
               <input id="password" [type]="isShowPassword ? 'text':'password'" placeholder="Password" formControlName="password" class="form-control shadow-none"
+                data-cy="password"
                 [ngClass]="{ 'border-danger': f['password'].invalid && f['password'].touched }"
               >
               <i class="bi eye-icon position-absolute" role="button" (click)="isShowPassword = !isShowPassword"
@@ -41,7 +43,7 @@
               </i>
             </div>
 
-            <div *ngIf="f['password'].invalid && f['password'].touched" class="text-danger mt-2">
+            <div *ngIf="f['password'].invalid && f['password'].touched" class="text-danger mt-2" data-cy="password-invalid">
               <div *ngIf="f['password'].errors?.['required']">
                 Password is required.
               </div>
@@ -50,19 +52,19 @@
               </div>
             </div>
 
-            <a class="text-muted text-decoration-none text-end mt-2" routerLink="/auth/reset-password">
+            <a class="text-muted text-decoration-none text-end mt-2" data-cy="forgetPasswordBtn" routerLink="/auth/reset-password">
               Forgot password?
             </a>
           </div>
 
           <!-- button group -->
-          <button type="button" class="btn btn-yellow px-4 fw-bold w-100" (click)="submit()">Log in</button>
+          <button type="button" data-cy="loginBtn" class="btn btn-yellow px-4 fw-bold w-100" (click)="submit()">Log in</button>
 
           <div class="text-divider w-100 text-muted text-center my-3">
             <span class="bg-white px-2">OR</span>
           </div>
 
-          <asl-google-signin-button type="standard" size="large" class="d-flex align-items-center justify-content-center">
+          <asl-google-signin-button type="standard" data-cy="googleBtn" size="large" class="d-flex align-items-center justify-content-center">
           </asl-google-signin-button>
         </form>
       </div>

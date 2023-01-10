@@ -14,5 +14,6 @@ export default defineConfig({
       on('file:preprocessor', cucumber(options));
     },
     specPattern: "cypress/integration/*.feature",
+    baseUrl: 'http://localhost:4200',
   },
 });
