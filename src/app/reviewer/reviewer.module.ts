@@ -10,6 +10,8 @@ import { ModalDessertComponent } from './modal-dessert/modal-dessert.component';
 import { RandomFoodComponent } from './random-food/random-food.component';
 import { SearchRestaurantComponent } from './search-result/search-result.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
+import { ModalReviewComponent } from './modal-review/modal-review.component';
+import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -19,12 +21,14 @@ import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail
     RandomFoodComponent,
     SearchRestaurantComponent,
     RestaurantDetailComponent,
+    ModalReviewComponent,
   ],
   imports: [
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    ReviewerRoutingModule
+    ReviewerRoutingModule,
+    NgbRatingModule,
   ]
 })
 
