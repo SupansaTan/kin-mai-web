@@ -1,5 +1,5 @@
 <div class="row mt-3">
-  <div class="col">
+  <div class="col-auto me-4">
 
     <div class="card">
       <div class="card-body">
@@ -25,52 +25,31 @@
   </div>
 
 
-  <div class="col ms-2">
-    <h2>ระดับความพึงพอใจ</h2>
-    <div class="d-flex">
-
-      <div class="col">
-        <div class="progress green">
-          <span class="progress-left">
+  <div class="col-3 d-flex justify-content-center">
+    <div class="col row">
+      <h2 class="m-0">ระดับความพึงพอใจ</h2>
+      <div class="progress green">
+        <span class="progress-left">
+          <span class="progress-bar"></span>
+        </span>
+        <span class="progress-right">
             <span class="progress-bar"></span>
-          </span>
-          <span class="progress-right">
-              <span class="progress-bar"></span>
-          </span>
-          <div class="progress-value">80%</div>
-        </div>
-        <div class="ms-5">
-          <p>50/60 คน</p>
-          <p>3-5 ดาว</p>
-        </div>
-
-      </div>
-
-      <div class="col">
-        <div class="progress yellow">
-          <span class="progress-left">
-              <span class="progress-bar"></span>
-          </span>
-          <span class="progress-right">
-              <span class="progress-bar"></span>
-          </span>
-          <div class="progress-value">20%</div>
-        </div>
-
-        <div class="ms-5">
-          <p>10/60 คน</p>
-          <p>1-2 ดาว</p>
+        </span>
+        <div class="progress-value mt-4">
+          <h2 class="m-0 mt-3 fs-1">80%</h2>
+          <h2 class="m-0 fs-6">50/60 คน</h2>
         </div>
       </div>
-
+      <div class="ms-5">
+        <p>3 - 5 ดาว</p>
+      </div>
     </div>
 
   </div>
 
-  <div class="col">
+  <div class="col-md">
     <h2>เมนูที่ได้รับการแนะนำ</h2>
     <span class="badge rounded-pill bg-light text-dark border border-dark me-1 mb-2" *ngFor="let item of Info.Menus; index as i;"><h4 class="m-0">{{item}}</h4></span>
-
   </div>
 
 </div>
