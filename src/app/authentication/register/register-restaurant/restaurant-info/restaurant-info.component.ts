@@ -1,3 +1,5 @@
+import { environment } from 'src/environments/environment';
+import { BusinessHourModel, RestaurantAddressModel, RestaurantInfoModel, RestaurantContactModel } from './../../../../../models/register.model';
 import { SocialContactType } from './../../../../../constant/social-contact-type.constant';
 import { DeliveryType } from './../../../../../constant/delivery-type.constant';
 import { PaymentMethod } from './../../../../../constant/payment-method.constant';
@@ -5,15 +7,12 @@ import { DrinkAndDessertCategory, FoodCategory } from './../../../../../constant
 import { RestaurantType } from './../../../../../constant/restaurant-type.constant';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, FormArray, AbstractControl } from '@angular/forms';
-import { setOptions , localeTh } from '@mobiscroll/angular';
 import { DayList } from 'src/constant/day-list.constant';
 import { RestaurantTypeEnum } from 'src/enum/restaurant-type.enum';
-
-setOptions({
-  locale: localeTh,
-  theme: 'ios',
-  themeVariant: 'light'
-});
+import { HttpClient } from '@angular/common/http';
+import { catchError, map, Observable, of } from 'rxjs';
+import { MapGeocoder, MapGeocoderResponse } from '@angular/google-maps';
+import { Address } from 'ngx-google-places-autocomplete/objects/address';
 
 @Component({
   selector: 'app-restaurant-info',
@@ -22,6 +21,7 @@ setOptions({
 })
 export class RestaurantInfoComponent implements OnInit {
   @Output() isFormValid = new EventEmitter<boolean>();
+  @Output() restaurantInfoFormValue = new EventEmitter<RestaurantInfoModel>();
 
   registerRestaurantForm: FormGroup;
   deliveryTypeInput: FormControl = new FormControl([]);
@@ -34,7 +34,20 @@ export class RestaurantInfoComponent implements OnInit {
   socialContactType = SocialContactType;
   dayList = DayList;
 
-  constructor(private fb: FormBuilder) {
+  lat: number;
+  lng: number;
+  formatAddress: string = '';
+  apiLoaded: Observable<boolean>;
+  isNotSetMarker: boolean = false;
+  options: google.maps.MapOptions;
+  markerOptions: google.maps.MarkerOptions = {draggable: true};
+  markerPositions: google.maps.LatLngLiteral;
+
+  constructor(
+    private fb: FormBuilder,
+    private httpClient: HttpClient,
+    private geocoder: MapGeocoder,
+    ) {
     this.registerRestaurantForm = this.fb.group({
       restaurantName: new FormControl('', [
         Validators.minLength(3),
@@ -63,7 +76,10 @@ export class RestaurantInfoComponent implements OnInit {
           day: new FormControl(null, [
             Validators.required
           ]),
-          time: new FormControl('', [
+          startTime: new FormControl(null, [
+            Validators.required
+          ]),
+          endTime: new FormControl(null, [
             Validators.required
           ]),
         }, {
@@ -74,6 +90,24 @@ export class RestaurantInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUserCurrentLocation();
+    this.apiLoaded = this.httpClient
+      .jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApi}`, 'callback')
+      .pipe(
+        map(() => true),
+        catchError(() => of(false)),
+      );
+    // set google map options
+    this.options = {
+      center: {
+        lat: 13.736717,
+        lng: 100.523186
+      },
+      zoom: 15,
+      streetViewControl: false,
+      mapTypeControl: false,
+      fullscreenControl: false,
+    };
   }
 
   @Input()
@@ -89,6 +123,83 @@ export class RestaurantInfoComponent implements OnInit {
 
   get stage() {
     return this.currentStage;
+  }
+
+  getUserCurrentLocation() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        this.setMapCoordinate();
+      },
+      (err) => {
+        // User not allowed to get current position
+        // set coordinates at Bangkok, Thailand
+        this.lat = 13.736717;
+        this.lng = 100.523186;
+        this.setMapCoordinate();
+      },
+      {timeout:10000}
+    );
+  }
+
+  setMapCoordinate() {
+    this.options = {
+      center: {
+        lat: this.lat,
+        lng: this.lng
+      },
+      zoom: 15,
+      streetViewControl: false,
+      mapTypeControl: false,
+      fullscreenControl: false,
+    };
+  }
+
+  addMarker(event: google.maps.MapMouseEvent) {
+    let position = event.latLng?.toJSON();
+    if (position) {
+      this.markerPositions = position;
+      this.isNotSetMarker = false;
+      this.getAddressFromMarker();
+    }
+  }
+
+  setMarkerPosition(event: google.maps.MapMouseEvent) {
+    let position = event.latLng?.toJSON();
+    if (position) {
+      this.lat = position.lat;
+      this.lng = position.lng;
+      this.markerPositions = position;
+      this.isNotSetMarker = false;
+      this.getAddressFromMarker();
+    }
+  }
+
+  getAddressFromMarker() {
+    let geocodeRequest = { 'location': this.markerPositions, 'language': 'th' };
+    this.geocoder
+      .geocode(geocodeRequest)
+      .subscribe((response: MapGeocoderResponse) => {
+        if (response.status === 'OK') {
+          let address = response.results[0].formatted_address;
+          this.formatAddress = address;
+        }
+    });
+  }
+
+  setRestaurantAddress() {
+    this.registerRestaurantForm.controls['address'].setValue(this.formatAddress);
+  }
+
+  addressChange(place: Address) {
+    if (place) {
+      this.formatAddress = place.formatted_address;
+      this.lat = place.geometry.location.lat();
+      this.lng = place.geometry.location.lng();
+      this.setMapCoordinate();
+      this.markerPositions = place.geometry.location.toJSON();
+    }
   }
 
   get FoodCategoryFormControl(): FormControl {
@@ -121,9 +232,14 @@ export class RestaurantInfoComponent implements OnInit {
     return businessHour.controls['day'];
   }
 
-  getTimeFormControl(index: number): AbstractControl {
+  getStartTimeFormControl(index: number): AbstractControl {
     const businessHour = this.BusinessHourArray.controls[index] as FormGroup;
-    return businessHour.controls['time'];
+    return businessHour.controls['startTime'];
+  }
+
+  getEndTimeFormControl(index: number): AbstractControl {
+    const businessHour = this.BusinessHourArray.controls[index] as FormGroup;
+    return businessHour.controls['endTime'];
   }
 
   get FoodCategoryList(): Array<string> {
@@ -195,9 +311,12 @@ export class RestaurantInfoComponent implements OnInit {
         day: new FormControl(null, [
           Validators.required
         ]),
-        time: new FormControl('', [
+        startTime: new FormControl(null, [
           Validators.required
-        ])
+        ]),
+        endTime: new FormControl(null, [
+          Validators.required
+        ]),
       }, {
         validators: this.timeRageValidator
       });
@@ -244,21 +363,74 @@ export class RestaurantInfoComponent implements OnInit {
   }
 
   timeRageValidator(control: AbstractControl) {
-    const [start, end] = control.get('time')?.value;
+    const start = control.get('startTime')?.value;
+    const end = control.get('endTime')?.value;
 
-    if (!(start && end)) {
-      control.get('time')?.setErrors({ 'incorrect': true });
-    } else {
-      return null;
+    if (start && end) {
+      let stime = new Date(`01/01/2001 ${start}:00`).getTime();
+      let etime = new Date(`01/01/2001 ${end}:00`).getTime();
+
+      if (stime >= etime) {
+        control.get('startTime')?.setErrors({ 'incorrect': true });
+        control.get('endTime')?.setErrors({ 'incorrect': true });
+      } else {
+        control.get('startTime')?.setErrors(null);
+        control.get('endTime')?.setErrors(null);
+      }
     }
     return null;
   }
 
+  getRestaurantInfo() {
+    let restaurantInfo = new RestaurantInfoModel();
+    restaurantInfo.restaurantName = this.registerRestaurantForm.controls['restaurantName'].value;
+    restaurantInfo.minPriceRate = this.registerRestaurantForm.controls['minPriceRate'].value;
+    restaurantInfo.maxPriceRate = this.registerRestaurantForm.controls['maxPriceRate'].value;
+    restaurantInfo.restaurantType = this.registerRestaurantForm.controls['restaurantType'].value;
+    restaurantInfo.categories = this.registerRestaurantForm.controls['foodCategory']?.value;
+    restaurantInfo.deliveryType = this.registerRestaurantForm.controls['deliveryType']?.value;
+    restaurantInfo.paymentMethods = this.registerRestaurantForm.controls['paymentMethod']?.value;
+    restaurantInfo.businessHours = new Array<BusinessHourModel>();
+    restaurantInfo.contact = new Array<RestaurantContactModel>();
+
+    restaurantInfo.address = new RestaurantAddressModel();
+    restaurantInfo.address.address = this.registerRestaurantForm.controls['address'].value;
+    restaurantInfo.address.latitude = this.lat;
+    restaurantInfo.address.longitude = this.lng;
+
+    for (let i=0; i<this.BusinessHourArray.length; i++) {
+      const businessHour = this.BusinessHourArray.controls[i] as FormGroup;
+      let businessHourInfo = new BusinessHourModel();
+      businessHourInfo.day = businessHour.controls['day'].value;
+      businessHourInfo.startTime = businessHour.controls['startTime'].value;
+      businessHourInfo.endTime = businessHour.controls['endTime'].value;
+      restaurantInfo.businessHours.push(businessHourInfo);
+    }
+
+    for (let j=0; j<this.SocialContactArray.length; j++) {
+      const contact = this.SocialContactArray.controls[j] as FormGroup;
+      let contactInfo = new RestaurantContactModel();
+      contactInfo.social = contact.controls['contact'].value;
+      contactInfo.contactValue = contact.controls['contactValue'].value;
+      restaurantInfo.contact.push(contactInfo);
+    }
+    return restaurantInfo;
+  }
+
   checkFormIsValid() {
     this.registerRestaurantForm.markAllAsTouched();
+    this.registerRestaurantForm.enable();
 
-    if (this.registerRestaurantForm.valid) {
+    if (this.registerRestaurantForm.valid && this.markerPositions) {
+      let restaurantInfo = this.getRestaurantInfo();
+      this.registerRestaurantForm.disable();
+      this.restaurantInfoFormValue.emit(restaurantInfo);
       this.isFormValid.emit(true);
+    } else {
+      if (!this.markerPositions) {
+        // user don't set marker
+        this.isNotSetMarker = true;
+      }
     }
   }
 }

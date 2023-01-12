@@ -5,23 +5,41 @@ import { RandomFoodComponent } from './random-food/random-food.component';
 import { ReviewerHomepageComponent } from './homepage/homepage.component';
 import { SearchRestaurantComponent } from './search-result/search-result.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
+import { AuthGuardService } from '../service/auth-guard.service';
+import { AccountType } from 'src/enum/account-type.enum';
 
 const routes: Routes = [
   {
     path: '',
-    component: ReviewerHomepageComponent
+    component: ReviewerHomepageComponent,
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccountType.Reviewer],
+    },
   },
   {
     path: 'search',
-    component: SearchRestaurantComponent
+    component: SearchRestaurantComponent,
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccountType.Reviewer],
+    },
   },
   {
     path: 'random',
-    component: RandomFoodComponent
+    component: RandomFoodComponent,
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccountType.Reviewer],
+    },
   },
   {
     path: 'restaurant',
-    component: RestaurantDetailComponent
+    component: RestaurantDetailComponent,
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccountType.Reviewer],
+    },
   },
   {
     path: '',

@@ -9,10 +9,10 @@ export class DetailComponent implements OnInit {
   Info: any = {
     Rating: 3.5,
     TotalReview: 51,
-    Menus: ["กระเพรา", "ข้าวผัด", "ก๋วยเตี๋ยว"],
+    Menus: ["กระเพรา", "ข้าวผัด", "ก๋วยเตี๋ยว","ราดหน้า", "มาม่าผัด", "เขียวหวาน"],
     Stars: [ "star", "star", "star", "star_half", "star_empty" ],
     Payments: [ "เงินสด", "รับโอน" ],
-    Images: [ "../../../assets/image/image.svg", "../../../assets/image/image.svg", "../../../assets/image/image.svg" ],
+    Images: [ "../../../assets/image/image.jpg", "../../../assets/image/image.jpg", "../../../assets/image/image.jpg" ],
     Types: [ "อาหาร", "เครื่องดื่ม"],
   }
   
