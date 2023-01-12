@@ -1,4 +1,4 @@
-<app-navbar *ngIf="!isLogin"></app-navbar>
+<app-navbar class="sticky-top" *ngIf="!isLogin"></app-navbar>
 <div [ngClass]="isLogin ? 'vh-100':'container page-height'">
   <router-outlet></router-outlet>
 </div>

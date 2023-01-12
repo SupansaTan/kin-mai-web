@@ -21,3 +21,12 @@
     background-color: #cecdcd;
   }
 }
+
+.btn-word {
+  background-color: $light-grey;
+  border-radius: 15px;
+
+  &:hover, &:focus, &:active {
+  background-color: #f8e29b;
+}
+}

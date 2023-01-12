@@ -18,7 +18,7 @@ const routes: Routes = [
     },
   },
   {
-    path: 'find',
+    path: 'search',
     component: SearchRestaurantComponent,
     canActivate: [AuthGuardService],
     data: {
