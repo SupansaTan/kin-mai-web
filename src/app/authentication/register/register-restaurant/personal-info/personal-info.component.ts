@@ -111,6 +111,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     this.registerReviewerForm.controls['lastname'].setValue(this.lastname);
     this.registerReviewerForm.controls['email'].setValue(this.email);
     this.registerReviewerForm.controls['email'].disable();
+    this.registerReviewerForm.controls['username'].markAsTouched();
   }
 
   getPersonalInfo() {
