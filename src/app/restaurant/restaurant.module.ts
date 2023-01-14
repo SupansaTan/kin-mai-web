@@ -8,13 +8,15 @@ import { EditRestaurantDetailComponent } from './edit-detail/edit-detail.compone
 import { RestaurantRoutingModule } from './restaurant-routing.module';
 import { DetailComponent } from './detail/detail.component';
 import { EditRestaurantInfoComponent } from './edit-detail/edit-restaurant-info/edit-restaurant-info.component';
+import { EditUploadPhotoComponent } from './edit-detail/edit-upload-photo/edit-upload-photo.component';
 
 @NgModule({
   declarations: [
     RestaurantDashboardComponent,
     EditRestaurantDetailComponent,
     DetailComponent,
-    EditRestaurantInfoComponent
+    EditRestaurantInfoComponent,
+    EditUploadPhotoComponent
   ],
   imports: [
     CommonModule,
