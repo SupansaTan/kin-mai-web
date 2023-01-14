@@ -138,7 +138,7 @@
       <div class="col">
         <label for="foodCategory" class="form-label fw-semibold">ประเภทอาหารที่ขาย</label>
         <ng-select [items]="foodCategory" bindLabel="name" bindValue="id" placeholder="เลือกประเภทอาหาร" formControlName="foodCategory"
-          [multiple]="true" [clearable]="false" [searchable]="false">
+          [multiple]="true" [clearable]="false" [searchable]="false" [closeOnSelect]="false">
           <ng-template ng-multi-label-tmp let-item="item" let-items="items" let-clear="clear">
             <label>{{ items.length }} ประเภท</label>
           </ng-template>

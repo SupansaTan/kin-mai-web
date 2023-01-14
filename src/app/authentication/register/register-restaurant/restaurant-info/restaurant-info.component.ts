@@ -80,7 +80,6 @@ export class RestaurantInfoComponent implements OnInit, AfterViewInit {
   }
 
   initForm() {
-    console.log(this.backUpRegisterInfo)
     this.formatAddress = this.backUpRegisterInfo?.address?.address ?? '';
     this.registerRestaurantForm = this.fb.group({
       restaurantName: new FormControl(this.backUpRegisterInfo?.restaurantName ?? '', [
