@@ -1,83 +1,121 @@
 <ng-template #modalReview>
-    <div class="container pb-2">
-        <div class="modal-header">
-            <h2 class="m-0">รีวิวร้านอาหาร : ร้านคุณป้าใจป้ำ</h2>
-            <button type="button" class="btn-close" (click)="closeModal()"></button>
-        </div>
-    
-        <div class="modal-body my-2 mx-3 ">
-            <div class="row align-items-center justify-content-center mb-3">
-                <div class="col-md-auto d-flex justify-content-center mb-2">
-                    <h3 class="m-0 me-2">คุณภาพอาหาร & บรรยากาศร้านอาหาร :</h3>
-                </div>
-                <div class="col-auto mb-2">
-                    <ngb-rating [(rate)]="currentRate" [max]="5" [formControl]="ctrl">
-                        <ng-template let-fill="fill" let-index="index">
-                            <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color"></i>
-                        </ng-template>
-                    </ngb-rating>
-                </div>
-                <div class="col-md d-flex justify-content-center mb-2">
-                    <div *ngIf="ctrl.valid">
-                        <h3 *ngIf="this.currentRate == 5" class="m-0" style="color:green">สุดยอด!<i class="bi bi-emoji-heart-eyes ms-2"></i></h3>
-                        <h3 *ngIf="this.currentRate == 4" class="m-0">ดีมาก<i class="bi bi-emoji-laughing ms-2"></i></h3>
-                        <h3 *ngIf="this.currentRate == 3" class="m-0">ดี<i class="bi bi-emoji-smile ms-2"></i></h3>
-                        <h3 *ngIf="this.currentRate == 2" class="m-0">พอใช้<i class="bi bi-emoji-expressionless ms-2"></i></h3>
-                        <h3 *ngIf="this.currentRate == 1" class="m-0" style="color:rgb(184, 0, 0)">ไม่ประทับใจ<i class="bi bi-emoji-frown ms-2"></i></h3>
-                    </div>
-                </div>
+    <form>
+        <div class="container pb-2">
+            <div class="modal-header">
+                <h2 class="m-0">รีวิวร้านอาหาร : ร้านคุณป้าใจป้ำ</h2>
+                <button type="button" class="btn-close" (click)="closeModal()"></button>
             </div>
-
-            <div class="row px-2">
-                <div class="col mb-2">
-                    <button class="btn btn-word">อาหารถูกต้อง</button>
-                </div>
-                <div class="col mb-2">
-                    <button class="btn btn-word">สะอาดและปลอดภัย</button>
-                </div>
-                <div class="col mb-2">
-                    <button class="btn btn-word">อาหารคุณภาพดี</button>
-                </div>
-                <div class="col mb-2">
-                    <button class="btn btn-word">บรรจุภัณฑ์เหมาะสม</button>
-                </div>
-
-                <div class="my-2">
-                    <textarea class="form-control" id="comment" rows="3" placeholder="เริ่มเขียนรีวิว!"></textarea>
-                </div>
-
-                <div class="d-flex mt-2">
-                    <img src="../assets/image/interfood.jpg" alt="" class="img">
-                    <img src="../assets/image/interfood.jpg" alt="" class="img">
-                </div>
-
-                <div class="d-flex align-items-center my-3">
-                    <h3 class="m-0">เมนูแนะนำ</h3>
-                    <button class="btn btn-add d-flex align-items-center ms-2">
-                        <i class="bi bi-plus" style="color: #000000;"></i>
-                        <h3 class="m-0">เพิ่ม</h3>
-                    </button>  
-                </div>
-
-                <div class="d-flex align-items-center">
-                    <div class="col-auto">
-                        <input class="form-control col-3" type="text" value="ข้าวไข่เจียว" readonly>  
+        
+            <div class="modal-body my-2 mx-3 ">
+                <!-- Rating -->
+                <div class="row align-items-center justify-content-center mb-3">
+                    <div class="col-md-auto d-flex justify-content-center mb-2">
+                        <h3 class="m-0 me-2">คุณภาพอาหาร & บรรยากาศร้านอาหาร :</h3>
                     </div>
-                    <div class="col-auto">
-                        <button class="btn"><i class="bi bi-trash text-danger col-2 fs-3"></i></button>
+                    <div class="col-auto mb-2">
+                        <ngb-rating [(rate)]="currentRate" [max]="5" [formControl]="ctrl">
+                            <ng-template let-fill="fill" let-index="index">
+                                <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color"></i>
+                            </ng-template>
+                        </ngb-rating>
                     </div>
+                    <div class="col-md d-flex justify-content-center mb-2">
+                        <div *ngIf="ctrl.valid">
+                            <h3 *ngIf="this.currentRate == 5" class="m-0" style="color:green">สุดยอด!<i class="bi bi-emoji-heart-eyes ms-2"></i></h3>
+                            <h3 *ngIf="this.currentRate == 4" class="m-0">ดีมาก<i class="bi bi-emoji-laughing ms-2"></i></h3>
+                            <h3 *ngIf="this.currentRate == 3" class="m-0">ดี<i class="bi bi-emoji-smile ms-2"></i></h3>
+                            <h3 *ngIf="this.currentRate == 2" class="m-0">พอใช้<i class="bi bi-emoji-expressionless ms-2"></i></h3>
+                            <h3 *ngIf="this.currentRate == 1" class="m-0" style="color:rgb(184, 0, 0)">ไม่ประทับใจ<i class="bi bi-emoji-frown ms-2"></i></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row px-2">
+                    <!-- Button Review Word -->
+                    <div class="col mb-2">
+                        <button class="btn btn-word">อาหารถูกต้อง</button>
+                    </div>
+                    <div class="col mb-2">
+                        <button class="btn btn-word">สะอาดและปลอดภัย</button>
+                    </div>
+                    <div class="col mb-2">
+                        <button class="btn btn-word">อาหารคุณภาพดี</button>
+                    </div>
+                    <div class="col mb-2">
+                        <button class="btn btn-word">บรรจุภัณฑ์เหมาะสม</button>
+                    </div>
+
+                    <!-- Input Comment -->
+                    <div class="my-2">
+                        <textarea class="form-control" id="comment" rows="3" placeholder="เริ่มเขียนรีวิว!"></textarea>
+                    </div>
+
+                    <!-- Upload Photo -->
+                    <div class="row d-flex align-items-center justify-content-center">
+                          <!-- upload photo of menu or restaurant -->
+                          <div class="col">
+                            <div cdkDropListGroup class="d-flex flex-wrap">
+                              <!-- show all image is selected -->
+                              <ng-container *ngFor="let image of restaurantImageList; let i = index">
+                                <div cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+                                    <div class="position-relative me-4 mt-3" role="button" cdkDrag>
+                                    <div *cdkDragPlaceholder></div>
+                                    <img
+                                      [src]="image"
+                                      class="rounded-2 shadow-sm"
+                                      style="width: auto; height: 93px; object-fit: cover;"
+                                    />
+                                    <i class="bi bi-x bg-danger text-white rounded-circle position-absolute remove" (click)="removeImage(i)"></i>
+                                  </div>
+                                </div>
+                              </ng-container>
                     
+                              <!-- upload image button -->
+                              <label role="button" for="photo"
+                                class="bg-light-grey rounded-2 py-3 px-2 d-flex align-items-center justify-content-center flex-column shadow-sm mt-1 upload-image mt-3"
+                                [ngClass]="{ 'border-danger': uploadPhotoForm.controls['photo'].invalid && uploadPhotoForm.controls['photo'].touched }">
+                                <i class="bi bi-camera-fill" style="font-size: 25px;"></i>
+                                <span>อัพโหลดรูป</span>
+                                <input id="photo" type="file" [multiple]="true" formControlName="photo" class="d-none"
+                                  (change)="onSelectFile($event)" accept="image/png, image/jpeg">
+                              </label>
+                            </div>
+                    
+                            <div *ngIf="uploadPhotoForm.controls['photo'].invalid && uploadPhotoForm.controls['photo'].touched"
+                              class="text-danger mt-2">
+                              Image of menu or restaurant is reqiured.
+                            </div>
+
+                        </div>
+                      </div>
+
+                    <!-- Recommend menu -->
+                    <div class="d-flex align-items-center my-3">
+                        <h3 class="m-0">เมนูแนะนำ</h3>
+                        <button class="btn btn-add d-flex align-items-center ms-2">
+                            <i class="bi bi-plus" style="color: #000000;"></i>
+                            <h3 class="m-0">เพิ่ม</h3>
+                        </button>  
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <div class="col-auto">
+                            <input class="form-control col-3" type="text" value="ข้าวไข่เจียว" readonly>  
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn"><i class="bi bi-trash text-danger col-2 fs-3"></i></button>
+                        </div>
+                    </div>
                     
                 </div>
                 
-
             </div>
-            
-        </div>
 
-        <div class="d-flex justify-content-end">
-            <button class="btn btn-yellow w-25">ยืนยัน</button>
-        </div>
+            <!-- Submit button -->
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-yellow w-25">ยืนยัน</button>
+            </div>
 
-    </div>
+        </div>
+    </form>
 </ng-template>
