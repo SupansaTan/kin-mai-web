@@ -95,15 +95,15 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
     this.onResetUserType.emit();
   }
 
-  set personalInfoFormValue(personalInfo: ReviewerRegisterModel) {
+  personalInfoFormValue(personalInfo: ReviewerRegisterModel) {
     this.personalInfoForm = personalInfo;
   }
 
-  set restaurantInfoFormValue(restaurantInfo: RestaurantInfoModel) {
+  restaurantInfoFormValue(restaurantInfo: RestaurantInfoModel) {
     this.restaurantInfoForm = restaurantInfo;
   }
 
-  set restaurantPhotoFormValue(restaurantPhoto: RestaurantPhotoModel) {
+  restaurantPhotoFormValue(restaurantPhoto: RestaurantPhotoModel) {
     this.restaurantPhotoForm = restaurantPhoto;
   }
 
