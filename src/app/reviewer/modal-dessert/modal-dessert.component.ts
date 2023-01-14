@@ -1,15 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-modal-dessert',
   templateUrl: './modal-dessert.component.html',
   styleUrls: ['./modal-dessert.component.scss']
 })
-export class ModalDessertComponent implements OnInit {
+export class ModalDessertComponent  {
+  @ViewChild('successModalDessert') successModalDessert: TemplateRef<any>;
+  @Output() closeModalEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor() { }
+  modalRef: BsModalRef;
 
-  ngOnInit(): void {
+  constructor(private modalService: BsModalService) { }
+
+  public openSuccessModal(): void {
+    this.modalRef = this.modalService.show(this.successModalDessert, {
+      class: 'modal-md modal-dialog-centered',
+      backdrop: 'static',
+      keyboard: false,
+    });
+  }
+
+  closeModal(): void {
+    this.modalRef.hide();
   }
 
 }
