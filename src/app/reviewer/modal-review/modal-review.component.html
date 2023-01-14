@@ -19,11 +19,11 @@
                 </div>
                 <div class="col-md d-flex justify-content-center mb-2">
                     <div *ngIf="ctrl.valid">
-                        <h3 *ngIf="this.currentRate == 5" class="m-0 me-2">สุดยอด!</h3>
-                        <h3 *ngIf="this.currentRate == 4" class="m-0 me-2">ดีมาก</h3>
-                        <h3 *ngIf="this.currentRate == 3" class="m-0 me-2">ดี</h3>
-                        <h3 *ngIf="this.currentRate == 2" class="m-0 me-2">พอใช้</h3>
-                        <h3 *ngIf="this.currentRate == 1" class="m-0 me-2">แย่</h3>
+                        <h3 *ngIf="this.currentRate == 5" class="m-0" style="color:green">สุดยอด!<i class="bi bi-emoji-heart-eyes ms-2"></i></h3>
+                        <h3 *ngIf="this.currentRate == 4" class="m-0">ดีมาก<i class="bi bi-emoji-laughing ms-2"></i></h3>
+                        <h3 *ngIf="this.currentRate == 3" class="m-0">ดี<i class="bi bi-emoji-smile ms-2"></i></h3>
+                        <h3 *ngIf="this.currentRate == 2" class="m-0">พอใช้<i class="bi bi-emoji-expressionless ms-2"></i></h3>
+                        <h3 *ngIf="this.currentRate == 1" class="m-0" style="color:rgb(184, 0, 0)">ไม่ประทับใจ<i class="bi bi-emoji-frown ms-2"></i></h3>
                     </div>
                 </div>
             </div>
