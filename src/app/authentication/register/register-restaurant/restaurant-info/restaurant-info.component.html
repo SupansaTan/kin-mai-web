@@ -229,7 +229,7 @@
                 [ngClass]="{ 'border-danger' : getContactValueFormControl(i).errors && getContactValueFormControl(i).touched }"
               />
             </div>
-            <i class="bi bi-trash col-auto fs-4 ps-0 text-danger" role="button" (click)="removeSocialContact(i)"></i>
+            <i class="bi bi-trash col-auto fs-4 ps-0 text-danger" role="button" (click)="removeSocialContact(i)" [hidden]="stage !== 2"></i>
           </div>
 
           <!-- any contact -->
@@ -271,7 +271,11 @@
               >
             </div>
 
-            <i *ngIf="j > 0" class="bi bi-trash col-auto fs-4 ps-0 text-danger" role="button" (click)="removeBusinessHour(j)"></i>
+            <i *ngIf="j > 0" class="bi bi-trash col-auto fs-4 ps-0 text-danger" role="button"
+              [hidden]="stage !== 2"
+              (click)="removeBusinessHour(j)"
+            >
+            </i>
           </div>
         </ng-container>
       </div>
