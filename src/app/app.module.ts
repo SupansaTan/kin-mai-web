@@ -11,11 +11,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditUploadPhotoComponent } from './edit-upload-photo/edit-upload-photo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
+    EditUploadPhotoComponent,
   ],
   imports: [ 
     MbscModule,
