@@ -11,27 +11,28 @@ const routes: Routes = [
   {
     path: '',
     component: RestaurantDashboardComponent,
-    canActivate: [AuthGuardService],
-    data: {
-      AccessLevel: [AccountType.RestaurantOwner],
-    },
+    // canActivate: [AuthGuardService],
+    // data: {
+    //   AccessLevel: [AccountType.RestaurantOwner],
+    // },
   },
   {
     path: 'detail',
     component: DetailComponent,
-    canActivate: [AuthGuardService],
-    data: {
-      AccessLevel: [AccountType.RestaurantOwner],
-    },
+    // canActivate: [AuthGuardService],
+    // data: {
+    //   AccessLevel: [AccountType.RestaurantOwner],
+    // },
   },
   {
     path: 'edit',
     component: EditRestaurantDetailComponent,
-    canActivate: [AuthGuardService],
-    data: {
-      AccessLevel: [AccountType.RestaurantOwner],
-    },
+    // canActivate: [AuthGuardService],
+    // data: {
+    //   AccessLevel: [AccountType.RestaurantOwner],
+    // },
   },
+  
   {
     path: '',
     redirectTo: '/restaurant',
