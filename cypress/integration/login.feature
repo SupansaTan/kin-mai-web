@@ -56,3 +56,10 @@ Feature: Login page
       | forgetPasswordBtn |
     When I click on "Forget your password"
     Then I should be on Reset password page
+    When I fill new password and confirm password
+    And  I press "submit"
+    Then I should be on login page
+
+
+
+
