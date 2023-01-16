@@ -9,7 +9,7 @@ Feature: Restaurant Edit Detail
     Given I visit on the Restaurant Detail
     Then  I should see all detail
     When  I press "edit" button
-    Then  I should be on Restaurant's edit detail page
+    Then  I should be on restaurant edit detail page
 
   Scenario: Restaurant owner with valid form
     Given I visit on the restaurant edit page
