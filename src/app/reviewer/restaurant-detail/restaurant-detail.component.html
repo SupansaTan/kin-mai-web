@@ -3,6 +3,7 @@
     <div class="row">
         <!-- Image -->
         <div class="col-md-2 mb-2">
+          <a type="button" (click)="openModalGallery()">
             <div class="mb-2 mx-1">
               <img src="../../../assets/image/food-real.jpg" class="rounded big-img"/>
             </div>
@@ -11,6 +12,7 @@
                     <img src="{{item}}" class="rounded mini-img"/>
                 </div>
             </div>
+          </a>  
         </div>
 
         <!-- Detail -->
@@ -193,3 +195,5 @@
 
 <!-- Modal -->
 <app-modal-review #modalReviewComponent></app-modal-review>
+
+<app-modal-gallery #modalGalleryComponent></app-modal-gallery>
