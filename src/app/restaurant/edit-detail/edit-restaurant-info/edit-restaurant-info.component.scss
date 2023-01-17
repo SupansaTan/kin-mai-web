@@ -1,0 +1,22 @@
+@import '../../../../scss/variable';
+
+.currency-symbol {
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+::ng-deep .border-danger .map-container {
+  border: 1px solid #dc3545;
+}
+
+/* select dropdown */
+::ng-deep .ng-select.ng-touched.ng-invalid .ng-select-container {
+  border: 1px solid #dc3545;
+}
+

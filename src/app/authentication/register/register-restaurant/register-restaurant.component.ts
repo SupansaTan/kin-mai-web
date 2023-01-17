@@ -1,4 +1,5 @@
-import { ReviewerRegisterModel, RestaurantInfoModel, RestaurantPhotoModel } from './../../../../models/register.model';
+import { ResponseModel } from 'src/models/response.model';
+import { ReviewerRegisterModel, RestaurantInfoModel, RestaurantPhotoModel, RestaurantRegisterModel } from './../../../../models/register.model';
 import { UploadPhotoComponent } from './upload-photo/upload-photo.component';
 import { RestaurantInfoComponent } from './restaurant-info/restaurant-info.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
@@ -31,6 +32,7 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
   lastname: string;
   email: string;
   stage: number = 2;
+  isSubmit: boolean = false;
   isShowPassword: boolean = false;
   isFormValid: boolean = false;
   isLoginWithGoogle: boolean = false;
@@ -95,15 +97,15 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
     this.onResetUserType.emit();
   }
 
-  set personalInfoFormValue(personalInfo: ReviewerRegisterModel) {
+  personalInfoFormValue(personalInfo: ReviewerRegisterModel) {
     this.personalInfoForm = personalInfo;
   }
 
-  set restaurantInfoFormValue(restaurantInfo: RestaurantInfoModel) {
+  restaurantInfoFormValue(restaurantInfo: RestaurantInfoModel) {
     this.restaurantInfoForm = restaurantInfo;
   }
 
-  set restaurantPhotoFormValue(restaurantPhoto: RestaurantPhotoModel) {
+  restaurantPhotoFormValue(restaurantPhoto: RestaurantPhotoModel) {
     this.restaurantPhotoForm = restaurantPhoto;
   }
 
@@ -129,6 +131,24 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.successModal.openSuccessModal(true, 'สร้างบัญชีผู้ใช้สำเร็จ');
+    this.isSubmit = true;
+    let registerInfo = new RestaurantRegisterModel();
+    registerInfo.personalInfo = this.personalInfoForm;
+    registerInfo.restaurantInfo = this.restaurantInfoForm;
+    registerInfo.restaurantAdditionInfo = this.restaurantPhotoForm;
+    console.log(registerInfo)
+    // this.authenticationService.restaurantRegister(registerInfo).subscribe(
+    //   (response: ResponseModel<boolean>) => {
+    //     if (response?.status === 200) {
+    //       this.successModal.openSuccessModal(true, 'สร้างบัญชีผู้ใช้สำเร็จ');
+    //       setTimeout(() => {
+    //         this.isSubmit = false;
+    //         this.routePage();
+    //       }, 200);
+    //     } else {
+    //       this.successModal.openSuccessModal(false, 'ไม่สามารถสร้างบัญชีได้ในขณะนี้ โปรดลองอีกครั้ง');
+    //       this.isSubmit = false;
+    //     }
+    // })
   }
 }

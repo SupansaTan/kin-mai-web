@@ -5,7 +5,7 @@ import { DeliveryType } from './../../../../../constant/delivery-type.constant';
 import { PaymentMethod } from './../../../../../constant/payment-method.constant';
 import { DrinkAndDessertCategory, FoodCategory } from './../../../../../constant/food-category.constant';
 import { RestaurantType } from './../../../../../constant/restaurant-type.constant';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { DayList } from 'src/constant/day-list.constant';
 import { RestaurantTypeEnum } from 'src/enum/restaurant-type.enum';
@@ -19,11 +19,12 @@ import { Address } from 'ngx-google-places-autocomplete/objects/address';
   templateUrl: './restaurant-info.component.html',
   styleUrls: ['./restaurant-info.component.scss']
 })
-export class RestaurantInfoComponent implements OnInit {
+export class RestaurantInfoComponent implements OnInit, AfterViewInit {
   @Output() isFormValid = new EventEmitter<boolean>();
   @Output() restaurantInfoFormValue = new EventEmitter<RestaurantInfoModel>();
 
   registerRestaurantForm: FormGroup;
+  backUpRegisterInfo: RestaurantInfoModel;
   deliveryTypeInput: FormControl = new FormControl([]);
   paymentMethodInput: FormControl = new FormControl([]);
   currentStage: number = 0;
@@ -47,31 +48,63 @@ export class RestaurantInfoComponent implements OnInit {
     private fb: FormBuilder,
     private httpClient: HttpClient,
     private geocoder: MapGeocoder,
+    private changeDetectorRef: ChangeDetectorRef
     ) {
+    this.initForm();
+  }
+
+  ngOnInit(): void {
+    this.getUserCurrentLocation();
+    this.apiLoaded = this.httpClient
+      .jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApi}`, 'callback')
+      .pipe(
+        map(() => true),
+        catchError(() => of(false)),
+      );
+    // set google map options
+    this.options = {
+      center: {
+        lat: this.backUpRegisterInfo?.address?.latitude ?? 13.736717,
+        lng: this.backUpRegisterInfo?.address?.longitude ?? 100.523186
+      },
+      zoom: 15,
+      streetViewControl: false,
+      mapTypeControl: false,
+      fullscreenControl: false,
+    };
+  }
+
+  ngAfterViewInit(): void {
+    this.initForm();
+    this.changeDetectorRef.detectChanges();
+  }
+
+  initForm() {
+    this.formatAddress = this.backUpRegisterInfo?.address?.address ?? '';
     this.registerRestaurantForm = this.fb.group({
-      restaurantName: new FormControl('', [
+      restaurantName: new FormControl(this.backUpRegisterInfo?.restaurantName ?? '', [
         Validators.minLength(3),
         Validators.required
       ]),
-      minPriceRate: new FormControl('', [
+      minPriceRate: new FormControl(this.backUpRegisterInfo?.minPriceRate ?? '', [
         Validators.minLength(1),
         Validators.required
       ]),
-      maxPriceRate: new FormControl('', [
+      maxPriceRate: new FormControl(this.backUpRegisterInfo?.maxPriceRate ?? '', [
         Validators.minLength(1),
         Validators.required
       ]),
-      address: new FormControl('', [
+      address: new FormControl(this.backUpRegisterInfo?.address?.address ?? '', [
         Validators.required
       ]),
-      restaurantType: new FormControl(null, [
+      restaurantType: new FormControl(this.backUpRegisterInfo?.restaurantType ?? null, [
         Validators.required
       ]),
-      foodCategory: new FormControl([]),
-      deliveryType: new FormControl([]),
-      paymentMethod: new FormControl([]),
-      socialContact: this.fb.array([]),
-      businessHour: this.fb.array([
+      foodCategory: new FormControl(this.backUpRegisterInfo?.categories ?? []),
+      deliveryType: new FormControl(this.backUpRegisterInfo?.deliveryType ?? []),
+      paymentMethod: new FormControl(this.backUpRegisterInfo?.paymentMethods ?? []),
+      socialContact: this.fb.array(this.backUpRegisterInfo?.contact ?? []),
+      businessHour: this.fb.array(this.backUpRegisterInfo?.businessHours ? []: [
         this.fb.group({
           day: new FormControl(null, [
             Validators.required
@@ -87,27 +120,14 @@ export class RestaurantInfoComponent implements OnInit {
         })
       ])
     })
-  }
 
-  ngOnInit(): void {
-    this.getUserCurrentLocation();
-    this.apiLoaded = this.httpClient
-      .jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApi}`, 'callback')
-      .pipe(
-        map(() => true),
-        catchError(() => of(false)),
-      );
-    // set google map options
-    this.options = {
-      center: {
-        lat: 13.736717,
-        lng: 100.523186
-      },
-      zoom: 15,
-      streetViewControl: false,
-      mapTypeControl: false,
-      fullscreenControl: false,
-    };
+    if (this.backUpRegisterInfo?.businessHours) {
+      this.setBusinessHour(this.backUpRegisterInfo.businessHours);
+    }
+
+    if (this.backUpRegisterInfo?.address?.markerPosition) {
+      this.markerPositions = this.backUpRegisterInfo.address.markerPosition;
+    }
   }
 
   @Input()
@@ -123,6 +143,11 @@ export class RestaurantInfoComponent implements OnInit {
 
   get stage() {
     return this.currentStage;
+  }
+
+  @Input()
+  set formValue(registerInfo: RestaurantInfoModel) {
+    this.backUpRegisterInfo = registerInfo;
   }
 
   getUserCurrentLocation() {
@@ -324,6 +349,25 @@ export class RestaurantInfoComponent implements OnInit {
     }
   }
 
+  setBusinessHour(timeList: Array<BusinessHourModel>) {
+    for (let i=0; i<timeList.length; i++) {
+      const newBusinessHourForm = this.fb.group({
+        day: new FormControl(timeList[i].day ?? null, [
+          Validators.required
+        ]),
+        startTime: new FormControl(timeList[i].startTime ?? null, [
+          Validators.required
+        ]),
+        endTime: new FormControl(timeList[i].endTime ?? null, [
+          Validators.required
+        ]),
+      }, {
+        validators: this.timeRageValidator
+      });
+      this.BusinessHourArray.push(newBusinessHourForm);
+    }
+  }
+
   removeSocialContact(index: number) {
     this.SocialContactArray.removeAt(index);
   }
@@ -397,6 +441,7 @@ export class RestaurantInfoComponent implements OnInit {
     restaurantInfo.address.address = this.registerRestaurantForm.controls['address'].value;
     restaurantInfo.address.latitude = this.lat;
     restaurantInfo.address.longitude = this.lng;
+    restaurantInfo.address.markerPosition = this.markerPositions;
 
     for (let i=0; i<this.BusinessHourArray.length; i++) {
       const businessHour = this.BusinessHourArray.controls[i] as FormGroup;
