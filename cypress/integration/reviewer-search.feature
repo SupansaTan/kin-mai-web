@@ -32,8 +32,8 @@ Feature: Reviewer search restaurant
   Scenario: Reviewer can filters restaurant
     Given I visit on the search restaurant 
     When  I search "somtam" in a search box
-    And   I filter restarant 
-    Then  I should see "somtam restaurant" with filters near me
+    And   I filter "open"restarant 
+    Then  I should see somtam restaurant with "open" filters near me
   
   Scenario: Reviewer can reset filters restaurant
     Given I visit on the search restaurant 
