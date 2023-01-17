@@ -6,6 +6,7 @@
         <label for="firstname" class="form-label fw-semibold">ชื่อ <span class="text-danger">*</span></label>
         <input id="firstname" type="text" placeholder="ชื่อ" formControlName="firstname" class="form-control shadow-none"
           [ngClass]="{ 'border-danger': registerReviewerForm.controls['firstname'].invalid && registerReviewerForm.controls['firstname'].touched }"
+          [attr.disabled]="stage === 4 ? true:null"
         >
 
         <div *ngIf="registerReviewerForm.controls['firstname'].invalid && registerReviewerForm.controls['firstname'].touched" class="text-danger mt-2">
@@ -20,9 +21,10 @@
 
       <!-- lastname -->
       <div class="col">
-        <label for="firstname" class="form-label fw-semibold">นามสกุล <span class="text-danger">*</span></label>
+        <label for="lastname" class="form-label fw-semibold">นามสกุล <span class="text-danger">*</span></label>
         <input id="lastname" type="text" placeholder="นามสกุล" formControlName="lastname" class="form-control shadow-none"
           [ngClass]="{ 'border-danger': registerReviewerForm.controls['lastname'].invalid && registerReviewerForm.controls['lastname'].touched }"
+          [attr.disabled]="stage === 4 ? true:null"
         >
 
         <div *ngIf="registerReviewerForm.controls['lastname'].invalid && registerReviewerForm.controls['lastname'].touched" class="text-danger mt-2">
@@ -40,6 +42,7 @@
         <label for="username" class="form-label fw-semibold">ชื่อบัญชีผู้ใช้ <span class="text-danger">*</span></label>
         <input id="username" type="text" placeholder="ชื่อบัญชีผู้ใช้" formControlName="username" class="form-control shadow-none"
           [ngClass]="{ 'border-danger': registerReviewerForm.controls['username'].invalid && registerReviewerForm.controls['username'].touched }"
+          [attr.disabled]="stage === 4 ? true:null"
         >
 
         <div *ngIf="registerReviewerForm.controls['username'].invalid && registerReviewerForm.controls['username'].touched" class="text-danger mt-2">
@@ -57,6 +60,7 @@
         <label for="email" class="form-label fw-semibold">อีเมล <span class="text-danger">*</span></label>
         <input id="email" type="email" placeholder="Email" formControlName="email" class="form-control shadow-none"
           [ngClass]="{ 'border-danger': registerReviewerForm.controls['email'].invalid && registerReviewerForm.controls['email'].touched }"
+          [attr.disabled]="stage === 4 ? true:null"
         >
 
         <div *ngIf="registerReviewerForm.controls['email'].invalid && registerReviewerForm.controls['email'].touched" class="text-danger mt-2">
@@ -75,9 +79,12 @@
         <div class="position-relative">
           <input id="password" [type]="isShowPassword ? 'text':'password'" placeholder="Password" formControlName="password" class="form-control shadow-none"
             [ngClass]="{ 'border-danger': registerReviewerForm.controls['password'].invalid && registerReviewerForm.controls['password'].touched }"
+            [attr.disabled]="stage === 4 ? true:null"
           >
           <i class="bi eye-icon position-absolute" role="button" (click)="isShowPassword = !isShowPassword"
-            [ngClass]="isShowPassword ? 'bi-eye-slash':'bi-eye'">
+            [ngClass]="isShowPassword ? 'bi-eye-slash':'bi-eye'"
+            [attr.hidden]="stage === 4 ? true:null"
+          >
           </i>
         </div>
 
@@ -97,9 +104,12 @@
         <div class="position-relative">
           <input id="confirmPassword" [type]="isShowConfirmPassword ? 'text':'password'" placeholder="Confirm Password" formControlName="confirmPassword" class="form-control shadow-none"
             [ngClass]="{ 'border-danger': registerReviewerForm.controls['confirmPassword'].invalid && registerReviewerForm.controls['confirmPassword'].touched }"
+            [attr.disabled]="stage === 4 ? true:null"
           >
           <i class="bi eye-icon position-absolute" role="button" (click)="isShowConfirmPassword = !isShowConfirmPassword"
-            [ngClass]="isShowConfirmPassword ? 'bi-eye-slash':'bi-eye'">
+            [ngClass]="isShowConfirmPassword ? 'bi-eye-slash':'bi-eye'"
+            [attr.hidden]="stage === 4 ? true:null"
+          >
           </i>
         </div>
 

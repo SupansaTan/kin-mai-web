@@ -31,7 +31,7 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
   firstname: string;
   lastname: string;
   email: string;
-  stage: number = 2;
+  stage: number = 1;
   isSubmit: boolean = false;
   isShowPassword: boolean = false;
   isFormValid: boolean = false;
