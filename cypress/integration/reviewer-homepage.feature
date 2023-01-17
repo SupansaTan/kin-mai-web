@@ -59,9 +59,9 @@ Feature: Reviewer Homepage
 
   Scenario: Reviewer want random food categories for going to eat today
     Given I visit on the Homepage
-    Then I should see "What to eat?" button
-    When I click "What to eat?" button
-    Then I should be on random food categorie page
+    Then  I should see "What to eat?" button
+    When  I click "What to eat?" button
+    Then  I should be on random food categorie page
 
   Scenario: Reviewer want to see more list of restaurant near me
     Given I visit on the Homepage

@@ -1,128 +1,140 @@
 <div class="container-fluid py-4">
   <div class="row">
-
-    <div class="col pe-2">
-      <img src="../../../assets/image/image.jpg" class="h-100 w-100 rounded" style="object-fit:cover;"/>
-    </div>
-    <div class="col ps-2">
-      <div class="row">
-        <div class="col-md-6 mb-2" *ngFor="let item of Info.Images; index as i;">
-          <img src="{{item}}" class="h-100 w-100 rounded"/>
+    <div class="col-md">
+      <div class="col-md row">
+        <div class="col-md mb-2">
+          <img src="../../../assets/image/image.jpg" class="h-100 w-100 rounded" style="object-fit:cover;"/>
         </div>
-        <div class="col-md-6">
-          <div class="img-container">
-            <a href="/restaurant/detail" style="text-decoration:none; color:black;">
-              <img src="../../../assets/image/image.jpg" class="image h-100 w-100 rounded">
-              <div class="middle">
-                +2
+        <div class="col-md">
+          <div class="row">
+            <div class="col-6 mb-2" *ngFor="let item of Info.Images; index as i;">
+              <img src="{{item}}" class="h-100 w-100 rounded"/>
+            </div>
+            <div class="col mb-2">
+              <div class="img-container">
+                <a href="/restaurant/detail" style="text-decoration:none; color:black;">
+                  <img src="../../../assets/image/image.jpg" class="image h-100 w-100 rounded">
+                  <div class="middle">
+                    +2
+                  </div>
+                </a>
               </div>
-            </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      
+      <div class="row my-2">
+
+        <div class="col">
+
+          <div class="col d-flex align-items-center mb-2">
+            <i class="bi bi-shop me-2"></i>
+            <span class="badge rounded-pill bg-light text-dark border border-dark me-1 fs-6 font-regular" *ngFor="let item of Info.Types; index as i;"><h4>{{item}}</h4></span>
+          </div>
+          <div class="col d-flex align-items-center mb-2">
+            <i class="bi bi-clock me-2"></i>
+            <h4>เวลาทำการ : 8:00 - 22:00 น.</h4>
+          </div>
+          <div class="col d-flex align-items-center mb-2">
+            <i class="bi bi-telephone-fill me-2"></i>
+            <h4>0812345678</h4>
+          </div>
+          <div class="col d-flex mb-2">
+            <i class="bi bi-geo-alt-fill me-2"></i>
+            <div>
+              <h4>ห่าง 500 เมตร</h4>
+              <h4 >55/55 หมู่ที่ 5 ถ.เลี่ยงเมืองปากเกร็ด ต.บางตลาด อ.ปากเกร็ด ต.บางตลาด ปากเกร็ด นนทบุรี 11120</h4>
+            </div>
+          </div>
+
+        </div>
 
 
-    <div class="col-2 text-center">
-      <div>
-        <img src="../../../assets/image/restaurant_pin.png" class="w-50">
-        <p class="font-regular my-2 fs-5">นั่งรับประทานที่ร้าน</p>
+        <div class="col">
+
+          <div class="col d-flex align-items-center mb-2">
+            <i class="bi bi-cash-coin me-2"></i>
+            <span *ngFor="let item of Info.Payments; index as i;" class="badge rounded-pill bg-light text-dark border border-dark me-1"><h4>{{item}}</h4></span>
+          </div>
+          <div class="col d-flex align-items-center mb-2 d-flex align-items-center">
+            <i class="bi bi-facebook text-primary me-2"></i>
+            <h4>ร้านคุณป้าใจป้ำ</h4>
+          </div>
+          <div class="col d-flex align-items-center mb-2">
+            <i class="bi bi-line text-success me-2"></i>
+            <h4>@Pajaipum</h4>
+          </div>
+          <div class="col d-flex align-items-center mb-2">
+            <i class="bi bi-instagram text-danger me-2"></i>
+            <h4>Pajaipum</h4>
+          </div>
+
+        </div>
+    
+        <div class="my-4">
+          map
+        </div>
+    
+        <div class="d-flex align-items-center mb-2">
+          <i class="bi bi-emoji-smile me-2"></i>
+          <h4>ร้านของเรามีอาหารหลากหลาย ใส่ใจในคุณภาพอาหารและความสะอาด</h4>
+        </div>
+    
       </div>
-      <div>
-        <img src="../../../assets/image/motorbike.png" class="w-50">
-        <p class="font-regular my-2 fs-5">มีบริการจัดส่ง</p>
-      </div>
     </div>
+    
+    
+    <div class="col row mb-3">
 
-    <div class="col-4">
-      <div class="card">
-        <div class="card-body">
-          <h3 class="card-title font-bold mt-2">Rating</h3>
-
+      <div class="col-3 text-center">
+        <div>
+          <img src="../../../assets/image/restaurant_pin.png" class="w-50">
+          <h4 class="m-0">นั่งรับประทานที่ร้าน</h4>
+        </div>
+        <div>
+          <img src="../../../assets/image/motorbike.png" class="w-50">
+          <h4 class="m-0">มีบริการจัดส่ง</h4>
+        </div> 
+      </div>
+  
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h1 class="card-title m-0">Rating</h1>
+  
             <div class="d-flex my-3">
-              <div class="m-auto me-3">
-                <h2 class="my-auto font-bold">{{Info.Rating}}</h2>
+              <div class="me-3">
+                <h2 class="m-0">{{Info.Rating}}</h2>
               </div>
               <div *ngFor="let item of Info.Stars; index as i;">
-                <img src="../../../assets/image/{{item}}.png" class="w-100">
+                <img src="../../../assets/image/{{item}}.png" class="star-cover">
               </div>
             </div>
-            <div *ngFor="let item of Info.Stars; index as i;">
-              <img src="../../../assets/image/{{item}}.png" class="w-75">
+  
+            <div class="d-flex align-items-center my-2">
+              <i class="bi bi-person-fill"></i>
+              <h3 class="card-text mx-2 my-0">ทั้งหมด {{Info.TotalReview}} รีวิว</h3>
             </div>
+            
+            <div>
+              <h2 class="card-text">เมนูที่ได้รับการแนะนำ</h2>
+              <span class="badge rounded-pill bg-light text-dark border border-dark me-1 mb-2" *ngFor="let item of Info.Menus; index as i;"><h4 class="m-0">{{item}}</h4></span>
+            </div>
+  
           </div>
-
-          <div class="d-flex my-3">
-            <i class="bi bi-person-fill"></i>
-            <p class="card-text mx-2 font-regular">ทั้งหมด {{Info.TotalReview}} รีวิว</p>
-          </div>
-
-          <div>
-            <p class="card-text font-regular mb-3 fs-5">เมนูที่ได้รับการแนะนำ</p>
-            <span class="badge rounded-pill bg-light text-dark border border-dark me-1 fs-6 font-regular" *ngFor="let item of Info.Menus; index as i;">{{item}}</span>
-          </div>
-
         </div>
+      </div>
+
     </div>
+  
   </div>
 
-  <div class="row my-4 fs-5">
-    <div class="col">
-      <i class="bi bi-shop me-2"></i>
-      <span class="badge rounded-pill bg-light text-dark border border-dark me-1 fs-6 font-regular" *ngFor="let item of Info.Types; index as i;">{{item}}</span>
-    </div>
-    <div class="col">
-      <i class="bi bi-cash-coin me-2"></i>
-      <span *ngFor="let item of Info.Payments; index as i;" class="badge rounded-pill bg-light text-dark border border-dark me-1 fs-6 font-regular">{{item}}</span>
-    </div>
-
-    <div class="w-100 my-2"></div>
-
-    <div class="col">
-      <i class="bi bi-clock me-2"></i>
-      เวลาทำการ : 8:00 - 22:00 น.
-    </div>
-    <div class="col">
-      <i class="bi bi-facebook text-primary me-2"></i>
-      ร้านคุณป้าใจป้ำ
-    </div>
-
-    <div class="w-100 my-2"></div>
-
-    <div class="col">
-      <i class="bi bi-telephone-fill me-2"></i>
-      0812345678
-    </div>
-    <div class="col">
-      <i class="bi bi-line text-success me-2"></i>
-      @Pajaipum
-    </div>
-
-    <div class="w-100 my-2"></div>
-
-    <div class="col">
-      <i class="bi bi-geo-alt-fill me-2"></i>
-      ห่าง 500 เมตร
-    </div>
-    <div class="col">
-      <i class="bi bi-instagram text-danger me-2"></i>
-      Pajaipum
-    </div>
-    <div class="my-4">55/55 หมู่ที่ 5 ถ.เลี่ยงเมืองปากเกร็ด ต.บางตลาด อ.ปากเกร็ด ต.บางตลาด ปากเกร็ด นนทบุรี 11120</div>
-
-    <div>
-      map
-    </div>
-
-    <div class="my-2">
-      <i class="bi bi-emoji-smile"></i>
-      ร้านของเรามีอาหารหลากหลาย ใส่ใจในคุณภาพอาหารและความสะอาด
-    </div>
-
-    <button type="button" class="btn btn-yellow px-4 fw-bold w-100 mt-4">
+  <div class="d-flex justify-content-center">
+    <button type="button" class="btn btn-yellow w-25" routerLink="/restaurant/edit">
       <i class="bi bi-pencil-square"></i>
       แก้ไข
     </button>
-
   </div>
+  
 </div>
