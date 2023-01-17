@@ -34,6 +34,7 @@ export class RestaurantAddressModel {
   address: string;
   latitude: number;
   longitude: number;
+  markerPosition?: google.maps.LatLngLiteral;
 }
 
 export class BusinessHourModel {
@@ -44,6 +45,7 @@ export class BusinessHourModel {
 
 export class RestaurantPhotoModel {
   imageFiles: Array<File>;
+  imagePathList?: Array<string>;
   restaurantStatus: string;
 }
 
