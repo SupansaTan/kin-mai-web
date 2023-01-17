@@ -17,7 +17,6 @@ export class ModalSuccessComponent {
   constructor(private modalService: BsModalService) { }
 
   public openSuccessModal(isSuccess: boolean, message: string): void {
-    console.log(message)
     this.isSuccess = isSuccess;
     this.text = message;
     this.modalRef = this.modalService.show(this.successModal, {

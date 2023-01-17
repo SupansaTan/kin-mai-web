@@ -1,7 +1,7 @@
 Feature: Restaurant Review
-  Reviewer is able to see restarant reviews and edit review 
+  Reviewer is able to see restaurant reviews and edit review 
 
-  Scenario: Reviewer can see all restarant detail 
+  Scenario: Reviewer can see all restaurant detail 
     Given I visit on the Restaurant Detail
     Then I should see all detail
   

@@ -7,6 +7,7 @@ import { Observable } from "rxjs";
 import { Injectable } from '@angular/core';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { AccessLevel } from 'src/enum/access-level.enum';
+import { DetailComponent } from '../restaurant/detail/detail.component';
 
 @Injectable({
   providedIn: 'root'
@@ -46,9 +47,12 @@ export class AuthGuardService implements CanActivate {
 
   routeByUserType(userType: AccountType) {
     if (userType === AccountType.Reviewer) {
-      this.router.navigate([PageLink.reviewer.homepage]);
+      this.router.navigate([PageLink.restaurant.dashboard]);
+      // this.router.navigate([PageLink.reviewer.homepage]);
+
     } else {
       this.router.navigate([PageLink.restaurant.dashboard]);
+    
     }
   }
 }

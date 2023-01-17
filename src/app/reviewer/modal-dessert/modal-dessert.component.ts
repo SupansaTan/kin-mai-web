@@ -20,6 +20,7 @@ export class ModalDessertComponent  {
       backdrop: 'static',
       keyboard: false,
     });
+    
   }
 
   closeModal(): void {

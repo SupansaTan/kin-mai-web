@@ -12,34 +12,34 @@ const routes: Routes = [
   {
     path: '',
     component: ReviewerHomepageComponent,
-    canActivate: [AuthGuardService],
-    data: {
-      AccessLevel: [AccountType.Reviewer],
-    },
+    // canActivate: [AuthGuardService],
+    // data: {
+    //   AccessLevel: [AccountType.Reviewer],
+    // },
   },
   {
     path: 'search',
     component: SearchRestaurantComponent,
-    canActivate: [AuthGuardService],
-    data: {
-      AccessLevel: [AccountType.Reviewer],
-    },
+    // canActivate: [AuthGuardService],
+    // data: {
+    //   AccessLevel: [AccountType.Reviewer],
+    // },
   },
   {
     path: 'random',
     component: RandomFoodComponent,
-    canActivate: [AuthGuardService],
-    data: {
-      AccessLevel: [AccountType.Reviewer],
-    },
+    // canActivate: [AuthGuardService],
+    // data: {
+    //   AccessLevel: [AccountType.Reviewer],
+    // },
   },
   {
     path: 'restaurant',
     component: RestaurantDetailComponent,
-    canActivate: [AuthGuardService],
-    data: {
-      AccessLevel: [AccountType.Reviewer],
-    },
+    // canActivate: [AuthGuardService],
+    // data: {
+    //   AccessLevel: [AccountType.Reviewer],
+    // },
   },
   {
     path: '',

@@ -16,6 +16,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
   private sub: any;
 
   registerReviewerForm: FormGroup;
+  backUpRegisterInfo: ReviewerRegisterModel;
   firstname: string;
   lastname: string;
   email: string;
@@ -27,34 +28,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private route: ActivatedRoute
     ) {
-    this.registerReviewerForm = this.fb.group({
-      firstname: new FormControl('', [
-        Validators.minLength(3),
-        Validators.required
-      ]),
-      lastname: new FormControl('', [
-        Validators.minLength(3),
-        Validators.required
-      ]),
-      username: new FormControl('', [
-        Validators.minLength(5),
-        Validators.required
-      ]),
-      email: new FormControl('', [
-        Validators.email,
-        Validators.required
-      ]),
-      password: new FormControl('', [
-        Validators.minLength(8),
-        Validators.required
-      ]),
-      confirmPassword: new FormControl('', [
-        Validators.minLength(8),
-        Validators.required
-      ])
-    }, {
-      validators: ConfirmPasswordValidator.MatchPassword
-    });
+    this.initForm();
   }
 
   ngOnInit(): void {
@@ -65,7 +39,9 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
       if (this.firstname && this.email) {
         this.isLoginWithGoogle = true;
-        this.setRegisterInfo();
+        this.initFormWithOutPassword();
+      } else {
+        this.initForm();
       }
     });
   }
@@ -83,34 +59,64 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     }
   }
 
+  @Input()
+  set formValue(registerInfo: ReviewerRegisterModel) {
+    this.backUpRegisterInfo = registerInfo;
+  }
+
   initForm() {
-    this.registerReviewerForm.clearValidators();
     this.registerReviewerForm = this.fb.group({
-      firstname: new FormControl('', [
+      firstname: new FormControl(this.backUpRegisterInfo?.firstName ?? '', [
         Validators.minLength(3),
         Validators.required
       ]),
-      lastname: new FormControl('', [
+      lastname: new FormControl(this.backUpRegisterInfo?.lastName ?? '', [
         Validators.minLength(3),
         Validators.required
       ]),
-      username: new FormControl('', [
+      username: new FormControl(this.backUpRegisterInfo?.username ?? '', [
         Validators.minLength(5),
         Validators.required
       ]),
-      email: new FormControl('', [
+      email: new FormControl(this.backUpRegisterInfo?.email ?? '', [
+        Validators.email,
+        Validators.required
+      ]),
+      password: new FormControl(this.backUpRegisterInfo?.password ?? '', [
+        Validators.minLength(8),
+        Validators.required
+      ]),
+      confirmPassword: new FormControl(this.backUpRegisterInfo?.confirmPassword ?? '', [
+        Validators.minLength(8),
+        Validators.required
+      ])
+    }, {
+      validators: ConfirmPasswordValidator.MatchPassword
+    });
+  }
+
+  initFormWithOutPassword() {
+    this.registerReviewerForm.clearValidators();
+    this.registerReviewerForm = this.fb.group({
+      firstname: new FormControl(this.backUpRegisterInfo?.firstName ?? this.firstname, [
+        Validators.minLength(3),
+        Validators.required
+      ]),
+      lastname: new FormControl(this.backUpRegisterInfo?.lastName ?? this.lastname, [
+        Validators.minLength(3),
+        Validators.required
+      ]),
+      username: new FormControl(this.backUpRegisterInfo?.username ?? '', [
+        Validators.minLength(5),
+        Validators.required
+      ]),
+      email: new FormControl(this.backUpRegisterInfo?.email ?? this.email, [
         Validators.email,
         Validators.required
       ]),
     });
-  }
-
-  setRegisterInfo() {
-    this.initForm();
-    this.registerReviewerForm.controls['firstname'].setValue(this.firstname);
-    this.registerReviewerForm.controls['lastname'].setValue(this.lastname);
-    this.registerReviewerForm.controls['email'].setValue(this.email);
     this.registerReviewerForm.controls['email'].disable();
+    this.registerReviewerForm.controls['username'].markAsTouched();
   }
 
   getPersonalInfo() {

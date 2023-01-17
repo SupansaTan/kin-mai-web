@@ -114,6 +114,7 @@ export class RegisterReviewerComponent implements OnInit, OnDestroy {
     this.registerForm.controls['lastname'].setValue(this.lastname);
     this.registerForm.controls['email'].setValue(this.email);
     this.registerForm.controls['email'].disable();
+    this.registerForm.controls['username'].markAsTouched();
   }
 
   get f(): { [key: string]: AbstractControl } {

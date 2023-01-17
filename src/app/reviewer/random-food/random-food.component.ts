@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-random-food',
@@ -12,4 +13,7 @@ export class RandomFoodComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ImageClick() {
+    Swal.fire('อาหารไทย');
+  }
 }
