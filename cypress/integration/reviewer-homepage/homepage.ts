@@ -38,3 +38,12 @@ When('I click on "What to eat?" ', () => {
 Then(`I should be on random game page`, () => {
   cy.visit('/reviewer/random');
 });
+
+When('I search on "restaurant" ', () => {
+  cy.get(`[data-cy="restaurant"]`).type("ส้มตำ");
+});
+
+Then(`I should be on search result page`, () => {
+  cy.visit('/reviewer/search');
+});
+

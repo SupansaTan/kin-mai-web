@@ -63,8 +63,8 @@ Feature: Reviewer Homepage
     When  I click "What to eat?" button
     Then  I should be on random food categorie page
 
-  Scenario: Reviewer want to see more list of restaurant near me
+  Scenario: Reviewer search restaurant near me
     Given I visit on the Homepage
     Then I should see "Restaurant near me" button
-    When I click "Restaurant near me" button
+    When I search "Restaurant near me" 
     Then I should be on search result page with filter restaurant near me
