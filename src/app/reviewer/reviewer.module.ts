@@ -11,6 +11,7 @@ import { RandomFoodComponent } from './random-food/random-food.component';
 import { SearchRestaurantComponent } from './search-result/search-result.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
 import { ModalReviewComponent } from './modal-review/modal-review.component';
+import { ModalGalleryComponent } from './modal-gallery/modal-gallery.component';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -22,6 +23,7 @@ import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
     SearchRestaurantComponent,
     RestaurantDetailComponent,
     ModalReviewComponent,
+    ModalGalleryComponent,
   ],
   imports: [
     CommonModule,

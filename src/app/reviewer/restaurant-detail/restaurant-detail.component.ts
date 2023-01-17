@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalReviewComponent } from '../modal-review/modal-review.component';
+import { ModalGalleryComponent } from '../modal-gallery/modal-gallery.component';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -9,6 +10,7 @@ import { ModalReviewComponent } from '../modal-review/modal-review.component';
 export class RestaurantDetailComponent implements OnInit {
 
   @ViewChild('modalReviewComponent') modalReview: ModalReviewComponent;
+  @ViewChild('modalGalleryComponent') modalGallery: ModalGalleryComponent;
 
   Info: any = {
     Rating: 3.5,
@@ -29,6 +31,10 @@ export class RestaurantDetailComponent implements OnInit {
 
   openModalReview() {
     this.modalReview.openSuccessModal();
+  }
+
+  openModalGallery() {
+    this.modalGallery.openSuccessModal();
   }
 
 

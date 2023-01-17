@@ -1,15 +1,14 @@
-import { Component, OnInit, EventEmitter, Output, TemplateRef, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
-import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { RestaurantPhotoModel } from 'src/models/register.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-modal-review',
-  templateUrl: './modal-review.component.html',
-  styleUrls: ['./modal-review.component.scss']
+  selector: 'app-edit-upload-photo',
+  templateUrl: './edit-upload-photo.component.html',
+  styleUrls: ['./edit-upload-photo.component.scss']
 })
-export class ModalReviewComponent {
+export class EditUploadPhotoComponent implements OnInit {
 
   @Output() isFormValid = new EventEmitter<boolean>();
   @Output() uploadPhotoFormValue = new EventEmitter<RestaurantPhotoModel>();
@@ -19,27 +18,7 @@ export class ModalReviewComponent {
   restaurantImageList: Array<string> = new Array<string>();
   imageFileList: Array<File> = new Array<File>();
 
-  @ViewChild('modalReview') modalReview: TemplateRef<any>;
-  @Output() closeModalEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-  modalRef: BsModalRef;
-
-  Info: any = {
-    Rating: 3.5,
-    TotalReview: 51,
-    Menus: ["กระเพรา", "ข้าวผัด", "ก๋วยเตี๋ยว","ราดหน้า", "คั่วกลิ้ง", "ผัดมาม่า"],
-    Stars: [ "star_empty", "star_empty", "star_empty", "star_empty", "star_empty" ],
-    Payments: [ "เงินสด", "รับโอน" ],
-    Images: [ "../../../assets/image/food-real.jpg", "../../../assets/image/food-real.jpg"],
-    Types: [ "อาหาร", "เครื่องดื่ม"],
-  }
-
-  currentRate = 0;
-  ratingWord = "";
-
-  ctrl = new FormControl<number | null>(null, Validators.required);
-
-  constructor(private modalService: BsModalService,private fb: FormBuilder, private cf: ChangeDetectorRef) {
+  constructor(private fb: FormBuilder, private cf: ChangeDetectorRef) {
     this.uploadPhotoForm = this.fb.group({
       photo: new FormControl([], [
         Validators.required
@@ -50,19 +29,24 @@ export class ModalReviewComponent {
     })
   }
 
-  public openSuccessModal(): void {
-    this.modalRef = this.modalService.show(this.modalReview, {
-      class: 'modal-lg modal-dialog-centered',
-      backdrop: 'static',
-      keyboard: false,
-    });
+  ngOnInit(): void {
   }
 
-  closeModal(): void {
-    this.modalRef.hide();
+  @Input()
+  set stage(value: number) {
+    this.currentStage = value;
+
+    if (value === 4) {
+      this.uploadPhotoForm.disable();
+    } else {
+      this.uploadPhotoForm.enable();
+    }
   }
 
-// Upload Photo
+  get stage() {
+    return this.currentStage;
+  }
+
   onSelectFile(event: any) {
     let file = event.target.files && event.target.files.length;
     if (file) {
@@ -81,8 +65,7 @@ export class ModalReviewComponent {
     }
   }
 
-  // drop(event: CdkDragDrop<any>) {
-    drop(event: any) {
+  drop(event: CdkDragDrop<any>) {
     moveItemInArray(this.restaurantImageList, event.previousContainer.data.index, event.container.data.index);
     moveItemInArray(this.imageFileList, event.previousContainer.data.index, event.container.data.index);
   }
@@ -112,6 +95,5 @@ export class ModalReviewComponent {
       this.isFormValid.emit(true);
     }
   }
-// 
 
 }

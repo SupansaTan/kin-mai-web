@@ -32,3 +32,18 @@ export const ReataurantStepItems: Array<StepItem> = [
     title: 'ยืนยันข้อมูล'
   },
 ]
+
+export const EditReataurantStepItems: Array<StepItem> = [
+  {
+    step: 1,
+    title: 'ข้อมูลร้านค้า'
+  },
+  {
+    step: 2,
+    title: 'อัพโหลดรูปภาพร้านค้า'
+  },
+  {
+    step: 3,
+    title: 'ยืนยันข้อมูล'
+  },
+]

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import Swal from 'sweetalert2'; //<!-- popup https://www.positronx.io/angular-popup-notification-with-sweetalert2-example/ -->
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-random-food',
