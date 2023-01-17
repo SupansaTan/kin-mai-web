@@ -1,21 +1,25 @@
 Feature: Restaurant Homepage
   Restaurant owner is able to see their dashboard , reviews and rating
 
-  Scenario: Restaurant owner can see all restaurant's detail
+  Scenario: Restaurant owner can see restaurant's detail
     Given I visit on the Restaurant Homepage
-    Then  I should see all detail
-
-  Scenario: Restaurant owner can see all reviews
-    Given I visit on the Restaurant Homepage
-    Then  I should see all detail
-    When  I click "all stars" of Reviewers
-    Then  I should see all reviews from Reviewers
+    Then I should see today rating
+    And I should see total rating
+    And I should see customer satisfaction
+    And I should see recommend menu
+    And I should see reviews
 
   Scenario: Restaurant owner search recommended menus and comments
     Given I visit on the Restaurant Homepage
     Then  I should see all reviews from Reviewers
     When  I search "recommended menus" and "comments" to know reviews
     Then  I should see reviews about these "recommended menu" and "comments"
+
+  Scenario: Restaurant owner can see all reviews
+    Given I visit on the Restaurant Homepage
+    Then  I should see all detail
+    When  I click "all stars" of Reviewers
+    Then  I should see all reviews from Reviewers
 
   Scenario: Restaurant owner select 3 stars
     Given I visit on the Restaurant Homepage
