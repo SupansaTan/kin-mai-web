@@ -136,19 +136,19 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
     registerInfo.personalInfo = this.personalInfoForm;
     registerInfo.restaurantInfo = this.restaurantInfoForm;
     registerInfo.restaurantAdditionInfo = this.restaurantPhotoForm;
-    console.log(registerInfo)
-    // this.authenticationService.restaurantRegister(registerInfo).subscribe(
-    //   (response: ResponseModel<boolean>) => {
-    //     if (response?.status === 200) {
-    //       this.successModal.openSuccessModal(true, 'สร้างบัญชีผู้ใช้สำเร็จ');
-    //       setTimeout(() => {
-    //         this.isSubmit = false;
-    //         this.routePage();
-    //       }, 200);
-    //     } else {
-    //       this.successModal.openSuccessModal(false, 'ไม่สามารถสร้างบัญชีได้ในขณะนี้ โปรดลองอีกครั้ง');
-    //       this.isSubmit = false;
-    //     }
-    // })
+
+    this.authenticationService.restaurantRegister(registerInfo).subscribe(
+      (response: ResponseModel<boolean>) => {
+        if (response?.status === 200) {
+          this.successModal.openSuccessModal(true, 'สร้างบัญชีผู้ใช้สำเร็จ');
+          setTimeout(() => {
+            this.isSubmit = false;
+            this.routePage();
+          }, 200);
+        } else {
+          this.successModal.openSuccessModal(false, 'ไม่สามารถสร้างบัญชีได้ในขณะนี้ โปรดลองอีกครั้ง');
+          this.isSubmit = false;
+        }
+    })
   }
 }
