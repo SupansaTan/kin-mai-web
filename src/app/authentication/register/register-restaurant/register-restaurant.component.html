@@ -23,19 +23,19 @@
 <!-- register reviewer form -->
 <ng-container *ngIf="(stage === 1) || (stage === 4)">
   <app-personal-info #personalInfo (isFormValid)="changeStage($event)"
-    (personalInfoFormValue)="personalInfoFormValue" [stage]="stage">
+    (personalInfoFormValue)="personalInfoFormValue($event)" [stage]="stage" [formValue]="personalInfoForm">
   </app-personal-info>
 </ng-container>
 
 <ng-container *ngIf="(stage === 2) || (stage === 4)">
   <app-restaurant-info #restaurantInfo (isFormValid)="changeStage($event)"
-    (restaurantInfoFormValue)="restaurantInfoFormValue" [stage]="stage">
+    (restaurantInfoFormValue)="restaurantInfoFormValue($event)" [stage]="stage" [formValue]="restaurantInfoForm">
   </app-restaurant-info>
 </ng-container>
 
 <ng-container *ngIf="(stage === 3) || (stage === 4)">
   <app-upload-photo #uploadPhoto (isFormValid)="changeStage($event)"
-    (uploadPhotoFormValue)="restaurantPhotoFormValue" [stage]="stage">
+    (uploadPhotoFormValue)="restaurantPhotoFormValue($event)" [stage]="stage" [formValue]="restaurantPhotoForm">
   </app-upload-photo>
 </ng-container>
 

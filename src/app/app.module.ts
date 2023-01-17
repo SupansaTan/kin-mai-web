@@ -20,10 +20,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthenticationService } from './authentication/authentication.service';
 import { GoogleAuthService } from './service/google-auth.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
