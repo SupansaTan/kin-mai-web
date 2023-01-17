@@ -12,6 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { PageLink } from 'src/constant/path-link.constant';
 import { AccountType } from 'src/enum/account-type.enum';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-register-restaurant',
@@ -45,7 +46,8 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private localStorageService: LocalStorageService,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -132,6 +134,7 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
 
   submit() {
     this.isSubmit = true;
+    this.spinner.show();
     let registerInfo = new RestaurantRegisterModel();
     registerInfo.personalInfo = this.personalInfoForm;
     registerInfo.restaurantInfo = this.restaurantInfoForm;
@@ -139,6 +142,8 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
 
     this.authenticationService.restaurantRegister(registerInfo).subscribe(
       (response: ResponseModel<boolean>) => {
+        this.spinner.hide();
+
         if (response?.status === 200) {
           this.successModal.openSuccessModal(true, 'สร้างบัญชีผู้ใช้สำเร็จ');
           setTimeout(() => {
