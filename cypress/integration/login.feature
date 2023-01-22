@@ -4,19 +4,19 @@ Feature: Login page
     Given I visit on login page
     Then I should see login form
 
-  Scenario: Login successful
+  Scenario: Login successful as Reviewer
     When I complete fill in login form
       | email               | password |
       | nampunch1@gmail.com | 12345678 |
     And I click on Login button
     Then I should see reviewer homepage
 
-  # Scenario: Login unsuccessful because of internal error
-  #   When I complete fill in login form
-  #     | email               | password |
-  #     | nampunch1@gmail.com | 12345678 |
-  #   And I click on "Login" button
-  #   Then I should see error message as red message
+  Scenario: Login successful as Restaurant Owner
+    When I complete fill in login form
+      | email               | password |
+      | nampunch5@gmail.com | 12345678 |
+    And I click on Login button
+    Then I should see restaurant homepage
 
   Scenario: User fill in form invalid
     When I fill in some form in login form
@@ -50,16 +50,12 @@ Feature: Login page
     When I click on "Don't have an account ?"
     Then I should be on Register page
 
-  Scenario: User forget password
-    Then I should see button
-      | button |
-      | forgetPasswordBtn |
-    When I click on "Forget your password"
-    Then I should be on Reset password page
-    When I fill new password and confirm password
-    And  I press "submit"
-    Then I should be on login page
-
-
-
-
+  # Scenario: User forget password
+  #   Then I should see button
+  #     | button |
+  #     | forgetPasswordBtn |
+  #   When I click on "Forget your password"
+  #   Then I should be on Reset password page
+  #   When I fill new password and confirm password
+  #   And  I press "submit"
+  #   Then I should be on login page
