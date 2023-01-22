@@ -1,6 +1,17 @@
 export enum FoodCategories {
   ThaiFood = 1,
-  International = 2,
+  InternationalFood = 2,
   StreetFood = 3,
-  
+  CookedToOrder = 4,
+  HalalFood = 5,
+  Shabu = 6,
+  IsaanFood = 7,
+  Noodles = 8,
+  GrilledPork = 9,
+  CoffeeAndTea = 10,
+  Dessert = 11,
+  IceCream = 12,
+  Cafe = 13,
+  Bakery = 14,
+  Juice = 15,
 }
