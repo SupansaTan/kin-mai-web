@@ -1,4 +1,17 @@
 <div class="row mt-5">
+  <div class="d-flex justify-content-center  mt-5">
+    <!-- sound https://www.youtube.com/watch?v=04riTiv5aG0 -->
+    <h2 class="mt-3">Music : </h2>
+    <audio #audioPlayer src="../../../assets/audio/샛별(Daystar)-Sugar Cookie.mp3"></audio>
+    <button type="button" class="btn btn-sm btn-outline-success mx-2" (click)="play()">
+      <i class="bi bi-play-circle-fill"></i>
+      Play
+    </button>
+    <button type="button" class="btn btn-sm btn-outline-info " (click)="pause()">
+      <i class="bi bi-pause-circle-fill"></i>
+      Pause
+    </button>
+  </div>
   <div class="col d-flex justify-content-center mt-5 ">
     <div>
       <h1>วันนี้กินอะไรดีน้าาา...มาสุ่มกัน</h1>
