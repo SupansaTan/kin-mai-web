@@ -59,6 +59,7 @@ export class AuthenticationService {
     formData.append('RestaurantInfo.Address.Latitude', model.restaurantInfo.address.latitude.toString());
     formData.append('RestaurantInfo.Address.Longitude', model.restaurantInfo.address.longitude.toString());
     formData.append('RestaurantInfo.RestaurantType', model.restaurantInfo.restaurantType.toString());
+    formData.append('RestaurantAdditionInfo.RestaurantStatus', model.restaurantAdditionInfo.restaurantStatus);
     model.restaurantInfo.deliveryType.forEach((type) => {
       formData.append('RestaurantInfo.DeliveryType', type.toString());
     });
@@ -68,16 +69,18 @@ export class AuthenticationService {
     model.restaurantInfo.paymentMethods.forEach((type) => {
       formData.append('RestaurantInfo.PaymentMethods', type.toString());
     });
-    model.restaurantInfo.contact.forEach((type) => {
-      formData.append('RestaurantInfo.Contact', JSON.stringify(type));
+    model.restaurantInfo.contact.forEach((type, index) => {
+      formData.append(`RestaurantInfo.Contact[${index}].Social`, type.social.toString());
+      formData.append(`RestaurantInfo.Contact[${index}].ContactValue`, type.contactValue);
     });
-    model.restaurantInfo.businessHours.forEach((dateInfo) => {
-      formData.append('RestaurantInfo.BusinessHours', JSON.stringify(dateInfo));
+    model.restaurantInfo.businessHours.forEach((dateInfo, index) => {
+      formData.append(`RestaurantInfo.BusinessHours[${index}].Day`, dateInfo.day.toString());
+      formData.append(`RestaurantInfo.BusinessHours[${index}].StartTime`, dateInfo.startTime.toISOString());
+      formData.append(`RestaurantInfo.BusinessHours[${index}].EndTime`, dateInfo.endTime.toISOString());
     });
     model.restaurantAdditionInfo.imageFiles.forEach((file) => {
       formData.append('RestaurantAdditionInfo.ImageFiles', file);
     })
-    formData.append('RestaurantAdditionInfo.RestaurantStatus', model.restaurantAdditionInfo.restaurantStatus);
 
     this.sub = this.http.post<ResponseModel<boolean>>(url, formData);
     return this.sub;
