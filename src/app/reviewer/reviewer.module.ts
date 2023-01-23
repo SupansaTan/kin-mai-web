@@ -13,6 +13,7 @@ import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail
 import { ModalReviewComponent } from './modal-review/modal-review.component';
 import { ModalGalleryComponent } from './modal-gallery/modal-gallery.component';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { SwiperModule } from "swiper/angular";
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     ReviewerRoutingModule,
     NgbRatingModule,
+    SwiperModule,
   ]
 })
 
