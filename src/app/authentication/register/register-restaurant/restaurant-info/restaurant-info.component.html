@@ -218,14 +218,14 @@
             <!-- select social -->
             <div class="col-5" [formGroupName]="i">
               <ng-select [items]="socialContactType" bindLabel="name" bindValue="id" placeholder="เลือกช่องทาง" formControlName="contact"
-                [searchable]="false" >
+                [searchable]="false" [readonly]="stage === 4">
               </ng-select>
             </div>
 
             <!-- contact value -->
             <div class="col ps-0" [formGroupName]="i">
               <input type="text" class="form-control" id="contactValue" name="contactValue"
-                formControlName="contactValue" maxlength="320"
+                formControlName="contactValue" maxlength="320" [attr.disabled]="stage === 4? true:null"
                 [ngClass]="{ 'border-danger' : getContactValueFormControl(i).errors && getContactValueFormControl(i).touched }"
               />
             </div>
@@ -254,19 +254,19 @@
             <!-- select day -->
             <div class="col-12 col-xl-4" [formGroupName]="j">
               <ng-select [items]="dayList" bindLabel="name" bindValue="id" placeholder="เลือกวัน" formControlName="day"
-                [searchable]="false" >
+                [searchable]="false" [readonly]="stage === 4">
               </ng-select>
             </div>
 
             <!-- range of open/close time -->
             <div class="col ps-xl-0 pe-1" [formGroupName]="j">
-              <input type="time" class="form-control shadow-none" formControlName="startTime"
+              <input type="time" class="form-control shadow-none" formControlName="startTime" [attr.disabled]="stage === 4? true:null"
                 [ngClass]="{ 'border-danger': getStartTimeFormControl(j).invalid && getStartTimeFormControl(j).touched }"
               >
             </div>
             <span class="col-auto px-1 fw-bold">-</span>
             <div class="col ps-1" [formGroupName]="j">
-              <input type="time" class="form-control shadow-none" formControlName="endTime"
+              <input type="time" class="form-control shadow-none" formControlName="endTime" [attr.disabled]="stage === 4? true:null"
                 [ngClass]="{ 'border-danger': getEndTimeFormControl(j).invalid && getEndTimeFormControl(j).touched }"
               >
             </div>
