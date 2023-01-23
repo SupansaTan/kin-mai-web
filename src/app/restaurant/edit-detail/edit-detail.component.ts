@@ -21,7 +21,7 @@ export class EditRestaurantDetailComponent implements OnInit {
   @Output() onResetUserType = new EventEmitter<boolean>();
 
   steps: Array<StepItem> = new Array<StepItem>();
-  stage: number = 2;
+  stage: number = 1;
   isFormValid: boolean = true;
   restaurantInfoForm: RestaurantInfoModel;
   restaurantPhotoForm: RestaurantPhotoModel;
@@ -34,8 +34,7 @@ export class EditRestaurantDetailComponent implements OnInit {
 
 
   changeStage(isValid: any) {
-    // if (isValid) {
-    if (true) {
+    if (isValid) {
       this.stage += 1;
     }
   }
@@ -52,9 +51,11 @@ export class EditRestaurantDetailComponent implements OnInit {
     switch(this.stage) {
       case 1:
         this.restaurantInfo.checkFormIsValid();
+        this.stage = 2
         break;
       case 2:
-        this.uploadPhoto.checkFormIsValid();
+        // this.uploadPhoto.checkFormIsValid();
+        this.stage = 3
         break;
     }
   }

@@ -36,7 +36,7 @@ export class EditUploadPhotoComponent implements OnInit {
   set stage(value: number) {
     this.currentStage = value;
 
-    if (value === 4) {
+    if (value === 3) {
       this.uploadPhotoForm.disable();
     } else {
       this.uploadPhotoForm.enable();
