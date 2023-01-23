@@ -1,5 +1,5 @@
 <ng-template #modalReview>
-    <form>
+    <form [formGroup]="reviewForm">
         <div class="container pb-2">
             <div class="modal-header">
                 <h2 class="m-0">รีวิวร้านอาหาร : ร้านคุณป้าใจป้ำ</h2>
@@ -13,14 +13,15 @@
                         <h3 class="m-0 me-2">คุณภาพอาหาร & บรรยากาศร้านอาหาร :</h3>
                     </div>
                     <div class="col-auto mb-2">
-                        <ngb-rating [(rate)]="currentRate" [max]="5" [formControl]="ctrl">
+                        <ngb-rating [(rate)]="currentRate" [max]="5" id="rating" formControlName="rating" >
+
                             <ng-template let-fill="fill" let-index="index">
                                 <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color"></i>
                             </ng-template>
                         </ngb-rating>
                     </div>
                     <div class="col-md d-flex justify-content-center mb-2">
-                        <div *ngIf="ctrl.valid">
+                        <div *ngIf="reviewForm.valid">
                             <h3 *ngIf="this.currentRate == 5" class="m-0" style="color:green">สุดยอด!<i class="bi bi-emoji-heart-eyes ms-2"></i></h3>
                             <h3 *ngIf="this.currentRate == 4" class="m-0">ดีมาก<i class="bi bi-emoji-laughing ms-2"></i></h3>
                             <h3 *ngIf="this.currentRate == 3" class="m-0">ดี<i class="bi bi-emoji-smile ms-2"></i></h3>
@@ -33,21 +34,18 @@
                 <div class="row px-2">
                     <!-- Button Review Word -->
                     <div class="col mb-2">
-                        <button class="btn btn-word">อาหารถูกต้อง</button>
+                        <mat-button-toggle-group [formControl]="CompleteWordForm" name="comment" aria-label="comment" multiple class="completeWord" id="comment" formControlName="comment">
+                            <mat-button-toggle class="completeWord" value="อาหารถูกต้อง">อาหารถูกต้อง</mat-button-toggle>
+                            <mat-button-toggle class="completeWord" value="สะอาดและปลอดภัย">สะอาดและปลอดภัย</mat-button-toggle>
+                            <mat-button-toggle class="completeWord" value="อาหารคุณภาพดี">อาหารคุณภาพดี</mat-button-toggle>
+                            <mat-button-toggle class="completeWord" value="บรรจุภัณฑ์เหมาะสม">บรรจุภัณฑ์เหมาะสม</mat-button-toggle>
+                        </mat-button-toggle-group>
                     </div>
-                    <div class="col mb-2">
-                        <button class="btn btn-word">สะอาดและปลอดภัย</button>
-                    </div>
-                    <div class="col mb-2">
-                        <button class="btn btn-word">อาหารคุณภาพดี</button>
-                    </div>
-                    <div class="col mb-2">
-                        <button class="btn btn-word">บรรจุภัณฑ์เหมาะสม</button>
-                    </div>
+                    
 
                     <!-- Input Comment -->
                     <div class="my-2">
-                        <textarea class="form-control" id="comment" rows="3" placeholder="เริ่มเขียนรีวิว!"></textarea>
+                        <textarea class="form-control" id="comment" formControlName="comment" rows="3" placeholder="เริ่มเขียนรีวิว!"></textarea>
                     </div>
 
                     <!-- Upload Photo -->
@@ -74,17 +72,17 @@
                             <!-- upload image button -->
                             <label role="button" for="photo"
                                 class="bg-light-grey rounded-2 py-3 px-2 d-flex align-items-center justify-content-center flex-column shadow-sm mt-1 upload-image mt-3"
-                                [ngClass]="{ 'border-danger': uploadPhotoForm.controls['photo'].invalid && uploadPhotoForm.controls['photo'].touched }">
+                                [ngClass]="{ 'border-danger': reviewForm.controls['photo'].invalid && reviewForm.controls['photo'].touched }">
                                 <i class="bi bi-camera-fill" style="font-size: 25px;"></i>
                                 <span>อัพโหลดรูป</span>
                                 <input id="photo" type="file" [multiple]="true" formControlName="photo" class="d-none"
-                                  (change)="onSelectFile($event)" accept="image/png, image/jpeg">
-                              </label>
+                                (change)="onSelectFile($event)" accept="image/png, image/jpeg">
+                            </label>
                             </div>
                     
-                            <div *ngIf="uploadPhotoForm.controls['photo'].invalid && uploadPhotoForm.controls['photo'].touched"
-                              class="text-danger mt-2">
-                              Image of menu or restaurant is reqiured.
+                            <div *ngIf="reviewForm.controls['photo'].invalid && reviewForm.controls['photo'].touched"
+                            class="text-danger mt-2">
+                            Image of menu or restaurant is reqiured.
                             </div>
 
                         </div>
@@ -94,8 +92,6 @@
                     <div class="d-flex align-items-center my-3">
                         <h3 class="m-0">เมนูแนะนำ</h3>
                     </div>
-
-                    <form [formGroup]="menuForm" (ngSubmit)="onSubmit()">
                         <div formArrayName="menus">
                             <div class="mb-2" *ngFor="let menu of menus().controls; let menuIndex=index">
                                 <div class="col-auto" [formGroupName]="menuIndex"> 
@@ -111,21 +107,18 @@
 
                                 </div>
                             </div>
-                            <button class="btn btn-add d-flex align-items-center" (click)="addRecommendMenu($event)">
+                            <button class="btn btn-add d-flex align-items-center" (click)="addRecommendMenu()">
                                 <i class="bi bi-plus" style="color: #000000;"></i>
                                 <h3 class="m-0">เพิ่ม</h3>
                             </button>
                         </div>
-                    </form>
-                       
-                    <!-- {{this.menuForm.value | json}} -->
 
                 </div>
             </div>
 
             <!-- Submit button -->
             <div class="d-flex justify-content-end">
-                <button class="btn btn-yellow w-25" (click)="checkFormIsValid()" >ยืนยัน</button>
+                <button class="btn btn-yellow w-25" (click)="onSubmit()" >ยืนยัน</button>
             </div>
 
         </div>

@@ -14,6 +14,7 @@ import { ModalReviewComponent } from './modal-review/modal-review.component';
 import { ModalGalleryComponent } from './modal-gallery/modal-gallery.component';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { SwiperModule } from "swiper/angular";
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { SwiperModule } from "swiper/angular";
     NgbRatingModule,
     SwiperModule,
     FormsModule,
+    MatButtonToggleModule,
   ]
 })
 

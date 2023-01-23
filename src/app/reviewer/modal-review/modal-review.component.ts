@@ -2,7 +2,6 @@ import { Component, OnInit, EventEmitter, Input, Output, TemplateRef, ViewChild,
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 import { FormControl, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { RestaurantPhotoModel } from 'src/models/register.model';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 export interface Menu {
   name: string;
@@ -20,6 +19,7 @@ export class ModalReviewComponent {
 
   uploadPhotoForm: FormGroup;
   menuForm:FormGroup;
+  reviewForm:FormGroup;
   currentStage: number = 0;
   restaurantImageList: Array<string> = new Array<string>();
   imageFileList: Array<File> = new Array<File>();
@@ -43,7 +43,7 @@ export class ModalReviewComponent {
   currentRate = 0;
   ratingWord = "";
 
-  ctrl = new FormControl<number | null>(null, Validators.required);
+  CompleteWordForm = new FormControl('');
 
   constructor(
     private modalService: BsModalService,
@@ -51,13 +51,16 @@ export class ModalReviewComponent {
     private cf: ChangeDetectorRef
   ) 
   {
-    this.uploadPhotoForm = this.fb.group({
-      photo: new FormControl([], [
-        Validators.required
-      ]),
-    })
-    this.menuForm=this.fb.group({
-      menus: this.fb.array([]) ,
+    // this.uploadPhotoForm = this.fb.group({
+    //   photo: new FormControl([], [
+    //     Validators.required
+    //   ]),
+    // })
+    this.reviewForm = this.fb.group({
+      rating: new FormControl<number>(0, Validators.required),
+      comment: new FormControl<string>(''),
+      menus: this.fb.array([]),
+      photo: new FormControl([]),
     })
   }
 
@@ -76,23 +79,32 @@ export class ModalReviewComponent {
 // Add Recommend Menu 
   newMenu(): FormGroup {
     return this.fb.group({
-      name: '',
+      name: "",
     });
   }
 
   menus(): FormArray {
-    return this.menuForm.get('menus') as FormArray;
+    return this.reviewForm.get('menus') as FormArray;
   } 
-  addRecommendMenu(event:any){
+
+  addRecommendMenu(){
     this.menus().push(this.newMenu());
   }
 
-  delRecommendMenu(index:any): void {
+  delRecommendMenu(index:any) {
     this.menus().removeAt(index)
   }
 
   onSubmit() {
-    console.log(this.menuForm.value);
+    let comment = this.reviewForm.value["comment"]
+    if (this.CompleteWordForm.value != null) {
+      for (const item of this.CompleteWordForm.value){
+        let newComment = comment + " " + item.toString();
+        comment = newComment;
+      }
+    }
+    this.reviewForm.value["comment"] = comment;
+    console.log(this.reviewForm.value);
   }
 
 
@@ -115,12 +127,6 @@ export class ModalReviewComponent {
     }
   }
 
-  // drop(event: CdkDragDrop<any>) {
-  drop(event: any) {
-    moveItemInArray(this.restaurantImageList, event.previousContainer.data.index, event.container.data.index);
-    moveItemInArray(this.imageFileList, event.previousContainer.data.index, event.container.data.index);
-  }
-
   removeImage(index: number) {
     if (index > -1) {
       this.restaurantImageList.splice(index, 1);
@@ -135,12 +141,12 @@ export class ModalReviewComponent {
   }
 
   checkFormIsValid() {
-    this.uploadPhotoForm.markAllAsTouched();
-    this.uploadPhotoForm.enable();
+    this.reviewForm.markAllAsTouched();
+    this.reviewForm.enable();
 
-    if (this.uploadPhotoForm.valid) {
+    if (this.reviewForm.valid) {
       let restaurantInfo = this.getRestaurantInfoValue();
-      this.uploadPhotoForm.disable();
+      this.reviewForm.disable();
       this.uploadPhotoFormValue.emit(restaurantInfo);
       this.isFormValid.emit(true);
     }
