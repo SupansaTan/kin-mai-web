@@ -93,7 +93,6 @@
             <map-marker *ngIf="markerPositions"
               [position]="markerPositions"
               [options]="markerOptions"
-              [markerDraggable]="true"
               (mapDragend)="setMarkerPosition($event)"
             >
             </map-marker>

@@ -1,24 +1,14 @@
 <div class="container-fluid py-4">
   <div class="row">
     <div class="col-md">
-      <div class="col-md row">
-        <div class="col-md mb-2">
-          <img src="../../../assets/image/image.jpg" class="h-100 w-100 rounded" style="object-fit:cover;"/>
+      <div class="col-md row" type="button" (click)="openModalGallery()">
+        <div class="col-md mb-2" *ngFor="let bigImg of Info.Images.slice(0,1)">
+          <img src="{{bigImg}}" class="rounded img-big"/>
         </div>
         <div class="col-md">
           <div class="row">
-            <div class="col-6 mb-2" *ngFor="let item of Info.Images; index as i;">
-              <img src="{{item}}" class="h-100 w-100 rounded"/>
-            </div>
-            <div class="col mb-2">
-              <div class="img-container">
-                <a href="/restaurant/detail" style="text-decoration:none; color:black;">
-                  <img src="../../../assets/image/image.jpg" class="image h-100 w-100 rounded">
-                  <div class="middle">
-                    +2
-                  </div>
-                </a>
-              </div>
+            <div class="col-6 mb-2" *ngFor="let item of Info.Images.slice(1,5); index as i;">
+              <img src="{{item}}" class="rounded img-mini"/>
             </div>
           </div>
         </div>
@@ -138,3 +128,7 @@
   </div>
   
 </div>
+
+<!-- Modal -->
+
+<app-modal-gallery #modalGalleryComponent></app-modal-gallery>
