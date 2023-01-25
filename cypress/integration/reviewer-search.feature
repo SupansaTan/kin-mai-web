@@ -2,7 +2,7 @@ Feature: Reviewer search restaurant
   Reviewer can search restaurant,filters, see reviews , write and edit review
 
   Scenario: Reviewer search somtam restaurant
-    Given I visit on the search restaurant 
+    Given I visit on the search restaurant page
     When  I search "somtam" in a search box
     Then  I should see list of "somtam restaurant" near me
 

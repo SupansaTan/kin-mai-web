@@ -19,6 +19,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthenticationService } from './authentication/authentication.service';
 import { GoogleAuthService } from './service/google-auth.service';
+import { AngMusicPlayerModule } from  'ang-music-player';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { GoogleAuthService } from './service/google-auth.service';
   ],
   imports: [
     BrowserModule,
+    AngMusicPlayerModule,
     AppRoutingModule,
     ReactiveFormsModule,
     RouterModule,

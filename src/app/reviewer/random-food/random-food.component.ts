@@ -7,6 +7,14 @@ import Swal from 'sweetalert2';
   styleUrls: ['./random-food.component.scss']
 })
 export class RandomFoodComponent implements OnInit {
+<<<<<<< Updated upstream
+=======
+  @ViewChild('audioPlayer') audioPlayer: ElementRef;
+
+  Foods=["อาหารไทย","อาหารนานาชาติ","อาหารตามสั่ง","อาหารฮาลาล","บุฟเฟ่ห์","สตรีทฟู๊ด/รถเข็น","อาหารอีสาน","ก๋วยเตี๋ยว","อาหารคลีน"];
+  randomWord: string;
+
+>>>>>>> Stashed changes
 
   constructor() { }
 
