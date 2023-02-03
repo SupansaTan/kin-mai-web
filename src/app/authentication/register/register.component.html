@@ -2,16 +2,16 @@
   <h2 class="text-center mt-5">สร้างบัญชีผู้ใช้งาน</h2>
 
   <!-- select user type -->
-  <div *ngIf="!isSelectedUserType" class="col-12 col-lg-10 row mt-4">
+  <div *ngIf="!isSelectedUserType" class="col-12 col-lg-10 row mt-4" data-cy="selectUserTypeForm">
     <div class="col-6 d-flex align-items-center justify-content-center row zoom-on-hover" role="button"
-      (click)="setUserType(accountType.Reviewer)"
+      (click)="setUserType(accountType.Reviewer)" data-cy="reviewerOption"
     >
       <img src="../../../../assets/image/reviewer.svg" alt="reviewer" height="350px">
       <h4 class="mt-2 text-center">สายรีวิว</h4>
     </div>
 
     <div class="col-6 d-flex justify-items-center row zoom-on-hover" role="button"
-      (click)="setUserType(accountType.RestaurantOwner)"
+      (click)="setUserType(accountType.RestaurantOwner)" data-cy="restaurantOption"
     >
       <img class="" src="../../../../assets/image/restaurant-owner.svg" alt="restaurant-owner" height="350px">
       <h4 class="mt-2 text-center">เจ้าของร้านอาหาร</h4>

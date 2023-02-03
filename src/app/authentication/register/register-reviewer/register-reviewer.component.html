@@ -28,7 +28,7 @@
       <div class="col">
         <label for="firstname" class="form-label fw-semibold">ชื่อ <span class="text-danger">*</span></label>
         <input id="firstname" type="text" placeholder="ชื่อ" formControlName="firstname" class="form-control shadow-none"
-          [ngClass]="{ 'border-danger': f['firstname'].invalid && f['firstname'].touched }"
+          [ngClass]="{ 'border-danger': f['firstname'].invalid && f['firstname'].touched }" data-cy="firstName"
         >
 
         <div *ngIf="f['firstname'].invalid && f['firstname'].touched" class="text-danger mt-2">
@@ -45,7 +45,7 @@
       <div class="col">
         <label for="firstname" class="form-label fw-semibold">นามสกุล <span class="text-danger">*</span></label>
         <input id="lastname" type="text" placeholder="นามสกุล" formControlName="lastname" class="form-control shadow-none"
-          [ngClass]="{ 'border-danger': f['lastname'].invalid && f['lastname'].touched }"
+          [ngClass]="{ 'border-danger': f['lastname'].invalid && f['lastname'].touched }" data-cy="lastName"
         >
 
         <div *ngIf="f['lastname'].invalid && f['lastname'].touched" class="text-danger mt-2">
@@ -62,7 +62,7 @@
       <div class="col">
         <label for="username" class="form-label fw-semibold">ชื่อบัญชีผู้ใช้ <span class="text-danger">*</span></label>
         <input id="username" type="text" placeholder="ชื่อบัญชีผู้ใช้" formControlName="username" class="form-control shadow-none"
-          [ngClass]="{ 'border-danger': f['username'].invalid && f['username'].touched }"
+          [ngClass]="{ 'border-danger': f['username'].invalid && f['username'].touched }" data-cy="username"
         >
 
         <div *ngIf="f['username'].invalid && f['username'].touched" class="text-danger mt-2">
@@ -79,7 +79,7 @@
       <div class="col">
         <label for="email" class="form-label fw-semibold">อีเมล <span class="text-danger">*</span></label>
         <input id="email" type="email" placeholder="Email" formControlName="email" class="form-control shadow-none"
-          [ngClass]="{ 'border-danger': f['email'].invalid && f['email'].touched }"
+          [ngClass]="{ 'border-danger': f['email'].invalid && f['email'].touched }" data-cy="email"
         >
 
         <div *ngIf="f['email'].invalid && f['email'].touched" class="text-danger mt-2">
@@ -97,7 +97,7 @@
         <label for="password" class="form-label fw-semibold">รหัสผ่าน <span class="text-danger">*</span></label>
         <div class="position-relative">
           <input id="password" [type]="isShowPassword ? 'text':'password'" placeholder="Password" formControlName="password" class="form-control shadow-none"
-            [ngClass]="{ 'border-danger': f['password'].invalid && f['password'].touched }"
+            [ngClass]="{ 'border-danger': f['password'].invalid && f['password'].touched }" data-cy="password"
           >
           <i class="bi eye-icon position-absolute" role="button" (click)="isShowPassword = !isShowPassword"
             [ngClass]="isShowPassword ? 'bi-eye-slash':'bi-eye'">
@@ -119,15 +119,15 @@
         <label for="confirmPassword" class="form-label fw-semibold">ยืนยันรหัสผ่าน <span class="text-danger">*</span></label>
         <div class="position-relative">
           <input id="confirmPassword" [type]="isShowConfirmPassword ? 'text':'password'" placeholder="Confirm Password" formControlName="confirmPassword" class="form-control shadow-none"
-            [ngClass]="{ 'border-danger': f['confirmPassword'].invalid && f['confirmPassword'].touched }"
+            [ngClass]="{ 'border-danger': f['confirmPassword'].invalid && f['confirmPassword'].touched }" data-cy="confirmPassword"
           >
           <i class="bi eye-icon position-absolute" role="button" (click)="isShowConfirmPassword = !isShowConfirmPassword"
             [ngClass]="isShowConfirmPassword ? 'bi-eye-slash':'bi-eye'">
           </i>
         </div>
 
-        <div *ngIf="f['confirmPassword'].invalid && f['confirmPassword'].touched" class="text-danger mt-2">
-          <div *ngIf="f['confirmPassword'].errors?.['required']">
+        <div *ngIf="f['confirmPassword'].invalid && f['confirmPassword'].touched" class="text-danger mt-2" data-cy="confirmPasswordError">
+          <div *ngIf="f['confirmPassword'].errors?.['required']" data-cy="RequireConfirmPassword">
             Confirm Password is required.
           </div>
           <div *ngIf="f['confirmPassword'].errors?.['ConfirmPassword']">
@@ -146,6 +146,7 @@
       <button type="button" class="btn btn-yellow px-5 mx-2"
         (click)="stage === 1? changeToNextStage(): submit()"
         [disabled]="isSubmit"
+        data-cy="submitBtn"
       >
         {{ stage === 1? 'ถัดไป' : 'ยืนยัน' }}
       </button>
