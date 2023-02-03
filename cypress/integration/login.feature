@@ -25,24 +25,6 @@ Feature: Login page
     And I click on Login button
     Then I should see error message and red border on invalid field
 
-  # Scenario: Login by Google in first time
-  #   Then I should see button
-  #     | button |
-  #     | Google |
-  #   When I click on "Google" button
-  #   Then I should be on Select Google account page
-  #   When I successful login by Google account
-  #   Then I should be on Register page to set username
-
-  # Scenario: Login by Google
-  #   Then I should see button
-  #     | button |
-  #     | googleBtn |
-  #   When I click on "Google" button
-  #   Then I should be on Select Google account page
-  #   When I successful login by Google account
-  #   Then I should be on homepage
-
   Scenario: User already don't have an account
     Then I should see button
       | button |
@@ -56,6 +38,3 @@ Feature: Login page
   #     | forgetPasswordBtn |
   #   When I click on "Forget your password"
   #   Then I should be on Reset password page
-  #   When I fill new password and confirm password
-  #   And  I press "submit"
-  #   Then I should be on login page
