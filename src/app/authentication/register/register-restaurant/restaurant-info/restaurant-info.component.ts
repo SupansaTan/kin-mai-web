@@ -103,7 +103,7 @@ export class RestaurantInfoComponent implements OnInit, AfterViewInit {
       foodCategory: new FormControl(this.backUpRegisterInfo?.categories ?? []),
       deliveryType: new FormControl(this.backUpRegisterInfo?.deliveryType ?? []),
       paymentMethod: new FormControl(this.backUpRegisterInfo?.paymentMethods ?? []),
-      socialContact: this.fb.array(this.backUpRegisterInfo?.contact ?? []),
+      socialContact: this.fb.array([]),
       businessHour: this.fb.array(this.backUpRegisterInfo?.businessHours ? []: [
         this.fb.group({
           day: new FormControl(null, [
@@ -123,6 +123,10 @@ export class RestaurantInfoComponent implements OnInit, AfterViewInit {
 
     if (this.backUpRegisterInfo?.businessHours) {
       this.setBusinessHour(this.backUpRegisterInfo.businessHours);
+    }
+
+    if (this.backUpRegisterInfo?.contact) {
+      this.setSocialContact(this.backUpRegisterInfo.contact);
     }
 
     if (this.backUpRegisterInfo?.address?.markerPosition) {
@@ -349,16 +353,30 @@ export class RestaurantInfoComponent implements OnInit, AfterViewInit {
     }
   }
 
+  setSocialContact(contactList: Array<RestaurantContactModel>) {
+    for (let i=0; i<contactList.length; i++) {
+      const newSocialContactForm = this.fb.group({
+        contact: new FormControl(contactList[i].social, [
+          Validators.required,
+        ]),
+        contactValue: new FormControl(contactList[i].contactValue, [
+          Validators.required,
+        ])
+      });
+      this.SocialContactArray.push(newSocialContactForm);
+    }
+  }
+
   setBusinessHour(timeList: Array<BusinessHourModel>) {
     for (let i=0; i<timeList.length; i++) {
       const newBusinessHourForm = this.fb.group({
         day: new FormControl(timeList[i].day ?? null, [
           Validators.required
         ]),
-        startTime: new FormControl(timeList[i].startTime ?? null, [
+        startTime: new FormControl(timeList[i].startTime.toTimeString().slice(0,5) ?? null, [
           Validators.required
         ]),
-        endTime: new FormControl(timeList[i].endTime ?? null, [
+        endTime: new FormControl(timeList[i].endTime.toTimeString().slice(0,5) ?? null, [
           Validators.required
         ]),
       }, {
@@ -443,12 +461,15 @@ export class RestaurantInfoComponent implements OnInit, AfterViewInit {
     restaurantInfo.address.longitude = this.lng;
     restaurantInfo.address.markerPosition = this.markerPositions;
 
+    const today = new Date();
     for (let i=0; i<this.BusinessHourArray.length; i++) {
-      const businessHour = this.BusinessHourArray.controls[i] as FormGroup;
+      let businessHour = this.BusinessHourArray.controls[i] as FormGroup;
+      let startTime = businessHour.controls['startTime'].value;
+      let endTime = businessHour.controls['endTime'].value;
       let businessHourInfo = new BusinessHourModel();
       businessHourInfo.day = businessHour.controls['day'].value;
-      businessHourInfo.startTime = businessHour.controls['startTime'].value;
-      businessHourInfo.endTime = businessHour.controls['endTime'].value;
+      businessHourInfo.startTime = new Date(`${today.toDateString()} ${startTime}`);
+      businessHourInfo.endTime = new Date(`${today.toDateString()} ${endTime}`);
       restaurantInfo.businessHours.push(businessHourInfo);
     }
 

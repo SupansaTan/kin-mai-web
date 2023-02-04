@@ -15,6 +15,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
   private sub: any;
 
+  currentStage: number = 0;
   registerReviewerForm: FormGroup;
   backUpRegisterInfo: ReviewerRegisterModel;
   firstname: string;
@@ -26,8 +27,8 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private route: ActivatedRoute
-    ) {
+    private route: ActivatedRoute,
+  ) {
     this.initForm();
   }
 
@@ -52,11 +53,18 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
   @Input()
   set stage(value: number) {
+    this.currentStage = value;
     if (value === 4) {
+      this.isShowPassword = false;
+      this.isShowConfirmPassword = false;
       this.registerReviewerForm.disable();
     } else {
       this.registerReviewerForm.enable();
     }
+  }
+
+  get stage() {
+    return this.currentStage;
   }
 
   @Input()

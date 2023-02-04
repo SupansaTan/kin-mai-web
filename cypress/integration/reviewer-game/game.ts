@@ -27,7 +27,7 @@ When('I click on search restaurant', () => {
 });
 
 Then('I should be on "search restaurant page"',() =>{
-  cy.visit('/reviewer/search');
+  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer/search');
 });
 
 When('I click on restarant playlists', () => {
