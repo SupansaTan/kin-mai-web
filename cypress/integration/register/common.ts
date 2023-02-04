@@ -8,6 +8,24 @@ Then('I should see register form', () => {
   cy.get('[data-cy="selectUserTypeForm"]').should('be.visible');
 });
 
+Then('I should see restaurant information form', () => {
+  cy.get('[data-cy="restaurantInfoForm"]').should('be.visible');
+});
+
+Then('I should see upload restaurant photo form', () => {
+  cy.get('[data-cy="uploadPhotoForm"]').should('be.visible');
+});
+
+Then('I should see confirmation register form as reviewer', () => {
+  cy.get('[data-cy="personalInfoForm"]').should('be.visible');
+});
+
+Then('I should see confirmation register form as restaurant', () => {
+  cy.get('[data-cy="personalInfoForm"]').should('be.visible');
+  cy.get('[data-cy="restaurantInfoForm"]').should('be.visible');
+  cy.get('[data-cy="uploadPhotoForm"]').should('be.visible');
+});
+
 // select user type
 And('I click register as reviewer', () => {
   cy.get('[data-cy="reviewerOption"]').click();
