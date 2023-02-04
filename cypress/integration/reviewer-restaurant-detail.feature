@@ -4,6 +4,13 @@ Feature: Restaurant Detail
   Scenario: Reviewer can see all restaurant detail
     Given I visit on the Restaurant Detail
     Then  I should see all detail
+  
+   Scenario: Reviewer click image restaurant
+    Given I visit on the Restaurant Detail
+    Then I should see all detail
+    When I click "image" of restaurant
+    Then I should see all "image" of restaurant
+  
 
   Scenario: Reviewer can see all reviews
     Given I visit on the Restaurant Detail

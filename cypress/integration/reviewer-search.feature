@@ -2,7 +2,7 @@ Feature: Reviewer search restaurant
   Reviewer can search restaurant,filters, see reviews , write and edit review
 
   Scenario: Reviewer search somtam restaurant
-    Given I visit on the search restaurant 
+    Given I visit on the search restaurant page
     When  I search "somtam" in a search box
     Then  I should see list of "somtam restaurant" near me
 
@@ -10,30 +10,30 @@ Feature: Reviewer search restaurant
     Given I visit on the search restaurant 
     When  I search "somtam" in a search box
     Then  I should see list of "somtam restaurant" near me
-    And I should see "thin heart" icon
-    When I click on "Heart" icon
-    Then I should see "solid yellow heart" icon
+    And   I should see "thin heart" icon
+    When  I click on "Heart" icon
+    Then  I should see "solid yellow heart" icon
 
   Scenario: Reviewer undo favorite restaurant
     Given I visit on the search restaurant 
     When  I search "somtam" in a search box
     Then  I should see list of "somtam restaurant" near me
-    And I should see "solid heart" icon
-    When I click "Heart" button
-    Then I should see "light heart" icon
+    And   I should see "solid heart" icon
+    When  I click "Heart" button
+    Then  I should see "light heart" icon
 
   Scenario: Reviewer see restaurant's detail
     Given I visit on the search restaurant 
     When  I search "somtam" in a search box
     Then  I should see list of "somtam restaurant" near me
-    When I click title of Restaurant
-    Then I should be on Restaurant's detail page
+    When  I click title of Restaurant
+    Then  I should be on Restaurant's detail page
   
   Scenario: Reviewer can filters restaurant
     Given I visit on the search restaurant 
     When  I search "somtam" in a search box
-    And   I filter restarant 
-    Then  I should see "somtam restaurant" with filters near me
+    And   I filter "open"restarant 
+    Then  I should see somtam restaurant with "open" filters near me
   
   Scenario: Reviewer can reset filters restaurant
     Given I visit on the search restaurant 

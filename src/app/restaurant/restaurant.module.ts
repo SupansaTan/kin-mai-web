@@ -15,7 +15,8 @@ import { DetailComponent } from './detail/detail.component';
 import { EditRestaurantInfoComponent } from './edit-detail/edit-restaurant-info/edit-restaurant-info.component';
 import { EditUploadPhotoComponent } from './edit-detail/edit-upload-photo/edit-upload-photo.component';
 import { SharedModule } from '../shared/shared.module';
-
+import { ModalGalleryComponent } from './modal-gallery/modal-gallery.component';
+import { SwiperModule } from "swiper/angular";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SharedModule } from '../shared/shared.module';
     EditRestaurantDetailComponent,
     DetailComponent,
     EditRestaurantInfoComponent,
-    EditUploadPhotoComponent
+    EditUploadPhotoComponent,
+    ModalGalleryComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +39,7 @@ import { SharedModule } from '../shared/shared.module';
     DragDropModule,
     GoogleMapsModule,
     GooglePlaceModule,
+    SwiperModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
