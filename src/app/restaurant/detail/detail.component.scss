@@ -1,32 +1,3 @@
-.img-container {
-    position: relative;
-}
-
-.image {
-    opacity: 1;
-    display: block;
-    transition: .5s ease;
-    backface-visibility: hidden;
-}
-
-.middle {
-    transition: .5s ease;
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%)
-}
-
-.img-container:hover .image {
-opacity: 0.3;
-}
-
-.img-container:hover .middle {
-    opacity: 1;
-}
-
 .star-cover {
     max-height: 30px;
     width: 100%;
@@ -36,6 +7,14 @@ h4 {
     margin: 0%;
 }
 
-img {
-    max-height: 200px;
+.img-big {
+    height: 305px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.img-mini {
+    height: 150px;
+    width: 100%;
+    object-fit: cover;
 }
