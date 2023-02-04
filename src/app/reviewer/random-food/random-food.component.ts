@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ViewChild, Component, OnInit, ElementRef } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -7,14 +7,12 @@ import Swal from 'sweetalert2';
   styleUrls: ['./random-food.component.scss']
 })
 export class RandomFoodComponent implements OnInit {
-<<<<<<< Updated upstream
-=======
   @ViewChild('audioPlayer') audioPlayer: ElementRef;
 
   Foods=["อาหารไทย","อาหารนานาชาติ","อาหารตามสั่ง","อาหารฮาลาล","บุฟเฟ่ห์","สตรีทฟู๊ด/รถเข็น","อาหารอีสาน","ก๋วยเตี๋ยว","อาหารคลีน"];
   randomWord: string;
 
->>>>>>> Stashed changes
+
 
   constructor() { }
 
@@ -22,6 +20,16 @@ export class RandomFoodComponent implements OnInit {
   }
 
   ImageClick() {
-    Swal.fire('อาหารไทย');
+    this.randomWord = this.Foods[Math.floor(Math.random() * this.Foods.length)];
+    Swal.fire(this.randomWord);
   }
+
+  play() {
+    this.audioPlayer.nativeElement.play();
+  }
+
+  pause() {
+    this.audioPlayer.nativeElement.pause();
+  }
+
 }
