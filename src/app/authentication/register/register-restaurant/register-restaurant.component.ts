@@ -12,6 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { PageLink } from 'src/constant/path-link.constant';
 import { AccountType } from 'src/enum/account-type.enum';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-register-restaurant',
@@ -31,7 +32,7 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
   firstname: string;
   lastname: string;
   email: string;
-  stage: number = 2;
+  stage: number = 1;
   isSubmit: boolean = false;
   isShowPassword: boolean = false;
   isFormValid: boolean = false;
@@ -45,7 +46,8 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private localStorageService: LocalStorageService,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -132,23 +134,26 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
 
   submit() {
     this.isSubmit = true;
+    this.spinner.show();
     let registerInfo = new RestaurantRegisterModel();
     registerInfo.personalInfo = this.personalInfoForm;
     registerInfo.restaurantInfo = this.restaurantInfoForm;
     registerInfo.restaurantAdditionInfo = this.restaurantPhotoForm;
-    console.log(registerInfo)
-    // this.authenticationService.restaurantRegister(registerInfo).subscribe(
-    //   (response: ResponseModel<boolean>) => {
-    //     if (response?.status === 200) {
-    //       this.successModal.openSuccessModal(true, 'สร้างบัญชีผู้ใช้สำเร็จ');
-    //       setTimeout(() => {
-    //         this.isSubmit = false;
-    //         this.routePage();
-    //       }, 200);
-    //     } else {
-    //       this.successModal.openSuccessModal(false, 'ไม่สามารถสร้างบัญชีได้ในขณะนี้ โปรดลองอีกครั้ง');
-    //       this.isSubmit = false;
-    //     }
-    // })
+
+    this.authenticationService.restaurantRegister(registerInfo).subscribe(
+      (response: ResponseModel<boolean>) => {
+        this.spinner.hide();
+
+        if (response?.status === 200) {
+          this.successModal.openSuccessModal(true, 'สร้างบัญชีผู้ใช้สำเร็จ');
+          setTimeout(() => {
+            this.isSubmit = false;
+            this.routePage();
+          }, 200);
+        } else {
+          this.successModal.openSuccessModal(false, 'ไม่สามารถสร้างบัญชีได้ในขณะนี้ โปรดลองอีกครั้ง');
+          this.isSubmit = false;
+        }
+    })
   }
 }
