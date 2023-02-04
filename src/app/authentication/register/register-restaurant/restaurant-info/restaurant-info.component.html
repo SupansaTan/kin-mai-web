@@ -131,8 +131,8 @@
         >
         </ng-select>
 
-        <div *ngIf="registerRestaurantForm.controls['restaurantType'].invalid && registerRestaurantForm.controls['restaurantType'].touched" class="text-danger mt-2">
-          <div *ngIf="registerRestaurantForm.controls['restaurantType'].errors?.['required']">
+        <div *ngIf="registerRestaurantForm.controls['restaurantType'].invalid && registerRestaurantForm.controls['restaurantType'].touched" class="text-danger mt-2" data-cy="restaurantTypeError">
+          <div *ngIf="registerRestaurantForm.controls['restaurantType'].errors?.['required']" data-cy="RequireRestaurantType">
             Restaurant type is required.
           </div>
         </div>
