@@ -70,6 +70,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   logout() {
     this.localStorageService.removeAll();
     this.authenticationService.loginSuccessEvent(false);
-    this.router.navigate([PageLink.authentication.login]);
+    setTimeout(() => {
+      this.router.navigate([PageLink.authentication.login]);
+    }, 200);
   }
 }

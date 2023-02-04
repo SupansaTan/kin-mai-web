@@ -8,6 +8,7 @@ import { LocalStorageService } from './../../service/local-storage.service';
 import { PageLink } from './../../../constant/path-link.constant';
 import { AuthenticationService } from './../authentication.service';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit {
     , private authenticationService: AuthenticationService
     , private authService: SocialAuthService
     , private googleAuthService: GoogleAuthService
+    , private spinner: NgxSpinnerService
     ) {
     this.loginForm = this.fb.group({
       username: new FormControl('', [
@@ -67,6 +69,8 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const email = this.loginForm.get('username')?.value;
       const password = this.loginForm.get('password')?.value;
+      this.spinner.show();
+
       this.authenticationService.login(email, password).subscribe((response: any) => {
         if (response?.status === 200) {
           if (response.data) {
@@ -76,6 +80,8 @@ export class LoginComponent implements OnInit {
             this.localStorageService.set(LocalStorageKey.accessToken, token.token);
 
             this.authenticationService.getUserInfo(email).subscribe((resp: any) => {
+              this.spinner.hide();
+
               if (resp.status === 200) {
                 this.localStorageService.set(LocalStorageKey.userId, resp.data.userId);
                 this.localStorageService.set(LocalStorageKey.userName, resp.data.userName);
@@ -86,7 +92,6 @@ export class LoginComponent implements OnInit {
                   ? AccountType.Reviewer
                   : AccountType.RestaurantOwner
                 );
-
                 this.authenticationService.loginSuccessEvent(true);
                 this.routePage(resp.data.userType);
               }

@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ReviewerRoutingModule } from './reviewer-routing.module';
 import { ReviewerHomepageComponent } from './homepage/homepage.component';
@@ -13,6 +13,8 @@ import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail
 import { ModalReviewComponent } from './modal-review/modal-review.component';
 import { ModalGalleryComponent } from './modal-gallery/modal-gallery.component';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { SwiperModule } from "swiper/angular";
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,9 @@ import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     ReviewerRoutingModule,
     NgbRatingModule,
+    SwiperModule,
+    FormsModule,
+    MatButtonToggleModule,
   ]
 })
 

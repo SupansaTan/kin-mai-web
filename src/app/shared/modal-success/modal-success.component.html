@@ -3,8 +3,13 @@
     <button type="button" class="btn-close" (click)="closeModal()"></button>
   </div>
 
-  <div *ngIf="isSuccess" class="modal-body text-center m-3 py-4">
+  <div *ngIf="isSuccess" class="modal-body text-center m-3 py-4" data-cy="successModal">
     <i class="bi bi-check-circle-fill text-green" style="font-size: 70px;"></i>
+    <h4 class="m-0 mt-2">{{ text }}</h4>
+  </div>
+
+  <div *ngIf="!isSuccess" class="modal-body text-center m-3 py-4" data-cy="unsuccessModal">
+    <i class="bi bi-x-circle-fill text-danger" style="font-size: 70px;"></i>
     <h4 class="m-0 mt-2">{{ text }}</h4>
   </div>
 </ng-template>
