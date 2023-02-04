@@ -1,6 +1,7 @@
 import {ViewChild, Component, OnInit, ElementRef } from '@angular/core';
 import Swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-random-food',
   templateUrl: './random-food.component.html',

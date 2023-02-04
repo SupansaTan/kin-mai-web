@@ -39,8 +39,8 @@ export class RestaurantAddressModel {
 
 export class BusinessHourModel {
   day: number;
-  startTime: TimeOnlyModel;
-  endTime: TimeOnlyModel;
+  startTime: Date;
+  endTime: Date;
 }
 
 export class RestaurantPhotoModel {
@@ -53,12 +53,4 @@ export class RestaurantRegisterModel {
   personalInfo: ReviewerRegisterModel;
   restaurantInfo: RestaurantInfoModel;
   restaurantAdditionInfo: RestaurantPhotoModel;
-}
-
-export class TimeOnlyModel {
-  hour: number;
-  minute: number;
-  second: number;
-  millisecond: number;
-  ticks: number;
 }

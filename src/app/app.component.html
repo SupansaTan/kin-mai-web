@@ -2,3 +2,8 @@
 <div [ngClass]="isLogin ? 'vh-100':'container page-height'">
   <router-outlet></router-outlet>
 </div>
+
+<!-- spinner -->
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.5)" size="medium" color="#fff" type="ball-spin-clockwise" [fullScreen]="true">
+  <p class="text-white"> Loading... </p>
+</ngx-spinner>

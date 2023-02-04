@@ -37,6 +37,10 @@ Then('I should see reviewer homepage', () => {
   cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
+Then('I should see restaurant homepage', () => {
+  cy.location('pathname', { timeout: 5000 }).should('eq', '/restaurant');
+});
+
 Then('I should be on Reset password page', () => {
   cy.location('pathname', { timeout: 5000 }).should('eq', '/auth/reset-password');
 });

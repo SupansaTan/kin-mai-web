@@ -49,6 +49,8 @@
     </button>
     <button type="button" class="btn btn-yellow px-5 mx-2"
       (click)="stage === 4? submit(): changeToNextStage()"
+      [disabled]="stage === 4 && isSubmit"
+      data-cy="submitBtn"
     >
       {{ stage === 4? 'ยืนยัน' : 'ถัดไป' }}
     </button>

@@ -11,6 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { AccountType } from 'src/enum/account-type.enum';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-register-reviewer',
@@ -39,8 +40,9 @@ export class RegisterReviewerComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private localStorageService: LocalStorageService,
-    private authenticationService: AuthenticationService
-    ) {
+    private authenticationService: AuthenticationService,
+    private spinner: NgxSpinnerService
+  ) {
     this.registerForm = this.fb.group({
       firstname: new FormControl('', [
         Validators.required
@@ -181,10 +183,13 @@ export class RegisterReviewerComponent implements OnInit, OnDestroy {
 
     if (this.registerForm.valid) {
       this.isSubmit = true;
+      this.spinner.show();
       let registerModel = this.getRegisterFormValue();
 
       this.authenticationService.reviewerRegister(registerModel)
         .subscribe((response: ResponseModel<boolean>) => {
+          this.spinner.hide();
+
           if (response?.status === 200) {
             this.successModal.openSuccessModal(true, 'สร้างบัญชีผู้ใช้สำเร็จ');
             setTimeout(() => {

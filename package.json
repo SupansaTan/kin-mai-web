@@ -29,6 +29,7 @@
     "@ng-bootstrap/ng-bootstrap": "^13.0.0",
     "@ng-select/ng-select": "^9.1.0",
     "@popperjs/core": "^2.11.6",
+    "ang-music-player": "^0.0.4",
     "bootstrap": "^5.2.2",
     "bootstrap-icons": "^1.9.1",
     "bs5-lightbox": "^1.8.2",
@@ -36,8 +37,10 @@
     "ngx-bootstrap": "^9.0.0",
     "ngx-google-places-autocomplete": "^2.0.5",
     "ngx-progressbar": "^9.0.0",
+    "ngx-spinner": "^14.0.0",
     "rxjs": "~7.5.0",
     "sweetalert2": "^11.7.0",
+    "swiper": "^8.4.6",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
