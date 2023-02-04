@@ -18,9 +18,4 @@ export default defineConfig({
     baseUrl: 'http://localhost:4200',
     experimentalSessionAndOrigin: true,
   },
-  env: {
-    googleClientId: environment.googleClientId,
-    googleClientSecret: environment.googleClientSecret,
-
-  },
 });
