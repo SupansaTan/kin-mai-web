@@ -2,7 +2,7 @@
   <div class="col-md-6">
     <h2 class="mb-0">ค้นหาร้านอาหาร</h2>
     <div class="input-group position-relative">
-      <input class="form-control form-control-sm" type="text" placeholder="ชื่อร้านอาหาร">
+      <input class="form-control form-control-sm" type="text" placeholder="ชื่อร้านอาหาร" data-cy="searchbox">
       <i class="bi bi-search position-absolute"></i>
     </div>
   </div>
@@ -10,13 +10,13 @@
     <div class="col pe-2">
       <h3 class="mb-1">ประเภทอาหาร</h3>
       <div class="d-grid gap-2 mx-auto">
-        <button type="button" class="btn btn-sm bg-yellow" (click)="openModalFood()">ทั้งหมด</button>
+        <button type="button" class="btn btn-sm bg-yellow" data-cy="Food" (click)="openModalFood()">ทั้งหมด</button>
       </div>
     </div>
     <div class="col ps-2">
       <h3 class="mb-1">ประเภทเครื่องดื่มและของหวาน</h3>
       <div class="d-grid gap-2  mx-auto">
-        <button type="button" class="btn btn-sm bg-yellow" (click)="openModalDessert()">ทั้งหมด</button>
+        <button type="button" class="btn btn-sm bg-yellow" data-cy="Drink & Dessert" (click)="openModalDessert()">ทั้งหมด</button>
       </div>
     </div>
   </div>
@@ -25,13 +25,13 @@
 
 <div class="row justify-content-between">
 
-    <div *ngFor="let item of [1,2,3,4]; index as i;" class="col-6 row me-2 mb-3">
+    <div *ngFor="let item of [1,2,3,4]; index as i;" class="col-6 row me-2 mb-3" data-cy="restaurant">
 
       <div class="col-md-6">
         <img src="../assets/image/thaifood.jpg" class="big-image-cover">
       </div>
 
-      <div class="col-md-6">
+      <div class="col-md-6" data-cy="restaurantInfo">
 
         <div class="d-flex">
           <h2 class="mb-1">ร้านคุณป้าใจป้ำ</h2>
