@@ -11,6 +11,7 @@ export class ReviewerHomepageComponent implements OnInit {
   @ViewChild('successModalFoodComponent') successModalFood: ModalFoodComponent;
   @ViewChild('successModalDessertComponent') successModalDessert: ModalDessertComponent;
 
+  currentRate = 4.5;
   Info : any = {
   Stars: [ "star", "star", "star", "star", "star_half"],
   Images: [ "../../../assets/image/food1.jpg", "../../../assets/image/food2.jpg", "../../../assets/image/food3.jpg" ]
