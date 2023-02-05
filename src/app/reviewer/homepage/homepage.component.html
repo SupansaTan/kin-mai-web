@@ -25,7 +25,7 @@
 
 <div class="row justify-content-between">
 
-    <div *ngFor="let item of [1,2,3,4]; index as i;" class="col-6 row me-2 mb-3" data-cy="restaurant">
+  <div *ngFor="let item of [1,2,3,4]; index as i;" class="col-6 row me-2 mb-3" data-cy="restaurant">
 
       <div class="col-md-6">
         <img src="../assets/image/thaifood.jpg" class="big-image-cover">
@@ -34,7 +34,7 @@
       <div class="col-md-6" data-cy="restaurantInfo">
 
         <div class="d-flex">
-          <h2 class="mb-1">ร้านคุณป้าใจป้ำ</h2>
+          <h2 class="mb-1" type="button" routerLink="/reviewer/restaurant" data-cy="restaurantDetailBtn">ร้านคุณป้าใจป้ำ</h2>
           <i class=" bi bi-heart ms-5 ps-2 pt-2"></i>
         </div>
 
@@ -62,8 +62,7 @@
         </div>
 
       </div>
-    </div>
-
+  </div>
 </div>
 
 <!-- Modal -->
