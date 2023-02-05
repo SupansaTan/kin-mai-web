@@ -14,7 +14,7 @@ export class EditUploadPhotoComponent implements OnInit {
   @Output() uploadPhotoFormValue = new EventEmitter<RestaurantPhotoModel>();
 
   uploadPhotoForm: FormGroup;
-  currentStage: number = 0;
+  currentStage: number = 2;
   restaurantImageList: Array<string> = new Array<string>();
   imageFileList: Array<File> = new Array<File>();
 
