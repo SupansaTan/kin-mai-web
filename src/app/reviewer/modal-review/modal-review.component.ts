@@ -104,6 +104,7 @@ export class ModalReviewComponent {
       }
     }
     this.reviewForm.value["comment"] = comment;
+    this.modalRef.hide();
     console.log(this.reviewForm.value);
   }
 
