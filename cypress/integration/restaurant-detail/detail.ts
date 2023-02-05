@@ -26,10 +26,18 @@ Then('I should see button', (dataTable) => {
     });
 });
 
+
+// -------------------------------------------------
+
+
+Given(`I visit on Restaurant Detail page`, () => {
+    cy.visit('/restaurant/detail');
+}); 
+
 When(`I click on "Edit"`, () => {
     cy.get('[data-cy="editBtn"]').click();
 });
 
-Then('I should see edit detail page', () => {
+Then('I should be on Edit Detail page', () => {
     cy.location('pathname', { timeout: 5000 }).should('eq', '/restaurant/edit');
 });
