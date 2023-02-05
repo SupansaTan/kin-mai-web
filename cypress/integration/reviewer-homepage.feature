@@ -11,6 +11,13 @@ Feature: Reviewer Homepage
     And I should see list of Restaurant near me
     And I should see some of Restaurant info
 
+
+  Scenario: Reviewer see restaurant detail
+    Given I visit on the Homepage
+    Then  I should see list of Restaurant near me
+    When  I click title of Restaurant
+    Then  I should be on Restaurant detail page
+
   # Scenario: Reviewer add favorite restaurant
   #   Given I visit on the Homepage
   #   Then  I should see list of "Restaurant near me"
@@ -24,12 +31,6 @@ Feature: Reviewer Homepage
   #   And   I should see "solid heart" icon
   #   When  I click "Heart" button
   #   Then  I should see "light heart" icon
-
-  # Scenario: Reviewer see restaurant's detail
-  #   Given I visit on the Homepage
-  #   Then  I should see list of "Restaurant near me"
-  #   When  I click title of Restaurant
-  #   Then  I should be on Restaurant's detail page
 
   # Scenario: Reviewer see modal of food categories to select food categories
   #   Given I visit on the Homepage

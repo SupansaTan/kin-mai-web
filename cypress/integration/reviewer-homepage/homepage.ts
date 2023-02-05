@@ -22,6 +22,27 @@ And ('I should see some of Restaurant info',() =>{
   cy.get('[data-cy="restaurantInfo"]').should('be.visible');
 });
 
+// ------------------------------
+
+Given(`I visit on the Homepage`, () => {
+  cy.visit('/reviewer');
+});
+
+Then ('I should see list of Restaurant near me',() =>{
+  cy.get('[data-cy="restaurant"]').should('be.visible');
+});
+
+When('I click title of Restaurant', () => {
+  cy.get(`[data-cy="restaurantDetailBtn"]`).first().click();
+});
+
+Then ('I should be on Restaurant detail page',() =>{
+  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer/restaurant');
+});
+
+// ------------------------------
+
+
 // When('I click on Food button', () => {
 //   cy.get(`[data-cy="FoodBtn"]`).click();
 // });
