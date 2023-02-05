@@ -13,7 +13,7 @@ export class RandomFoodComponent implements OnInit {
   Foods=["อาหารไทย","อาหารนานาชาติ","อาหารตามสั่ง","อาหารฮาลาล","บุฟเฟ่ห์","สตรีทฟู๊ด/รถเข็น","อาหารอีสาน","ก๋วยเตี๋ยว","อาหารคลีน"];
   randomWord: string;
 
-
+  RandomAlready: boolean = false;
 
   constructor() { }
 
@@ -22,7 +22,11 @@ export class RandomFoodComponent implements OnInit {
 
   ImageClick() {
     this.randomWord = this.Foods[Math.floor(Math.random() * this.Foods.length)];
-    Swal.fire(this.randomWord);
+    Swal.fire({
+      title: this.randomWord,
+      timer: 5000
+    });
+    this.RandomAlready = true;
   }
 
   play() {
