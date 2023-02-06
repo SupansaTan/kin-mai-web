@@ -1,6 +1,6 @@
 import { Given,Then } from "cypress-cucumber-preprocessor/steps";
 
-Given(`I visit on the Playlist page`, () => {
+Given(`I visit on the playlist page`, () => {
   cy.visit('reviewer/playlist');
 })
 

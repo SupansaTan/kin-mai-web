@@ -3,5 +3,5 @@ Feature: Reviewer search playlist
 
   Scenario: Reviewer search somtam playlist
     Given I visit on the playlist page
-    Then  I should see play list 
+    Then  I should see restaurant playlist
   
