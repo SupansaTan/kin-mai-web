@@ -7,7 +7,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
   styleUrls: ['./modal-dessert.component.scss']
 })
 export class ModalDessertComponent  {
-  @ViewChild('successModalDessert') successModalDessert: TemplateRef<any>;
+  @ViewChild('modalDessert') modalDessert: TemplateRef<any>;
   @Output() closeModalEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   modalRef: BsModalRef;
@@ -15,16 +15,14 @@ export class ModalDessertComponent  {
   constructor(private modalService: BsModalService) { }
 
   public openSuccessModal(): void {
-    this.modalRef = this.modalService.show(this.successModalDessert, {
-      class: 'modal-md modal-dialog-centered',
+    this.modalRef = this.modalService.show(this.modalDessert, {
+      class: 'modal-lg modal-dialog-centered',
       backdrop: 'static',
       keyboard: false,
     });
-    
   }
 
   closeModal(): void {
     this.modalRef.hide();
   }
-
 }
