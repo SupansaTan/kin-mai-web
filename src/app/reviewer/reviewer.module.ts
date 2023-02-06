@@ -1,3 +1,4 @@
+import { ReviewerService } from './reviewer.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -36,7 +37,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     SwiperModule,
     FormsModule,
     MatButtonToggleModule,
-  ]
+  ],
+  providers: [
+    ReviewerService,
+  ],
 })
 
 export class ReviewerModule { }
