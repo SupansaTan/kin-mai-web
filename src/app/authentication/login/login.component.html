@@ -16,7 +16,7 @@
           <div class="my-3">
             <label for="username" class="form-label fw-bolder">Email</label>
             <input id="username" type="email" placeholder="Email" formControlName="username" class="form-control shadow-none"
-              data-cy="email"
+              data-cy="email" (keyup.enter)="submit()"
               [ngClass]="{ 'border-danger': f['username'].invalid && f['username'].touched }"
             >
 
@@ -35,7 +35,7 @@
             <label for="password" class="form-label fw-bolder">Password</label>
             <div class="position-relative">
               <input id="password" [type]="isShowPassword ? 'text':'password'" placeholder="Password" formControlName="password" class="form-control shadow-none"
-                data-cy="password"
+                data-cy="password" (keyup.enter)="submit()"
                 [ngClass]="{ 'border-danger': f['password'].invalid && f['password'].touched }"
               >
               <i class="bi eye-icon position-absolute" role="button" (click)="isShowPassword = !isShowPassword"
