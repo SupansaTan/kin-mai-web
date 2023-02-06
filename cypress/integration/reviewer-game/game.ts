@@ -10,14 +10,23 @@ Then('I should see gachapon game', () => {
 
 // --------------------------
 
-Given(`I visit on random game page`, () => {
-  cy.visit('/reviewer/random');
-});
+// When('I play music', () => {
+//   cy.get(`[data-cy="PlayBtn"]`).click();
+// });
 
-Then('I should see gachapon game ', () => {
-  cy.get('[data-cy="gachapon game"]').should('be.visible');
-});
+// Then('I should listen music ', () => {
+//   cy.get('[data-cy="music"]').should('be.visible');
+// });
 
+// When('I stop music', () => {
+//   cy.get(`[data-cy="StopBtn"]`).click();
+// });
+
+// Then('I should not listen music ', () => {
+//   cy.get('[data-cy="music"]').should('be.visible');
+// });
+
+// --------------------------
 When('I click on gachapon game', () => {
   cy.get(`[data-cy="gachapon game"]`).click();
 });
@@ -28,20 +37,16 @@ Then('I should see button', (dataTable) => {
   });
 });
 
-// ---------------------------
-
-Given(`I visit on random game page`, () => {
-  cy.visit('/reviewer/random');
-});
-
-When('I click on gachapon game', () => {
-  cy.get(`[data-cy="gachapon game"]`).click();
-});
-
 Then('I see button search restaurant', () => {
-  cy.wait(6000);
+  cy.wait(5000);
   cy.get('[data-cy="SearchRestaurantBtn"]').should('be.visible');
 });
+
+Then('I see button search restarant playlists', () => {
+  cy.wait(5000);
+  cy.get('[data-cy="RestarantPlaylistsBtn"]').should('be.visible');
+});
+
 
 When('I click on search restaurant', () => {
   cy.get(`[data-cy="SearchRestaurantBtn"]`).click();
@@ -51,20 +56,7 @@ Then('I should be on search restaurant page',() =>{
   cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer/search');
 });
 
-// ---------------------------
 
-Given(`I visit on random game page`, () => {
-  cy.visit('/reviewer/random');
-});
-
-When('I click on gachapon game', () => {
-  cy.get(`[data-cy="gachapon game"]`).click();
-});
-
-Then('I see button search restarant playlists', () => {
-  cy.wait(6000);
-  cy.get('[data-cy="RestarantPlaylistsBtn"]').should('be.visible');
-});
 
 When('I click on search restarant playlists', () => {
   cy.get(`[data-cy="RestarantPlaylistsBtn"]`).click();

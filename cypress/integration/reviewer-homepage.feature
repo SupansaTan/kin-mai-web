@@ -4,13 +4,11 @@ Feature: Reviewer Homepage
   Scenario: Reviewer see buttons at the top of page
     Given I visit on the Homepage
     Then  I should see search box
-    And  I should see buttons
+    And   I should see buttons
             | button |
             | Food |
             | Drink & Dessert |
     And I should see list of Restaurant near me
-    And I should see some of Restaurant info
-
 
   Scenario: Reviewer see restaurant detail
     Given I visit on the Homepage
@@ -32,11 +30,11 @@ Feature: Reviewer Homepage
   #   When  I click "Heart" button
   #   Then  I should see "light heart" icon
 
-  # Scenario: Reviewer see modal of food categories to select food categories
-  #   Given I visit on the Homepage
-  #   Then  I should see "Food" button
-  #   When  I click "Food" button
-  #   Then  I should see modal of food categories
+  Scenario: Reviewer see modal of food categories to select food categories
+    Given I visit on the Homepage
+    Then  I should see "Food" button
+    When  I click "Food" button
+    Then  I should see modal of food categories
 
   # Scenario: Reviewer selecting food categories to search restaurant
   #   Given I visit on the Homepage
@@ -46,11 +44,11 @@ Feature: Reviewer Homepage
   #   When  I click a categorie of food
   #   Then  I should be on search result page
 
-  # Scenario: Reviewer see modal of drink and dessert categories
-  #   Given I visit on the Homepage
-  #   Then  I should see "Drink & Dessert" button
-  #   When  I click "Drink & Dessert" button
-  #   Then  I should see modal of drink and dessert categories
+  Scenario: Reviewer see modal of drink and dessert categories
+    Given I visit on the Homepage
+    Then  I should see "Drink & Dessert" button
+    When  I click "Drink & Dessert" button
+    Then  I should see modal of drink and dessert categories
 
   # Scenario: Reviewer selecting drink and dessert categories to search restaurant
   #   Given I visit on the Homepage

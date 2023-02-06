@@ -15,7 +15,8 @@ And ('I should see buttons', (dataTable) => {
 });
 
 And ('I should see list of Restaurant near me',() =>{
-  cy.get('[data-cy="restaurant"]').should('be.visible');
+  cy.wait(5000);
+  cy.get('[data-cy="Restaurant"]').should('be.visible');
 });
 
 And ('I should see some of Restaurant info',() =>{
@@ -23,14 +24,6 @@ And ('I should see some of Restaurant info',() =>{
 });
 
 // ------------------------------
-
-Given(`I visit on the Homepage`, () => {
-  cy.visit('/reviewer');
-});
-
-Then ('I should see list of Restaurant near me',() =>{
-  cy.get('[data-cy="restaurant"]').should('be.visible');
-});
 
 When('I click title of Restaurant', () => {
   cy.get(`[data-cy="restaurantDetailBtn"]`).first().click();
@@ -43,21 +36,22 @@ Then ('I should be on Restaurant detail page',() =>{
 // ------------------------------
 
 
-// When('I click on Food button', () => {
-//   cy.get(`[data-cy="FoodBtn"]`).click();
-// });
+When('I click on Food button', () => {
+  cy.get(`[data-cy="FoodBtn"]`).click();
+});
 
-// Then('I should see food categories',() =>{
-//   cy.get('[data-cy="food categories"]').should('be.visible');
-// });
+Then('I should see food categories',() =>{
+  cy.get('[data-cy="FoodModal"]').should('be.visible');
+});
 
-// When('I click on drink and dessert button', () => {
-//   cy.get(`[data-cy="DrinkAndDessertBtn"]`).click();
-// });
+When('I click on drink and dessert button', () => {
+  cy.get(`[data-cy="DrinkAndDessertBtn"]`).click();
+});
 
-// Then('I should see drink and dessert categories',() =>{
-//   cy.get('[data-cy="drink and dessert categories"]').should('be.visible');
-// });
+Then('I should see drink and dessert categories',() =>{
+  cy.get('[data-cy="DessertModal"]').should('be.visible');
+});
+
 
 // When('I click on "What to eat?" ', () => {
 //   cy.get(`[data-cy="What to eat?"]`).click();
