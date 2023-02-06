@@ -1,5 +1,5 @@
 Feature: Restaurant Review
-  Reviewer is able to  edit review 
+  Reviewer is able to create review 
 
   Scenario: Reviwer see review form
     Given I visit on Restaurant Detail page
