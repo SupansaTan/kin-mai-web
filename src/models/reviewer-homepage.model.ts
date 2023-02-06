@@ -5,3 +5,9 @@ export class GetRestaurantNearMeRequestModel {
   skip: number;
   take: number;
 }
+
+export class SetFavoriteRestaurantRequestModel {
+  userId: string;
+  restaurantId: string;
+  isFavorite: boolean;
+}
