@@ -1,6 +1,7 @@
+import { ShortNumberPipe } from './../../pipe/short-number.pipe';
 import { ReviewerService } from './reviewer.service';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -27,6 +28,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     RestaurantDetailComponent,
     ModalReviewComponent,
     ModalGalleryComponent,
+    ShortNumberPipe,
   ],
   imports: [
     CommonModule,
@@ -41,6 +43,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
   providers: [
     ReviewerService,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 
 export class ReviewerModule { }

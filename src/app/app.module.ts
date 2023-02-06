@@ -24,13 +24,12 @@ import { AngMusicPlayerModule } from  'ang-music-player';
 import { PlaylistComponent } from './reviewer/playlist/playlist.component';
 import { PlaylistDetailComponent } from './reviewer/playlist-detail/playlist-detail.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     PlaylistComponent,
-    PlaylistDetailComponent
+    PlaylistDetailComponent,
   ],
   imports: [
     BrowserModule,
