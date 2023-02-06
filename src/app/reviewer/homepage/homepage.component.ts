@@ -1,10 +1,10 @@
-import { ResponseModel } from './../../../models/response.model';
-import { LocalStorageKey } from './../../../constant/local-storage-key.constant';
-import { LocalStorageService } from './../../service/local-storage.service';
-import { GetRestaurantNearMeRequestModel, SetFavoriteRestaurantRequestModel } from './../../../models/reviewer-homepage.model';
-import { ReviewerService } from './../reviewer.service';
+import { ResponseModel } from '../../../models/response.model';
+import { LocalStorageKey } from '../../../constant/local-storage-key.constant';
+import { LocalStorageService } from '../../service/local-storage.service';
+import { GetRestaurantNearMeRequestModel, SetFavoriteRestaurantRequestModel } from '../../../models/reviewer-homepage.model';
+import { ReviewerService } from '../reviewer.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { RestaurantInfoItemModel, RestaurantInfoListModel } from './../../../models/restaurant-info.model';
+import { RestaurantInfoItemModel, RestaurantInfoListModel } from '../../../models/restaurant-info.model';
 import { ModalDessertComponent } from '../modal-dessert/modal-dessert.component';
 import { ModalFoodComponent } from '../modal-food/modal-food.component';
 import { environment } from 'src/environments/environment';
@@ -21,6 +21,10 @@ export class ReviewerHomepageComponent implements OnInit {
 
   restaurantInfoList: Array<RestaurantInfoItemModel>;
   restaurantNearMeInfo: RestaurantInfoListModel;
+  savoryFoodCategoryLabel: string = 'ทั้งหมด';
+  dessertCategoryLabel: string = 'ทั้งหมด';
+  selectedSavoryFoodCategory: number = 0;
+  selectedDessertCategory: number = 0;
   awsS3Url = environment.awsS3Url;
   totalRestaurant: number = 0;
   restaurantCumulativeCount: number = 0;
@@ -121,5 +125,15 @@ export class ReviewerHomepageComponent implements OnInit {
         this.showtoasError(`Favorite ${restaurantName} Unsuccessful`);
       }
     })
+  }
+
+  setFoodCategory(e: any) {
+    if (e.isSavory) {
+      this.selectedSavoryFoodCategory = e.id;
+      this.savoryFoodCategoryLabel = e.label;
+    } else {
+      this.selectedDessertCategory = e.id;
+      this.dessertCategoryLabel = e.label;
+    }
   }
 }

@@ -7,9 +7,9 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
   styleUrls: ['./modal-food.component.scss']
 })
 export class ModalFoodComponent {
-
   @ViewChild('modalFoodCategory') modalFoodCategory: TemplateRef<any>;
   @Output() closeModalEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onSelectedCategory = new EventEmitter<{ isSavory: boolean, id: number, label: string }>();
 
   modalRef: BsModalRef;
 
@@ -27,4 +27,13 @@ export class ModalFoodComponent {
     this.modalRef.hide();
   }
 
+  selectedCategory(id: number, label: string) {
+    let item = {
+      isSavory: true,
+      id: id,
+      label: label
+    }
+    this.onSelectedCategory.emit(item);
+    this.closeModal();
+  }
 }

@@ -9,6 +9,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 export class ModalDessertComponent  {
   @ViewChild('modalDessert') modalDessert: TemplateRef<any>;
   @Output() closeModalEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onSelectedCategory = new EventEmitter<{ isSavory: boolean, id: number, label: string }>();
 
   modalRef: BsModalRef;
 
@@ -24,5 +25,15 @@ export class ModalDessertComponent  {
 
   closeModal(): void {
     this.modalRef.hide();
+  }
+
+  selectedCategory(id: number, label: string) {
+    let item = {
+      isSavory: false,
+      id: id,
+      label: label
+    }
+    this.onSelectedCategory.emit(item);
+    this.closeModal();
   }
 }
