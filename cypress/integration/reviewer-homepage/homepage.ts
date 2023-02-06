@@ -40,7 +40,7 @@ And ('I should see buttons', (dataTable) => {
 });
 
 And ('I should see list of Restaurant near me',() =>{
-  cy.wait(2000);
+  cy.wait(1000);
   cy.get('[data-cy="Restaurant"]').should('be.visible');
 });
 
