@@ -5,17 +5,7 @@ Feature: Reviewer random food game
     Given I visit on random game page
     Then  I should see gachapon game
 
-  # Scenario: Reviewer play music 
-  #   When  I click play button
-  #     | button |
-  #     | PlayBtn  |
-  #   Then I should listen music
-  
-  # Scenario: Reviewer stop music 
-  #   When  I click stop button
-  #     | button |
-  #     | StopBtn  |
-  #   Then I should not listen music
+
 
   Scenario: Reviewer click gachapon random game for receive food categories
     When  I click on gachapon game
