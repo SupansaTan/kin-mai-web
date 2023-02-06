@@ -1,6 +1,6 @@
 import { AccountType } from './../../../enum/account-type.enum';
 import { GoogleAuthService } from './../../service/google-auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
@@ -9,6 +9,9 @@ import { PageLink } from './../../../constant/path-link.constant';
 import { AuthenticationService } from './../authentication.service';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-success.component';
+import { ResponseModel } from 'src/models/response.model';
+import { TokenResponseModel } from 'src/models/token-response.model';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +19,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  @ViewChild('successModalComponent') successModal: ModalSuccessComponent;
   loginForm: FormGroup;
   isShowPassword: boolean = false;
 
@@ -71,7 +75,7 @@ export class LoginComponent implements OnInit {
       const password = this.loginForm.get('password')?.value;
       this.spinner.show();
 
-      this.authenticationService.login(email, password).subscribe((response: any) => {
+      this.authenticationService.login(email, password).subscribe((response: ResponseModel<TokenResponseModel>) => {
         if (response?.status === 200) {
           if (response.data) {
             let token = response.data;
@@ -97,6 +101,9 @@ export class LoginComponent implements OnInit {
               }
             })
           }
+        } else {
+          this.spinner.hide();
+          this.successModal.openSuccessModal(false, response.message);
         }
       });
     }
