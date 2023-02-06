@@ -6,7 +6,8 @@
 }
 
 .big-image-cover {
-  max-height: 200px;
+  min-height: 240px;
+  max-height: 240px;
   width: 100%;
   background-size: cover;
   overflow: hidden;
@@ -15,10 +16,26 @@
 }
 
 .mini-image-cover {
-  max-height: 60px;
+  min-height: 110px;
+  max-height: 110px;
   width: 100%;
   background-size: cover;
   overflow: hidden;
   border-radius: 10px;
   object-fit: cover;
+}
+
+i.bi-star-fill {
+  position: relative;
+  display: inline-block;
+
+  .filled {
+    overflow: hidden;
+    top: 0;
+    left: 0;
+  }
+}
+
+.price-rate {
+  padding-top: 3px;
 }

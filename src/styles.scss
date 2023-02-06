@@ -2,7 +2,8 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
 @import "~@ng-select/ng-select/themes/default.theme.css";
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600;700;800&family=Prompt:wght@300;400;500;600;700;800&display=swap');
+@import '~ngx-toastr/toastr.css';
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&family=Prompt:wght@400;500;600;700&display=swap');
 
 @import 'scss/variable';
 @import 'scss/colors';

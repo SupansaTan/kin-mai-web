@@ -1,5 +1,5 @@
 <ng-template #modalReview>
-    <form [formGroup]="reviewForm">
+    <form [formGroup]="reviewForm" data-cy="reviewModal">
         <div class="container pb-2">
             <div class="modal-header">
                 <h2 class="m-0">รีวิวร้านอาหาร : ร้านคุณป้าใจป้ำ</h2>
@@ -13,8 +13,7 @@
                         <h3 class="m-0 me-2">คุณภาพอาหาร & บรรยากาศร้านอาหาร :</h3>
                     </div>
                     <div class="col-auto mb-2">
-                        <ngb-rating [(rate)]="currentRate" [max]="5" id="rating" formControlName="rating" >
-
+                        <ngb-rating [(rate)]="currentRate" [max]="5" id="rating" formControlName="rating" data-cy="star">
                             <ng-template let-fill="fill" let-index="index">
                                 <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color"></i>
                             </ng-template>
@@ -35,7 +34,7 @@
                     <!-- Button Review Word -->
                     <div class="col mb-2">
                         <mat-button-toggle-group [formControl]="CompleteWordForm" name="comment" aria-label="comment" multiple class="completeWord" id="comment" formControlName="comment">
-                            <mat-button-toggle class="completeWord" value="อาหารถูกต้อง">อาหารถูกต้อง</mat-button-toggle>
+                            <mat-button-toggle class="completeWord" value="อาหารถูกต้อง" data-cy="commentWordBtn">อาหารถูกต้อง</mat-button-toggle>
                             <mat-button-toggle class="completeWord" value="สะอาดและปลอดภัย">สะอาดและปลอดภัย</mat-button-toggle>
                             <mat-button-toggle class="completeWord" value="อาหารคุณภาพดี">อาหารคุณภาพดี</mat-button-toggle>
                             <mat-button-toggle class="completeWord" value="บรรจุภัณฑ์เหมาะสม">บรรจุภัณฑ์เหมาะสม</mat-button-toggle>
@@ -45,7 +44,7 @@
 
                     <!-- Input Comment -->
                     <div class="my-2">
-                        <textarea class="form-control" id="comment" formControlName="comment" rows="3" placeholder="เริ่มเขียนรีวิว!"></textarea>
+                        <textarea class="form-control" id="comment" formControlName="comment" rows="3" placeholder="เริ่มเขียนรีวิว!" data-cy="commentBox"></textarea>
                     </div>
 
                     <!-- Upload Photo -->
@@ -70,7 +69,7 @@
                             </ng-container>
                 
                             <!-- upload image button -->
-                            <label role="button" for="photo"
+                            <label role="button" for="photo" data-cy="uploadPhoto"
                                 class="bg-light-grey rounded-2 py-3 px-2 d-flex align-items-center justify-content-center flex-column shadow-sm mt-1 upload-image mt-3"
                                 [ngClass]="{ 'border-danger': reviewForm.controls['photo'].invalid && reviewForm.controls['photo'].touched }">
                                 <i class="bi bi-camera-fill" style="font-size: 25px;"></i>
@@ -98,7 +97,7 @@
 
                                     <div class="d-flex align-items-center">
                                         <div class="col-auto">
-                                            <input class="form-control" type="text" formControlName="name" />
+                                            <input class="form-control" type="text" formControlName="name" data-cy="menuName"/>
                                         </div>
                                         <button class="btn" (click)="delRecommendMenu(menuIndex)">
                                             <i class="bi bi-trash text-danger col-2 fs-4"></i>
@@ -107,7 +106,7 @@
 
                                 </div>
                             </div>
-                            <button class="btn btn-add d-flex align-items-center" (click)="addRecommendMenu()">
+                            <button class="btn btn-add d-flex align-items-center" (click)="addRecommendMenu()" data-cy="addMenuBtn">
                                 <i class="bi bi-plus" style="color: #000000;"></i>
                                 <h3 class="m-0">เพิ่ม</h3>
                             </button>
@@ -118,7 +117,7 @@
 
             <!-- Submit button -->
             <div class="d-flex justify-content-end">
-                <button class="btn btn-yellow w-25" (click)="onSubmit()" >ยืนยัน</button>
+                <button class="btn btn-yellow w-25" (click)="onSubmit()" data-cy="submitBtn">ยืนยัน</button>
             </div>
 
         </div>
