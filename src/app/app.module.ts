@@ -12,6 +12,7 @@ import { SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { ToastrModule } from 'ngx-toastr';
 
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -24,13 +25,12 @@ import { AngMusicPlayerModule } from  'ang-music-player';
 import { PlaylistComponent } from './reviewer/playlist/playlist.component';
 import { PlaylistDetailComponent } from './reviewer/playlist-detail/playlist-detail.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     PlaylistComponent,
-    PlaylistDetailComponent
+    PlaylistDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +41,7 @@ import { PlaylistDetailComponent } from './reviewer/playlist-detail/playlist-det
     NgbModule,
     SharedModule,
     ModalModule.forRoot(),
+    ToastrModule.forRoot(),
     BrowserAnimationsModule,
     NgProgressModule,
     GoogleMapsModule,
