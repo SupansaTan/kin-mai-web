@@ -1,5 +1,12 @@
 Feature: Restaurant Edit Detail
     Restaurant can edit , add and remove their details
+  
+   Background:
+    Given I visit on login page
+    When I complete fill in login form
+      | email               | password |
+      | punch3@gmail.com | 12345678 |
+    And I click on Login button
 
   Scenario: Restaurant owner can edit their detail
     Given I visit on the Restaurant Detail
@@ -14,7 +21,7 @@ Feature: Restaurant Edit Detail
     Then  I should see edit form
     When  I complete fill in the form
     And   I click "Submit" button
-    Then  I should see modal "Edit Inforamtion successful"
+    Then  I should see restaurant detail homepage
 
    Scenario: Restaurant owner with invalid form
     Given I visit on the restaurant edit page

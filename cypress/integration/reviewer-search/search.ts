@@ -1,5 +1,30 @@
 import { And, Given, Then, When } from "cypress-cucumber-preprocessor/steps";
 
+Given(`I visit on login page`, () => {
+  cy.visit('/auth/login');
+});
+
+Then('I should see login form', () => {
+  cy.get('[data-cy="loginForm"]').should('be.visible');
+});
+
+Then('I should see button', (dataTable) => {
+  dataTable.hashes().forEach((item: { button: string }) => {
+    cy.get(`[data-cy="${item.button}"]`).should('be.visible');
+  });
+});
+
+When('I complete fill in login form', (dataTable) => {
+  dataTable.hashes().forEach((item: { email: string, password: string }) => {
+    cy.get('[data-cy="email"]').type(item.email);
+    cy.get('[data-cy="password"]').type(item.password);
+  });
+});
+
+And('I click on Login button', () => {
+  cy.get('[data-cy="loginBtn"]').click();
+});
+//-------see search result-------
 
 Given (`I visit on search restaurant page`, () => {
   cy.visit('/reviewer/search');
@@ -21,7 +46,7 @@ And ('I should see list of restaurant', () => {
   cy.get('[data-cy="restaurant"]').should('be.visible');
 });
 
-// -----------------------------------
+// ------search for somtam restaurant---------
 
 Given (`I visit on search restaurant page`, () => {
   cy.visit('/reviewer/search');
@@ -47,65 +72,3 @@ Then('I should see list of "somtam restaurant" near me', () => {
 });
 
 // -----------------------------------
-
-// When('I search on "restaurant" ', () => {
-//   cy.get(`[data-cy="searchBox"]`).type("ส้มตำ");
-// });
-
-// Then('I should see information', () => {
-//   cy.get('[data-cy="information"]').should('be.visible');
-// });
-
-// And ('I should see button', (dataTable) => {
-//   dataTable.hashes().forEach((item: { button: string }) => {
-//     cy.get(`[data-cy="${item.button}"]`).should('be.visible');
-//   });
-// });
-
-// When('I click on open button ', () => {
-//   cy.get(`[data-cy="OpenBtn"]`).click();
-// });
-
-// Then ('I should see restaurant near me ',() =>{
-//   cy.get('[data-cy="restaurant"]').should('be.visible');
-// })
-
-// When('I click on thai button ', () => {
-//   cy.get(`[data-cy="ThaiBtn"]`).click();
-// });
-
-// Then ('I should see restaurant near me ',() =>{
-//   cy.get('[data-cy="restaurant"]').should('be.visible');
-// })
-
-// When('I click on reset button ', () => {
-//   cy.get(`[data-cy="ResetBtn"]`).click();
-// });
-
-// Then ('I should see restaurant near me ',() =>{
-//   cy.get('[data-cy="restaurant"]').should('be.visible');
-// })
-
-// When('I click on myreview button ', () => {
-//   cy.get(`[data-cy="MyreviewBtn"]`).click();
-// });
-
-// Then('I should see myreview', () => {
-//   cy.get('[data-cy=" myreview"]').should('be.visible');
-// });
-
-// When('I click on editreview button ', () => {
-//   cy.get(`[data-cy="EditreviewBtn"]`).click();
-// });
-
-// Then('I should see reviews', () => {
-//   cy.get('[data-cy="reviewForm"]').should('be.visible');
-// });
-
-// When('I click on review button ', () => {
-//   cy.get(`[data-cy="ReviewBtn"]`).click();
-// });
-
-// Then('I should see reviews', () => {
-//   cy.get('[data-cy="reviewForm"]').should('be.visible');
-// });

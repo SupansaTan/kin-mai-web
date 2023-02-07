@@ -1,6 +1,13 @@
 Feature: Restaurant Review
   Reviewer is able to create review 
 
+  Background:
+    Given I visit on login page
+    When I complete fill in login form
+      | email               | password |
+      | nampunch1@gmail.com | 12345678 |
+    And I click on Login button
+
   Scenario: Reviwer see review form
     Given I visit on Restaurant Detail page
     Then  I should see create review button

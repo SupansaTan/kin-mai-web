@@ -1,6 +1,13 @@
 Feature: Reataurnat Detail
     Restaurant owner is able tot see thier restaurant's information and rating
 
+    Background:
+    Given I visit on login page
+    When   I complete fill in login form
+      | email               | password |
+      | punch3@gmail.com    | 12345678 |
+    And I click on Login button
+
     Scenario: Restaurant owner can see all restaurant's information
         Given I visit on Restaurant Detail page
         Then I should see restaurant image

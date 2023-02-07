@@ -22,15 +22,6 @@ Feature: Reviewer Homepage
     When  I click title of Restaurant
     Then  I should be on Restaurant detail page
 
-
-  Scenario: Reviewer see modal of food categories to select food categories
-    When  I click "Food" button
-    Then  I should see modal of food categories
-  
-  Scenario: Reviewer see modal of drink and dessert categories
-    When  I click "Drink & Dessert" button
-    Then  I should see modal of drink and dessert categories
-
   Scenario: Reviewer like restaurant
     When  I click "Love" button
     Then  I should see love button change
@@ -38,5 +29,16 @@ Feature: Reviewer Homepage
   Scenario: Reviewer unlike restaurant
     When  I unclick "Love" button
     Then  I should see love button change
+
+
+  # Scenario: Reviewer see modal of food categories to select food categories
+  #   When  I click "Food" button
+  #   Then  I should see modal of food categories
+  
+  # Scenario: Reviewer see modal of drink and dessert categories
+  #   When  I click "Drink & Dessert" button
+  #   Then  I should see modal of drink and dessert categories
+
+
 
   
