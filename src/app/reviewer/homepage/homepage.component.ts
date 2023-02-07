@@ -9,6 +9,8 @@ import { ModalDessertComponent } from '../modal-dessert/modal-dessert.component'
 import { ModalFoodComponent } from '../modal-food/modal-food.component';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { PageLink } from 'src/constant/path-link.constant';
 
 @Component({
   selector: 'app-homepage',
@@ -25,6 +27,8 @@ export class ReviewerHomepageComponent implements OnInit {
   dessertCategoryLabel: string = 'ทั้งหมด';
   selectedSavoryFoodCategory: number = 0;
   selectedDessertCategory: number = 0;
+  searchKeyword: string = "";
+  categoryType: Array<number> = new Array<number>();
   awsS3Url = environment.awsS3Url;
   totalRestaurant: number = 0;
   restaurantCumulativeCount: number = 0;
@@ -35,6 +39,7 @@ export class ReviewerHomepageComponent implements OnInit {
   lng: number;
 
   constructor(
+    private router: Router,
     private reviewerService: ReviewerService,
     private localStorageService: LocalStorageService,
     private toastr: ToastrService
@@ -132,8 +137,17 @@ export class ReviewerHomepageComponent implements OnInit {
       this.selectedSavoryFoodCategory = e.id;
       this.savoryFoodCategoryLabel = e.label;
     } else {
-      this.selectedDessertCategory = e.id;
+      this.selectedSavoryFoodCategory = e.id;
       this.dessertCategoryLabel = e.label;
     }
+  }
+
+  findRestaurant() {
+    this.categoryType = [this.selectedSavoryFoodCategory, this.selectedSavoryFoodCategory];
+    this.reviewerService.setSelectedCategoryType(this.categoryType);
+    this.router.navigate([PageLink.reviewer.searchRestaurant, {
+      isOpen: true,
+      keywords: this.searchKeyword
+    }]);
   }
 }
