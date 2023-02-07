@@ -27,6 +27,14 @@ const routes: Routes = [
     },
   },
   {
+    path: 'search/:isOpen/:keywords',
+    component: SearchRestaurantComponent,
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccountType.Reviewer],
+    },
+  },
+  {
     path: 'random',
     component: RandomFoodComponent,
     canActivate: [AuthGuardService],
