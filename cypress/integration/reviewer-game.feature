@@ -1,28 +1,30 @@
 Feature: Reviewer random food game
   Reviewer can random food categories , search restarant and restarant's playlists
 
-  Scenario: Reviewer see gachapon random game
-    Given I am on the random game page
-    Then  I see "gachapon game"
-    And   I see buttons "search restaurant" and "search restarant's playlists"
+  Background:
+    Given I visit on random game page
+    Then  I should see gachapon game
+
+
 
   Scenario: Reviewer click gachapon random game for receive food categories
-    Given I am on the random game page
-    Then  I see "gachapon game"
-    When  I click on "gachapon game"
-    Then  The gachapon game should show "food categories"
+    When  I click on gachapon game
+    Then  I should see button
+          | button |
+          | SearchRestaurantBtn |
+          | RestarantPlaylistsBtn |
 
   Scenario: Reviewer click search restaurant
-    Given I am on the random game page
-    Then  I see button "search restaurant"
-    When  I click on "search restaurant"
-    Then  I should see "list of restaurant"
+    When  I click on gachapon game
+    Then  I see button search restaurant
+    When  I click on search restaurant
+    Then  I should be on search restaurant page
 
   Scenario: Reviewer click search restarant's playlists
-    Given I am on the random game page
-    Then  I see button "search restarant's playlists"
-    When  I click on "search restarant's playlists"
-    Then  I should see "list of restarant's playlists"
+    When  I click on gachapon game
+    Then  I see button search restarant playlists
+    When  I click on search restarant playlists
+    Then  I should be on search restaurant playlists page
   
 
   

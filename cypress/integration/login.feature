@@ -2,7 +2,7 @@ Feature: Login page
 
   Background:
     Given I visit on login page
-    Then I should see login form
+    Then  I should see login form
 
   Scenario: Login successful as Reviewer
     When I complete fill in login form
@@ -14,7 +14,7 @@ Feature: Login page
   Scenario: Login successful as Restaurant Owner
     When I complete fill in login form
       | email               | password |
-      | nampunch5@gmail.com | 12345678 |
+      | punch3@gmail.com    | 12345678 |
     And I click on Login button
     Then I should see restaurant homepage
 
@@ -22,9 +22,9 @@ Feature: Login page
     When I fill in some form in login form
       | email               |
       | nampunch1@gmail.com |
-    And I click on Login button
+    And  I click on Login button
     Then I should see error message and red border on invalid field
-
+  
   Scenario: User already don't have an account
     Then I should see button
       | button |

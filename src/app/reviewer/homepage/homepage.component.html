@@ -11,11 +11,11 @@
   <div class="col-12 col-md-6 d-flex ps-md-0">
     <div class="col-4 pe-2">
       <h3 class="mb-1 mt-3">เลือกประเภทอาหาร</h3>
-      <button type="button" class="btn btn-yellow w-100" data-cy="Food" (click)="openModalFood()">{{ savoryFoodCategoryLabel }}</button>
+      <button type="button" class="btn btn-yellow w-100" data-cy="FoodBtn" (click)="openModalFood()">{{ savoryFoodCategoryLabel }}</button>
     </div>
     <div class="col-5 ps-1">
       <h3 class="mb-1 mt-3">เลือกประเภทเครื่องดื่ม/ของหวาน</h3>
-      <button type="button" class="btn btn-yellow w-100" data-cy="Drink & Dessert" (click)="openModalDessert()">{{ dessertCategoryLabel }}</button>
+      <button type="button" class="btn btn-yellow w-100" data-cy="DrinkAndDessertBtn" (click)="openModalDessert()">{{ dessertCategoryLabel }}</button>
     </div>
     <div class="col ps-2">
       <button type="button" class="btn btn-light-grey w-100 mt-5" data-cy="searchBtn" (click)="findRestaurant()">ค้นหา</button>
@@ -33,8 +33,8 @@
 </div>
 
 <!-- resturant near me list -->
-<div *ngIf="restaurantInfoList && !isLoading" class="row row-cols-2 gy-3 gx-2">
-  <div *ngFor="let item of restaurantInfoList; index as i;" class="col" data-cy="restaurant">
+<div *ngIf="restaurantInfoList && !isLoading" class="row row-cols-2 gy-3 gx-2" data-cy="Restaurant">
+  <div *ngFor="let item of restaurantInfoList; index as i;" class="col" >
     <div class="bg-white border-rounded py-2 px-3">
       <div class="row">
         <!-- image cover -->
@@ -46,7 +46,7 @@
         <div class="col ps-1" data-cy="restaurantInfo">
           <div class="d-flex justify-content-between align-items-center">
             <h2 class="mb-1" type="button" routerLink="/reviewer/restaurant" data-cy="restaurantDetailBtn">{{item.restaurantName}}</h2>
-            <i class="bi fs-5" [ngClass]="item.isFavorite ? 'bi-heart-fill text-yellow':'bi-heart'" type="button"
+            <i class="bi fs-5" [ngClass]="item.isFavorite ? 'bi-heart-fill text-yellow':'bi-heart'" type="button" data-cy="LoveBtn"
               (click)="toggleFavoriteRestaurant(item.restaurantId, item.restaurantName, !item.isFavorite, i)">
             </i>
           </div>
