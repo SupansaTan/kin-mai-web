@@ -1,25 +1,29 @@
-import { Given, Then, When } from "cypress-cucumber-preprocessor/steps";
+import { Given,Then,When} from "cypress-cucumber-preprocessor/steps";
 
-Given(`I visit on the Playlist page`, () => {
+Given(`I visit on the playlist page`, () => {
   cy.visit('reviewer/playlist');
 })
 
 Then('I should see restaurant playlist', () => {
+  cy.wait(2000);
   cy.get('[data-cy="RestaurantPlaylist"]').should('be.visible');
 });
 
-When('I search on restaurant playlist', () => {
-  cy.get(`[data-cy="RestaurantPlaylist"]`).type("ส้มตำ");
+When ('I search "somtam" in a search box', (dataTable) => {
+  dataTable.hashes().forEach((item: { searchBox : string }) => {
+    cy.get(`[data-cy="searchBox"]`).type(item.searchBox, {force: true});
+  });
 });
 
-Then('I should see Somtam playlist ', () => {
-  cy.get('[data-cy="SomtamPlaylist"]').should('be.visible');
+Then('I should see list of "somtam restaurant" playlist', () => {
+  cy.get('[data-cy="RestaurantPlaylist"]').should('be.visible');
 });
 
-When('I click on "playlist title"', () => {
-  cy.get(`[data-cy="PlaylistTitle"]`).click();
+When('I click on title of detail', () => {
+  cy.get('[data-cy="PlaylistDetail"]').first().click();
 });
 
-Then(`I should be on search playlist-detail page`, () => {
+Then ('I should be on playlist-detail page',() =>{
+  cy.wait(2000);
   cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer/playlist-detail');
 });

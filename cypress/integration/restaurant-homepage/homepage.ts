@@ -23,3 +23,6 @@ And('I should see recommend menu', () => {
 And('I should see reviews', () => {
     cy.get('[data-cy="reviewForm"]').should('be.visible');
 });
+
+// ----------------------------------
+

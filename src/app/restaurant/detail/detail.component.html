@@ -1,8 +1,9 @@
 <div class="container-fluid py-4">
   <div class="row">
     <div class="col-md">
+      <!-- Img -->
       <div class="col-md row" type="button" (click)="openModalGallery()">
-        <div class="col-md mb-2" *ngFor="let bigImg of Info.Images.slice(0,1)">
+        <div class="col-md mb-2" *ngFor="let bigImg of Info.Images.slice(0,1)" data-cy="restaurantImage">
           <img src="{{bigImg}}" class="rounded img-big"/>
         </div>
         <div class="col-md">
@@ -14,10 +15,10 @@
         </div>
       </div>
       
+      <!-- Info -->
       <div class="row my-2">
 
-        <div class="col">
-
+        <div class="col" data-cy="information">
           <div class="col d-flex align-items-center mb-2">
             <i class="bi bi-shop me-2"></i>
             <span class="badge rounded-pill bg-light text-dark border border-dark me-1 fs-6 font-regular" *ngFor="let item of Info.Types; index as i;"><h4>{{item}}</h4></span>
@@ -37,12 +38,9 @@
               <h4 >55/55 หมู่ที่ 5 ถ.เลี่ยงเมืองปากเกร็ด ต.บางตลาด อ.ปากเกร็ด ต.บางตลาด ปากเกร็ด นนทบุรี 11120</h4>
             </div>
           </div>
-
         </div>
 
-
         <div class="col">
-
           <div class="col d-flex align-items-center mb-2">
             <i class="bi bi-cash-coin me-2"></i>
             <span *ngFor="let item of Info.Payments; index as i;" class="badge rounded-pill bg-light text-dark border border-dark me-1"><h4>{{item}}</h4></span>
@@ -59,10 +57,9 @@
             <i class="bi bi-instagram text-danger me-2"></i>
             <h4>Pajaipum</h4>
           </div>
-
         </div>
     
-        <div class="my-4">
+        <div class="my-4" data-cy="googleMap">
           map
         </div>
     
@@ -77,6 +74,7 @@
     
     <div class="col row mb-3">
 
+      <!-- Delivery -->
       <div class="col-3 text-center">
         <div>
           <img src="../../../assets/image/restaurant_pin.png" class="w-50">
@@ -87,13 +85,14 @@
           <h4 class="m-0">มีบริการจัดส่ง</h4>
         </div> 
       </div>
-  
+      
+      <!-- Card -->
       <div class="col">
         <div class="card">
           <div class="card-body">
             <h1 class="card-title m-0">Rating</h1>
   
-            <div class="d-flex my-3">
+            <div class="d-flex my-3" data-cy="rating">
               <div class="me-3">
                 <h2 class="m-0">{{Info.Rating}}</h2>
               </div>
@@ -120,8 +119,9 @@
   
   </div>
 
+  <!-- EditBtn -->
   <div class="d-flex justify-content-center">
-    <button type="button" class="btn btn-yellow w-25" routerLink="/restaurant/edit">
+    <button type="button" class="btn btn-yellow w-25" routerLink="/restaurant/edit" data-cy="editBtn">
       <i class="bi bi-pencil-square"></i>
       แก้ไข
     </button>
