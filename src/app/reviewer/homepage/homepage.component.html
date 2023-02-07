@@ -2,25 +2,28 @@
   <div class="col-12 col-md-6">
     <h3 class="mb-1 mt-3">ค้นหาร้านอาหาร</h3>
     <div class="position-relative">
-      <input class="form-control pe-4" type="text" placeholder="ชื่อร้านอาหาร" data-cy="searchbox">
+      <input class="form-control pe-4 shadow-none" type="text" placeholder="ชื่อร้านอาหาร" data-cy="searchbox" [(ngModel)]="searchKeyword">
       <i class="bi bi-search position-absolute"></i>
     </div>
   </div>
 
   <!-- filter -->
   <div class="col-12 col-md-6 d-flex ps-md-0">
-    <div class="col pe-2">
+    <div class="col-4 pe-2">
       <h3 class="mb-1 mt-3">เลือกประเภทอาหาร</h3>
-      <button type="button" class="btn btn-yellow w-100" data-cy="FoodBtn" (click)="openModalFood()">ทั้งหมด</button>
+      <button type="button" class="btn btn-yellow w-100" data-cy="FoodBtn" (click)="openModalFood()">{{ savoryFoodCategoryLabel }}</button>
+    </div>
+    <div class="col-5 ps-1">
+      <h3 class="mb-1 mt-3">เลือกประเภทเครื่องดื่ม/ของหวาน</h3>
+      <button type="button" class="btn btn-yellow w-100" data-cy="DrinkAndDessertBtn" (click)="openModalDessert()">{{ dessertCategoryLabel }}</button>
     </div>
     <div class="col ps-2">
-      <h3 class="mb-1 mt-3">เลือกประเภทเครื่องดื่ม/ของหวาน</h3>
-      <button type="button" class="btn btn-yellow w-100" data-cy="DrinkAndDessertBtn" (click)="openModalDessert()">ทั้งหมด</button>
+      <button type="button" class="btn btn-light-grey w-100 mt-5" data-cy="searchBtn" (click)="findRestaurant()">ค้นหา</button>
     </div>
   </div>
 </div>
 
-<h2>ร้านอาหารใกล้ฉัน</h2>
+<h2 class="mb-1">ร้านอาหารใกล้ฉัน</h2>
 
 <!-- loading -->
 <div *ngIf="!restaurantInfoList && isLoading" class="row d-flex justify-content-center py-2">
@@ -86,5 +89,5 @@
 </div>
 
 <!-- Modal -->
-<app-modal-dessert #successModalDessertComponent></app-modal-dessert>
-<app-modal-food #successModalFoodComponent></app-modal-food>
+<app-modal-dessert #successModalDessertComponent (onSelectedCategory)="setFoodCategory($event)"></app-modal-dessert>
+<app-modal-food #successModalFoodComponent (onSelectedCategory)="setFoodCategory($event)"></app-modal-food>

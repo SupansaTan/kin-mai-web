@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RandomFoodComponent } from './random-food/random-food.component';
 import { ReviewerHomepageComponent } from './homepage/homepage.component';
@@ -13,42 +13,58 @@ const routes: Routes = [
   {
     path: '',
     component: ReviewerHomepageComponent,
-    // canActivate: [AuthGuardService],
-    // data: {
-    //   AccessLevel: [AccountType.Reviewer],
-    // },
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccountType.Reviewer],
+    },
   },
   {
     path: 'search',
     component: SearchRestaurantComponent,
-    // canActivate: [AuthGuardService],
-    // data: {
-    //   AccessLevel: [AccountType.Reviewer],
-    // },
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccountType.Reviewer],
+    },
+  },
+  {
+    path: 'search/:isOpen/:keywords',
+    component: SearchRestaurantComponent,
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccountType.Reviewer],
+    },
   },
   {
     path: 'random',
     component: RandomFoodComponent,
-    // canActivate: [AuthGuardService],
-    // data: {
-    //   AccessLevel: [AccountType.Reviewer],
-    // },
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccountType.Reviewer],
+    },
   },
   {
     path: 'restaurant',
     component: RestaurantDetailComponent,
-    // canActivate: [AuthGuardService],
-    // data: {
-    //   AccessLevel: [AccountType.Reviewer],
-    // },
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccountType.Reviewer],
+    },
   },
   {
-    path:'playlist',
-    component: PlaylistComponent
+    path: 'playlist',
+    component: PlaylistComponent,
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccountType.Reviewer],
+    },
   },
   {
-    path:'playlist-detail',
-    component: PlaylistDetailComponent
+    path: 'playlist-detail',
+    component: PlaylistDetailComponent,
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccountType.Reviewer],
+    },
   },
   {
     path: '',

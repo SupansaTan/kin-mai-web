@@ -47,12 +47,9 @@ export class AuthGuardService implements CanActivate {
 
   routeByUserType(userType: AccountType) {
     if (userType === AccountType.Reviewer) {
-      this.router.navigate([PageLink.restaurant.dashboard]);
-      // this.router.navigate([PageLink.reviewer.homepage]);
-
+      this.router.navigate([PageLink.reviewer.homepage]);
     } else {
       this.router.navigate([PageLink.restaurant.dashboard]);
-    
     }
   }
 }
