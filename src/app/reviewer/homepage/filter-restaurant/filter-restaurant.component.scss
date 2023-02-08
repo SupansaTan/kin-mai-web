@@ -1,0 +1,61 @@
+.cover-all{
+  border-radius:15px;
+  background-color:white;
+}
+
+.big-image-cover {
+  max-height: 150px;
+  width: 30%;
+  background-size: cover;
+  overflow: hidden;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+i.bi-star-fill {
+  position: relative;
+  display: inline-block;
+
+  .filled {
+    overflow: hidden;
+    top: 0;
+    left: 0;
+  }
+}
+
+.price-rate {
+  padding-top: 3px;
+}
+
+#reset{
+  position: relative;
+  width: 50px;
+  height: 30px;
+  border-radius: 15px;
+  font-size: smaller;
+  font-weight: lighter;
+}
+
+#filter{
+  width: 200px;
+  font-size:medium;
+  font-weight: normal;
+}
+
+#bt{
+  border-radius: 20px;
+  width: 200px;
+  font-size: small;
+  font-weight: lighter;
+}
+
+#bt1{
+  position: relative;
+  left: 107px;
+}
+
+#bt2{
+  position: relative;
+  left: 214px;
+  background-color: 	lemonchiffon;
+}
