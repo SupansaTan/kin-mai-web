@@ -9,16 +9,8 @@
 
   <!-- filter -->
   <div class="col-12 col-md-6 d-flex ps-md-0">
-    <div class="col-4 pe-2">
-      <h3 class="mb-1 mt-3">เลือกประเภทอาหาร</h3>
-      <button type="button" class="btn btn-yellow w-100" data-cy="FoodBtn" (click)="openModalFood()">{{ savoryFoodCategoryLabel }}</button>
-    </div>
-    <div class="col-5 ps-1">
-      <h3 class="mb-1 mt-3">เลือกประเภทเครื่องดื่ม/ของหวาน</h3>
-      <button type="button" class="btn btn-yellow w-100" data-cy="DrinkAndDessertBtn" (click)="openModalDessert()">{{ dessertCategoryLabel }}</button>
-    </div>
     <div class="col ps-2">
-      <button type="button" class="btn btn-light-grey w-100 mt-5" data-cy="searchBtn" (click)="findRestaurant()">ค้นหา</button>
+      <button type="button" class="btn btn-light-grey w-100 mt-5" data-cy="searchBtn">ค้นหา</button>
     </div>
   </div>
 </div>
@@ -87,7 +79,3 @@
     </div>
   </div>
 </div>
-
-<!-- Modal -->
-<app-modal-dessert #successModalDessertComponent (onSelectedCategory)="setFoodCategory($event)"></app-modal-dessert>
-<app-modal-food #successModalFoodComponent (onSelectedCategory)="setFoodCategory($event)"></app-modal-food>

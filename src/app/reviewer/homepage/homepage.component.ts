@@ -3,10 +3,8 @@ import { LocalStorageKey } from '../../../constant/local-storage-key.constant';
 import { LocalStorageService } from '../../service/local-storage.service';
 import { GetRestaurantNearMeRequestModel, SetFavoriteRestaurantRequestModel } from '../../../models/reviewer-homepage.model';
 import { ReviewerService } from '../reviewer.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RestaurantInfoItemModel, RestaurantInfoListModel } from '../../../models/restaurant-info.model';
-import { ModalDessertComponent } from '../modal-dessert/modal-dessert.component';
-import { ModalFoodComponent } from '../modal-food/modal-food.component';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -18,15 +16,8 @@ import { PageLink } from 'src/constant/path-link.constant';
   styleUrls: ['./homepage.component.scss']
 })
 export class ReviewerHomepageComponent implements OnInit {
-  @ViewChild('successModalFoodComponent') successModalFood: ModalFoodComponent;
-  @ViewChild('successModalDessertComponent') successModalDessert: ModalDessertComponent;
-
   restaurantInfoList: Array<RestaurantInfoItemModel>;
   restaurantNearMeInfo: RestaurantInfoListModel;
-  savoryFoodCategoryLabel: string = 'ทั้งหมด';
-  dessertCategoryLabel: string = 'ทั้งหมด';
-  selectedSavoryFoodCategory: number = 0;
-  selectedDessertCategory: number = 0;
   searchKeyword: string = "";
   categoryType: Array<number> = new Array<number>();
   awsS3Url = environment.awsS3Url;
@@ -90,14 +81,6 @@ export class ReviewerHomepageComponent implements OnInit {
     })
   }
 
-  openModalFood() {
-    this.successModalFood.openSuccessModal();
-  }
-
-  openModalDessert() {
-    this.successModalDessert.openSuccessModal();
-  }
-
   showtoasSuccess(text: string) {
     this.toastr.success(text, '', {
       timeOut: 3000,
@@ -130,24 +113,5 @@ export class ReviewerHomepageComponent implements OnInit {
         this.showtoasError(`Favorite ${restaurantName} Unsuccessful`);
       }
     })
-  }
-
-  setFoodCategory(e: any) {
-    if (e.isSavory) {
-      this.selectedSavoryFoodCategory = e.id;
-      this.savoryFoodCategoryLabel = e.label;
-    } else {
-      this.selectedSavoryFoodCategory = e.id;
-      this.dessertCategoryLabel = e.label;
-    }
-  }
-
-  findRestaurant() {
-    this.categoryType = [this.selectedSavoryFoodCategory, this.selectedSavoryFoodCategory];
-    this.reviewerService.setSelectedCategoryType(this.categoryType);
-    this.router.navigate([PageLink.reviewer.searchRestaurant, {
-      isOpen: true,
-      keywords: this.searchKeyword
-    }]);
   }
 }

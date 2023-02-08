@@ -7,8 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ReviewerRoutingModule } from './reviewer-routing.module';
 import { ReviewerHomepageComponent } from './homepage/homepage.component';
-import { ModalFoodComponent } from './modal-food/modal-food.component';
-import { ModalDessertComponent } from './modal-dessert/modal-dessert.component';
 import { RandomFoodComponent } from './random-food/random-food.component';
 import { SearchRestaurantComponent } from './search-result/search-result.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
@@ -17,18 +15,20 @@ import { ModalGalleryComponent } from './modal-gallery/modal-gallery.component';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { SwiperModule } from "swiper/angular";
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { NearlyRestaurantComponent } from './homepage/nearly-restaurant/nearly-restaurant.component';
+import { FilterRestaurantComponent } from './homepage/filter-restaurant/filter-restaurant.component';
 
 @NgModule({
   declarations: [
     ReviewerHomepageComponent,
-    ModalFoodComponent,
-    ModalDessertComponent,
     RandomFoodComponent,
     SearchRestaurantComponent,
     RestaurantDetailComponent,
     ModalReviewComponent,
     ModalGalleryComponent,
     ShortNumberPipe,
+    NearlyRestaurantComponent,
+    FilterRestaurantComponent,
   ],
   imports: [
     CommonModule,
