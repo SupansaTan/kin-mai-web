@@ -4,7 +4,7 @@ import { LocalStorageService } from '../../service/local-storage.service';
 import { GetRestaurantNearMeRequestModel, SetFavoriteRestaurantRequestModel } from '../../../models/reviewer-homepage.model';
 import { ReviewerService } from '../reviewer.service';
 import { Component, OnInit } from '@angular/core';
-import { RestaurantInfoItemModel, RestaurantInfoListModel } from '../../../models/restaurant-info.model';
+import { RestaurantCardListModel, RestaurantInfoListModel } from '../../../models/restaurant-info.model';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -16,13 +16,13 @@ import { PageLink } from 'src/constant/path-link.constant';
   styleUrls: ['./homepage.component.scss']
 })
 export class ReviewerHomepageComponent implements OnInit {
-  restaurantInfoList: Array<RestaurantInfoItemModel>;
+  errorToggleFavorite: { isError: boolean, index: number };
   restaurantNearMeInfo: RestaurantInfoListModel;
+  restaurantFromFilterInfo: RestaurantCardListModel;
+
   searchKeyword: string = "";
   categoryType: Array<number> = new Array<number>();
   awsS3Url = environment.awsS3Url;
-  totalRestaurant: number = 0;
-  restaurantCumulativeCount: number = 0;
   isError: boolean;
   isLoading: boolean = true;
   skip: number = 0;
@@ -70,9 +70,6 @@ export class ReviewerHomepageComponent implements OnInit {
       .subscribe((response: ResponseModel<RestaurantInfoListModel>) => {
       if (response?.status === 200) {
         this.restaurantNearMeInfo = response.data;
-        this.restaurantInfoList = response.data.restaurantInfo;
-        this.totalRestaurant = response.data.totalRestaurant;
-        this.restaurantCumulativeCount = response.data.restaurantCumulativeCount;
         this.isLoading = false;
       } else {
         this.isError = true;
@@ -97,20 +94,18 @@ export class ReviewerHomepageComponent implements OnInit {
     });
   }
 
-  toggleFavoriteRestaurant(restaurantId: string, restaurantName: string, isFavorite: boolean, index: number) {
-    this.restaurantInfoList[index].isFavorite = isFavorite;
+  toggleFavoriteRestaurant(item: any) {
     let requestModel = new SetFavoriteRestaurantRequestModel();
     requestModel.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
-    requestModel.restaurantId = restaurantId;
-    requestModel.isFavorite = isFavorite;
+    requestModel.restaurantId = item.restaurantId;
+    requestModel.isFavorite = item.isFavorite;
 
     this.reviewerService.setFavoriteRestaurant(requestModel)
       .subscribe((response: ResponseModel<boolean>) => {
       if (response?.status === 200) {
-        this.showtoasSuccess(`${isFavorite? 'Favorite':'Disfavor'} '${restaurantName}' Successful`);
+        this.showtoasSuccess(`${item.isFavorite? 'Favorite':'Disfavor'} '${item.restaurantName}' Successful`);
       } else {
-        this.restaurantInfoList[index].isFavorite = !isFavorite;
-        this.showtoasError(`Favorite ${restaurantName} Unsuccessful`);
+        this.showtoasError(`Favorite ${item.restaurantName} Unsuccessful`);
       }
     })
   }
