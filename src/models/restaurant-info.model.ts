@@ -37,4 +37,5 @@ export class RestaurantCardInfoModel {
   description: string;
   totalReview: number;
   isFavorite: boolean;
+  isReview: boolean;
 }

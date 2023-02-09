@@ -1,14 +1,16 @@
 <div class="row mb-3">
   <div class="col-9 col-md">
     <h3 class="mb-1 mt-3">ค้นหาร้านอาหาร</h3>
-    <input class="form-control shadow-none" type="text" placeholder="ชื่อร้านอาหาร" data-cy="searchbox" [(ngModel)]="searchKeyword">
+    <input class="form-control shadow-none" type="text" placeholder="ชื่อร้านอาหาร" data-cy="searchbox"
+      [(ngModel)]="searchKeyword" (ngModelChange)="onSearchRestaurant()"
+    >
   </div>
 
   <button type="button" class="btn btn-light-grey col-3 col-md-3 col-lg-2 mt-5" data-cy="searchBtn">ค้นหา</button>
 </div>
 
 <!-- resturant near me list -->
-<ng-container *ngIf="restaurantNearMeInfo && !isLoading">
+<ng-container *ngIf="isShowNearMeList">
   <app-nearly-restaurant
     (setFavoriteRestaurant)="toggleFavoriteRestaurant($event)"
     (getAnotherRestaurantEvent)="getRestaurantNearMeList()"
@@ -19,6 +21,12 @@
 </ng-container>
 
 <!-- filter restaurant -->
-<ng-container *ngIf="restaurantFromFilterInfo && !isLoading">
-  <app-filter-restaurant></app-filter-restaurant>
+<ng-container *ngIf="!isShowNearMeList">
+  <app-filter-restaurant
+    (setFavoriteRestaurant)="toggleFavoriteRestaurant($event)"
+    [restaurantList]="restaurantFromFilterInfo"
+    [errorToggleFavorite]="errorToggleFavorite"
+    [isLoading]="isLoading"
+    [skip]="skip"
+  ></app-filter-restaurant>
 </ng-container>

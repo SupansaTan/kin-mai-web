@@ -1,14 +1,12 @@
 import { ResponseModel } from '../../../models/response.model';
 import { LocalStorageKey } from '../../../constant/local-storage-key.constant';
 import { LocalStorageService } from '../../service/local-storage.service';
-import { GetRestaurantNearMeRequestModel, SetFavoriteRestaurantRequestModel } from '../../../models/reviewer-homepage.model';
+import { GetRestaurantListFromFilterRequestModel, GetRestaurantNearMeRequestModel, SetFavoriteRestaurantRequestModel } from '../../../models/reviewer-homepage.model';
 import { ReviewerService } from '../reviewer.service';
 import { Component, OnInit } from '@angular/core';
 import { RestaurantCardListModel, RestaurantInfoListModel } from '../../../models/restaurant-info.model';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
-import { PageLink } from 'src/constant/path-link.constant';
 
 @Component({
   selector: 'app-homepage',
@@ -18,11 +16,12 @@ import { PageLink } from 'src/constant/path-link.constant';
 export class ReviewerHomepageComponent implements OnInit {
   errorToggleFavorite: { isError: boolean, index: number };
   restaurantNearMeInfo: RestaurantInfoListModel;
-  restaurantFromFilterInfo: RestaurantCardListModel;
+  restaurantFromFilterInfo: RestaurantCardListModel = new RestaurantCardListModel();
 
   searchKeyword: string = "";
   categoryType: Array<number> = new Array<number>();
   awsS3Url = environment.awsS3Url;
+  isShowNearMeList: boolean = true;
   isError: boolean;
   isLoading: boolean = true;
   skip: number = 0;
@@ -30,7 +29,6 @@ export class ReviewerHomepageComponent implements OnInit {
   lng: number;
 
   constructor(
-    private router: Router,
     private reviewerService: ReviewerService,
     private localStorageService: LocalStorageService,
     private toastr: ToastrService
@@ -76,6 +74,41 @@ export class ReviewerHomepageComponent implements OnInit {
         this.isLoading = false;
       }
     })
+  }
+
+  getRestaurantListRequestFromFilter() {
+    let request = new GetRestaurantListFromFilterRequestModel();
+    request.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
+    request.latitude = this.lat;
+    request.longitude = this.lng;
+    request.isOpen = true;
+    request.categoryType = this.categoryType;
+    request.deliveryType = new Array<number>();
+    request.keywords = this.searchKeyword;
+    request.paymentMethod = new Array<number>();
+    request.skip = this.skip;
+    request.take = 20;
+
+    this.reviewerService.getRestaurantListFromFilter(request)
+      .subscribe((response: ResponseModel<RestaurantCardListModel>) => {
+      if (response?.status === 200) {
+        this.restaurantFromFilterInfo = response.data;
+        this.isLoading = false;
+      } else {
+        this.isError = true;
+        this.isLoading = false;
+      }
+    })
+  }
+
+  onSearchRestaurant() {
+    if (this.searchKeyword) {
+      this.isLoading = true;
+      this.isShowNearMeList = false;
+      this.getRestaurantListRequestFromFilter();
+    } else {
+      this.isShowNearMeList = true;
+    }
   }
 
   showtoasSuccess(text: string) {
