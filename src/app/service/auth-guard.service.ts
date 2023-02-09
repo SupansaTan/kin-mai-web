@@ -38,6 +38,8 @@ export class AuthGuardService implements CanActivate {
         this.routeByUserType(Number(viewMode));
         return false;
       }
+    } else if (accessLevel?.includes(AccessLevel.Public)) {
+      return true;
     } else {
       this.localStorageService.removeAll();
       this.router.navigate([PageLink.authentication.login]);

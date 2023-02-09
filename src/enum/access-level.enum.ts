@@ -1,4 +1,5 @@
 export enum AccessLevel {
   Reviewer,
-  RestaurantOwner
+  RestaurantOwner,
+  Public
 }
