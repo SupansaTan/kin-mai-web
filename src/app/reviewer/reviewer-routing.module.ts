@@ -6,7 +6,6 @@ import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail
 import { PlaylistComponent } from './playlist/playlist.component';
 import { PlaylistDetailComponent } from './playlist-detail/playlist-detail.component';
 import { AuthGuardService } from '../service/auth-guard.service';
-import { AccountType } from 'src/enum/account-type.enum';
 import { AccessLevel } from 'src/enum/access-level.enum';
 
 const routes: Routes = [
@@ -15,7 +14,7 @@ const routes: Routes = [
     component: ReviewerHomepageComponent,
     canActivate: [AuthGuardService],
     data: {
-      AccessLevel: [AccountType.Reviewer, AccessLevel.Public],
+      AccessLevel: [AccessLevel.Reviewer, AccessLevel.Public],
     },
   },
   {
@@ -23,7 +22,7 @@ const routes: Routes = [
     component: RandomFoodComponent,
     canActivate: [AuthGuardService],
     data: {
-      AccessLevel: [AccountType.Reviewer],
+      AccessLevel: [AccessLevel.Reviewer],
     },
   },
   {
@@ -31,7 +30,7 @@ const routes: Routes = [
     component: RestaurantDetailComponent,
     canActivate: [AuthGuardService],
     data: {
-      AccessLevel: [AccountType.Reviewer, AccessLevel.Public],
+      AccessLevel: [AccessLevel.Reviewer, AccessLevel.Public],
     },
   },
   {
@@ -39,7 +38,7 @@ const routes: Routes = [
     component: PlaylistComponent,
     canActivate: [AuthGuardService],
     data: {
-      AccessLevel: [AccountType.Reviewer],
+      AccessLevel: [AccessLevel.Reviewer],
     },
   },
   {
@@ -47,7 +46,7 @@ const routes: Routes = [
     component: PlaylistDetailComponent,
     canActivate: [AuthGuardService],
     data: {
-      AccessLevel: [AccountType.Reviewer],
+      AccessLevel: [AccessLevel.Reviewer],
     },
   },
   {

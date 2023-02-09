@@ -1,3 +1,4 @@
+import { AccessLevel } from 'src/enum/access-level.enum';
 import { AuthenticationService } from './../authentication/authentication.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
@@ -18,11 +19,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
   username: string = '';
   isLogin: boolean = true;
   accountType: number = AccountType.Reviewer;
+  viewMode: number;
   restaurantName: string = '';
   isReviewerAccount: boolean = true;
   isMenuCollapsed: boolean = true;
 
   AccountTypeEnum = AccountType;
+  AccessLevelEnum = AccessLevel;
 
   constructor(
     private router: Router,
@@ -37,8 +40,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     const viewMode = this.localStorageService.get<string>(LocalStorageKey.viewMode);
     this.username = username ?? 'Username';
     this.restaurantName = restaurantName ?? 'RestaurantName';
+    this.viewMode = Number(viewMode);
     this.accountType = Number(userType);
-    this.isReviewerAccount = (Number(viewMode) ?? 0) === AccountType.Reviewer;
+    this.isReviewerAccount = (Number(viewMode) ?? 0) === AccessLevel.Reviewer;
 
     this.sub = this.authenticationService.handleLoginSuccessEvent
       .subscribe((isSuccess) => {
@@ -60,9 +64,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
       && nextMode === AccountType.RestaurantOwner
     ) {
       // to mode restaurant
+      this.localStorageService.set(LocalStorageKey.viewMode, AccessLevel.RestaurantOwner);
+      this.router.navigate([PageLink.restaurant.dashboard]);
       this.isReviewerAccount = false;
     } else {
       // to mode reviewer
+      this.localStorageService.set(LocalStorageKey.viewMode, AccessLevel.Reviewer);
+      this.router.navigate([PageLink.reviewer.homepage]);
       this.isReviewerAccount = true;
     }
   }
