@@ -16,6 +16,7 @@ import { ReviewerService } from '../../reviewer.service';
 export class FilterRestaurantComponent implements OnInit {
   @Input() skip: number = 0;
   @Input() isLoading: boolean = true;
+  @Input() searchKeyword: string = "";
   @Output() setFavoriteRestaurant: EventEmitter<ToggleFavoriteRestaurantRequestModel> = new EventEmitter<ToggleFavoriteRestaurantRequestModel>();
   @Output() getAnotherRestaurantEvent: EventEmitter<number> = new EventEmitter<number>();
 
@@ -45,14 +46,16 @@ export class FilterRestaurantComponent implements OnInit {
 
   @Input()
   set restaurantList(item: RestaurantCardListModel) {
-    this.restaurantInfo = item;
-    this.restaurantInfoList = item.restaurantInfo;
-    this.restaurantCumulativeCount = item.restaurantCumulativeCount;
-    this.totalRestaurant = item.totalRestaurant;
+    if (item) {
+      this.restaurantInfo = item;
+      this.restaurantInfoList = item.restaurantInfo;
+      this.restaurantCumulativeCount = item.restaurantCumulativeCount;
+      this.totalRestaurant = item.totalRestaurant;
+    }
   }
 
   toggleFavoriteRestaurant(restaurantId: string, restaurantName: string, isFavorite: boolean, index: number) {
-    this.restaurantInfoList[index].isFavorite = !isFavorite;
+    this.restaurantInfoList[index].isFavorite = isFavorite;
 
     let eventInfo = new ToggleFavoriteRestaurantRequestModel();
     eventInfo.restaurantId = restaurantId;

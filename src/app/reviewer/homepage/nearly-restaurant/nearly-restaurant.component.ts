@@ -33,9 +33,11 @@ export class NearlyRestaurantComponent implements OnInit {
 
   @Input()
   set restaurantList(item: RestaurantInfoListModel) {
-    this.restaurantInfoList = item.restaurantInfo;
-    this.restaurantCumulativeCount = item.restaurantCumulativeCount;
-    this.totalRestaurant = item.totalRestaurant;
+    if (item) {
+      this.restaurantInfoList = item.restaurantInfo;
+      this.restaurantCumulativeCount = item.restaurantCumulativeCount;
+      this.totalRestaurant = item.totalRestaurant;
+    }
   }
 
   toggleFavoriteRestaurant(restaurantId: string, restaurantName: string, isFavorite: boolean, index: number) {
