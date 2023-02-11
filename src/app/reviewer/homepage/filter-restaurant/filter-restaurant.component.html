@@ -1,0 +1,114 @@
+<div class="row">
+  <!-- filter tabs -->
+  <div class="col-2" data-cy="filter">
+    <div>
+      <div class="d-flex justify-content-between mb-2">
+        <h3 class="fw-bolder mb-0">ตัวกรอง</h3>
+        <button type="button" class="btn btn-light btn-sm rounded-5" (click)="resetFilter()">รีเซ็ต</button>
+      </div>
+
+      <button type="button" class="btn w-100" [ngClass]="isSelectedOpenRestaurant? 'bg-light-yellow border-yellow':'btn-light'"
+        (click)="selectFilterType(filterType.IsOpen)">
+        <i class="bi bi-clock me-2"></i>
+        เปิดอยู่
+      </button>
+
+      <button type="button" class="btn w-100 mt-2" [ngClass]="isSelectedQRCode? 'bg-light-yellow border-yellow':'btn-light'"
+        (click)="selectFilterType(filterType.QRCode)">
+        <i class="bi bi-wallet me-2"></i>
+        รับโอน
+      </button>
+
+      <button type="button" class="btn w-100 mt-2" [ngClass]="isSelectedDelivery? 'bg-light-yellow border-yellow':'btn-light'"
+        (click)="selectFilterType(filterType.Delivery)">
+        <i class="bi bi-bicycle me-2"></i>
+        จัดส่งแบบเดลิเวอรี่
+      </button>
+
+      <button type="button" class="btn w-100 mt-2" [ngClass]="isSelectedPickup? 'bg-light-yellow border-yellow':'btn-light'"
+        (click)="selectFilterType(filterType.PickUp)">
+        <i class="bi bi-shop-window me-2"></i>
+        รับหน้าร้าน
+      </button>
+    </div>
+
+    <div class="mt-3">
+      <h3 class="mb-1 fw-semibold">ประเภทอาหาร</h3>
+      <div class="d-flex flex-wrap">
+        <button
+          *ngFor="let item of foodCategories; index as i" type="button"
+          class="btn btn-sm me-2 rounded-5 py-1 mb-1"
+          [ngClass]="item?.isSelected === undefined ? 'btn-light': item.isSelected? 'bg-light-yellow border-yellow': 'btn-light'"
+          (click)="selectCategoryType(item.id, i)"
+        >{{ item.name }}</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- loading -->
+  <div *ngIf="isLoading" class="col py-3">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden text-grey">Loading...</span>
+      </div>
+      <p class="mt-3 text-center">Loading...</p>
+    </div>
+  </div>
+
+  <!-- not found restaurant -->
+  <div *ngIf="restaurantInfoList?.length === 0 && !isLoading" class="col">
+    <h2 class="mb-2 fw-bold" data-cy="totalResult">"{{searchKeyword}}" ({{restaurantInfo.totalRestaurant}} ร้าน)</h2>
+    <div class="row d-flex align-items-center py-2">
+      <img class="mb-3" src="../../../../assets/image/searching.svg" alt="not-found" height="250px">
+      <h2 class="text-center">ไม่เจอร้านอาหาร</h2>
+    </div>
+  </div>
+
+  <!-- restaurant results -->
+  <div *ngIf="restaurantInfoList && restaurantInfoList.length > 0 && !isLoading" class="col">
+    <h2 class="mb-2 fw-bold" data-cy="totalResult">"{{searchKeyword}}" ({{restaurantInfo.totalRestaurant}} ร้าน)</h2>
+    <div class="row row-cols-2 gx-2 gy-2">
+      <div *ngFor="let item of restaurantInfoList; index as i;" class="col">
+        <div class="bg-white border-rounded pt-2 px-3 position-relative" data-cy="restaurant">
+          <div class="row">
+            <!-- image cover -->
+            <div class="col-auto ps-1">
+              <img [src]="awsS3Url + '/' + item.imageCover" class="col-auto big-image-cover mb-2">
+            </div>
+
+            <div class="col ps-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="mt-2 mb-1 fs-5 fw-semibold" type="button" routerLink="/reviewer/restaurant" ellipsis [ellipsis-content]="item.restaurantName"></div>
+                <i class="bi fs-5" [ngClass]="item.isFavorite ? 'bi-heart-fill text-yellow':'bi-heart'" type="button"
+                  (click)="toggleFavoriteRestaurant(item.restaurantId, item.restaurantName, !item.isFavorite, i)">
+                </i>
+              </div>
+
+              <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-star-fill text-yellow fs-5 me-1"></i>
+                  <p class="mb-0 me-2 fs-6">{{item.rating}} ({{item.totalReview}})</p>
+                </div>
+                <span class="px-2 rounded-pill bg-light-yellow border-yellow text-dark fw-semibold price-rate">
+                  {{item.minPriceRate}}-{{item.maxPriceRate}} ฿
+                </span>
+              </div>
+
+              <p class="m-0 my-2">{{item.description}}</p>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end position-absolute end-0 bottom-0">
+            <button *ngIf="item.isReview" type="button" class="btn btn-light-grey btn-sm px-2 see-review-btn">
+              <i class="bi bi-eye-fill me-2"></i>รีวิวของฉัน
+            </button>
+            <button type="button" class="btn btn-yellow review-btn btn-sm" [ngClass]="item.isReview ? 'btn-yellow':'btn-light-yellow'">
+              <i class="bi fs-6 me-1" [ngClass]="item.isReview ? 'bi-pencil-square':'bi-plus-lg'"></i>
+              {{ item.isReview ? 'แก้ไขรีวิว':'รีวิวร้านนี้' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

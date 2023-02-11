@@ -1,0 +1,49 @@
+.big-image-cover {
+  min-height: 140px;
+  max-height: 140px;
+  min-width: 140px;
+  max-width: 140px;
+  width: 100%;
+  background-size: cover;
+  overflow: hidden;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+i.bi-star-fill {
+  position: relative;
+  display: inline-block;
+
+  .filled {
+    overflow: hidden;
+    top: 0;
+    left: 0;
+  }
+}
+
+.price-rate {
+  padding-top: 3px;
+}
+
+.review-btn {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 10px;
+}
+
+.see-review-btn {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.btn-light.reset-filter {
+  padding: 1px 10px;
+}
+
+.restaurant-name {
+  width: inherit;
+  height: 150px;
+}
