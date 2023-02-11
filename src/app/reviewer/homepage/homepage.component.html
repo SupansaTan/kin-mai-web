@@ -1,13 +1,12 @@
 <div class="row mb-3">
-  <div class="col-9 col-md">
+  <div class="col">
     <h3 class="mb-1 mt-3">ค้นหาร้านอาหาร</h3>
-    <input class="form-control shadow-none" type="text" placeholder="ชื่อร้านอาหาร" data-cy="searchbox"
-      [(ngModel)]="searchKeyword" (ngModelChange)="onSearchRestaurant()"
-    >
-  </div>
-
-  <div class="col-3 col-md-3 col-lg-2 ps-0">
-    <button type="button" class="btn btn-light-grey w-100 mt-5" data-cy="searchBtn">ค้นหา</button>
+    <div class="position-relative">
+      <input class="form-control shadow-none pe-2" type="text" placeholder="ชื่อร้านอาหาร" data-cy="searchbox"
+        [(ngModel)]="searchKeyword" (ngModelChange)="onSearchRestaurant()"
+      >
+      <i *ngIf="searchKeyword" class="bi bi-x-lg clear-search text-muted position-absolute" role="button" (click)="clearSearch()"></i>
+    </div>
   </div>
 </div>
 

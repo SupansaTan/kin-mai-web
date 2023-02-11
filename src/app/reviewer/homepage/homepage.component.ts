@@ -20,7 +20,6 @@ export class ReviewerHomepageComponent implements OnInit {
   filterRestaurantRequest: FilterRestaurantRequest;
 
   searchKeyword: string = "";
-  categoryType: Array<number> = new Array<number>();
   awsS3Url = environment.awsS3Url;
   isShowNearMeList: boolean = true;
   isError: boolean;
@@ -112,7 +111,12 @@ export class ReviewerHomepageComponent implements OnInit {
   }
 
   onSearchRestaurant() {
-    if (this.searchKeyword) {
+    if (
+      this.searchKeyword
+      || this.filterRestaurantRequest.categoryType?.length
+      || this.filterRestaurantRequest.deliveryType?.length
+      || this.filterRestaurantRequest.paymentMethod?.length
+    ) {
       this.isLoading = true;
       this.isShowNearMeList = false;
       this.getRestaurantListRequestFromFilter();
@@ -120,6 +124,11 @@ export class ReviewerHomepageComponent implements OnInit {
       this.isShowNearMeList = true;
       this.getRestaurantNearMeList();
     }
+  }
+
+  clearSearch() {
+    this.searchKeyword = "";
+    this.onSearchRestaurant();
   }
 
   setFilterRestaurant(item: any) {
