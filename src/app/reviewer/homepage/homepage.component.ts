@@ -1,16 +1,12 @@
 import { ResponseModel } from '../../../models/response.model';
 import { LocalStorageKey } from '../../../constant/local-storage-key.constant';
 import { LocalStorageService } from '../../service/local-storage.service';
-import { GetRestaurantNearMeRequestModel, SetFavoriteRestaurantRequestModel } from '../../../models/reviewer-homepage.model';
+import { FilterRestaurantRequest, GetRestaurantListFromFilterRequestModel, GetRestaurantNearMeRequestModel, SetFavoriteRestaurantRequestModel } from '../../../models/reviewer-homepage.model';
 import { ReviewerService } from '../reviewer.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { RestaurantInfoItemModel, RestaurantInfoListModel } from '../../../models/restaurant-info.model';
-import { ModalDessertComponent } from '../modal-dessert/modal-dessert.component';
-import { ModalFoodComponent } from '../modal-food/modal-food.component';
+import { Component, OnInit } from '@angular/core';
+import { RestaurantCardListModel, RestaurantInfoListModel } from '../../../models/restaurant-info.model';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
-import { PageLink } from 'src/constant/path-link.constant';
 
 @Component({
   selector: 'app-homepage',
@@ -18,20 +14,14 @@ import { PageLink } from 'src/constant/path-link.constant';
   styleUrls: ['./homepage.component.scss']
 })
 export class ReviewerHomepageComponent implements OnInit {
-  @ViewChild('successModalFoodComponent') successModalFood: ModalFoodComponent;
-  @ViewChild('successModalDessertComponent') successModalDessert: ModalDessertComponent;
-
-  restaurantInfoList: Array<RestaurantInfoItemModel>;
+  errorToggleFavorite: { isError: boolean, index: number };
   restaurantNearMeInfo: RestaurantInfoListModel;
-  savoryFoodCategoryLabel: string = 'ทั้งหมด';
-  dessertCategoryLabel: string = 'ทั้งหมด';
-  selectedSavoryFoodCategory: number = 0;
-  selectedDessertCategory: number = 0;
+  restaurantFromFilterInfo: RestaurantCardListModel = new RestaurantCardListModel();
+  filterRestaurantRequest: FilterRestaurantRequest;
+
   searchKeyword: string = "";
-  categoryType: Array<number> = new Array<number>();
   awsS3Url = environment.awsS3Url;
-  totalRestaurant: number = 0;
-  restaurantCumulativeCount: number = 0;
+  isShowNearMeList: boolean = true;
   isError: boolean;
   isLoading: boolean = true;
   skip: number = 0;
@@ -39,14 +29,22 @@ export class ReviewerHomepageComponent implements OnInit {
   lng: number;
 
   constructor(
-    private router: Router,
     private reviewerService: ReviewerService,
     private localStorageService: LocalStorageService,
     private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
+    this.initFilterRequest();
     this.getUserCurrentLocation();
+  }
+
+  initFilterRequest() {
+    this.filterRestaurantRequest = new FilterRestaurantRequest();
+    this.filterRestaurantRequest.isOpen = true;
+    this.filterRestaurantRequest.categoryType = [];
+    this.filterRestaurantRequest.deliveryType = new Array<number>();
+    this.filterRestaurantRequest.paymentMethod = new Array<number>();
   }
 
   getUserCurrentLocation() {
@@ -79,9 +77,6 @@ export class ReviewerHomepageComponent implements OnInit {
       .subscribe((response: ResponseModel<RestaurantInfoListModel>) => {
       if (response?.status === 200) {
         this.restaurantNearMeInfo = response.data;
-        this.restaurantInfoList = response.data.restaurantInfo;
-        this.totalRestaurant = response.data.totalRestaurant;
-        this.restaurantCumulativeCount = response.data.restaurantCumulativeCount;
         this.isLoading = false;
       } else {
         this.isError = true;
@@ -90,12 +85,55 @@ export class ReviewerHomepageComponent implements OnInit {
     })
   }
 
-  openModalFood() {
-    this.successModalFood.openSuccessModal();
+  getRestaurantListRequestFromFilter() {
+    let request = new GetRestaurantListFromFilterRequestModel();
+    request.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
+    request.latitude = this.lat;
+    request.longitude = this.lng;
+    request.isOpen = this.filterRestaurantRequest.isOpen;
+    request.categoryType = this.filterRestaurantRequest.categoryType;
+    request.deliveryType = this.filterRestaurantRequest.deliveryType;
+    request.keywords = this.searchKeyword;
+    request.paymentMethod = this.filterRestaurantRequest.paymentMethod;
+    request.skip = this.skip;
+    request.take = 20;
+
+    this.reviewerService.getRestaurantListFromFilter(request)
+      .subscribe((response: ResponseModel<RestaurantCardListModel>) => {
+      if (response?.status === 200) {
+        this.restaurantFromFilterInfo = response.data;
+        this.isLoading = false;
+      } else {
+        this.isError = true;
+        this.isLoading = false;
+      }
+    })
   }
 
-  openModalDessert() {
-    this.successModalDessert.openSuccessModal();
+  onSearchRestaurant() {
+    if (
+      this.searchKeyword
+      || this.filterRestaurantRequest.categoryType?.length
+      || this.filterRestaurantRequest.deliveryType?.length
+      || this.filterRestaurantRequest.paymentMethod?.length
+    ) {
+      this.isLoading = true;
+      this.isShowNearMeList = false;
+      this.getRestaurantListRequestFromFilter();
+    } else {
+      this.isShowNearMeList = true;
+      this.getRestaurantNearMeList();
+    }
+  }
+
+  clearSearch() {
+    this.searchKeyword = "";
+    this.onSearchRestaurant();
+  }
+
+  setFilterRestaurant(item: any) {
+    this.filterRestaurantRequest = item;
+    this.getRestaurantListRequestFromFilter();
   }
 
   showtoasSuccess(text: string) {
@@ -114,40 +152,19 @@ export class ReviewerHomepageComponent implements OnInit {
     });
   }
 
-  toggleFavoriteRestaurant(restaurantId: string, restaurantName: string, isFavorite: boolean, index: number) {
-    this.restaurantInfoList[index].isFavorite = isFavorite;
+  toggleFavoriteRestaurant(item: any) {
     let requestModel = new SetFavoriteRestaurantRequestModel();
     requestModel.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
-    requestModel.restaurantId = restaurantId;
-    requestModel.isFavorite = isFavorite;
+    requestModel.restaurantId = item.restaurantId;
+    requestModel.isFavorite = item.isFavorite;
 
     this.reviewerService.setFavoriteRestaurant(requestModel)
       .subscribe((response: ResponseModel<boolean>) => {
       if (response?.status === 200) {
-        this.showtoasSuccess(`${isFavorite? 'Favorite':'Disfavor'} '${restaurantName}' Successful`);
+        this.showtoasSuccess(`${item.isFavorite? 'Favorite':'Disfavor'} '${item.restaurantName}' Successful`);
       } else {
-        this.restaurantInfoList[index].isFavorite = !isFavorite;
-        this.showtoasError(`Favorite ${restaurantName} Unsuccessful`);
+        this.showtoasError(`Favorite ${item.restaurantName} Unsuccessful`);
       }
     })
-  }
-
-  setFoodCategory(e: any) {
-    if (e.isSavory) {
-      this.selectedSavoryFoodCategory = e.id;
-      this.savoryFoodCategoryLabel = e.label;
-    } else {
-      this.selectedSavoryFoodCategory = e.id;
-      this.dessertCategoryLabel = e.label;
-    }
-  }
-
-  findRestaurant() {
-    this.categoryType = [this.selectedSavoryFoodCategory, this.selectedSavoryFoodCategory];
-    this.reviewerService.setSelectedCategoryType(this.categoryType);
-    this.router.navigate([PageLink.reviewer.searchRestaurant, {
-      isOpen: true,
-      keywords: this.searchKeyword
-    }]);
   }
 }

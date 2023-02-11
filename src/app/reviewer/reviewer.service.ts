@@ -38,10 +38,17 @@ export class ReviewerService {
     params = params.append('skip', model.skip);
     params = params.append('take', model.take);
     params = params.append('keywords', model.keywords);
-    params = params.append('categoryType', model.categoryType.join(', '));
     params = params.append('isOpen', model.isOpen);
-    params = params.append('deliveryType', model.deliveryType.join(', '));
-    params = params.append('paymentMethod', model.paymentMethod.join(', '));
+
+    model.categoryType.forEach((x) => {
+      params = params.append('categoryType', x);
+    });
+    model.deliveryType.forEach((x) => {
+      params = params.append('deliveryType', x);
+    });
+    model.paymentMethod.forEach((x) => {
+      params = params.append('paymentMethod', x);
+    });
 
     this.sub = this.http.get<ResponseModel<RestaurantCardListModel>>(url, { params: params });
     return this.sub;

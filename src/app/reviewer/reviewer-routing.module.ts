@@ -2,12 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RandomFoodComponent } from './random-food/random-food.component';
 import { ReviewerHomepageComponent } from './homepage/homepage.component';
-import { SearchRestaurantComponent } from './search-result/search-result.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { PlaylistDetailComponent } from './playlist-detail/playlist-detail.component';
 import { AuthGuardService } from '../service/auth-guard.service';
-import { AccountType } from 'src/enum/account-type.enum';
+import { AccessLevel } from 'src/enum/access-level.enum';
 
 const routes: Routes = [
   {
@@ -15,23 +14,7 @@ const routes: Routes = [
     component: ReviewerHomepageComponent,
     canActivate: [AuthGuardService],
     data: {
-      AccessLevel: [AccountType.Reviewer],
-    },
-  },
-  {
-    path: 'search',
-    component: SearchRestaurantComponent,
-    canActivate: [AuthGuardService],
-    data: {
-      AccessLevel: [AccountType.Reviewer],
-    },
-  },
-  {
-    path: 'search/:isOpen/:keywords',
-    component: SearchRestaurantComponent,
-    canActivate: [AuthGuardService],
-    data: {
-      AccessLevel: [AccountType.Reviewer],
+      AccessLevel: [AccessLevel.Reviewer, AccessLevel.Public],
     },
   },
   {
@@ -39,7 +22,7 @@ const routes: Routes = [
     component: RandomFoodComponent,
     canActivate: [AuthGuardService],
     data: {
-      AccessLevel: [AccountType.Reviewer],
+      AccessLevel: [AccessLevel.Reviewer],
     },
   },
   {
@@ -47,7 +30,7 @@ const routes: Routes = [
     component: RestaurantDetailComponent,
     canActivate: [AuthGuardService],
     data: {
-      AccessLevel: [AccountType.Reviewer],
+      AccessLevel: [AccessLevel.Reviewer, AccessLevel.Public],
     },
   },
   {
@@ -55,7 +38,7 @@ const routes: Routes = [
     component: PlaylistComponent,
     canActivate: [AuthGuardService],
     data: {
-      AccessLevel: [AccountType.Reviewer],
+      AccessLevel: [AccessLevel.Reviewer],
     },
   },
   {
@@ -63,7 +46,7 @@ const routes: Routes = [
     component: PlaylistDetailComponent,
     canActivate: [AuthGuardService],
     data: {
-      AccessLevel: [AccountType.Reviewer],
+      AccessLevel: [AccessLevel.Reviewer],
     },
   },
   {

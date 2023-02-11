@@ -1,3 +1,4 @@
+import { AccessLevel } from 'src/enum/access-level.enum';
 import { AccountType } from './../../../enum/account-type.enum';
 import { GoogleAuthService } from './../../service/google-auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -93,8 +94,8 @@ export class LoginComponent implements OnInit {
                 this.localStorageService.set(LocalStorageKey.userType, resp.data.userType);
                 this.localStorageService.set(LocalStorageKey.viewMode,
                   resp.data.userType === AccountType.Reviewer
-                  ? AccountType.Reviewer
-                  : AccountType.RestaurantOwner
+                  ? AccessLevel.Reviewer
+                  : AccessLevel.RestaurantOwner
                 );
                 this.authenticationService.loginSuccessEvent(true);
                 this.routePage(resp.data.userType);

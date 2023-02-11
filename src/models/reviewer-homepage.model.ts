@@ -19,6 +19,13 @@ export class GetRestaurantListFromFilterRequestModel {
   paymentMethod: Array<number>;
 }
 
+export class FilterRestaurantRequest {
+  isOpen: boolean;
+  categoryType: Array<number>;
+  deliveryType: Array<number>;
+  paymentMethod: Array<number>;
+}
+
 export class SetFavoriteRestaurantRequestModel {
   userId: string;
   restaurantId: string;

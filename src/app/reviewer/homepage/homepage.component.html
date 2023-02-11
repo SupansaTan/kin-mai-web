@@ -1,93 +1,35 @@
 <div class="row mb-3">
-  <div class="col-12 col-md-6">
+  <div class="col">
     <h3 class="mb-1 mt-3">ค้นหาร้านอาหาร</h3>
     <div class="position-relative">
-      <input class="form-control pe-4 shadow-none" type="text" placeholder="ชื่อร้านอาหาร" data-cy="searchbox" [(ngModel)]="searchKeyword">
-      <i class="bi bi-search position-absolute"></i>
+      <input class="form-control shadow-none pe-2" type="text" placeholder="ชื่อร้านอาหาร" data-cy="searchbox"
+        [(ngModel)]="searchKeyword" (ngModelChange)="onSearchRestaurant()"
+      >
+      <i *ngIf="searchKeyword" class="bi bi-x-lg clear-search text-muted position-absolute" role="button" (click)="clearSearch()"></i>
     </div>
-  </div>
-
-  <!-- filter -->
-  <div class="col-12 col-md-6 d-flex ps-md-0">
-    <div class="col-4 pe-2">
-      <h3 class="mb-1 mt-3">เลือกประเภทอาหาร</h3>
-      <button type="button" class="btn btn-yellow w-100" data-cy="FoodBtn" (click)="openModalFood()">{{ savoryFoodCategoryLabel }}</button>
-    </div>
-    <div class="col-5 ps-1">
-      <h3 class="mb-1 mt-3">เลือกประเภทเครื่องดื่ม/ของหวาน</h3>
-      <button type="button" class="btn btn-yellow w-100" data-cy="DrinkAndDessertBtn" (click)="openModalDessert()">{{ dessertCategoryLabel }}</button>
-    </div>
-    <div class="col ps-2">
-      <button type="button" class="btn btn-light-grey w-100 mt-5" data-cy="searchBtn" (click)="findRestaurant()">ค้นหา</button>
-    </div>
-  </div>
-</div>
-
-<h2 class="mb-1">ร้านอาหารใกล้ฉัน</h2>
-
-<!-- loading -->
-<div *ngIf="!restaurantInfoList && isLoading" class="row d-flex justify-content-center py-2">
-  <div class="spinner-border" role="status">
-    <span class="visually-hidden text-grey">Loading...</span>
   </div>
 </div>
 
 <!-- resturant near me list -->
-<div *ngIf="restaurantInfoList && !isLoading" class="row row-cols-2 gy-3 gx-2" data-cy="Restaurant">
-  <div *ngFor="let item of restaurantInfoList; index as i;" class="col" >
-    <div class="bg-white border-rounded py-2 px-3">
-      <div class="row">
-        <!-- image cover -->
-        <div class="col-4 ps-1">
-          <img [src]="awsS3Url + '/' + item.imageCover" class="big-image-cover">
-        </div>
+<ng-container *ngIf="isShowNearMeList">
+  <app-nearly-restaurant
+    (setFavoriteRestaurant)="toggleFavoriteRestaurant($event)"
+    (getAnotherRestaurantEvent)="getRestaurantNearMeList()"
+    [skip]="skip" [restaurantList]="restaurantNearMeInfo"
+    [errorToggleFavorite]="errorToggleFavorite"
+    [isLoading]="isLoading"
+  ></app-nearly-restaurant>
+</ng-container>
 
-        <!-- restaurant info -->
-        <div class="col ps-1" data-cy="restaurantInfo">
-          <div class="d-flex justify-content-between align-items-center">
-            <h2 class="mb-1" type="button" routerLink="/reviewer/restaurant" data-cy="restaurantDetailBtn">{{item.restaurantName}}</h2>
-            <i class="bi fs-5" [ngClass]="item.isFavorite ? 'bi-heart-fill text-yellow':'bi-heart'" type="button" data-cy="LoveBtn"
-              (click)="toggleFavoriteRestaurant(item.restaurantId, item.restaurantName, !item.isFavorite, i)">
-            </i>
-          </div>
-
-          <!-- rating -->
-          <ng-template #t let-fill="fill" let-index="index">
-            <i class="bi-star-fill position-relative text-grey pe-1 fs-4">
-              <i *ngIf="fill > 0" class="bi-star-fill filled pe-1 text-yellow position-absolute" [style.width.%]="fill"></i>
-            </i>
-          </ng-template>
-          <ngb-rating [(rate)]="item.rating" [starTemplate]="t" [readonly]="true" [max]="5"></ngb-rating>
-
-          <!-- business hours -->
-          <div class="mt-2">
-            <i class="bi bi-clock me-2"></i>
-            <span>{{item.startTime}} - {{item.endTime}}</span>
-          </div>
-
-          <!-- distance and price rate -->
-          <div class="d-flex justify-content-between align-items-center mt-2">
-            <div>
-              <i class="bi bi-geo-alt-fill me-2"></i>
-              <span>ห่าง {{item.distance | shortNumber }}m</span>
-            </div>
-            <span class="px-2 rounded-pill bg-light-yellow border-yellow text-dark fw-semibold price-rate">
-              ~{{item.minPriceRate}}-{{item.maxPriceRate}} ฿
-            </span>
-          </div>
-
-          <!-- another image cover -->
-          <div class="d-flex mt-2 row row-cols-3 gx-2 px-0">
-            <div *ngFor="let image of item.anotherImageCover; index as i;" class="col">
-              <img [src]="awsS3Url + '/' + image" class="mini-image-cover">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal -->
-<app-modal-dessert #successModalDessertComponent (onSelectedCategory)="setFoodCategory($event)"></app-modal-dessert>
-<app-modal-food #successModalFoodComponent (onSelectedCategory)="setFoodCategory($event)"></app-modal-food>
+<!-- filter restaurant -->
+<ng-container *ngIf="!isShowNearMeList">
+  <app-filter-restaurant
+    (setFavoriteRestaurant)="toggleFavoriteRestaurant($event)"
+    (setFilterRequest)="setFilterRestaurant($event)"
+    [restaurantList]="restaurantFromFilterInfo"
+    [errorToggleFavorite]="errorToggleFavorite"
+    [searchKeyword]="searchKeyword"
+    [isLoading]="isLoading"
+    [skip]="skip"
+  ></app-filter-restaurant>
+</ng-container>
