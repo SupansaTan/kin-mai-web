@@ -78,7 +78,7 @@
 
             <div class="col ps-0">
               <div class="d-flex justify-content-between align-items-center">
-                <h2 class="mb-1 fw-semibold" type="button" routerLink="/reviewer/restaurant">{{item.restaurantName}}</h2>
+                <div class="mt-2 mb-1 fs-5 fw-semibold" type="button" routerLink="/reviewer/restaurant" ellipsis [ellipsis-content]="item.restaurantName"></div>
                 <i class="bi fs-5" [ngClass]="item.isFavorite ? 'bi-heart-fill text-yellow':'bi-heart'" type="button"
                   (click)="toggleFavoriteRestaurant(item.restaurantId, item.restaurantName, !item.isFavorite, i)">
                 </i>

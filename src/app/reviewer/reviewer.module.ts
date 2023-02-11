@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EllipsisModule } from 'ngx-ellipsis';
 
 import { ReviewerRoutingModule } from './reviewer-routing.module';
 import { ReviewerHomepageComponent } from './homepage/homepage.component';
@@ -37,6 +38,7 @@ import { FilterRestaurantComponent } from './homepage/filter-restaurant/filter-r
     SwiperModule,
     FormsModule,
     MatButtonToggleModule,
+    EllipsisModule,
   ],
   providers: [
     ReviewerService,
