@@ -26,6 +26,7 @@
 <ng-container *ngIf="!isShowNearMeList">
   <app-filter-restaurant
     (setFavoriteRestaurant)="toggleFavoriteRestaurant($event)"
+    (setFilterRequest)="setFilterRestaurant($event)"
     [restaurantList]="restaurantFromFilterInfo"
     [errorToggleFavorite]="errorToggleFavorite"
     [searchKeyword]="searchKeyword"

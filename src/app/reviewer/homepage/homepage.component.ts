@@ -1,7 +1,7 @@
 import { ResponseModel } from '../../../models/response.model';
 import { LocalStorageKey } from '../../../constant/local-storage-key.constant';
 import { LocalStorageService } from '../../service/local-storage.service';
-import { GetRestaurantListFromFilterRequestModel, GetRestaurantNearMeRequestModel, SetFavoriteRestaurantRequestModel } from '../../../models/reviewer-homepage.model';
+import { FilterRestaurantRequest, GetRestaurantListFromFilterRequestModel, GetRestaurantNearMeRequestModel, SetFavoriteRestaurantRequestModel } from '../../../models/reviewer-homepage.model';
 import { ReviewerService } from '../reviewer.service';
 import { Component, OnInit } from '@angular/core';
 import { RestaurantCardListModel, RestaurantInfoListModel } from '../../../models/restaurant-info.model';
@@ -17,6 +17,7 @@ export class ReviewerHomepageComponent implements OnInit {
   errorToggleFavorite: { isError: boolean, index: number };
   restaurantNearMeInfo: RestaurantInfoListModel;
   restaurantFromFilterInfo: RestaurantCardListModel = new RestaurantCardListModel();
+  filterRestaurantRequest: FilterRestaurantRequest;
 
   searchKeyword: string = "";
   categoryType: Array<number> = new Array<number>();
@@ -35,7 +36,16 @@ export class ReviewerHomepageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.initFilterRequest();
     this.getUserCurrentLocation();
+  }
+
+  initFilterRequest() {
+    this.filterRestaurantRequest = new FilterRestaurantRequest();
+    this.filterRestaurantRequest.isOpen = true;
+    this.filterRestaurantRequest.categoryType = [];
+    this.filterRestaurantRequest.deliveryType = new Array<number>();
+    this.filterRestaurantRequest.paymentMethod = new Array<number>();
   }
 
   getUserCurrentLocation() {
@@ -81,11 +91,11 @@ export class ReviewerHomepageComponent implements OnInit {
     request.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
     request.latitude = this.lat;
     request.longitude = this.lng;
-    request.isOpen = true;
-    request.categoryType = this.categoryType;
-    request.deliveryType = new Array<number>();
+    request.isOpen = this.filterRestaurantRequest.isOpen;
+    request.categoryType = this.filterRestaurantRequest.categoryType;
+    request.deliveryType = this.filterRestaurantRequest.deliveryType;
     request.keywords = this.searchKeyword;
-    request.paymentMethod = new Array<number>();
+    request.paymentMethod = this.filterRestaurantRequest.paymentMethod;
     request.skip = this.skip;
     request.take = 20;
 
@@ -108,7 +118,13 @@ export class ReviewerHomepageComponent implements OnInit {
       this.getRestaurantListRequestFromFilter();
     } else {
       this.isShowNearMeList = true;
+      this.getRestaurantNearMeList();
     }
+  }
+
+  setFilterRestaurant(item: any) {
+    this.filterRestaurantRequest = item;
+    this.getRestaurantListRequestFromFilter();
   }
 
   showtoasSuccess(text: string) {

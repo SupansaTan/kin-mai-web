@@ -1,49 +1,46 @@
 <div class="row">
   <!-- filter tabs -->
-  <div class="col-lg-2" data-cy="filter">
+  <div class="col-2" data-cy="filter">
     <div>
-      <div class="d-flex justify-content-between">
-        <h3 class="mx-0">ตัวกรอง</h3>
-        <button type="button" class="btn btn-light btn-sm mx-0" id="reset">ล้าง</button>
+      <div class="d-flex justify-content-between mb-2">
+        <h3 class="fw-bolder mb-0">ตัวกรอง</h3>
+        <button type="button" class="btn btn-light btn-sm rounded-5" (click)="resetFilter()">รีเซ็ต</button>
       </div>
 
-      <button type="button" class="btn btn-light w-100" id="filter">
+      <button type="button" class="btn w-100" [ngClass]="isSelectedOpenRestaurant? 'bg-light-yellow border-yellow':'btn-light'"
+        (click)="selectFilterType(filterType.IsOpen)">
         <i class="bi bi-clock me-2"></i>
         เปิดอยู่
       </button>
 
-      <button type="button" class="btn btn-light  w-100 mt-2" id="filter">
+      <button type="button" class="btn w-100 mt-2" [ngClass]="isSelectedQRCode? 'bg-light-yellow border-yellow':'btn-light'"
+        (click)="selectFilterType(filterType.QRCode)">
         <i class="bi bi-wallet me-2"></i>
         รับโอน
       </button>
 
-      <button type="button" class="btn btn-light  w-100 mt-2" id="filter">
+      <button type="button" class="btn w-100 mt-2" [ngClass]="isSelectedDelivery? 'bg-light-yellow border-yellow':'btn-light'"
+        (click)="selectFilterType(filterType.Delivery)">
         <i class="bi bi-bicycle me-2"></i>
         จัดส่งแบบเดลิเวอรี่
       </button>
 
-      <button type="button" class="btn btn-light  w-100 mt-2" id="filter">
+      <button type="button" class="btn w-100 mt-2" [ngClass]="isSelectedPickup? 'bg-light-yellow border-yellow':'btn-light'"
+        (click)="selectFilterType(filterType.PickUp)">
         <i class="bi bi-shop-window me-2"></i>
         รับหน้าร้าน
       </button>
     </div>
-    <div class="my-4">
-      <h3>ประเภทอาหาร</h3>
-      <div class="d-flex">
-        <button type="button" class="btn btn-light btn-sm me-2" id="bt">อีสาน</button>
-        <button type="button" class="btn btn-light btn-sm me-2" id="bt">ไทย</button>
-        <button type="button" class="btn btn-light btn-sm me-2" id="bt">นานาชาติ</button>
-      </div>
 
-      <div class="d-flex mt-2">
-        <button type="button" class="btn btn-light btn-sm me-2" id="bt">ตามสั่ง</button>
-        <button type="button" class="btn btn-light btn-sm me-2" id="bt">บุฟเฟ่ห์</button>
-        <button type="button" class="btn btn-light btn-sm me-2" id="bt">ฮาลาล</button>
-      </div>
-
-      <div class="d-flex mt-2">
-        <button type="button" class="btn btn-light btn-sm me-2" id="bt">ก๋วยเตี๋ยว</button>
-        <button type="button" class="btn btn-light btn-sm me-2" id="bt">สตรีทฟู๊ด/รถเข็น</button>
+    <div class="mt-3">
+      <h3 class="mb-1 fw-semibold">ประเภทอาหาร</h3>
+      <div class="d-flex flex-wrap">
+        <button
+          *ngFor="let item of foodCategories; index as i" type="button"
+          class="btn btn-sm me-2 rounded-5 py-1 mb-1"
+          [ngClass]="item?.isSelected === undefined ? 'btn-light': item.isSelected? 'bg-light-yellow border-yellow': 'btn-light'"
+          (click)="selectCategoryType(item.id, i)"
+        >{{ item.name }}</button>
       </div>
     </div>
   </div>

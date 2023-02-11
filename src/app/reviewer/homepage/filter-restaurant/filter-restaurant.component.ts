@@ -1,12 +1,14 @@
+import { DeliveryType } from 'src/enum/delivery-type.enum';
+import { FilterRestaurantRequest } from './../../../../models/reviewer-homepage.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
-import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
+import { DrinkAndDessertCategory, FoodCategory } from 'src/constant/food-category.constant';
+import { FilterRestaurantType } from 'src/enum/filter-restaurant.enum';
 import { environment } from 'src/environments/environment';
-import { ResponseModel } from 'src/models/response.model';
 import { RestaurantCardInfoModel, RestaurantCardListModel } from 'src/models/restaurant-info.model';
-import { GetRestaurantListFromFilterRequestModel } from 'src/models/reviewer-homepage.model';
 import { ToggleFavoriteRestaurantRequestModel } from 'src/models/toggle-favorite-request.model';
 import { ReviewerService } from '../../reviewer.service';
+import { PaymentMethod } from 'src/enum/payment-method.enum';
 
 @Component({
   selector: 'app-filter-restaurant',
@@ -19,22 +21,31 @@ export class FilterRestaurantComponent implements OnInit {
   @Input() searchKeyword: string = "";
   @Output() setFavoriteRestaurant: EventEmitter<ToggleFavoriteRestaurantRequestModel> = new EventEmitter<ToggleFavoriteRestaurantRequestModel>();
   @Output() getAnotherRestaurantEvent: EventEmitter<number> = new EventEmitter<number>();
+  @Output() setFilterRequest: EventEmitter<FilterRestaurantRequest> = new EventEmitter<FilterRestaurantRequest>();
 
   restaurantInfoList: Array<RestaurantCardInfoModel>;
   restaurantInfo: RestaurantCardListModel;
+  foodCategories: Array<{ id: number, name: string, isSelected?: boolean }>;
+  selectedCategory: Array<number>;
   categoryType: Array<number> = new Array<number>();
+  deliveryType: Array<number> = new Array<number>();
+  filterType = FilterRestaurantType;
+  isSelectedOpenRestaurant: boolean = true;
+  isSelectedQRCode: boolean = false;
+  isSelectedDelivery: boolean = false;
+  isSelectedPickup: boolean = false;
   awsS3Url = environment.awsS3Url;
   totalRestaurant: number = 0;
   restaurantCumulativeCount: number = 0;
   isError: boolean;
   isOpen: boolean;
 
-  constructor(
-    private reviewerService: ReviewerService,
-    private localStorageService: LocalStorageService,
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
+    this.selectedCategory = new Array<number>();
+    this.foodCategories = [...FoodCategory, ...DrinkAndDessertCategory];
+    this.foodCategories.map(x => x.isSelected = false);
   }
 
   @Input()
@@ -63,5 +74,70 @@ export class FilterRestaurantComponent implements OnInit {
     eventInfo.isFavorite = isFavorite;
     eventInfo.index = index;
     this.setFavoriteRestaurant.emit(eventInfo);
+  }
+
+  selectCategoryType(type: number, index: number) {
+    if (this.selectedCategory.includes(type)) {
+      let indexToRemove = this.selectedCategory.indexOf(type);
+      this.foodCategories[index].isSelected = false;
+      this.selectedCategory.splice(indexToRemove, 1);
+    } else {
+      this.selectedCategory.push(type);
+      this.foodCategories[index].isSelected = true;
+    }
+    this.setFilterRestaurantRequest();
+  }
+
+  selectFilterType(type: number) {
+    switch(type) {
+      case FilterRestaurantType.IsOpen:
+        this.isSelectedOpenRestaurant = !this.isSelectedOpenRestaurant;
+        break;
+      case FilterRestaurantType.QRCode:
+        this.isSelectedQRCode = !this.isSelectedQRCode;
+        break;
+      case FilterRestaurantType.Delivery:
+        if (this.isSelectedDelivery) {
+          let i = this.deliveryType.indexOf(DeliveryType.Delivery);
+          this.deliveryType.splice(i, 1);
+          this.isSelectedDelivery = false;
+        } else {
+          this.deliveryType.push(DeliveryType.Delivery)
+          this.isSelectedDelivery = true;
+        }
+        break;
+      case FilterRestaurantType.PickUp:
+        if (this.isSelectedPickup) {
+          let i = this.deliveryType.indexOf(DeliveryType.PickUp);
+          this.deliveryType.splice(i, 1);
+          this.isSelectedPickup = false;
+        } else {
+          this.deliveryType.push(DeliveryType.PickUp)
+          this.isSelectedPickup = true;
+        }
+        break;
+    }
+    this.setFilterRestaurantRequest();
+  }
+
+  setFilterRestaurantRequest() {
+    let request = new FilterRestaurantRequest();
+    request.isOpen = this.isSelectedOpenRestaurant;
+    request.categoryType = this.selectedCategory;
+    request.deliveryType = this.deliveryType;
+    request.paymentMethod = this.isSelectedQRCode
+      ? [PaymentMethod.QRCode]
+      : new Array<number>();
+    this.setFilterRequest.emit(request);
+  }
+
+  resetFilter() {
+    this.selectedCategory = new Array<number>();
+    this.foodCategories.map(x => x.isSelected = false);
+    this.isSelectedOpenRestaurant = false;
+    this.isSelectedQRCode = false;
+    this.isSelectedDelivery = false;
+    this.isSelectedPickup = false;
+    this.setFilterRestaurantRequest();
   }
 }
