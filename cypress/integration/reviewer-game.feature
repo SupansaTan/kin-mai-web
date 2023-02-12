@@ -12,6 +12,7 @@ Feature: Reviewer random food game
 
 
   Scenario: Reviewer click gachapon random game for receive food categories
+    Given I visit on random game page
     When  I click on gachapon game
     Then  I should see button
           | button |

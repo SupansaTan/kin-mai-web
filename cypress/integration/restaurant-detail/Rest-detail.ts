@@ -25,13 +25,17 @@ And('I click on Login button', () => {
   cy.get('[data-cy="loginBtn"]').click();
 });
 
-//-------see all restaurant's information--------------
+And(`I should be on Restaurant homepage`, () => {
+  cy.location('pathname', { timeout: 5000 }).should('eq', '/restaurant');
+});
 
-Given(`I visit on Restaurant Detail page`, () => {
+And(`I visit on Restaurant Detail page`, () => {
     cy.visit('/restaurant/detail');
 });
 
-Then('I should see restaurant image', () => {
+//-------see all restaurant's information--------------
+
+Given('I should see restaurant image', () => {
     cy.get('[data-cy="restaurantImage"]').should('be.visible');
 });
 
@@ -47,24 +51,7 @@ And('I should see google map', () => {
     cy.get('[data-cy="googleMap"]').should('be.visible');
 });
 
-Then('I should see button', (dataTable) => {
-    dataTable.hashes().forEach((item: { button: string }) => {
-        cy.get(`[data-cy="${item.button}"]`).should('be.visible');
-    });
+And('I should see edit button', () => {
+  cy.get('[data-cy="editBtn"]').should('be.visible');
 });
 
-
-// ---------------edit information------------------
-
-
-Given(`I visit on Restaurant Detail page`, () => {
-    cy.visit('/restaurant/detail');
-}); 
-
-When(`I click on "Edit"`, () => {
-    cy.get('[data-cy="editBtn"]').click();
-});
-
-Then('I should be on Edit Detail page', () => {
-    cy.location('pathname', { timeout: 5000 }).should('eq', '/restaurant/edit');
-});

@@ -32,7 +32,7 @@ And(`I visit on random game page`, () => {
 });
 
 And('I should see gachapon game', () => {
-  cy.get('[data-cy="gachapon game"]').should('be.visible');
+  cy.get('[data-cy="gachapongame"]').should('be.visible');
 });
 
 

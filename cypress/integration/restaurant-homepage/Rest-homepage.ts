@@ -25,13 +25,12 @@ And('I click on Login button', () => {
   cy.get('[data-cy="loginBtn"]').click();
 });
 
-//-------- see restaurant's detail----------
-
-Given(`I visit on the Restaurant Homepage`, () => {
-    cy.visit('/restaurant');
+And(`I should be on Restaurant homepage`, () => {
+  cy.location('pathname', { timeout: 5000 }).should('eq', '/restaurant');
 });
 
-Then('I should see today rating', () => {
+//-------- see restaurant's detail----------
+Given('I should see today rating', () => {
     cy.get('[data-cy="todayRating"]').should('be.visible');
 });
 
