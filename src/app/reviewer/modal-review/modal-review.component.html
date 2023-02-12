@@ -1,125 +1,121 @@
 <ng-template #modalReview>
-    <form [formGroup]="reviewForm" data-cy="reviewModal">
-        <div class="container pb-2">
-            <div class="modal-header">
-                <h2 class="m-0">รีวิวร้านอาหาร : ร้านคุณป้าใจป้ำ</h2>
-                <button type="button" class="btn-close" (click)="closeModal()"></button>
+  <form [formGroup]="reviewForm" data-cy="reviewModal">
+    <div class="container pb-2">
+      <div class="modal-header">
+        <h2 class="m-0">รีวิวร้านอาหาร : ร้านคุณป้าใจป้ำ</h2>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+
+      <div class="modal-body my-2 mx-3 ">
+        <!-- Rating -->
+        <h3 class="mb-2 me-2 fw-semibold">คุณภาพอาหาร & บรรยากาศร้านอาหาร</h3>
+        <div class="row align-items-center justify-content-center mb-3">
+          <div class="col-auto mb-2">
+            <ngb-rating [(rate)]="currentRate" [max]="5" id="rating" formControlName="rating" data-cy="star" (ngModelChange)="resetRecommendReviewLabel()">
+              <ng-template let-fill="fill" let-index="index">
+                <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color"></i>
+              </ng-template>
+            </ngb-rating>
+          </div>
+          <div class="col-auto d-flex justify-content-center mb-2">
+            <div *ngIf="reviewForm.valid">
+              <h3 class="m-0">{{ getRatingLabel() }} <i class="bi ms-2 fs-5" [ngClass]="getRatingEmoji()"></i></h3>
             </div>
-        
-            <div class="modal-body my-2 mx-3 ">
-                <!-- Rating -->
-                <div class="row align-items-center justify-content-center mb-3">
-                    <div class="col-md-auto d-flex justify-content-center mb-2">
-                        <h3 class="m-0 me-2">คุณภาพอาหาร & บรรยากาศร้านอาหาร :</h3>
-                    </div>
-                    <div class="col-auto mb-2">
-                        <ngb-rating [(rate)]="currentRate" [max]="5" id="rating" formControlName="rating" data-cy="star">
-                            <ng-template let-fill="fill" let-index="index">
-                                <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color"></i>
-                            </ng-template>
-                        </ngb-rating>
-                    </div>
-                    <div class="col-md d-flex justify-content-center mb-2">
-                        <div *ngIf="reviewForm.valid">
-                            <h3 *ngIf="this.currentRate == 5" class="m-0" style="color:green">สุดยอด!<i class="bi bi-emoji-heart-eyes ms-2"></i></h3>
-                            <h3 *ngIf="this.currentRate == 4" class="m-0">ดีมาก<i class="bi bi-emoji-laughing ms-2"></i></h3>
-                            <h3 *ngIf="this.currentRate == 3" class="m-0">ดี<i class="bi bi-emoji-smile ms-2"></i></h3>
-                            <h3 *ngIf="this.currentRate == 2" class="m-0">พอใช้<i class="bi bi-emoji-expressionless ms-2"></i></h3>
-                            <h3 *ngIf="this.currentRate == 1" class="m-0" style="color:rgb(184, 0, 0)">ไม่ประทับใจ<i class="bi bi-emoji-frown ms-2"></i></h3>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row px-2">
-                    <!-- Button Review Word -->
-                    <div class="col mb-2">
-                        <mat-button-toggle-group [formControl]="CompleteWordForm" name="comment" aria-label="comment" multiple class="completeWord" id="comment" formControlName="comment">
-                            <mat-button-toggle class="completeWord" value="อาหารถูกต้อง" data-cy="commentWordBtn">อาหารถูกต้อง</mat-button-toggle>
-                            <mat-button-toggle class="completeWord" value="สะอาดและปลอดภัย">สะอาดและปลอดภัย</mat-button-toggle>
-                            <mat-button-toggle class="completeWord" value="อาหารคุณภาพดี">อาหารคุณภาพดี</mat-button-toggle>
-                            <mat-button-toggle class="completeWord" value="บรรจุภัณฑ์เหมาะสม">บรรจุภัณฑ์เหมาะสม</mat-button-toggle>
-                        </mat-button-toggle-group>
-                    </div>
-                    
-
-                    <!-- Input Comment -->
-                    <div class="my-2">
-                        <textarea class="form-control" id="comment" formControlName="comment" rows="3" placeholder="เริ่มเขียนรีวิว!" data-cy="commentBox"></textarea>
-                    </div>
-
-                    <!-- Upload Photo -->
-                    <div class="row d-flex align-items-center justify-content-center">
-                        <!-- upload photo of menu or restaurant -->
-                        <div class="col">
-                        <div cdkDropListGroup class="d-flex flex-wrap">
-                            <!-- show all image is selected -->
-                            <ng-container *ngFor="let image of restaurantImageList; let i = index">
-                            <!-- <div cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)"> -->
-                            <div cdkDropList cdkDropListOrientation="horizontal">
-                                <div class="position-relative me-4 mt-3" role="button" cdkDrag>
-                                <div *cdkDragPlaceholder></div>
-                                <img
-                                    [src]="image"
-                                    class="rounded-2 shadow-sm"
-                                    style="width: auto; height: 93px; object-fit: cover;"
-                                />
-                                <i class="bi bi-x bg-danger text-white rounded-circle position-absolute remove" (click)="removeImage(i)"></i>
-                                </div>
-                            </div>
-                            </ng-container>
-                
-                            <!-- upload image button -->
-                            <label role="button" for="photo" data-cy="uploadPhoto"
-                                class="bg-light-grey rounded-2 py-3 px-2 d-flex align-items-center justify-content-center flex-column shadow-sm mt-1 upload-image mt-3"
-                                [ngClass]="{ 'border-danger': reviewForm.controls['photo'].invalid && reviewForm.controls['photo'].touched }">
-                                <i class="bi bi-camera-fill" style="font-size: 25px;"></i>
-                                <span>อัพโหลดรูป</span>
-                                <input id="photo" type="file" [multiple]="true" formControlName="photo" class="d-none"
-                                (change)="onSelectFile($event)" accept="image/png, image/jpeg">
-                            </label>
-                            </div>
-                    
-                            <div *ngIf="reviewForm.controls['photo'].invalid && reviewForm.controls['photo'].touched"
-                            class="text-danger mt-2">
-                            Image of menu or restaurant is reqiured.
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- Recommend menu -->
-                    <div class="d-flex align-items-center my-3">
-                        <h3 class="m-0">เมนูแนะนำ</h3>
-                    </div>
-                        <div formArrayName="menus">
-                            <div class="mb-2" *ngFor="let menu of menus().controls; let menuIndex=index">
-                                <div class="col-auto" [formGroupName]="menuIndex"> 
-
-                                    <div class="d-flex align-items-center">
-                                        <div class="col-auto">
-                                            <input class="form-control" type="text" formControlName="name" data-cy="menuName"/>
-                                        </div>
-                                        <button class="btn" (click)="delRecommendMenu(menuIndex)">
-                                            <i class="bi bi-trash text-danger col-2 fs-4"></i>
-                                        </button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <button class="btn btn-add d-flex align-items-center" (click)="addRecommendMenu()" data-cy="addMenuBtn">
-                                <i class="bi bi-plus" style="color: #000000;"></i>
-                                <h3 class="m-0">เพิ่ม</h3>
-                            </button>
-                        </div>
-
-                </div>
-            </div>
-
-            <!-- Submit button -->
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-yellow w-25" (click)="onSubmit()" data-cy="submitBtn">ยืนยัน</button>
-            </div>
-
+          </div>
         </div>
-    </form>
+
+        <div class="row px-2">
+          <!-- Button Review Word -->
+          <div class="col mb-3 px-0">
+            <div *ngIf="[1,2].includes(currentRate)" class="row row-cols-4 g-2">
+              <div *ngFor="let item of badReviewLabel; index as i" class="col">
+                <button class="btn btn-sm rounded-4 w-100" [ngClass]="item.selected ? 'btn-yellow border-yellow':'btn-light border-grey'"
+                  (click)="selectRecommendReview(item.id, !item.selected, i)">
+                  {{ item.name }}
+                </button>
+              </div>
+            </div>
+
+            <div *ngIf="[3, 4, 5].includes(currentRate)" class="row row-cols-4 g-2">
+              <div *ngFor="let item of goodReviewLabel; index as i" class="col">
+                <button class="btn btn-sm rounded-4 w-100" [ngClass]="item.selected ? 'btn-yellow border-yellow':'btn-light border-grey'"
+                  (click)="selectRecommendReview(item.id, !item.selected, i)">
+                  {{ item.name }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Input Comment -->
+          <div class="mb-2 px-0">
+            <textarea class="form-control shadow-none" formControlName="comment" rows="3" placeholder="เริ่มเขียนรีวิว..." data-cy="commentBox"></textarea>
+          </div>
+
+          <!-- Upload Photo -->
+          <div class="row px-0 d-flex align-items-center justify-content-center">
+            <!-- upload photo of menu or restaurant -->
+            <div class="col">
+              <div cdkDropListGroup class="d-flex flex-wrap">
+                <!-- show all image is selected -->
+                <ng-container *ngFor="let image of restaurantImageList; let i = index">
+                  <div cdkDropList cdkDropListOrientation="horizontal">
+                    <div class="position-relative me-4 mt-3" role="button" cdkDrag>
+                      <div *cdkDragPlaceholder></div>
+                      <img
+                        [src]="image"
+                        class="rounded-2 shadow-sm"
+                        style="width: auto; height: 93px; object-fit: cover;"
+                      />
+                      <i class="bi bi-x fs-6 pt-1 bg-danger text-white rounded-circle position-absolute remove" (click)="removeImage(i)"></i>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- upload image button -->
+                <label role="button" for="photo" data-cy="uploadPhoto"
+                  class="bg-light-grey rounded-2 py-3 px-2 d-flex align-items-center justify-content-center flex-column shadow-sm mt-1 upload-image mt-3"
+                  [ngClass]="{ 'border-danger': reviewForm.controls['photo'].invalid && reviewForm.controls['photo'].touched }">
+                    <i class="bi bi-camera-fill" style="font-size: 25px;"></i>
+                    <span>อัพโหลดรูป</span>
+                    <input id="photo" type="file" [multiple]="true" formControlName="photo" class="d-none"
+                    (change)="onSelectFile($event)" accept="image/png, image/jpeg">
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommend menu -->
+          <div class="my-3 px-0">
+            <div class="d-flex align-items-center">
+              <h3 class="mb-0 me-2">เมนูแนะนำ</h3>
+              <button class="btn btn-sm btn-yellow rounded-4 py-0" (click)="addRecommendMenu()" data-cy="addMenuBtn">
+                <i class="bi bi-plus"></i>
+                เพิ่ม
+              </button>
+            </div>
+
+            <div formArrayName="menus">
+              <div class="mb-2" *ngFor="let menu of menus().controls; let menuIndex=index">
+                <div class="col-auto" [formGroupName]="menuIndex">
+                  <div class="d-flex align-items-center">
+                    <div class="col-auto">
+                      <input class="form-control" type="text" formControlName="name" data-cy="menuName"/>
+                    </div>
+                    <button class="btn" (click)="delRecommendMenu(menuIndex)">
+                      <i class="bi bi-trash text-danger col-2 fs-4"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit button -->
+      <div class="d-flex justify-content-end px-2 mb-2">
+        <button class="btn btn-yellow w-25" (click)="onSubmit()" data-cy="submitBtn">ยืนยัน</button>
+      </div>
+    </div>
+  </form>
 </ng-template>
