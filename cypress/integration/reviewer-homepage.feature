@@ -13,21 +13,22 @@ Feature: Reviewer Homepage
     When  I click title of Restaurant
     Then  I should be on Restaurant detail page
 
-  Scenario: Reviewer like restaurant
-    When  I click "Love" button
-    Then  I should see love button change
-
   Scenario: Reviewer unlike restaurant
     When  I unclick "Love" button
     Then  I should see love button change
 
-  Scenario: Reviewer search  restaurant
+  Scenario: Reviewer like restaurant
+    When  I click "Love" button
+    Then  I should see love button change
+
+  Scenario: Reviewer search and filter restaurant 
     When  I search "Jaidee" in a search box
       | searchbox |
       | Jaidee |
     Then  I should see list of "restaurant" near me
     And   I should see filter
-
+    When  I click catagory
+    Then  I should see restaurant
   
 
   

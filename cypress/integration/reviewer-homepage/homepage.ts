@@ -32,7 +32,6 @@ And('I should be on reviewer homepage', () => {
   cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
-
 // -------see restaurant detail--------
 
 When('I click title of Restaurant', () => {
@@ -45,7 +44,7 @@ Then ('I should be on Restaurant detail page',() =>{
 });
 
 //--------like restaurant---------
-When('I click "Love" button', () => {
+When('I unclick "Love" button', () => {
   cy.get(`[data-cy="LoveBtn"]`).first().click();
 });
 
@@ -55,7 +54,7 @@ Then('I should see love button change',() =>{
 });
 
 //--------unlike restaurant---------
-When('I unclick "Love" button', () => {
+When('I click "Love" button', () => {
   cy.get(`[data-cy="LoveBtn"]`).first().click();
 });
 
@@ -72,12 +71,20 @@ When ('I search "Jaidee" in a search box', (dataTable) => {
 });
 
 Then('I should see list of "restaurant" near me', () => {
-  cy.get('[data-cy="Restaurant"]').should('be.visible');
+  cy.get(`[data-cy="Restaurant"]`).should('be.visible');
 });
 
 And('I should see filter', () => {
   cy.get('[data-cy="filter"]').should('be.visible');
 });
 
+//----filter restaurant-----
 
+When('I click catagory', () => {
+  cy.get(`[data-cy="Catagory"]`).first().click();
+});
+
+Then('I should see restaurant', () => {
+  cy.get(`[data-cy="Restaurant"]`).should('be.visible');
+});
 
