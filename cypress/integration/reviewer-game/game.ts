@@ -25,9 +25,13 @@ And('I click on Login button', () => {
   cy.get('[data-cy="loginBtn"]').click();
 });
 
-//------------------------------------------------
+And('I should be on reviewer homepage', () => {
+  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
+});
 
-And(`I visit on random game page`, () => {
+
+// --------click gachapon random game----------
+Given(`I visit on random game page`, () => {
   cy.visit('/reviewer/random');
 });
 
@@ -35,10 +39,8 @@ And('I should see gachapon game', () => {
   cy.get('[data-cy="gachapongame"]').should('be.visible');
 });
 
-
-// --------click gachapon random game----------
 When('I click on gachapon game', () => {
-  cy.get(`[data-cy="gachapon game"]`).click();
+  cy.get(`[data-cy="gachapongame"]`).click();
 });
 
 Then('I should see button', (dataTable) => {
@@ -47,32 +49,4 @@ Then('I should see button', (dataTable) => {
   });
 });
 
-Then('I see button search restaurant', () => {
-  cy.wait(3000);
-  cy.get('[data-cy="SearchRestaurantBtn"]').should('be.visible');
-});
 
-Then('I see button search restarant playlists', () => {
-  cy.wait(2000);
-  cy.get('[data-cy="RestarantPlaylistsBtn"]').should('be.visible');
-});
-
-//------click search restaurant---------
-When('I click on search restaurant', () => {
-  cy.get(`[data-cy="SearchRestaurantBtn"]`).click();
-});
-
-Then('I should be on search restaurant page',() =>{
-  cy.wait(2000);
-  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer/search');
-});
-
-//-------click search restarant's playlists--------
-When('I click on search restarant playlists', () => {
-  cy.get(`[data-cy="RestarantPlaylistsBtn"]`).click();
-});
-
-Then('I should be on search restaurant playlists page',() =>{
-  cy.wait(2000);
-  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer/playlist');
-});

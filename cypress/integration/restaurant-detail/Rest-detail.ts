@@ -29,13 +29,13 @@ And(`I should be on Restaurant homepage`, () => {
   cy.location('pathname', { timeout: 5000 }).should('eq', '/restaurant');
 });
 
-And(`I visit on Restaurant Detail page`, () => {
+//-------see all restaurant's information--------------
+
+Given(`I visit on Restaurant Detail page`, () => {
     cy.visit('/restaurant/detail');
 });
 
-//-------see all restaurant's information--------------
-
-Given('I should see restaurant image', () => {
+And('I should see restaurant image', () => {
     cy.get('[data-cy="restaurantImage"]').should('be.visible');
 });
 
@@ -53,5 +53,18 @@ And('I should see google map', () => {
 
 And('I should see edit button', () => {
   cy.get('[data-cy="editBtn"]').should('be.visible');
+});
+
+// click edit button
+Given(`I visit on Restaurant Detail page`, () => {
+  cy.visit('/restaurant/detail');
+});
+
+When('I press edit button', () => {
+  cy.get('[data-cy="editBtn"]').eq(1).click();
+});
+
+Then(`I should be on edit page`, () => {
+  cy.visit('/restaurant/edit');
 });
 

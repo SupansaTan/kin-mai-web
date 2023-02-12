@@ -27,11 +27,13 @@ And('I click on Login button', () => {
 
 
 Then('I should see reviewer homepage', () => {
-  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer/');
+  cy.wait(2000)
+  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
 Then('I should see restaurant homepage', () => {
-  cy.location('pathname', { timeout: 5000 }).should('eq', '/restaurant/');
+  cy.wait(2000)
+  cy.location('pathname', { timeout: 5000 }).should('eq', '/restaurant');
 });
 
 When(`I click on "Don't have an account ?"`, () => {

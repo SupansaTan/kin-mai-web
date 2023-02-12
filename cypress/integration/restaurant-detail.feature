@@ -8,12 +8,18 @@ Feature: Reataurnat Detail
       | punch3@gmail.com    | 12345678 |
     And I click on Login button
     And I should be on Restaurant homepage
-    And I visit on Restaurant Detail page
 
     Scenario: Restaurant owner can see all restaurant's information
-        Given I should see restaurant image
-        And I should see rating
-        And I should see information
-        And I should see google map
-        And I should see edit button
+      Given I visit on Restaurant Detail page
+      And I should see restaurant image
+      And I should see rating
+      And I should see information
+      And I should see google map
+      And I should see edit button
+    
+    Scenario: Restaurant owner click edit button
+      Given I visit on Restaurant Detail page
+      When I press edit button
+      Then I should be on edit page
+
         
