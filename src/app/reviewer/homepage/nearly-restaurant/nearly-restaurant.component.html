@@ -8,8 +8,8 @@
 </div>
 
 <div *ngIf="restaurantInfoList && !isLoading" class="row row-cols-2 gy-2 gx-2" >
-  <div *ngFor="let item of restaurantInfoList; index as i;" class="col" data-cy="Restaurant">
-    <div class="bg-white border-rounded py-2 px-3">
+  <div *ngFor="let item of restaurantInfoList; index as i;" class="col" >
+    <div class="bg-white border-rounded py-2 px-3" data-cy="RestaurantNearMe">
       <div class="row" >
         <!-- image cover -->
         <div class="col-4 ps-1">

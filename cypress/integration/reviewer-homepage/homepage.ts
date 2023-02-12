@@ -28,10 +28,16 @@ And('I click on Login button', () => {
 
 //-------------Reviewer see homepage detail---------------------
 And('I should be on reviewer homepage', () => {
-  cy.wait(2000);
   cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
+Then('I see searchbox',() =>{
+  cy.get('[data-cy="searchbox"]').should('be.visible');
+});
+
+Then('I see list of restarant near me',() =>{
+  cy.get('[data-cy="RestaurantNearMe"]').should('be.visible');
+});
 // -------see restaurant detail--------
 
 When('I click title of Restaurant', () => {
@@ -71,7 +77,7 @@ When ('I search "Jaidee" in a search box', (dataTable) => {
 });
 
 Then('I should see list of "restaurant" near me', () => {
-  cy.get(`[data-cy="Restaurant"]`).should('be.visible');
+  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
 });
 
 And('I should see filter', () => {
@@ -85,6 +91,6 @@ When('I click catagory', () => {
 });
 
 Then('I should see restaurant', () => {
-  cy.get(`[data-cy="Restaurant"]`).should('be.visible');
+  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
 });
 

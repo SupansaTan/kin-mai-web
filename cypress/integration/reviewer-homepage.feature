@@ -8,8 +8,10 @@ Feature: Reviewer Homepage
       | nampunch1@gmail.com | 12345678 |
     And I click on Login button
     And I should be on reviewer homepage
- 
-  Scenario: Reviewer see restaurant detail
+    And I see searchbox
+    And I see list of restarant near me
+  
+  Scenario: Reviewer click restaurant detail
     When  I click title of Restaurant
     Then  I should be on Restaurant detail page
 
