@@ -25,18 +25,16 @@ And('I click on Login button', () => {
   cy.get('[data-cy="loginBtn"]').click();
 });
 
-//------------------------------------------------
-
-And(`I visit on the playlist page`, () => {
-  cy.visit('reviewer/playlist');
-})
-
-And('I should see restaurant playlist', () => {
-  cy.wait(2000);
-  cy.get('[data-cy="RestaurantPlaylist"]').should('be.visible');
+And('I should be on reviewer homepage', () => {
+  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
+
 //------search for somtam restaurant-------
+Given(`I visit on the playlist page`, () => {
+  cy.visit('reviewer/playlist');
+});
+
 When ('I search "somtam" in a search box', (dataTable) => {
   dataTable.hashes().forEach((item: { searchBox : string }) => {
     cy.get(`[data-cy="searchBox"]`).type(item.searchBox, {force: true});
@@ -48,6 +46,10 @@ Then('I should see list of "somtam restaurant" playlist', () => {
 });
 
 //------click playlist title---------
+Given(`I visit on the playlist page`, () => {
+  cy.visit('reviewer/playlist');
+});
+
 When('I click on title of detail', () => {
   cy.get('[data-cy="PlaylistDetail"]').first().click();
 });

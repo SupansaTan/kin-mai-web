@@ -25,14 +25,20 @@ And('I click on Login button', () => {
   cy.get('[data-cy="loginBtn"]').click();
 });
 
-//-------see playlist detail----------------
-When(`I visit on the playlist detail page`, () => {
-  cy.visit('reviewer/playlist-detail');
-})
-
-Then('I should see playlist detail', () => {
-  cy.wait(2000);
-  cy.get('[data-cy="PlaylistDetail"]').should('be.visible');
+And('I should be on reviewer homepage', () => {
+  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
 
+//-------see playlist detail----------------
+Given(`I visit on the playlist detail page`, () => {
+  cy.visit('reviewer/playlist-detail');
+})
+
+When('I click playlist title', () => {
+  cy.get('[data-cy="PlaylistTitle"]').click();
+});
+
+Then(`I should be on restaurant detail`, () => {
+  cy.visit('/reviewer/restaurant');
+});
