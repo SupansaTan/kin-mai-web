@@ -29,11 +29,19 @@ And('I should be on reviewer homepage', () => {
   cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
-
-//-------see playlist detail----------------
+// see playlist detail
 Given(`I visit on the playlist detail page`, () => {
   cy.visit('reviewer/playlist-detail');
-})
+});
+
+And('I can see playlist detail',() =>{
+   cy.get('[data-cy="playlistDetail"]').should('be.visible');
+});
+
+//-------click playlist detail----------------
+Given(`I visit on the playlist detail page`, () => {
+  cy.visit('reviewer/playlist-detail');
+});
 
 When('I click playlist title', () => {
   cy.get('[data-cy="PlaylistTitle"]').click();

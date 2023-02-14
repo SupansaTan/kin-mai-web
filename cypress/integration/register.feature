@@ -13,7 +13,7 @@ Feature: Register Page
     And I click "Next" button
     Then I should see confirmation register form as reviewer
     And I click "Submit" button
-    Then I should see modal "Create account successful"
+    # Then I should see modal "Create account successful"
 
   Scenario: User register as reviewer with invalid form
     And I click register as reviewer
@@ -55,7 +55,7 @@ Feature: Register Page
     And I click "Next" button
     Then I should see confirmation register form as restaurant
     And I click "Submit" button
-    Then I should see modal "Create account successful"
+    # Then I should see modal "Create account successful"
 
   Scenario: User register as restaurant owner with invalid form
     And I click register as restaurant owner

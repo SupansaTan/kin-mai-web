@@ -9,11 +9,11 @@ Feature: Reviewer search playlist
     And I click on Login button
     And I should be on reviewer homepage
 
-  Scenario: Reviewer search for somtam restaurant
+  Scenario: Reviewer search  restaurant
     Given I visit on the playlist page
     When  I search "somtam" in a search box
       | searchBox |
-      | ส้มตำ       |
+      | ส้มตำ      |
     Then  I should see list of "somtam restaurant" playlist
 
   Scenario: Reviewer click playlist title

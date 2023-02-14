@@ -9,7 +9,7 @@ Feature: Restaurant Edit Detail
     And I click on Login button
     And I should be on Restaurant homepage
 
-  Scenario: Restaurant owner can see edit  detail
+  Scenario: Restaurant owner can edit  detail
     Given I visit on the Restaurant Detail
     Then  I should see "edit" button
     When  I press "edit" button
