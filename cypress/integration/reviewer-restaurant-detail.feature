@@ -1,6 +1,13 @@
 Feature: Restaurant Detail
   Reviewer is able to see restaurant detail , rating , reviews and write review
 
+  Background:
+    Given I visit on login page
+    When I complete fill in login form
+      | email               | password |
+      | nampunch1@gmail.com  | 12345678 |
+    And I click on Login button
+
   Scenario: Reviewer see all restaurant detail
     Given I visit on Restaurant Detail page
     Then  I should see restaurant image

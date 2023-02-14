@@ -1,4 +1,4 @@
-import { And, Given, Then, When } from "cypress-cucumber-preprocessor/steps";
+import { When,Then,Given,And} from "cypress-cucumber-preprocessor/steps";
 
 Given(`I visit on login page`, () => {
   cy.visit('/auth/login');
@@ -30,23 +30,15 @@ And('I should be on reviewer homepage', () => {
 });
 
 
-// --------click gachapon random game----------
-Given(`I visit on random game page`, () => {
-  cy.visit('/reviewer/random');
+//-------see playlist detail----------------
+Given(`I visit on the playlist detail page`, () => {
+  cy.visit('reviewer/playlist-detail');
+})
+
+When('I click playlist title', () => {
+  cy.get('[data-cy="PlaylistTitle"]').click();
 });
 
-And('I should see gachapon game', () => {
-  cy.get('[data-cy="gachapongame"]').should('be.visible');
+Then(`I should be on restaurant detail`, () => {
+  cy.visit('/reviewer/restaurant');
 });
-
-When('I click on gachapon game', () => {
-  cy.get(`[data-cy="gachapongame"]`).click();
-});
-
-Then('I should see button', (dataTable) => {
-  dataTable.hashes().forEach((item: { button: string }) => {
-    cy.get(`[data-cy="${item.button}"]`).should('be.visible');
-  });
-});
-
-

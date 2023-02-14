@@ -25,30 +25,20 @@ And('I click on Login button', () => {
   cy.get('[data-cy="loginBtn"]').click();
 });
 
-Then('I should see reviewer homepage', () => {
+
+//-------------Reviewer see homepage detail---------------------
+And('I should be on reviewer homepage', () => {
   cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
-When ('I should see search box',() =>{
+Then('I see searchbox',() =>{
   cy.get('[data-cy="searchbox"]').should('be.visible');
 });
 
-And ('I should see buttons', (dataTable) => {
-  dataTable.hashes().forEach((item: { button: string }) => {
-    cy.get(`[data-cy="${item.button}"]`).should('be.visible');
-  });
+Then('I see list of restarant near me',() =>{
+  cy.get('[data-cy="RestaurantNearMe"]').should('be.visible');
 });
-
-And ('I should see list of Restaurant near me',() =>{
-  cy.wait(1000);
-  cy.get('[data-cy="Restaurant"]').should('be.visible');
-});
-
-And ('I should see some of Restaurant info',() =>{
-  cy.get('[data-cy="restaurantInfo"]').should('be.visible');
-});
-
-// ------------------------------
+// -------see restaurant detail--------
 
 When('I click title of Restaurant', () => {
   cy.get(`[data-cy="restaurantDetailBtn"]`).first().click();
@@ -59,36 +49,7 @@ Then ('I should be on Restaurant detail page',() =>{
   cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer/restaurant');
 });
 
-// ------------------------------
-
-
-When('I click "Food" button', () => {
-  cy.get(`[data-cy="FoodBtn"]`).click();
-});
-
-Then('I should see modal of food categories',() =>{
-  cy.wait(2000);
-  cy.get('[data-cy="FoodModal"]').should('be.visible');
-});
-
-When('I click "Drink & Dessert" button', () => {
-  cy.get(`[data-cy="DrinkAndDessertBtn"]`).click();
-});
-
-Then('I should see modal of drink and dessert categories',() =>{
-  cy.wait(2000);
-  cy.get('[data-cy="DessertModal"]').should('be.visible');
-});
-
-When('I click "Love" button', () => {
-  cy.get(`[data-cy="LoveBtn"]`).first().click();
-});
-
-Then('I should see love button change',() =>{
-  cy.wait(2000);
-  cy.get('[data-cy="LoveBtn"]').should('be.visible');
-});
-
+//--------like restaurant---------
 When('I unclick "Love" button', () => {
   cy.get(`[data-cy="LoveBtn"]`).first().click();
 });
@@ -98,4 +59,38 @@ Then('I should see love button change',() =>{
   cy.get('[data-cy="LoveBtn"]').should('be.visible');
 });
 
+//--------unlike restaurant---------
+When('I click "Love" button', () => {
+  cy.get(`[data-cy="LoveBtn"]`).first().click();
+});
+
+Then('I should see love button change',() =>{
+  cy.wait(2000);
+  cy.get('[data-cy="LoveBtn"]').should('be.visible');
+});
+
+//----- search  restaurant------
+When ('I search "Jaidee" in a search box', (dataTable) => {
+  dataTable.hashes().forEach((item: { searchbox : string }) => {
+    cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
+  });
+});
+
+Then('I should see list of "restaurant" near me', () => {
+  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
+});
+
+And('I should see filter', () => {
+  cy.get('[data-cy="filter"]').should('be.visible');
+});
+
+//----filter restaurant-----
+
+When('I click catagory', () => {
+  cy.get(`[data-cy="Catagory"]`).first().click();
+});
+
+Then('I should see restaurant', () => {
+  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
+});
 
