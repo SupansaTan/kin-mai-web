@@ -1,3 +1,4 @@
+import { BadReviewLabelItem, GoodReviewLabelItem } from './../../../constant/review-label.constant';
 import { Component, OnInit, EventEmitter, Input, Output, TemplateRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
 import { FormControl, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
@@ -12,23 +13,21 @@ export interface Menu {
   templateUrl: './modal-review.component.html',
   styleUrls: ['./modal-review.component.scss']
 })
-export class ModalReviewComponent {
-
+export class ModalReviewComponent implements OnInit {
   @Output() isFormValid = new EventEmitter<boolean>();
+  @ViewChild('modalReview') modalReview: TemplateRef<any>;
+  @Output() closeModalEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() uploadPhotoFormValue = new EventEmitter<RestaurantPhotoModel>();
 
-  uploadPhotoForm: FormGroup;
-  menuForm:FormGroup;
-  reviewForm:FormGroup;
-  currentStage: number = 0;
+  modalRef: BsModalRef;
+  reviewForm: FormGroup;
+  badReviewLabel: Array<{ id: number, name: string, selected: boolean }>;
+  goodReviewLabel: Array<{ id: number, name: string, selected: boolean }>;
+
+  selectedRecommendReviewLabel: Array<number> = new Array<number>();
   restaurantImageList: Array<string> = new Array<string>();
   imageFileList: Array<File> = new Array<File>();
   reviewsMenu: Array<string> = new Array<string>();
-
-  @ViewChild('modalReview') modalReview: TemplateRef<any>;
-  @Output() closeModalEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-  modalRef: BsModalRef;
 
   Info: any = {
     Rating: 3.5,
@@ -47,21 +46,21 @@ export class ModalReviewComponent {
 
   constructor(
     private modalService: BsModalService,
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private cf: ChangeDetectorRef
-  ) 
+  )
   {
-    // this.uploadPhotoForm = this.fb.group({
-    //   photo: new FormControl([], [
-    //     Validators.required
-    //   ]),
-    // })
     this.reviewForm = this.fb.group({
       rating: new FormControl<number>(0, Validators.required),
       comment: new FormControl<string>(''),
       menus: this.fb.array([]),
       photo: new FormControl([]),
     })
+  }
+
+  ngOnInit(): void {
+    this.badReviewLabel = BadReviewLabelItem;
+    this.goodReviewLabel = GoodReviewLabelItem;
   }
 
   public openSuccessModal(): void {
@@ -76,7 +75,7 @@ export class ModalReviewComponent {
     this.modalRef.hide();
   }
 
-// Add Recommend Menu 
+// Add Recommend Menu
   newMenu(): FormGroup {
     return this.fb.group({
       name: "",
@@ -85,7 +84,7 @@ export class ModalReviewComponent {
 
   menus(): FormArray {
     return this.reviewForm.get('menus') as FormArray;
-  } 
+  }
 
   addRecommendMenu(){
     this.menus().push(this.newMenu());
@@ -93,6 +92,32 @@ export class ModalReviewComponent {
 
   delRecommendMenu(index:any) {
     this.menus().removeAt(index)
+  }
+
+  selectRecommendReview(id: number, isSelected: boolean, i: number) {
+    if (isSelected && id < 6) {
+      this.badReviewLabel[i].selected = true;
+      this.selectedRecommendReviewLabel.push(id);
+    } else if (!isSelected && (id < 6)) {
+      let index = this.selectedRecommendReviewLabel.indexOf(id);
+      this.badReviewLabel[i].selected = false;
+      this.selectedRecommendReviewLabel.splice(index, 1);
+    } else if (isSelected && id >= 6) {
+      this.goodReviewLabel[i].selected = true;
+      this.selectedRecommendReviewLabel.push(id);
+    } else {
+      let index = this.selectedRecommendReviewLabel.indexOf(id);
+      this.goodReviewLabel[i].selected = false;
+      this.selectedRecommendReviewLabel.splice(index, 1);
+    }
+  }
+
+  resetRecommendReviewLabel() {
+    if ((this.currentRate < 3 && this.selectedRecommendReviewLabel.some(x => x > 5))
+      || (this.currentRate >= 3 && this.selectedRecommendReviewLabel.some(x => x < 6))
+    ) {
+      this.selectedRecommendReviewLabel = new Array<number>();
+    }
   }
 
   onSubmit() {
@@ -135,6 +160,38 @@ export class ModalReviewComponent {
     }
   }
 
+  getRatingLabel() {
+    switch (this.currentRate) {
+      case 1:
+        return 'ไม่ประทับใจ';
+      case 2:
+        return 'พอใช้';
+      case 3:
+        return 'ดี';
+      case 4:
+        return 'ดีมาก';
+      case 5:
+        return 'สุดยอด!';
+    }
+    return '';
+  }
+
+  getRatingEmoji() {
+    switch (this.currentRate) {
+      case 1:
+        return 'bi-emoji-frown';
+      case 2:
+        return 'bi-emoji-expressionless';
+      case 3:
+        return 'bi-emoji-smile';
+      case 4:
+        return 'bi-emoji-laughing';
+      case 5:
+        return 'bi-emoji-heart-eyes';
+    }
+    return '';
+  }
+
   getRestaurantInfoValue() {
     let restaurantInfo = new RestaurantPhotoModel();
     restaurantInfo.imageFiles = this.imageFileList;
@@ -143,14 +200,9 @@ export class ModalReviewComponent {
 
   checkFormIsValid() {
     this.reviewForm.markAllAsTouched();
-    this.reviewForm.enable();
 
     if (this.reviewForm.valid) {
-      let restaurantInfo = this.getRestaurantInfoValue();
       this.reviewForm.disable();
-      this.uploadPhotoFormValue.emit(restaurantInfo);
-      this.isFormValid.emit(true);
     }
   }
-
 }
