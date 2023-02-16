@@ -1,3 +1,4 @@
+import { GetReviewInfoRequest, ReviewInfoModel } from './../../../models/review-info.model';
 import { ResponseModel } from './../../../models/response.model';
 import { AddReviewRequestModel } from './../../../models/add-review.model';
 import { BadReviewLabelItem, GoodReviewLabelItem } from './../../../constant/review-label.constant';
@@ -9,6 +10,7 @@ import { ReviewerService } from '../reviewer.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-success.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-modal-review',
@@ -24,15 +26,17 @@ export class ModalReviewComponent implements OnInit {
 
   modalRef: BsModalRef;
   reviewForm: FormGroup;
+  awsS3Url = environment.awsS3Url;
   currentRate = 0;
   isLoading: boolean = false;
   isReview: boolean;
+  isEditReview: boolean;
   restaurantId: string;
   restaurantName: string;
   badReviewLabel: Array<{ id: number, name: string, selected: boolean }>;
   goodReviewLabel: Array<{ id: number, name: string, selected: boolean }>;
   selectedRecommendReviewLabel: Array<number> = new Array<number>();
-  restaurantImageList: Array<string> = new Array<string>();
+  reviewImageList: Array<string> = new Array<string>();
   imageFileList: Array<File> = new Array<File>();
 
   constructor(
@@ -59,10 +63,15 @@ export class ModalReviewComponent implements OnInit {
     });
   }
 
-  public openReviewModal(isReview: boolean, restaurantId: string, restaurantName: string): void {
+  public openReviewModal(isReview: boolean, isEditReview: boolean, restaurantId: string, restaurantName: string): void {
     this.isReview = isReview;
+    this.isEditReview = isEditReview;
     this.restaurantId = restaurantId;
     this.restaurantName = restaurantName;
+
+    if (!isReview || (isReview && isEditReview)) {
+      this.getExistReview();
+    }
 
     this.modalRef = this.modalService.show(this.modalReview, {
       class: 'modal-lg modal-dialog-centered',
@@ -73,6 +82,34 @@ export class ModalReviewComponent implements OnInit {
 
   closeModal(): void {
     this.modalRef.hide();
+  }
+
+  getExistReview() {
+    let request = new GetReviewInfoRequest();
+    request.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
+    request.restaurantId = this.restaurantId;
+    this.reviewerService.getReviewInfo(request).subscribe(
+      (response: ResponseModel<ReviewInfoModel>) => {
+        if (response && response?.status === 200) {
+          this.currentRate = response.data.rating;
+          this.selectedRecommendReviewLabel = response.data.reviewLabelList ?? [];
+          this.reviewImageList = response.data.imageLink ?? [];
+          response.data.reviewLabelList.forEach((x) => {
+            this.selectRecommendReview(x, true, (response.data.rating > 2)? (x-6):(x-1));
+          })
+
+          this.reviewForm = this.fb.group({
+            rating: new FormControl<number>(response.data.rating, Validators.required),
+            comment: new FormControl<string>(response.data.comment),
+            menus: this.fb.array(response.data.foodRecommendList ?? []),
+            photo: new FormControl([]),
+          });
+          this.isReview ? '': this.reviewForm.disable();
+        } else {
+          this.closeModal();
+          this.successModal.openSuccessModal(false, response.message);
+        }
+    })
   }
 
   // Recommend Menu
@@ -130,7 +167,7 @@ export class ModalReviewComponent implements OnInit {
 
         reader.onload = (event) => {
           const url = (<FileReader>event.target).result as string;
-          this.restaurantImageList.push(url);
+          this.reviewImageList.push(url);
           this.cf.detectChanges();
         };
       }
@@ -139,7 +176,7 @@ export class ModalReviewComponent implements OnInit {
 
   removeImage(index: number) {
     if (index > -1) {
-      this.restaurantImageList.splice(index, 1);
+      this.reviewImageList.splice(index, 1);
       this.imageFileList.splice(index, 1);
     }
   }

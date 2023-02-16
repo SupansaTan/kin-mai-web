@@ -6,19 +6,19 @@
         <button type="button" class="btn-close" (click)="closeModal()"></button>
       </div>
 
-      <div class="modal-body my-2 mx-3 ">
+      <div class="modal-body my-2">
         <!-- Rating -->
         <h3 class="mb-2 me-2 fw-semibold">คุณภาพอาหาร & บรรยากาศร้านอาหาร</h3>
         <div class="row align-items-center justify-content-center mb-3">
           <div class="col-auto mb-2">
-            <ngb-rating [(rate)]="currentRate" [max]="5" id="rating" formControlName="rating" data-cy="star" (ngModelChange)="resetRecommendReviewLabel()">
+            <ngb-rating [(rate)]="currentRate" [max]="5" id="rating" formControlName="rating" data-cy="star" [readonly]="!isReview" (ngModelChange)="resetRecommendReviewLabel()">
               <ng-template let-fill="fill" let-index="index">
                 <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color"></i>
               </ng-template>
             </ngb-rating>
           </div>
           <div class="col-auto d-flex justify-content-center mb-2">
-            <div *ngIf="reviewForm.valid">
+            <div *ngIf="currentRate > 0">
               <h3 class="m-0">{{ getRatingLabel() }} <i class="bi ms-2 fs-5" [ngClass]="getRatingEmoji()"></i></h3>
             </div>
           </div>
@@ -30,7 +30,7 @@
             <div *ngIf="[1,2].includes(currentRate)" class="row row-cols-4 g-2">
               <div *ngFor="let item of badReviewLabel; index as i" class="col">
                 <button class="btn btn-sm rounded-4 w-100" [ngClass]="item.selected ? 'btn-yellow border-yellow':'btn-light border-grey'"
-                  (click)="selectRecommendReview(item.id, !item.selected, i)">
+                  (click)="selectRecommendReview(item.id, !item.selected, i)" [disabled]="!isReview">
                   {{ item.name }}
                 </button>
               </div>
@@ -39,7 +39,7 @@
             <div *ngIf="[3, 4, 5].includes(currentRate)" class="row row-cols-4 g-2">
               <div *ngFor="let item of goodReviewLabel; index as i" class="col">
                 <button class="btn btn-sm rounded-4 w-100" [ngClass]="item.selected ? 'btn-yellow border-yellow':'btn-light border-grey'"
-                  (click)="selectRecommendReview(item.id, !item.selected, i)">
+                  (click)="selectRecommendReview(item.id, !item.selected, i)" [disabled]="!isReview">
                   {{ item.name }}
                 </button>
               </div>
@@ -57,28 +57,29 @@
             <div class="col">
               <div cdkDropListGroup class="d-flex flex-wrap">
                 <!-- show all image is selected -->
-                <ng-container *ngFor="let image of restaurantImageList; let i = index">
+                <ng-container *ngFor="let image of reviewImageList; let i = index">
                   <div cdkDropList cdkDropListOrientation="horizontal">
-                    <div class="position-relative me-4 mt-3" role="button" cdkDrag>
+                    <div class="position-relative mt-3" [ngClass]="isReview ? 'me-4':'me-2'" role="button" cdkDrag>
                       <div *cdkDragPlaceholder></div>
                       <img
-                        [src]="image"
+                        [src]="image.includes('/')? (awsS3Url + '/' + image) : image"
                         class="rounded-2 shadow-sm"
                         style="width: auto; height: 93px; object-fit: cover;"
                       />
-                      <i class="bi bi-x fs-6 pt-1 bg-danger text-white rounded-circle position-absolute remove" (click)="removeImage(i)"></i>
+                      <i class="bi bi-x fs-6 pt-1 bg-danger text-white rounded-circle position-absolute remove" [hidden]="!isReview" (click)="removeImage(i)"></i>
                     </div>
                   </div>
                 </ng-container>
 
                 <!-- upload image button -->
-                <label role="button" for="photo" data-cy="uploadPhoto"
+                <label
+                  role="button" for="photo" data-cy="uploadPhoto" *ngIf="isReview"
                   class="bg-light-grey rounded-2 py-3 px-2 d-flex align-items-center justify-content-center flex-column shadow-sm mt-1 upload-image mt-3"
-                  [ngClass]="{ 'border-danger': reviewForm.controls['photo'].invalid && reviewForm.controls['photo'].touched }">
-                    <i class="bi bi-camera-fill" style="font-size: 25px;"></i>
-                    <span>อัพโหลดรูป</span>
-                    <input id="photo" type="file" [multiple]="true" formControlName="photo" class="d-none"
-                    (change)="onSelectFile($event)" accept="image/png, image/jpeg">
+                >
+                  <i class="bi bi-camera-fill" style="font-size: 25px;"></i>
+                  <span>อัพโหลดรูป</span>
+                  <input id="photo" type="file" [multiple]="true" formControlName="photo" class="d-none"
+                  (change)="onSelectFile($event)" accept="image/png, image/jpeg">
                 </label>
               </div>
             </div>
@@ -88,13 +89,13 @@
           <div class="my-3 px-0">
             <div class="d-flex align-items-center">
               <h3 class="mb-0 me-2">เมนูแนะนำ</h3>
-              <button class="btn btn-sm btn-yellow rounded-4 py-0" (click)="addRecommendMenu()" data-cy="addMenuBtn">
+              <button *ngIf="isReview" class="btn btn-sm btn-yellow rounded-4 py-0" (click)="addRecommendMenu()" data-cy="addMenuBtn">
                 <i class="bi bi-plus"></i>
                 เพิ่ม
               </button>
             </div>
 
-            <div class="row row-cols-2" formArrayName="menus">
+            <div class="row row-cols-2 g-2 mt-1" formArrayName="menus">
               <ng-container *ngFor="let menu of menus().controls; let menuIndex=index">
                 <div class="col d-flex align-items-center">
                   <input
@@ -102,7 +103,7 @@
                     [ngClass]="{ 'border-danger' : menu.errors && menu.touched }"
                     type="text" [formControlName]="menuIndex" data-cy="menuName"
                   />
-                  <button class="btn col-auto " (click)="delRecommendMenu(menuIndex)">
+                  <button *ngIf="isReview" class="btn col-auto" (click)="delRecommendMenu(menuIndex)">
                     <i class="bi bi-trash text-danger col-2 fs-4"></i>
                   </button>
                 </div>
@@ -114,7 +115,8 @@
 
       <!-- Submit button -->
       <div class="d-flex justify-content-end px-2 mb-2">
-        <button class="btn btn-yellow w-25" (click)="submit()" data-cy="submitBtn">ยืนยัน</button>
+        <button *ngIf="isReview" class="btn btn-yellow w-25" (click)="submit()" data-cy="submitBtn">ยืนยัน</button>
+        <button *ngIf="!isReview" class="btn btn-yellow w-25" data-cy="editBtn">แก้ไขรีวิว</button>
       </div>
     </div>
   </form>

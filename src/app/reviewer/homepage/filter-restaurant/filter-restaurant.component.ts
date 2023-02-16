@@ -144,6 +144,10 @@ export class FilterRestaurantComponent implements OnInit {
   }
 
   addReviewRestaurant(restaurantId: string, restaurantName: string) {
-    this.reviewModal.openReviewModal(true, restaurantId, restaurantName);
+    this.reviewModal.openReviewModal(true, false, restaurantId, restaurantName);
+  }
+
+  seeExistReviewRestaurant(restaurantId: string, restaurantName: string) {
+    this.reviewModal.openReviewModal(false, false, restaurantId, restaurantName);
   }
 }

@@ -1,12 +1,37 @@
+@import '../../../scss/variable';
+
 .star-color {
-    font-size: 2rem;
-    padding-right: 0.1rem;
-    color: #FACE7F;
-    margin-right: 10px;
+  font-size: 2rem;
+  padding-right: 0.1rem;
+  color: #FACE7F;
 }
 
-.filled {
-    color: #FACE7F;
+.btn-yellow {
+  background-color: $yellow !important;
+
+  &:hover, &:focus {
+    background-color: #ffca68 !important;
+  }
+
+  &:disabled {
+    opacity: 1;
+    color: #0d0d0d;
+    border-color: #ffca68;
+  }
+}
+
+.btn-light-grey {
+  background-color: #dfdfdf !important;
+
+  &:hover, &:focus, &:active {
+    background-color: #cecdcd !important;
+  }
+
+  &:disabled {
+    opacity: 1;
+    color: #0d0d0d;
+    border-color: #cecdcd;
+  }
 }
 
 .img {
