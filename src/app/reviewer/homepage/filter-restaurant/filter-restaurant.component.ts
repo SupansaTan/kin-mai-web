@@ -1,6 +1,6 @@
 import { DeliveryType } from 'src/enum/delivery-type.enum';
 import { FilterRestaurantRequest } from './../../../../models/reviewer-homepage.model';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { DrinkAndDessertCategory, FoodCategory } from 'src/constant/food-category.constant';
 import { FilterRestaurantType } from 'src/enum/filter-restaurant.enum';
@@ -9,6 +9,7 @@ import { RestaurantCardInfoModel, RestaurantCardListModel } from 'src/models/res
 import { ToggleFavoriteRestaurantRequestModel } from 'src/models/toggle-favorite-request.model';
 import { ReviewerService } from '../../reviewer.service';
 import { PaymentMethod } from 'src/enum/payment-method.enum';
+import { ModalReviewComponent } from '../../modal-review/modal-review.component';
 
 @Component({
   selector: 'app-filter-restaurant',
@@ -22,6 +23,7 @@ export class FilterRestaurantComponent implements OnInit {
   @Output() setFavoriteRestaurant: EventEmitter<ToggleFavoriteRestaurantRequestModel> = new EventEmitter<ToggleFavoriteRestaurantRequestModel>();
   @Output() getAnotherRestaurantEvent: EventEmitter<number> = new EventEmitter<number>();
   @Output() setFilterRequest: EventEmitter<FilterRestaurantRequest> = new EventEmitter<FilterRestaurantRequest>();
+  @ViewChild('reviewModal') reviewModal: ModalReviewComponent;
 
   restaurantInfoList: Array<RestaurantCardInfoModel>;
   restaurantInfo: RestaurantCardListModel;
@@ -139,5 +141,17 @@ export class FilterRestaurantComponent implements OnInit {
     this.isSelectedDelivery = false;
     this.isSelectedPickup = false;
     this.setFilterRestaurantRequest();
+  }
+
+  addReviewRestaurant(restaurantId: string, restaurantName: string) {
+    this.reviewModal.openReviewModal(true, false, restaurantId, restaurantName);
+  }
+
+  seeExistReviewRestaurant(restaurantId: string, restaurantName: string) {
+    this.reviewModal.openReviewModal(false, false, restaurantId, restaurantName);
+  }
+
+  editReviewRestaurant(restaurantId: string, restaurantName: string) {
+    this.reviewModal.openReviewModal(true, true, restaurantId, restaurantName);
   }
 }

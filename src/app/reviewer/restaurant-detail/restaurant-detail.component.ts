@@ -30,7 +30,7 @@ export class RestaurantDetailComponent implements OnInit {
   }
 
   openModalReview() {
-    this.modalReview.openSuccessModal();
+    // this.modalReview.openReviewModal();
   }
 
   openModalGallery() {
