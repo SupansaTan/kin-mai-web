@@ -2,7 +2,7 @@
   <form [formGroup]="reviewForm" data-cy="reviewModal">
     <div class="container pb-2">
       <div class="modal-header">
-        <h2 class="m-0">รีวิวร้านอาหาร : ร้านคุณป้าใจป้ำ</h2>
+        <h2 class="m-0">รีวิวร้านอาหาร : {{ restaurantName }}</h2>
         <button type="button" class="btn-close" (click)="closeModal()"></button>
       </div>
 
@@ -95,18 +95,18 @@
             </div>
 
             <div class="row row-cols-2" formArrayName="menus">
-              <div *ngFor="let menu of menus().controls; let menuIndex=index">
-                <div class="col" [formGroupName]="menuIndex">
-                  <div class="d-flex align-items-center">
-                    <div class="col">
-                      <input class="form-control shadow-none" type="text" formControlName="name" data-cy="menuName"/>
-                    </div>
-                    <button class="btn col-auto " (click)="delRecommendMenu(menuIndex)">
-                      <i class="bi bi-trash text-danger col-2 fs-4"></i>
-                    </button>
-                  </div>
+              <ng-container *ngFor="let menu of menus().controls; let menuIndex=index">
+                <div class="col d-flex align-items-center">
+                  <input
+                    class="form-control shadow-none col"
+                    [ngClass]="{ 'border-danger' : menu.errors && menu.touched }"
+                    type="text" [formControlName]="menuIndex" data-cy="menuName"
+                  />
+                  <button class="btn col-auto " (click)="delRecommendMenu(menuIndex)">
+                    <i class="bi bi-trash text-danger col-2 fs-4"></i>
+                  </button>
                 </div>
-              </div>
+              </ng-container>
             </div>
           </div>
         </div>
@@ -114,8 +114,11 @@
 
       <!-- Submit button -->
       <div class="d-flex justify-content-end px-2 mb-2">
-        <button class="btn btn-yellow w-25" (click)="onSubmit()" data-cy="submitBtn">ยืนยัน</button>
+        <button class="btn btn-yellow w-25" (click)="submit()" data-cy="submitBtn">ยืนยัน</button>
       </div>
     </div>
   </form>
 </ng-template>
+
+<!-- modal -->
+<app-modal-success #successModalComponent></app-modal-success>

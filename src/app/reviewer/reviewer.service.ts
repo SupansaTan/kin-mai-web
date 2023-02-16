@@ -62,7 +62,7 @@ export class ReviewerService {
   }
 
   addReviewRestaurant(model: AddReviewRequestModel) {
-    const url = `${environment.kinMaiApi}/Reviewer/AddReivewRestaurant`;
+    const url = `${environment.kinMaiApi}/Reviewer/AddReviewRestaurant`;
     let formData = new FormData();
     Object.entries(model).forEach(([k, v]) => {
       if (['ReviewLabelList', 'FoodRecommendList', 'ImageFiles'].includes(k)) {

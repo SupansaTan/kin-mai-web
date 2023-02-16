@@ -17,6 +17,7 @@ import { SwiperModule } from "swiper/angular";
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NearlyRestaurantComponent } from './homepage/nearly-restaurant/nearly-restaurant.component';
 import { FilterRestaurantComponent } from './homepage/filter-restaurant/filter-restaurant.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { FilterRestaurantComponent } from './homepage/filter-restaurant/filter-r
     FormsModule,
     MatButtonToggleModule,
     EllipsisModule,
+    SharedModule,
   ],
   providers: [
     ReviewerService,
