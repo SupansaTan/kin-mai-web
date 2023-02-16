@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { ResponseModel } from 'src/models/response.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { GetRestaurantListFromFilterRequestModel, GetRestaurantNearMeRequestModel, SetFavoriteRestaurantRequestModel } from './../../models/reviewer-homepage.model';
+import { GetReviewInfoRequest, ReviewInfoModel } from 'src/models/review-info.model';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +77,12 @@ export class ReviewerService {
     });
 
     this.sub = this.http.post<ResponseModel<boolean>>(url, formData);
+    return this.sub;
+  }
+
+  getReviewInfo(model: GetReviewInfoRequest) {
+    const url = `${environment.kinMaiApi}/Reviewer/GetReviewInfo?userId=${model.userId}&restaurantId=${model.restaurantId}`;
+    this.sub = this.http.get<ResponseModel<ReviewInfoModel>>(url);
     return this.sub;
   }
 }
