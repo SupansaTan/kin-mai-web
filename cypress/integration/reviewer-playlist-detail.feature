@@ -9,6 +9,10 @@ Feature: Reviewer see playlist detail
     And I click on Login button
     And I should be on reviewer homepage
 
+  Scenario:Reviewer see playlist detail
+    Given I visit on the playlist detail page
+    And   I can see playlist detail
+
   Scenario: Reviewer click playlist detail
     Given I visit on the playlist detail page
     When  I click playlist title 
