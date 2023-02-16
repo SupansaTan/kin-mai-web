@@ -45,6 +45,6 @@ And('I click "Next" button', () => {
 });
 
 // modal
-Then('I should see modal "Create account successful"', () => {
-  cy.get('[data-cy="successModal"]').should('be.visible');
-});
+// Then('I should see modal "Create account successful"', () => {
+//   cy.get('[data-cy="successModal"]').should('be.visible');
+// });

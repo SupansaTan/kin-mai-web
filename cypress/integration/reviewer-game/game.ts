@@ -1,17 +1,11 @@
 import { And, Given, Then, When } from "cypress-cucumber-preprocessor/steps";
 
-Given(`I visit on random game page`, () => {
-  cy.visit('/reviewer/random');
+Given(`I visit on login page`, () => {
+  cy.visit('/auth/login');
 });
 
-Then('I should see gachapon game', () => {
-  cy.get('[data-cy="gachapon game"]').should('be.visible');
-});
-
-
-// --------------------------
-When('I click on gachapon game', () => {
-  cy.get(`[data-cy="gachapon game"]`).click();
+Then('I should see login form', () => {
+  cy.get('[data-cy="loginForm"]').should('be.visible');
 });
 
 Then('I should see button', (dataTable) => {
@@ -20,33 +14,39 @@ Then('I should see button', (dataTable) => {
   });
 });
 
-Then('I see button search restaurant', () => {
-  cy.wait(3000);
-  cy.get('[data-cy="SearchRestaurantBtn"]').should('be.visible');
+When('I complete fill in login form', (dataTable) => {
+  dataTable.hashes().forEach((item: { email: string, password: string }) => {
+    cy.get('[data-cy="email"]').type(item.email);
+    cy.get('[data-cy="password"]').type(item.password);
+  });
 });
 
-Then('I see button search restarant playlists', () => {
-  cy.wait(3000);
-  cy.get('[data-cy="RestarantPlaylistsBtn"]').should('be.visible');
+And('I click on Login button', () => {
+  cy.get('[data-cy="loginBtn"]').click();
 });
 
-
-When('I click on search restaurant', () => {
-  cy.get(`[data-cy="SearchRestaurantBtn"]`).click();
-});
-
-Then('I should be on search restaurant page',() =>{
-  cy.wait(3000);
-  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer/search');
+And('I should be on reviewer homepage', () => {
+  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
 
-
-When('I click on search restarant playlists', () => {
-  cy.get(`[data-cy="RestarantPlaylistsBtn"]`).click();
+// --------click gachapon random game----------
+Given(`I visit on random game page`, () => {
+  cy.visit('/reviewer/random');
 });
 
-Then('I should be on search restaurant playlists page',() =>{
-  cy.wait(3000);
-  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer/playlist');
+And('I should see gachapon game', () => {
+  cy.get('[data-cy="gachapongame"]').should('be.visible');
 });
+
+When('I click on gachapon game', () => {
+  cy.get(`[data-cy="gachapongame"]`).click();
+});
+
+Then('I should see button', (dataTable) => {
+  dataTable.hashes().forEach((item: { button: string }) => {
+    cy.get(`[data-cy="${item.button}"]`).should('be.visible');
+  });
+});
+
+

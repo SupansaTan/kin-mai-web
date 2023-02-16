@@ -1,5 +1,32 @@
 import { And, Given, Then, When } from "cypress-cucumber-preprocessor/steps";
 
+Given(`I visit on login page`, () => {
+  cy.visit('/auth/login');
+});
+
+Then('I should see login form', () => {
+  cy.get('[data-cy="loginForm"]').should('be.visible');
+});
+
+Then('I should see button', (dataTable) => {
+  dataTable.hashes().forEach((item: { button: string }) => {
+    cy.get(`[data-cy="${item.button}"]`).should('be.visible');
+  });
+});
+
+When('I complete fill in login form', (dataTable) => {
+  dataTable.hashes().forEach((item: { email: string, password: string }) => {
+    cy.get('[data-cy="email"]').type(item.email);
+    cy.get('[data-cy="password"]').type(item.password);
+  });
+});
+
+And('I click on Login button', () => {
+  cy.get('[data-cy="loginBtn"]').click();
+});
+
+//------see review form-----
+
 Given(`I visit on Restaurant Detail page`, () => {
   cy.visit('reviewer/restaurant');
 });
@@ -40,7 +67,7 @@ And('I should see submit button', () => {
   cy.get('[data-cy="submitBtn"]').should('be.visible');
 });
 
-// ----------------------------
+// -----create review-------
 
 Given(`I visit on Restaurant Detail page`, () => {
     cy.visit('reviewer/restaurant');

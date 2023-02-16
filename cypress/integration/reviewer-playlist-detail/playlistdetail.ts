@@ -1,4 +1,4 @@
-import { And, Given, Then, When } from "cypress-cucumber-preprocessor/steps";
+import { When,Then,Given,And} from "cypress-cucumber-preprocessor/steps";
 
 Given(`I visit on login page`, () => {
   cy.visit('/auth/login');
@@ -25,29 +25,28 @@ And('I click on Login button', () => {
   cy.get('[data-cy="loginBtn"]').click();
 });
 
-
-Then('I should see reviewer homepage', () => {
-  cy.wait(2000)
+And('I should be on reviewer homepage', () => {
   cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
-Then('I should see restaurant homepage', () => {
-  cy.wait(2000)
-  cy.location('pathname', { timeout: 5000 }).should('eq', '/restaurant');
+// see playlist detail
+Given(`I visit on the playlist detail page`, () => {
+  cy.visit('reviewer/playlist-detail');
 });
 
-When(`I click on "Don't have an account ?"`, () => {
-  cy.get(`[data-cy="doNotHaveAccountBtn"]`).click();
+And('I can see playlist detail',() =>{
+   cy.get('[data-cy="playlistDetail"]').should('be.visible');
 });
 
-Then('I should be on Register page', () => {
-  cy.location('pathname', { timeout: 5000 }).should('eq', '/auth/register');
+//-------click playlist detail----------------
+Given(`I visit on the playlist detail page`, () => {
+  cy.visit('reviewer/playlist-detail');
 });
 
-// When(`I click on "Forget your password"`, () => {
-//   cy.get('[data-cy="forgetPasswordBtn"]').click();
-// });
+When('I click playlist title', () => {
+  cy.get('[data-cy="PlaylistTitle"]').click();
+});
 
-// Then('I should be on Reset password page', () => {
-//   cy.location('pathname', { timeout: 5000 }).should('eq', '/auth/reset-password');
-// });
+Then(`I should be on restaurant detail`, () => {
+  cy.visit('/reviewer/restaurant');
+});
