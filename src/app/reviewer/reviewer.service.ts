@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { ResponseModel } from 'src/models/response.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { GetRestaurantListFromFilterRequestModel, GetRestaurantNearMeRequestModel, SetFavoriteRestaurantRequestModel } from './../../models/reviewer-homepage.model';
-import { GetReviewInfoRequest, ReviewInfoModel } from 'src/models/review-info.model';
+import { GetReviewInfoRequest, ReviewInfoModel, UpdateReviewInfoRequest } from 'src/models/review-info.model';
 
 @Injectable({
   providedIn: 'root'
@@ -83,6 +83,23 @@ export class ReviewerService {
   getReviewInfo(model: GetReviewInfoRequest) {
     const url = `${environment.kinMaiApi}/Reviewer/GetReviewInfo?userId=${model.userId}&restaurantId=${model.restaurantId}`;
     this.sub = this.http.get<ResponseModel<ReviewInfoModel>>(url);
+    return this.sub;
+  }
+
+  updateReviewInfo(model: UpdateReviewInfoRequest) {
+    const url = `${environment.kinMaiApi}/Reviewer/UpdateReviewInfo`;
+    let formData = new FormData();
+    Object.entries(model).forEach(([k, v]) => {
+      if (['ReviewLabelList', 'FoodRecommendList', 'NewImageFile', 'RemoveImageLink'].includes(k)) {
+        v.forEach((item: any) => {
+          formData.append(k, (item instanceof Number)? item.toString(): item);
+        });
+      }
+      else {
+        formData.append(k, (v instanceof Number)? v.toString(): v);
+      }
+    });
+    this.sub = this.http.put<ResponseModel<boolean>>(url, formData);
     return this.sub;
   }
 }

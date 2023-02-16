@@ -11,3 +11,13 @@ export class GetReviewInfoRequest {
   userId: string;
   restaurantId: string;
 }
+
+export class UpdateReviewInfoRequest {
+  ReviewId: string;
+  Rating: number;
+  Comment: string;
+  RemoveImageLink: Array<string>;
+  NewImageFile: Array<File>;
+  FoodRecommendList: Array<string>;
+  ReviewLabelList: Array<number>;
+}
