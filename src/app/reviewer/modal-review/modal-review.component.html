@@ -94,14 +94,14 @@
               </button>
             </div>
 
-            <div formArrayName="menus">
-              <div class="mb-2" *ngFor="let menu of menus().controls; let menuIndex=index">
-                <div class="col-auto" [formGroupName]="menuIndex">
+            <div class="row row-cols-2" formArrayName="menus">
+              <div *ngFor="let menu of menus().controls; let menuIndex=index">
+                <div class="col" [formGroupName]="menuIndex">
                   <div class="d-flex align-items-center">
-                    <div class="col-auto">
-                      <input class="form-control" type="text" formControlName="name" data-cy="menuName"/>
+                    <div class="col">
+                      <input class="form-control shadow-none" type="text" formControlName="name" data-cy="menuName"/>
                     </div>
-                    <button class="btn" (click)="delRecommendMenu(menuIndex)">
+                    <button class="btn col-auto " (click)="delRecommendMenu(menuIndex)">
                       <i class="bi bi-trash text-danger col-2 fs-4"></i>
                     </button>
                   </div>

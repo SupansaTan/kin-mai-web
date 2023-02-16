@@ -63,7 +63,7 @@ export class ModalReviewComponent implements OnInit {
     this.goodReviewLabel = GoodReviewLabelItem;
   }
 
-  public openSuccessModal(): void {
+  public openReviewModal(isReview: boolean, restaurantId: string, restaurantName: string): void {
     this.modalRef = this.modalService.show(this.modalReview, {
       class: 'modal-lg modal-dialog-centered',
       backdrop: 'static',

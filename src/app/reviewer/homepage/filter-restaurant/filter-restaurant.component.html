@@ -102,7 +102,10 @@
             <button *ngIf="item.isReview" type="button" class="btn btn-light-grey btn-sm px-2 see-review-btn">
               <i class="bi bi-eye-fill me-2"></i>รีวิวของฉัน
             </button>
-            <button type="button" class="btn btn-yellow review-btn btn-sm" [ngClass]="item.isReview ? 'btn-yellow':'btn-light-yellow'">
+            <button type="button" class="btn btn-yellow review-btn btn-sm"
+              [ngClass]="item.isReview ? 'btn-yellow':'btn-light-yellow'"
+              (click)="item.isReview ? '':addReviewRestaurant(item.restaurantId, item.restaurantName)"
+            >
               <i class="bi fs-6 me-1" [ngClass]="item.isReview ? 'bi-pencil-square':'bi-plus-lg'"></i>
               {{ item.isReview ? 'แก้ไขรีวิว':'รีวิวร้านนี้' }}
             </button>
@@ -112,3 +115,6 @@
     </div>
   </div>
 </div>
+
+<!-- review modal -->
+<app-modal-review #reviewModal></app-modal-review>
