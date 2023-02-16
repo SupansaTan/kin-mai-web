@@ -1,58 +1,72 @@
+@import '../../../scss/variable';
+
 .star-color {
-    font-size: 2rem;
-    padding-right: 0.1rem;
-    color: #FACE7F;
-    margin-right: 10px;
+  font-size: 2rem;
+  padding-right: 0.1rem;
+  color: #FACE7F;
 }
 
-.completeWord {
-  width: 100%;
+.btn-yellow {
+  background-color: $yellow !important;
+
+  &:hover, &:focus {
+    background-color: #ffca68 !important;
+  }
+
+  &:disabled {
+    opacity: 1;
+    color: #0d0d0d;
+    border-color: #ffca68;
+  }
 }
 
-.filled {
-    color: #FACE7F;
+.btn-light-grey {
+  background-color: #dfdfdf !important;
+
+  &:hover, &:focus, &:active {
+    background-color: #cecdcd !important;
+  }
+
+  &:disabled {
+    opacity: 1;
+    color: #0d0d0d;
+    border-color: #cecdcd;
+  }
 }
 
-.img { 
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 20px;
-    margin-right: 5px;
-}
-
-.btn-add {
-    background-color: #FACE7F;
-    color: black;
-    border-radius: 30px;
+.img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 20px;
+  margin-right: 5px;
 }
 
 // Upload Photo
 i.remove {
-    top: -10px;
-    right: -10px;
-    padding: 1px 5px;
+  top: -10px;
+  right: -10px;
+  padding: 1px 5px;
+}
+
+.upload-image {
+  border: 1px solid #ced4da;
+
+  &.border-danger {
+    border: 1px solid rgb(220, 53, 69);
   }
-  
-  .upload-image {
-    border: 1px solid #ced4da;
-  
-    &.border-danger {
-      border: 1px solid rgb(220, 53, 69);
-    }
-  }
-  
-  .cdk-drag-placeholder {
-    opacity: 0.3;
-  }
-  
-  .cdk-drop-list-dragging {
-    cursor: grabbing !important;
-  }
-  
-  .cdk-drop-list {
-    display: flex;
-    padding-right: 7px;
-    padding-bottom: 7px;
-  }
-  
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+}
+
+.cdk-drop-list-dragging {
+  cursor: grabbing !important;
+}
+
+.cdk-drop-list {
+  display: flex;
+  padding-right: 7px;
+  padding-bottom: 7px;
+}

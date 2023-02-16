@@ -1,70 +1,36 @@
 Feature: Reviewer Homepage
   Reviewer is able to see buttons and restarant near them
 
-  Scenario: Reviewer see buttons at the top of page
-    Given I visit on the Homepage
-    Then  I should see buttons "Food", "Drink & Dessert", "What to eat?" and "Restaurant near me"
-
-  Scenario: Reviewer see list of restaurant near me
-    Given I visit on the Homepage
-    Then  I should see list of "Restaurant near me"
-
-  Scenario: Reviewer add favorite restaurant
-    Given I visit on the Homepage
-    Then  I should see list of "Restaurant near me"
-    And   I should see "thin heart" icon
-    When  I click on "Heart" icon
-    Then  I should see "solid yellow heart" icon
-
-  Scenario: Reviewer undo favorite restaurant
-    Given I visit on the Homepage
-    Then  I should see list of "Restaurant near me"
-    And   I should see "solid heart" icon
-    When  I click "Heart" button
-    Then  I should see "light heart" icon
-
-  Scenario: Reviewer see restaurant's detail
-    Given I visit on the Homepage
-    Then  I should see list of "Restaurant near me"
+  Background:
+    Given I visit on login page
+    When I complete fill in login form
+      | email               | password |
+      | nampunch1@gmail.com | 12345678 |
+    And I click on Login button
+    And I should be on reviewer homepage
+    And I see searchbox
+    And I see list of restarant near me
+  
+  Scenario: Reviewer click restaurant detail
     When  I click title of Restaurant
-    Then  I should be on Restaurant's detail page
+    Then  I should be on Restaurant detail page
 
-  Scenario: Reviewer see modal of food categories to select food categories
-    Given I visit on the Homepage
-    Then  I should see "Food" button
-    When  I click "Food" button
-    Then  I should see modal of food categories
+  Scenario: Reviewer unlike restaurant
+    When  I unclick "Love" button
+    Then  I should see love button change
 
-  Scenario: Reviewer selecting food categories to search restaurant
-    Given I visit on the Homepage
-    Then  I should see "Food" button
-    When  I click "Food" button
-    Then  I should see modal of food categories
-    When  I click a categorie of food
-    Then  I should be on search result page
+  Scenario: Reviewer like restaurant
+    When  I click "Love" button
+    Then  I should see love button change
 
-  Scenario: Reviewer see modal of drink and dessert categories
-    Given I visit on the Homepage
-    Then  I should see "Drink & Dessert" button
-    When  I click "Drink & Dessert" button
-    Then  I should see modal of drink and dessert categories
+  Scenario: Reviewer search and filter restaurant 
+    When  I search "Jaidee" in a search box
+      | searchbox |
+      | Jaidee |
+    Then  I should see list of "restaurant" near me
+    And   I should see filter
+    When  I click catagory
+    Then  I should see restaurant
+  
 
-  Scenario: Reviewer selecting drink and dessert categories to search restaurant
-    Given I visit on the Homepage
-    Then  I should see "Drink & Dessert" button
-    When  I click "Drink & Dessert" button
-    Then  I should see modal of drink and dessert categories
-    When  I click a categorie of drink or dessert
-    Then  I should be on search result page
-
-  Scenario: Reviewer want random food categories for going to eat today
-    Given I visit on the Homepage
-    Then  I should see "What to eat?" button
-    When  I click "What to eat?" button
-    Then  I should be on random food categorie page
-
-  Scenario: Reviewer search restaurant near me
-    Given I visit on the Homepage
-    Then  I should see "Restaurant near me" button
-    When  I search "Restaurant near me" 
-    Then  I should be on search result page with filter restaurant near me
+  

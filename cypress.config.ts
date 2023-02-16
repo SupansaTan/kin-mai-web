@@ -17,5 +17,7 @@ export default defineConfig({
     specPattern: "cypress/integration/*.feature",
     baseUrl: 'http://localhost:4200',
     experimentalSessionAndOrigin: true,
+    viewportHeight: 980,
+    viewportWidth: 1440,
   },
 });

@@ -1,8 +1,12 @@
 import {  And, Given, Then, When } from "cypress-cucumber-preprocessor/steps";
 
-Given(`I visit on the Homepage`, () => {
-  cy.visit('reviewer/');
-})
+Given(`I visit on login page`, () => {
+  cy.visit('/auth/login');
+});
+
+Then('I should see login form', () => {
+  cy.get('[data-cy="loginForm"]').should('be.visible');
+});
 
 Then('I should see button', (dataTable) => {
   dataTable.hashes().forEach((item: { button: string }) => {
@@ -10,40 +14,83 @@ Then('I should see button', (dataTable) => {
   });
 });
 
-And ('I should see restaurant near me ',() =>{
-  cy.get('[data-cy="restaurant"]').should('be.visible');
-})
-
-
-When('I click on Food button', () => {
-  cy.get(`[data-cy="FoodBtn"]`).click();
+When('I complete fill in login form', (dataTable) => {
+  dataTable.hashes().forEach((item: { email: string, password: string }) => {
+    cy.get('[data-cy="email"]').type(item.email);
+    cy.get('[data-cy="password"]').type(item.password);
+  });
 });
 
-Then('I should see food categories',() =>{
-  cy.get('[data-cy="food categories"]').should('be.visible');
+And('I click on Login button', () => {
+  cy.get('[data-cy="loginBtn"]').click();
 });
 
-When('I click on drink and dessert button', () => {
-  cy.get(`[data-cy="DrinkAndDessertBtn"]`).click();
+
+//-------------Reviewer see homepage detail---------------------
+And('I should be on reviewer homepage', () => {
+  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
-Then('I should see drink and dessert categories',() =>{
-  cy.get('[data-cy="drink and dessert categories"]').should('be.visible');
+Then('I see searchbox',() =>{
+  cy.get('[data-cy="searchbox"]').should('be.visible');
 });
 
-When('I click on "What to eat?" ', () => {
-  cy.get(`[data-cy="What to eat?"]`).click();
+Then('I see list of restarant near me',() =>{
+  cy.get('[data-cy="RestaurantNearMe"]').should('be.visible');
+});
+// -------see restaurant detail--------
+
+When('I click title of Restaurant', () => {
+  cy.get(`[data-cy="restaurantDetailBtn"]`).first().click();
 });
 
-Then(`I should be on random game page`, () => {
-  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer/random');
+Then ('I should be on Restaurant detail page',() =>{
+  cy.wait(2000);
+  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer/restaurant');
 });
 
-When('I search on "restaurant" ', () => {
-  cy.get(`[data-cy="restaurant"]`).type("ส้มตำ");
+//--------like restaurant---------
+When('I unclick "Love" button', () => {
+  cy.get(`[data-cy="LoveBtn"]`).first().click();
 });
 
-Then(`I should be on search result page`, () => {
-  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer/search');
+Then('I should see love button change',() =>{
+  cy.wait(2000);
+  cy.get('[data-cy="LoveBtn"]').should('be.visible');
+});
+
+//--------unlike restaurant---------
+When('I click "Love" button', () => {
+  cy.get(`[data-cy="LoveBtn"]`).first().click();
+});
+
+Then('I should see love button change',() =>{
+  cy.wait(2000);
+  cy.get('[data-cy="LoveBtn"]').should('be.visible');
+});
+
+//----- search  restaurant------
+When ('I search "Jaidee" in a search box', (dataTable) => {
+  dataTable.hashes().forEach((item: { searchbox : string }) => {
+    cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
+  });
+});
+
+Then('I should see list of "restaurant" near me', () => {
+  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
+});
+
+And('I should see filter', () => {
+  cy.get('[data-cy="filter"]').should('be.visible');
+});
+
+//----filter restaurant-----
+
+When('I click catagory', () => {
+  cy.get(`[data-cy="Catagory"]`).first().click();
+});
+
+Then('I should see restaurant', () => {
+  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
 });
 

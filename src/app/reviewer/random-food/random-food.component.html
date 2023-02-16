@@ -2,11 +2,12 @@
   <div class="d-flex justify-content-center mt-4">
     <!-- sound https://www.youtube.com/watch?v=04riTiv5aG0 -->
     <h2> Music : </h2>
-    <audio #audioPlayer src="../../../assets/audio/샛별(Daystar)-Sugar Cookie.mp3"></audio>
-    <button type="button" id="bt-play" class="btn btn-sm btn-outline-success mx-2" (click)="play()">
+    <audio #audioPlayer src="../../../assets/audio/샛별(Daystar)-Sugar Cookie.mp3" data-cy="music"></audio>
+
+    <button type="button"  id="bt-play" class="btn btn-sm btn-outline-success mx-2" data-cy="PlayBtn"(click)="play()">
       <i class="bi bi-play-circle-fill"></i>
     </button>
-    <button type="button" id="bt-play" class="btn btn-sm btn-outline-dark " (click)="pause()">
+    <button type="button" id="bt-play" class="btn btn-sm btn-outline-dark " data-cy="StopBtn" (click)="pause()">
       <i class="bi bi-pause-circle-fill"></i>
     </button>
   </div>
@@ -16,16 +17,16 @@
       <h1>วันนี้กินอะไรดีน้าาา...มาสุ่มกัน</h1>
       <!--shake https://www.w3schools.com/howto/howto_css_shake_image.asp-->
       <!-- popup https://www.positronx.io/angular-popup-notification-with-sweetalert2-example/ -->
-      <img src="../../../assets/image/game.png" width="280" height="280" (click)="ImageClick()" > 
+      <img src="../../../assets/image/game.png" width="280" height="280" (click)="ImageClick()" data-cy="gachapongame"> 
     </div>
   </div>
-  <div class="d-flex justify-content-center mt-5 ">
-    <button type="button" class="btn btn-yellow mx-4">
+  <div class="d-flex justify-content-center mt-5 " *ngIf="RandomAlready">
+    <button type="button" class="btn btn-yellow mx-4" data-cy="SearchRestaurantBtn" routerLink="/reviewer/search">
       <i class="bi bi-search-heart-fill mx-1"></i>
       ค้นหาร้านอาหาร
     </button>
 
-    <button type="button" class="btn btn-secondary">
+    <button type="button" class="btn btn-yellow" data-cy="RestarantPlaylistsBtn" routerLink="/reviewer/playlist">
       <i class="bi bi-search-heart-fill mx-1"></i>
       ค้นหาเพลย์ลิสต์ร้านอาหาร
     </button>

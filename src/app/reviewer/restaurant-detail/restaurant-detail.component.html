@@ -2,7 +2,7 @@
 
     <div class="row">
         <!-- Image -->
-        <div class="col-md-2 mb-2">
+        <div class="col-md-2 mb-2" data-cy="restaurantImage">
           <a type="button" (click)="openModalGallery()">
             <div class="mb-2 mx-1">
               <img src="../../../assets/image/food-real.jpg" class="rounded big-img"/>
@@ -15,8 +15,8 @@
           </a>  
         </div>
 
-        <!-- Detail -->
-        <div class="col-md-4 me-5 mb-2">
+        <!-- Information -->
+        <div class="col-md-4 me-5 mb-2" data-cy="information">
           <div class="mb-3">
             <h2 class="mb-1">ร้านคุณป้าใจป้ำ</h2>
                 <div class="d-flex mb-2">
@@ -95,7 +95,7 @@
                 <div class="card-body">
                   <h2>Rating</h2>
 
-                  <div class="d-flex align-items-center mb-3">
+                  <div class="d-flex align-items-center mb-3" data-cy="rating">
                     <div class="col-auto me-3">
                       <h2 class="mb-0">{{Info.Rating}}</h2>
                     </div>
@@ -113,13 +113,15 @@
 
                   <div>
                     <h2 class="mb-1">เมนูที่ได้รับการแนะนำ</h2>
-                    <span class="badge rounded-pill bg-light text-dark border border-dark me-3 mb-2" *ngFor="let item of Info.Menus; index as i;"><h4 class="m-0">{{item}}</h4></span>
+                    <span class="badge rounded-pill bg-light text-dark border border-dark me-3 mb-2" *ngFor="let item of Info.Menus; index as i;" data-cy="recommendMenu">
+                      <h4 class="m-0">{{item}}</h4>
+                    </span>
                   </div>
 
                 </div>
               </div>
               <div>
-                <button type="button" class="btn btn-yellow d-flex align-items-center" (click)="openModalReview()">
+                <button type="button" class="btn btn-yellow d-flex align-items-center" (click)="openModalReview()" data-cy="reviewBtn">
                   <i class="bi bi-pencil-square me-2"></i>
                   <h3 class="m-0">เขียนรีวิว</h3>
                 </button>
@@ -132,7 +134,7 @@
     <!-- Reviews -->
     <div>
         <h2 class="mb-1">Reviews</h2>
-        <div class="container row">
+        <div class="container row" data-cy="reviewFilter">
           <div class="col-md me-2">
               <div class="row">
                   <h3 class="m-0 p-0">Search</h3>
@@ -163,7 +165,7 @@
         </div>
 
         <div class="row w-100">
-            <div *ngFor="let item of Reviews; index as i;" class="col-lg rounded bg-white p-3 m-3">
+            <div *ngFor="let item of Reviews; index as i;" class="col-lg rounded bg-white p-3 m-3" data-cy="reviews">
                 <div class="row">
                     <div class="col-2 px-1">
                         <img src="..\assets\image\bear.png" class="w-100">

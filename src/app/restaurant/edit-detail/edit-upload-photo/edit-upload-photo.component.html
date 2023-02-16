@@ -1,4 +1,4 @@
-<form [formGroup]="uploadPhotoForm">
+<form [formGroup]="uploadPhotoForm" data-cy="uploadform">
     <div class="row d-flex align-items-center justify-content-center">
       <div class="col-11 col-lg-10 row row-cols-1 bg-white rounded-3 mt-4 pb-4 gy-3">
         <!-- upload photo of menu or restaurant -->
@@ -45,7 +45,7 @@
         </div>
   
         <!-- restaurant status -->
-        <div class="col">
+        <div class="col" data-cy="statusform">
           <label for="restaurantStatus" class="form-label fw-semibold">คำแนะนำร้าน</label>
           <textarea id="restaurantStatus" type="text" rows="3" formControlName="restaurantStatus"
             class="form-control shadow-none" placeholder="อาหารอร่อยทุกอย่าง มาลองกันได้น้า">
