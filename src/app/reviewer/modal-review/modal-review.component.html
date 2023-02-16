@@ -116,7 +116,7 @@
       <!-- Submit button -->
       <div class="d-flex justify-content-end px-2 mb-2">
         <button *ngIf="isReview" class="btn btn-yellow w-25" (click)="submit()" data-cy="submitBtn">ยืนยัน</button>
-        <button *ngIf="!isReview" class="btn btn-yellow w-25" data-cy="editBtn">แก้ไขรีวิว</button>
+        <button *ngIf="!isReview" class="btn btn-yellow w-25" (click)="changeToEditMode()" data-cy="editBtn">แก้ไขรีวิว</button>
       </div>
     </div>
   </form>

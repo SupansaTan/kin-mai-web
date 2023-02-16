@@ -1,3 +1,4 @@
+import { UpdateReviewInfoRequest } from 'src/models/review-info.model';
 import { GetReviewInfoRequest, ReviewInfoModel } from './../../../models/review-info.model';
 import { ResponseModel } from './../../../models/response.model';
 import { AddReviewRequestModel } from './../../../models/add-review.model';
@@ -11,6 +12,7 @@ import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-success.component';
 import { environment } from 'src/environments/environment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-modal-review',
@@ -33,10 +35,12 @@ export class ModalReviewComponent implements OnInit {
   isEditReview: boolean;
   restaurantId: string;
   restaurantName: string;
+  reviewInfo: ReviewInfoModel;
   badReviewLabel: Array<{ id: number, name: string, selected: boolean }>;
   goodReviewLabel: Array<{ id: number, name: string, selected: boolean }>;
   selectedRecommendReviewLabel: Array<number> = new Array<number>();
   reviewImageList: Array<string> = new Array<string>();
+  removeImageList: Array<string> = new Array<string>();
   imageFileList: Array<File> = new Array<File>();
 
   constructor(
@@ -45,6 +49,7 @@ export class ModalReviewComponent implements OnInit {
     private cf: ChangeDetectorRef,
     private reviewerService: ReviewerService,
     private localStorageService: LocalStorageService,
+    private spinner: NgxSpinnerService,
   )
   { }
 
@@ -91,8 +96,8 @@ export class ModalReviewComponent implements OnInit {
     this.reviewerService.getReviewInfo(request).subscribe(
       (response: ResponseModel<ReviewInfoModel>) => {
         if (response && response?.status === 200) {
+          this.reviewInfo = response.data;
           this.currentRate = response.data.rating;
-          this.selectedRecommendReviewLabel = response.data.reviewLabelList ?? [];
           this.reviewImageList = response.data.imageLink ?? [];
           response.data.reviewLabelList.forEach((x) => {
             this.selectRecommendReview(x, true, (response.data.rating > 2)? (x-6):(x-1));
@@ -110,6 +115,12 @@ export class ModalReviewComponent implements OnInit {
           this.successModal.openSuccessModal(false, response.message);
         }
     })
+  }
+
+  changeToEditMode() {
+    this.isReview = true;
+    this.isEditReview = true;
+    this.reviewForm.enable();
   }
 
   // Recommend Menu
@@ -175,7 +186,10 @@ export class ModalReviewComponent implements OnInit {
   }
 
   removeImage(index: number) {
-    if (index > -1) {
+    if (this.isEditReview) {
+      this.removeImageList.push(this.reviewImageList[index]);
+      this.reviewImageList.splice(index, 1);
+    } else {
       this.reviewImageList.splice(index, 1);
       this.imageFileList.splice(index, 1);
     }
@@ -225,25 +239,52 @@ export class ModalReviewComponent implements OnInit {
     return reviewInfo;
   }
 
+  getEditReviewInfo() {
+    let reviewInfo = new UpdateReviewInfoRequest();
+    reviewInfo.ReviewId = this.reviewInfo.reviewId;
+    reviewInfo.Rating = this.currentRate;
+    reviewInfo.Comment = this.reviewForm.controls['comment'].value;
+    reviewInfo.RemoveImageLink = this.removeImageList ?? [];
+    reviewInfo.NewImageFile = this.imageFileList ?? [];
+    reviewInfo.ReviewLabelList = this.selectedRecommendReviewLabel;
+    reviewInfo.FoodRecommendList = this.reviewForm.controls['menus'].value;
+    return reviewInfo;
+  }
+
   submit() {
     this.reviewForm.markAllAsTouched();
 
     if (this.reviewForm.valid) {
-      this.isLoading = true;
+      this.spinner.show();
       this.reviewForm.disable();
 
-      let request = this.getReviewInfo();
-      this.reviewerService.addReviewRestaurant(request).subscribe(
-        (response: ResponseModel<boolean>) => {
-          this.isLoading = false;
-          if (response && response?.status === 200) {
-            this.closeModal();
-            this.successModal.openSuccessModal(true, 'Create review successful');
-          } else {
-            this.reviewForm.enable();
-            this.successModal.openSuccessModal(false, response.message);
-          }
-      })
+      if (this.isEditReview) {
+        let request = this.getEditReviewInfo();
+        this.reviewerService.updateReviewInfo(request).subscribe(
+          (response: ResponseModel<boolean>) => {
+            this.spinner.hide();
+            if (response && response?.status === 200) {
+              this.closeModal();
+              this.successModal.openSuccessModal(true, 'Update review successful');
+            } else {
+              this.reviewForm.enable();
+              this.successModal.openSuccessModal(false, response.message);
+            }
+        })
+      } else {
+        let request = this.getReviewInfo();
+        this.reviewerService.addReviewRestaurant(request).subscribe(
+          (response: ResponseModel<boolean>) => {
+            this.spinner.hide();
+            if (response && response?.status === 200) {
+              this.closeModal();
+              this.successModal.openSuccessModal(true, 'Create review successful');
+            } else {
+              this.reviewForm.enable();
+              this.successModal.openSuccessModal(false, response.message);
+            }
+        })
+      }
     }
   }
 }

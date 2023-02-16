@@ -106,7 +106,7 @@
             </button>
             <button type="button" class="btn btn-yellow review-btn btn-sm"
               [ngClass]="item.isReview ? 'btn-yellow':'btn-light-yellow'"
-              (click)="item.isReview ? '':addReviewRestaurant(item.restaurantId, item.restaurantName)"
+              (click)="item.isReview? editReviewRestaurant(item.restaurantId, item.restaurantName) : addReviewRestaurant(item.restaurantId, item.restaurantName)"
             >
               <i class="bi fs-6 me-1" [ngClass]="item.isReview ? 'bi-pencil-square':'bi-plus-lg'"></i>
               {{ item.isReview ? 'แก้ไขรีวิว':'รีวิวร้านนี้' }}
