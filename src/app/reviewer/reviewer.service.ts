@@ -1,3 +1,4 @@
+import { AddReviewRequestModel } from './../../models/add-review.model';
 import { RestaurantCardListModel, RestaurantInfoListModel } from './../../models/restaurant-info.model';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -57,6 +58,24 @@ export class ReviewerService {
   setFavoriteRestaurant(model: SetFavoriteRestaurantRequestModel) {
     const url = `${environment.kinMaiApi}/Reviewer/SetFavoriteRestaurant`;
     this.sub = this.http.post<ResponseModel<boolean>>(url, model);
+    return this.sub;
+  }
+
+  addReviewRestaurant(model: AddReviewRequestModel) {
+    const url = `${environment.kinMaiApi}/Reviewer/AddReivewRestaurant`;
+    let formData = new FormData();
+    Object.entries(model).forEach(([k, v]) => {
+      if (['ReviewLabelList', 'FoodRecommendList', 'ImageFiles'].includes(k)) {
+        v.forEach((item: any) => {
+          formData.append(k, (item instanceof Number)? item.toString(): item);
+        });
+      }
+      else {
+        formData.append(k, (v instanceof Number)? v.toString(): v);
+      }
+    });
+
+    this.sub = this.http.post<ResponseModel<boolean>>(url, formData);
     return this.sub;
   }
 }
