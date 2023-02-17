@@ -58,6 +58,13 @@ export class FilterRestaurantComponent implements OnInit {
   }
 
   @Input()
+  set randomCategoryType(category: number) {
+    if (category) {
+      this.selectCategoryType(category, category-1);
+    }
+  }
+
+  @Input()
   set restaurantList(item: RestaurantCardListModel) {
     if (item) {
       this.restaurantInfo = item;
