@@ -1,7 +1,8 @@
+import { Router } from '@angular/router';
 import {ViewChild, Component, OnInit, ElementRef } from '@angular/core';
 import { DrinkAndDessertCategory, FoodCategory } from 'src/constant/food-category.constant';
 import Swal from 'sweetalert2';
-
+import { PageLink } from 'src/constant/path-link.constant';
 
 @Component({
   selector: 'app-random-food',
@@ -16,7 +17,7 @@ export class RandomFoodComponent implements OnInit {
   isPlayingMusic: boolean = false;
   isRandomAlready: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.categoryList = [...FoodCategory, ...DrinkAndDessertCategory];
@@ -41,4 +42,9 @@ export class RandomFoodComponent implements OnInit {
     this.isPlayingMusic = false;
   }
 
+  routeToHomepage() {
+    this.router.navigate([PageLink.reviewer.homepage, {
+      categoryType: this.randomResult.id,
+    }]);
+  }
 }

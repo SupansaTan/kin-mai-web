@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { RestaurantCardListModel, RestaurantInfoListModel } from '../../../models/restaurant-info.model';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -19,11 +20,13 @@ export class ReviewerHomepageComponent implements OnInit {
   restaurantFromFilterInfo: RestaurantCardListModel = new RestaurantCardListModel();
   filterRestaurantRequest: FilterRestaurantRequest;
 
+  private sub: any;
   searchKeyword: string = "";
   awsS3Url = environment.awsS3Url;
   isShowNearMeList: boolean = true;
   isError: boolean;
   isLoading: boolean = true;
+  categoryType: number;
   skip: number = 0;
   lat: number;
   lng: number;
@@ -31,12 +34,20 @@ export class ReviewerHomepageComponent implements OnInit {
   constructor(
     private reviewerService: ReviewerService,
     private localStorageService: LocalStorageService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
     this.initFilterRequest();
     this.getUserCurrentLocation();
+
+    this.sub = this.route.params.subscribe(params => {
+      this.categoryType = params['categoryType'];
+      if (this.categoryType) {
+        this.isShowNearMeList = false;
+      }
+    });
   }
 
   initFilterRequest() {
