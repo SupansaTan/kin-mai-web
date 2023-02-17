@@ -28,7 +28,7 @@ export class FilterRestaurantComponent implements OnInit {
   restaurantInfoList: Array<RestaurantCardInfoModel>;
   restaurantInfo: RestaurantCardListModel;
   foodCategories: Array<{ id: number, name: string, isSelected?: boolean }>;
-  selectedCategory: Array<number>;
+  selectedCategory: Array<number> = new Array<number>();
   categoryType: Array<number> = new Array<number>();
   deliveryType: Array<number> = new Array<number>();
   filterType = FilterRestaurantType;

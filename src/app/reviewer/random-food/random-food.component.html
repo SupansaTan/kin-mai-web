@@ -21,8 +21,7 @@
         role="button"
         (click)="ImageClick()" data-cy="gachapongame"
       >
-      <i class="bi bi-hand-index-fill text-yellow cursor fs-1" [hidden]="isRandomAlready"></i>
-
+      <i class="bi bi-hand-index-fill text-yellow cursor fs-1" role="button" [hidden]="isRandomAlready" (click)="ImageClick()"></i>
     </div>
   </div>
 

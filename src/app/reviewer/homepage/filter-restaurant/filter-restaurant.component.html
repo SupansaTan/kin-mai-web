@@ -38,8 +38,8 @@
         <button
           *ngFor="let item of foodCategories; index as i" type="button" data-cy="Catagory"
           class="btn btn-sm me-2 rounded-5 py-1 mb-1"
-          [ngClass]="item?.isSelected === undefined ? 'btn-light': item.isSelected? 'bg-light-yellow border-yellow': 'btn-light'"
-          (click)="selectCategoryType(item.id, i)" 
+          [ngClass]="item.isSelected? 'bg-light-yellow border-yellow': 'btn-light'"
+          (click)="selectCategoryType(item.id, i)"
         >{{ item.name }}</button>
       </div>
     </div>
