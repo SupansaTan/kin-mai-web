@@ -26,8 +26,8 @@
     </div>
   </div>
 
-  <div class="row row-cols-1 row-cols-lg-2 g-3 mt-3 " *ngIf="isRandomAlready">
-    <div class="col d-flex justify-content-center justify-content-lg-end align-items-center">
+  <div class="row row-cols-1 g-2 mt-3 " *ngIf="isRandomAlready">
+    <div class="col d-flex justify-content-center">
       <button type="button" class="btn btn-yellow" data-cy="SearchRestaurantBtn" (click)="routeToHomepage()">
         <i class="bi bi-search-heart-fill mx-1"></i>
         ค้นหาร้านอาหารประเภท<span class="fw-bolder">{{randomResult.name}}</span>
