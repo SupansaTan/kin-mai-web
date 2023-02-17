@@ -17,7 +17,11 @@ Feature: Reviewer random food game
     Then  I should see button
           | button |
           | SearchRestaurantBtn |
-          | RestarantPlaylistsBtn |
+    When  I click search button
+    Then  I should be on homepage
+
+
+  
 
 
 

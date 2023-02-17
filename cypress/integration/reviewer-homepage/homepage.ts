@@ -69,7 +69,7 @@ Then('I should see love button change',() =>{
   cy.get('[data-cy="LoveBtn"]').should('be.visible');
 });
 
-//----- search  restaurant------
+//----- search & click catagory------
 When ('I search "Jaidee" in a search box', (dataTable) => {
   dataTable.hashes().forEach((item: { searchbox : string }) => {
     cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
@@ -84,7 +84,6 @@ And('I should see filter', () => {
   cy.get('[data-cy="filter"]').should('be.visible');
 });
 
-//----filter restaurant-----
 
 When('I click catagory', () => {
   cy.get(`[data-cy="Catagory"]`).first().click();
@@ -94,3 +93,102 @@ Then('I should see restaurant', () => {
   cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
 });
 
+
+//------filter ---------
+When ('I search "Test" in a search box', (dataTable) => {
+  dataTable.hashes().forEach((item: { searchbox : string }) => {
+    cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
+  });
+});
+
+Then('I should see list of "restaurant" near me', () => {
+  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
+});
+
+And('I should see filter', () => {
+  cy.get('[data-cy="filter"]').should('be.visible');
+});
+
+
+When('I click open button', () => {
+  cy.get(`[data-cy="OpenBtn"]`).first().click();
+});
+
+Then('I should see restaurant', () => {
+  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
+});
+
+
+//------ see review---------
+
+When ('I search "Jaidee" in a search box', (dataTable) => {
+  dataTable.hashes().forEach((item: { searchbox : string }) => {
+    cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
+  });
+});
+
+Then('I should see list of "restaurant" near me', () => {
+  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
+});
+
+And('I should see filter', () => {
+  cy.get('[data-cy="filter"]').should('be.visible');
+});
+
+When('I click MyReview button', () => {
+  cy.get(`[data-cy="MyReviewBtn"]`).first().click();
+});
+
+Then('I should see review form', () => {
+  cy.get(`[data-cy="reviewModal"]`).should('be.visible');
+});
+
+
+//------ edit review----------
+
+When ('I search "Jaidee" in a search box', (dataTable) => {
+  dataTable.hashes().forEach((item: { searchbox : string }) => {
+    cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
+  });
+});
+
+Then('I should see list of "restaurant" near me', () => {
+  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
+});
+
+And('I should see filter', () => {
+  cy.get('[data-cy="filter"]').should('be.visible');
+});
+
+When('I click EditReview button', () => {
+  cy.get(`[data-cy="EditReviewBtn"]`).first().click();
+});
+
+Then('I should see review form', () => {
+  cy.get(`[data-cy="reviewModal"]`).should('be.visible');
+});
+
+
+//-------- add review --------------
+
+When ('I search "Jaidee" in a search box', (dataTable) => {
+  dataTable.hashes().forEach((item: { searchbox : string }) => {
+    cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
+  });
+});
+
+Then('I should see list of "restaurant" near me', () => {
+  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
+});
+
+And('I should see filter', () => {
+  cy.get('[data-cy="filter"]').should('be.visible');
+});
+
+When('I click AddReview button', () => {
+  cy.get(`[data-cy="EditReviewBtn"]`).first().click();
+});
+
+Then('I should see review form', () => {
+  cy.get(`[data-cy="reviewModal"]`).should('be.visible');
+});
