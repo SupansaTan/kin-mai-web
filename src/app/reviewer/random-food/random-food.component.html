@@ -13,13 +13,14 @@
   </div>
 
   <div class="col d-flex justify-content-center mt-4">
-    <div>
+    <div class="position-relative">
       <h1>วันนี้กินอะไรดีน้าาา...มาสุ่มกัน</h1>
       <img src="../../../assets/image/game.png" width="280" height="280"
         [ngClass]="{ 'isRamdomAlready': isRandomAlready }"
         role="button"
         (click)="ImageClick()" data-cy="gachapongame"
       >
+      <i class="bi bi-hand-index-fill text-yellow cursor fs-1" [hidden]="isRandomAlready"></i>
     </div>
   </div>
 

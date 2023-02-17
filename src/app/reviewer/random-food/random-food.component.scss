@@ -17,6 +17,24 @@ img:not(.isRamdomAlready) {
   animation-iteration-count: infinite;
 }
 
+.cursor {
+  position: absolute;
+  bottom: 50px;
+  right: 60px;
+  animation-name: moveCursor;
+  animation-duration: .8s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes moveCursor {
+  from {
+    transform: rotate(-40deg);
+  }
+  to {
+    transform: translateY(10px) rotate(-46deg);
+  }
+}
+
 @keyframes shake {
   0% { transform: translate(1px, 1px) rotate(0deg); }
   10% { transform: translate(-1px, -2px) rotate(-1deg); }
