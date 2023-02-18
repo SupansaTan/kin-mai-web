@@ -23,7 +23,7 @@ Feature: Reviewer Homepage
     When  I click "Love" button
     Then  I should see love button change
 
-  Scenario: Reviewer search and filter restaurant 
+  Scenario: Reviewer search restaurant and click catagory
     When  I search "Jaidee" in a search box
       | searchbox |
       | Jaidee |
@@ -31,6 +31,39 @@ Feature: Reviewer Homepage
     And   I should see filter
     When  I click catagory
     Then  I should see restaurant
-  
 
+  Scenario: Reviewer filter restaurant 
+    When  I search "Test" in a search box
+      | searchbox |
+      | Test |
+    Then  I should see list of "restaurant" near me
+    And   I should see filter
+    When  I click open button
+    Then  I should see restaurant
   
+  Scenario: Reviewer see review
+    When  I search "Jaidee" in a search box
+      | searchbox |
+      | Jaidee |
+    Then  I should see list of "restaurant" near me
+    And   I should see filter
+    When  I click MyReview button
+    Then  I should see review form
+    
+  Scenario: Reviewer edit review
+    When  I search "Jaidee" in a search box
+      | searchbox |
+      | Jaidee |
+    Then  I should see list of "restaurant" near me
+    And   I should see filter
+    When  I click EditReview button
+    Then  I should see review form
+
+  Scenario: Reviewer add review 
+    When  I search "Test" in a search box
+      | searchbox |
+      | Test Cafe |
+    Then  I should see list of "restaurant" near me
+    And   I should see filter
+    When  I click AddReview button
+    Then  I should see review form
