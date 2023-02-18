@@ -38,7 +38,7 @@
 
             <div *ngIf="[3, 4, 5].includes(currentRate)" class="row row-cols-4 g-2">
               <div *ngFor="let item of goodReviewLabel; index as i" class="col">
-                <button class="btn btn-sm rounded-4 w-100" [ngClass]="item.selected ? 'btn-yellow border-yellow':'btn-light border-grey'"
+                <button class="btn btn-sm rounded-4 w-100" [ngClass]="item.selected ? 'btn-yellow border-yellow':'btn-light border-grey'" data-cy="commentWordBtn"
                   (click)="selectRecommendReview(item.id, !item.selected, i)" [disabled]="!isReview">
                   {{ item.name }}
                 </button>
@@ -66,7 +66,7 @@
                         class="rounded-2 shadow-sm"
                         style="width: auto; height: 93px; object-fit: cover;"
                       />
-                      <i class="bi bi-x fs-6 pt-1 bg-danger text-white rounded-circle position-absolute remove" [hidden]="!isReview" (click)="removeImage(i)"></i>
+                      <i class="bi bi-x fs-6 pt-1 bg-danger text-white rounded-circle position-absolute remove" [hidden]="!isReview" (click)="removeImage(i)" data-cy="DelPicBtn"></i>
                     </div>
                   </div>
                 </ng-container>
@@ -101,9 +101,9 @@
                   <input
                     class="form-control shadow-none col"
                     [ngClass]="{ 'border-danger' : menu.errors && menu.touched }"
-                    type="text" [formControlName]="menuIndex" data-cy="menuName"
+                    type="text" [formControlName]="menuIndex" data-cy="MenuName"
                   />
-                  <button *ngIf="isReview" class="btn col-auto" (click)="delRecommendMenu(menuIndex)">
+                  <button *ngIf="isReview" class="btn col-auto" data-cy="DelMenuBtn" (click)="delRecommendMenu(menuIndex)">  
                     <i class="bi bi-trash text-danger col-2 fs-4"></i>
                   </button>
                 </div>
