@@ -7,29 +7,37 @@
         <button type="button" class="btn btn-light btn-sm rounded-5" (click)="resetFilter()">รีเซ็ต</button>
       </div>
 
-      <button type="button" class="btn w-100" [ngClass]="isSelectedOpenRestaurant? 'bg-light-yellow border-yellow':'btn-light'"
-        (click)="selectFilterType(filterType.IsOpen)">
-        <i class="bi bi-clock me-2"></i>
-        เปิดอยู่
-      </button>
+      <div>
+        <button type="button" class="btn w-70" [ngClass]="isSelectedOpenRestaurant? 'bg-light-yellow border-yellow':'btn-light'" data-cy="OpenBtn"
+          (click)="selectFilterType(filterType.IsOpen)">
+          <i class="bi bi-clock me-2"></i>
+          เปิดอยู่
+        </button>
+      </div>
+      
+      <div>
+        <button type="button" class="btn w-70 mt-2" [ngClass]="isSelectedQRCode? 'bg-light-yellow border-yellow':'btn-light'"
+          (click)="selectFilterType(filterType.QRCode)">
+          <i class="bi bi-wallet me-2"></i>
+          รับโอน
+        </button>
+      </div>
 
-      <button type="button" class="btn w-100 mt-2" [ngClass]="isSelectedQRCode? 'bg-light-yellow border-yellow':'btn-light'"
-        (click)="selectFilterType(filterType.QRCode)">
-        <i class="bi bi-wallet me-2"></i>
-        รับโอน
-      </button>
+      <div>
+        <button type="button" class="btn w-70 mt-2" [ngClass]="isSelectedDelivery? 'bg-light-yellow border-yellow':'btn-light'"
+          (click)="selectFilterType(filterType.Delivery)">
+          <i class="bi bi-bicycle me-2"></i>
+          จัดส่ง
+        </button>
+      </div>
 
-      <button type="button" class="btn w-100 mt-2" [ngClass]="isSelectedDelivery? 'bg-light-yellow border-yellow':'btn-light'"
-        (click)="selectFilterType(filterType.Delivery)">
-        <i class="bi bi-bicycle me-2"></i>
-        จัดส่งแบบเดลิเวอรี่
-      </button>
-
-      <button type="button" class="btn w-100 mt-2" [ngClass]="isSelectedPickup? 'bg-light-yellow border-yellow':'btn-light'"
-        (click)="selectFilterType(filterType.PickUp)">
-        <i class="bi bi-shop-window me-2"></i>
-        รับหน้าร้าน
-      </button>
+      <div>
+        <button type="button" class="btn w-70 mt-2" [ngClass]="isSelectedPickup? 'bg-light-yellow border-yellow':'btn-light'"
+          (click)="selectFilterType(filterType.PickUp)">
+          <i class="bi bi-shop-window me-2"></i>
+          รับหน้าร้าน
+        </button>
+      </div>
     </div>
 
     <div class="mt-3">
@@ -99,12 +107,12 @@
           </div>
 
           <div class="d-flex justify-content-end position-absolute end-0 bottom-0">
-            <button *ngIf="item.isReview" type="button" class="btn btn-light-grey btn-sm px-2 see-review-btn"
+            <button *ngIf="item.isReview" type="button" class="btn btn-light-grey btn-sm px-2 see-review-btn" data-cy="MyReviewBtn"
               (click)="seeExistReviewRestaurant(item.restaurantId, item.restaurantName)"
             >
               <i class="bi bi-eye-fill me-2"></i>รีวิวของฉัน
             </button>
-            <button type="button" class="btn btn-yellow review-btn btn-sm"
+            <button type="button" class="btn btn-yellow review-btn btn-sm" data-cy="EditReviewBtn"
               [ngClass]="item.isReview ? 'btn-yellow':'btn-light-yellow'"
               (click)="item.isReview? editReviewRestaurant(item.restaurantId, item.restaurantName) : addReviewRestaurant(item.restaurantId, item.restaurantName)"
             >

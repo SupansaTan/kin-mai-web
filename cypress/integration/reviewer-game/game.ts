@@ -49,4 +49,12 @@ Then('I should see button', (dataTable) => {
   });
 });
 
+When('I click search button', () => {
+  cy.get(`[data-cy="SearchRestaurantBtn"]`).click();
+});
+
+Then(`I should be on homepage`, () => {
+  cy.visit('/reviewer');
+});
+
 
