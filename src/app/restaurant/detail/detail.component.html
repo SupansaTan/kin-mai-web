@@ -1,15 +1,23 @@
-<div class="container-fluid py-4">
+
+<!-- loading -->
+<div *ngIf="isLoading" class="row d-flex justify-content-center py-2">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden text-grey">Loading...</span>
+  </div>
+</div>
+
+<div class="container-fluid py-4" *ngIf="Info && !isLoading">
   <div class="row">
     <div class="col-md">
       <!-- Img -->
-      <div class="col-md row" type="button" (click)="openModalGallery()">
-        <div class="col-md mb-2" *ngFor="let bigImg of Info.Images.slice(0,1)" data-cy="restaurantImage">
-          <img src="{{bigImg}}" class="rounded img-big"/>
+      <div class="col-lg row" type="button" (click)="openModalGallery()">
+        <div class="col mb-2" *ngFor="let image of Info.imageLink.slice(0,1)" data-cy="restaurantImage">
+          <img [src]="awsS3Url + '/' + image" class="rounded img-big"/>
         </div>
-        <div class="col-md">
+        <div class="col">
           <div class="row">
-            <div class="col-6 mb-2" *ngFor="let item of Info.Images.slice(1,5); index as i;">
-              <img src="{{item}}" class="rounded img-mini"/>
+            <div class="col-6 mb-2" *ngFor="let image of Info.imageLink.slice(1,5); index as i;">
+              <img [src]="awsS3Url + '/' + image" class="rounded img-mini"/>
             </div>
           </div>
         </div>
@@ -18,24 +26,20 @@
       <!-- Info -->
       <div class="row my-2">
 
+        <h2>{{Info.name}}</h2>
         <div class="col" data-cy="information">
           <div class="col d-flex align-items-center mb-2">
             <i class="bi bi-shop me-2"></i>
-            <span class="badge rounded-pill bg-light text-dark border border-dark me-1 fs-6 font-regular" *ngFor="let item of Info.Types; index as i;"><h4>{{item}}</h4></span>
+            <span class="badge rounded-pill bg-light text-dark border border-dark me-1 fs-6 font-regular" *ngFor="let item of getRestaurantType(Info.restaurantType)"><h4>{{item}}</h4></span>
           </div>
           <div class="col d-flex align-items-center mb-2">
             <i class="bi bi-clock me-2"></i>
             <h4>เวลาทำการ : 8:00 - 22:00 น.</h4>
           </div>
-          <div class="col d-flex align-items-center mb-2">
-            <i class="bi bi-telephone-fill me-2"></i>
-            <h4>0812345678</h4>
-          </div>
           <div class="col d-flex mb-2">
             <i class="bi bi-geo-alt-fill me-2"></i>
             <div>
-              <h4>ห่าง 500 เมตร</h4>
-              <h4 >55/55 หมู่ที่ 5 ถ.เลี่ยงเมืองปากเกร็ด ต.บางตลาด อ.ปากเกร็ด ต.บางตลาด ปากเกร็ด นนทบุรี 11120</h4>
+              <h4 >{{Info.address.slice(1,-1)}}</h4>
             </div>
           </div>
         </div>
@@ -43,29 +47,36 @@
         <div class="col">
           <div class="col d-flex align-items-center mb-2">
             <i class="bi bi-cash-coin me-2"></i>
-            <span *ngFor="let item of Info.Payments; index as i;" class="badge rounded-pill bg-light text-dark border border-dark me-1"><h4>{{item}}</h4></span>
+            <span *ngFor="let item of Info.paymentMethod; index as i;" class="badge rounded-pill bg-light text-dark border border-dark me-1"><h4>{{getPaymentMethod(item)}}</h4></span>
           </div>
-          <div class="col d-flex align-items-center mb-2 d-flex align-items-center">
-            <i class="bi bi-facebook text-primary me-2"></i>
-            <h4>ร้านคุณป้าใจป้ำ</h4>
+          <div *ngFor="let item of this.SocialContact">
+            <div class="col d-flex align-items-center mb-2" *ngIf="item.socialType == 1">
+              <i class="bi bi-telephone-fill me-2"></i>
+              <h4>{{getSocialContactValue(1)}}</h4>
+            </div>
+            <div class="col d-flex align-items-center mb-2" *ngIf="item.socialType == 2">
+              <i class="bi bi-facebook text-primary me-2"></i>
+              <h4>{{getSocialContactValue(2)}}</h4>
+            </div>
+            <div class="col d-flex align-items-center mb-2" *ngIf="item.socialType == 3">
+              <i class="bi bi-line text-success me-2"></i>
+              <h4>{{getSocialContactValue(3)}}</h4>
+            </div>
+            <div class="col d-flex align-items-center mb-2" *ngIf="item.socialType == 4">
+              <i class="bi bi-instagram text-danger me-2"></i>
+              <h4>{{getSocialContactValue(4)}}</h4>
+            </div>
           </div>
-          <div class="col d-flex align-items-center mb-2">
-            <i class="bi bi-line text-success me-2"></i>
-            <h4>@Pajaipum</h4>
-          </div>
-          <div class="col d-flex align-items-center mb-2">
-            <i class="bi bi-instagram text-danger me-2"></i>
-            <h4>Pajaipum</h4>
-          </div>
+          
         </div>
     
         <div class="my-4" data-cy="googleMap">
-          map
+          {{Info.latitude}} {{Info.longitude}}
         </div>
     
         <div class="d-flex align-items-center mb-2">
           <i class="bi bi-emoji-smile me-2"></i>
-          <h4>ร้านของเรามีอาหารหลากหลาย ใส่ใจในคุณภาพอาหารและความสะอาด</h4>
+          <h4>{{Info.description}}</h4>
         </div>
     
       </div>
@@ -76,11 +87,11 @@
 
       <!-- Delivery -->
       <div class="col-3 text-center">
-        <div>
+        <div *ngIf="this.Info.deliveryType.includes(1)">
           <img src="../../../assets/image/restaurant_pin.png" class="w-50">
           <h4 class="m-0">นั่งรับประทานที่ร้าน</h4>
         </div>
-        <div>
+        <div *ngIf="this.Info.deliveryType.includes(2)">
           <img src="../../../assets/image/motorbike.png" class="w-50">
           <h4 class="m-0">มีบริการจัดส่ง</h4>
         </div> 
@@ -94,21 +105,21 @@
   
             <div class="d-flex my-3" data-cy="rating">
               <div class="me-3">
-                <h2 class="m-0">{{Info.Rating}}</h2>
+                <h2 class="m-0">{{this.Rating}}</h2>
               </div>
-              <div *ngFor="let item of Info.Stars; index as i;">
+              <div *ngFor="let item of this.Star; index as i;">
                 <img src="../../../assets/image/{{item}}.png" class="star-cover">
               </div>
             </div>
   
             <div class="d-flex align-items-center my-2">
               <i class="bi bi-person-fill"></i>
-              <h3 class="card-text mx-2 my-0">ทั้งหมด {{Info.TotalReview}} รีวิว</h3>
+              <h3 class="card-text mx-2 my-0">ทั้งหมด {{this.TotalReview}} รีวิว</h3>
             </div>
             
             <div>
               <h2 class="card-text">เมนูที่ได้รับการแนะนำ</h2>
-              <span class="badge rounded-pill bg-light text-dark border border-dark me-1 mb-2" *ngFor="let item of Info.Menus; index as i;"><h4 class="m-0">{{item}}</h4></span>
+              <!-- <span class="badge rounded-pill bg-light text-dark border border-dark me-1 mb-2" *ngFor="let item of Info.Menus; index as i;"><h4 class="m-0">{{item}}</h4></span> -->
             </div>
   
           </div>
