@@ -5,6 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EllipsisModule } from 'ngx-ellipsis';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ReviewerRoutingModule } from './reviewer-routing.module';
 import { ReviewerHomepageComponent } from './homepage/homepage.component';
@@ -41,6 +42,7 @@ import { SharedModule } from '../shared/shared.module';
     MatButtonToggleModule,
     EllipsisModule,
     SharedModule,
+    NgbCollapseModule,
   ],
   providers: [
     ReviewerService,
