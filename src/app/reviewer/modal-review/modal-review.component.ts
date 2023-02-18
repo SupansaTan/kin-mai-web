@@ -70,8 +70,8 @@ export class ModalReviewComponent implements OnInit {
 
   clearReviewValue() {
     this.initForm();
-    this.badReviewLabel = BadReviewLabelItem;
-    this.goodReviewLabel = GoodReviewLabelItem;
+    this.badReviewLabel.map(x => x.selected = false);
+    this.goodReviewLabel.map(x => x.selected = false);
     this.selectedRecommendReviewLabel = new Array<number>();
     this.reviewImageList = new Array<string>();
     this.removeImageList = new Array<string>();
