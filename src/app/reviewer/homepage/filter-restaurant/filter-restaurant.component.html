@@ -7,37 +7,29 @@
         <button type="button" class="btn btn-light btn-sm rounded-5" (click)="resetFilter()">รีเซ็ต</button>
       </div>
 
-      <div>
-        <button type="button" class="btn w-70" [ngClass]="isSelectedOpenRestaurant? 'bg-light-yellow border-yellow':'btn-light'" data-cy="OpenBtn"
-          (click)="selectFilterType(filterType.IsOpen)">
-          <i class="bi bi-clock me-2"></i>
-          เปิดอยู่
-        </button>
-      </div>
-      
-      <div>
-        <button type="button" class="btn w-70 mt-2" [ngClass]="isSelectedQRCode? 'bg-light-yellow border-yellow':'btn-light'"
-          (click)="selectFilterType(filterType.QRCode)">
-          <i class="bi bi-wallet me-2"></i>
-          รับโอน
-        </button>
-      </div>
+      <button type="button" class="btn btn-sm w-100" [ngClass]="isSelectedOpenRestaurant? 'bg-light-yellow border-yellow':'btn-light'" data-cy="OpenBtn"
+        (click)="selectFilterType(filterType.IsOpen)">
+        <i class="bi bi-clock me-2"></i>
+        เปิดอยู่
+      </button>
 
-      <div>
-        <button type="button" class="btn w-70 mt-2" [ngClass]="isSelectedDelivery? 'bg-light-yellow border-yellow':'btn-light'"
-          (click)="selectFilterType(filterType.Delivery)">
-          <i class="bi bi-bicycle me-2"></i>
-          จัดส่ง
-        </button>
-      </div>
+      <button type="button" class="btn btn-sm w-100 mt-2" [ngClass]="isSelectedQRCode? 'bg-light-yellow border-yellow':'btn-light'"
+        (click)="selectFilterType(filterType.QRCode)">
+        <i class="bi bi-wallet me-2"></i>
+        รับโอน
+      </button>
 
-      <div>
-        <button type="button" class="btn w-70 mt-2" [ngClass]="isSelectedPickup? 'bg-light-yellow border-yellow':'btn-light'"
-          (click)="selectFilterType(filterType.PickUp)">
-          <i class="bi bi-shop-window me-2"></i>
-          รับหน้าร้าน
-        </button>
-      </div>
+      <button type="button" class="btn btn-sm w-100 mt-2" [ngClass]="isSelectedDelivery? 'bg-light-yellow border-yellow':'btn-light'"
+        (click)="selectFilterType(filterType.Delivery)">
+        <i class="bi bi-bicycle me-2"></i>
+        จัดส่ง
+      </button>
+
+      <button type="button" class="btn btn-sm w-100 mt-2" [ngClass]="isSelectedPickup? 'bg-light-yellow border-yellow':'btn-light'"
+        (click)="selectFilterType(filterType.PickUp)">
+        <i class="bi bi-shop-window me-2"></i>
+        รับหน้าร้าน
+      </button>
     </div>
 
     <div class="mt-3">
