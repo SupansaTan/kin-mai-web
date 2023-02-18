@@ -62,7 +62,7 @@
                     <div class="position-relative mt-3" [ngClass]="isReview ? 'me-4':'me-2'" role="button" cdkDrag>
                       <div *cdkDragPlaceholder></div>
                       <img
-                        [src]="image.includes('/')? (awsS3Url + '/' + image) : image"
+                        [src]="image.includes('data:image')? image: (awsS3Url + '/' + image)"
                         class="rounded-2 shadow-sm"
                         style="width: auto; height: 93px; object-fit: cover;"
                       />
