@@ -43,18 +43,23 @@ When('I click on gachapon game', () => {
   cy.get(`[data-cy="gachapongame"]`).click();
 });
 
-Then('I should see button', (dataTable) => {
+Then('I should see food category', () => {
+  cy.get('.swal2-confirm.swal2-styled').first().click({force: true});
+
+});
+
+And('I should see button', (dataTable) => {
   dataTable.hashes().forEach((item: { button: string }) => {
     cy.get(`[data-cy="${item.button}"]`).should('be.visible');
   });
 });
 
 When('I click search button', () => {
-  cy.get(`[data-cy="SearchRestaurantBtn"]`).click();
+  cy.get(`[data-cy="SearchRestaurantBtn"]`).first().click();
 });
 
 Then(`I should be on homepage`, () => {
-  cy.visit('/reviewer');
+  cy.url().should('include', '/reviewer;categoryType=');
 });
 
 

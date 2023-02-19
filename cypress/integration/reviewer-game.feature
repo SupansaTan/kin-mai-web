@@ -14,7 +14,8 @@ Feature: Reviewer random food game
     Given I visit on random game page
     And   I should see gachapon game
     When  I click on gachapon game
-    Then  I should see button
+    Then  I should see food category
+    And   I should see button
           | button |
           | SearchRestaurantBtn |
     When  I click search button
