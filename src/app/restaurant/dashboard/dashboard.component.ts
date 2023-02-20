@@ -147,7 +147,7 @@ export class RestaurantDashboardComponent implements OnInit {
         stringTime = "เมื่อวิที่นาทีที่แล้ว"
       }
       else if (diffTime < 60) {
-        stringTime = String(diffTime) + " นาทีที่แล้ว"
+        stringTime = String(Math.floor(diffTime)) + " นาทีที่แล้ว"
       }
     } 
     else if (diffTime >= 60 && diffTime < 1140) {
