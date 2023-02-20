@@ -46,10 +46,12 @@
         [subtitleFontSize]="'20'"
         [renderOnClick]="false"
         [showBackground]="false"
+        *ngIf="this.Reviews.length != 0"
       >
       </circle-progress>
+      <h3 *ngIf="this.Reviews.length == 0">ไม่มีมีรีวิว</h3>
     </div>
-    <p class="m-0 d-flex justify-content-center">3 - 5 ดาว</p>
+    <p class="m-0 d-flex justify-content-center" *ngIf="this.Reviews.length != 0">3 - 5 ดาว</p>
   </div>
 
   <!-- recommendMenu -->
