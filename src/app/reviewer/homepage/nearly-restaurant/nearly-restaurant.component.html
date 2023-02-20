@@ -19,7 +19,7 @@
         <!-- restaurant info -->
         <div class="col ps-1" data-cy="restaurantInfo" >
           <div class="row d-flex align-items-center">
-            <h2 class="col mb-1 restaurant-name" type="button" routerLink="/reviewer/restaurant" data-cy="restaurantDetailBtn"
+            <h2 class="col mb-1 restaurant-name" role="button" data-cy="restaurantDetailBtn" (click)="routeToRestaurantDetail(item.restaurantId)"
               ellipsis [ellipsis-content]="item.restaurantName">
             </h2>
             <i class="col-auto bi fs-5" [ngClass]="item.isFavorite ? 'bi-heart-fill text-yellow':'bi-heart'" type="button" data-cy="LoveBtn"

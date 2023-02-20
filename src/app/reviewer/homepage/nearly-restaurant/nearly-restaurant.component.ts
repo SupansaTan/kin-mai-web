@@ -2,6 +2,8 @@ import { ToggleFavoriteRestaurantRequestModel } from './../../../../models/toggl
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { RestaurantInfoItemModel, RestaurantInfoListModel } from 'src/models/restaurant-info.model';
+import { Router } from '@angular/router';
+import { PageLink } from 'src/constant/path-link.constant';
 
 @Component({
   selector: 'app-nearly-restaurant',
@@ -19,7 +21,9 @@ export class NearlyRestaurantComponent implements OnInit {
   totalRestaurant: number = 0;
   awsS3Url = environment.awsS3Url;
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
   }
@@ -49,5 +53,11 @@ export class NearlyRestaurantComponent implements OnInit {
     eventInfo.isFavorite = isFavorite;
     eventInfo.index = index;
     this.setFavoriteRestaurant.emit(eventInfo);
+  }
+
+  routeToRestaurantDetail(restaurantId: string) {
+    this.router.navigate([PageLink.reviewer.restaurantDetail, {
+      restaurantId: restaurantId,
+    }]);
   }
 }

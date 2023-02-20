@@ -10,6 +10,8 @@ import { ToggleFavoriteRestaurantRequestModel } from 'src/models/toggle-favorite
 import { ReviewerService } from '../../reviewer.service';
 import { PaymentMethod } from 'src/enum/payment-method.enum';
 import { ModalReviewComponent } from '../../modal-review/modal-review.component';
+import { Router } from '@angular/router';
+import { PageLink } from 'src/constant/path-link.constant';
 
 @Component({
   selector: 'app-filter-restaurant',
@@ -43,7 +45,9 @@ export class FilterRestaurantComponent implements OnInit {
   isError: boolean;
   isOpen: boolean;
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.isCollapsedFilter = (window.innerWidth < 992);
@@ -167,5 +171,11 @@ export class FilterRestaurantComponent implements OnInit {
 
   editReviewRestaurant(restaurantId: string, restaurantName: string) {
     this.reviewModal.openReviewModal(true, true, restaurantId, restaurantName);
+  }
+
+  routeToRestaurantDetail(restaurantId: string) {
+    this.router.navigate([PageLink.reviewer.restaurantDetail, {
+      restaurantId: restaurantId,
+    }]);
   }
 }
