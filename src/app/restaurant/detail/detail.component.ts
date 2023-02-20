@@ -28,8 +28,6 @@ export class DetailComponent implements OnInit {
   Star: Array<string>;
   RestaurantType: Array<string>;
   awsS3Url = environment.awsS3Url;
-  lat: number;
-  lng: number;
   userId: string;
   restaurantId: string;
 
@@ -62,6 +60,7 @@ export class DetailComponent implements OnInit {
         if (response && response?.status === 200) {
           this.Info = response.data.restaurantInfo;
           this.SocialContact = response.data.socialContact;
+          this.setMarkerPosition()
         }
     })
   }
@@ -161,13 +160,14 @@ export class DetailComponent implements OnInit {
     }
   }
 
-  setMarkerPosition(event: any) {
-    let position = event.latLng?.toJSON();
-    if (position) {
-      this.lat = this.Info.latitude;
-      this.lng = this.Info.latitude;
-      this.markerPositions = position;
+  setMarkerPosition() {
+    this.markerPositions = {
+      lat: this.Info.latitude,
+      lng: this.Info.longitude
     }
+    console.log(this.markerPositions );
+    
+    
   }
 
 }
