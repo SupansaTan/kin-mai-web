@@ -7,6 +7,8 @@ export class ReviewInfoModel {
   reviewLabelList: Array<number>;
   createAt: Date;
   reviewTimeString: string;
+  userId: string;
+  userName: string;
 }
 
 export class GetReviewInfoRequest {
