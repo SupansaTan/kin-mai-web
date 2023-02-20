@@ -97,7 +97,7 @@
   </div>
 
   <!-- Customer Reviews -->
-  <div class="row">
+  <div class="row" *ngIf="this.Reviews.length != 0">
 
     <div *ngFor="let review of Reviews; index as i;" class="col-lg-6 rounded bg-white p-3 m-3">
       <div class="row">
@@ -135,6 +135,10 @@
       </div>
 
     </div>
+  </div>
+
+  <div class="d-flex justify-content-center mt-5" *ngIf="this.Reviews.length == 0">
+    <h3>ไม่มีมีรีวิว</h3>
   </div>
 
 </div>
