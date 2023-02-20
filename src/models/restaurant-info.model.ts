@@ -46,7 +46,6 @@ export class RestaurantDetailModel {
   restaurantInfo: Restaurant;
   socialContact: Array<SocialContactModel>;
   isFavorite: boolean
-  reviews: Array<ReviewInfoModel>;
 }
 
 

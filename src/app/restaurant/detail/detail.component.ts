@@ -23,8 +23,8 @@ export class DetailComponent implements OnInit {
   Info: Restaurant;
   Reviews: Array<ReviewInfoModel>
   SocialContact: Array<SocialContactModel>;
-  TotalReview: number;
-  Rating: number;
+  TotalReview: number = 0;
+  Rating: number = 0;
   Star: Array<string>;
   RestaurantType: Array<string>;
   awsS3Url = environment.awsS3Url;
@@ -32,6 +32,10 @@ export class DetailComponent implements OnInit {
   lng: number;
   userId: string;
   restaurantId: string;
+
+  options: google.maps.MapOptions;
+  markerOptions: google.maps.MarkerOptions = {draggable: true};
+  markerPositions: google.maps.LatLngLiteral;
 
   constructor(
     private restaurantService: RestaurantService,
@@ -42,6 +46,7 @@ export class DetailComponent implements OnInit {
     this.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
     this.restaurantId = this.localStorageService.get<string>(LocalStorageKey.restaurantId) ?? '';
     this.getRestaurantDetail();
+    this.getRestaurantReviews();
   }
 
   openModalGallery() {
@@ -56,15 +61,32 @@ export class DetailComponent implements OnInit {
       (response: ResponseModel<RestaurantDetailModel>) => {
         if (response && response?.status === 200) {
           this.Info = response.data.restaurantInfo;
-          this.Reviews = response.data.reviews;
           this.SocialContact = response.data.socialContact;
-          this.TotalReview = this.Reviews.length
-          let ratingCount = 0;
-          this.Reviews.forEach(x => { 
-            ratingCount += x.rating
-          });
-          this.Rating = ratingCount/this.Reviews.length
-          this.getStarArray()
+        }
+    })
+  }
+
+  getRestaurantReviews() {
+    this.restaurantService.getRestaurantReviews(this.restaurantId).subscribe(
+      (response: ResponseModel<Array<ReviewInfoModel>>) => {
+        if (response && response?.status === 200) {
+          this.Reviews = response.data;
+          console.log(response.data);
+          
+          if (this.Reviews.length != 0) {
+            this.TotalReview = this.Reviews.length
+            let ratingCount = 0;
+            this.Reviews.forEach(x => { 
+              ratingCount += x.rating
+            });
+            this.Rating = ratingCount/this.Reviews.length
+          }
+          this.getStarArray();
+          this.isLoading = false;
+        }
+        else {
+          this.Reviews = [];
+          this.getStarArray();
           this.isLoading = false;
         }
     })
@@ -136,6 +158,15 @@ export class DetailComponent implements OnInit {
         return this.SocialContact.find((i:any) => i.socialType === 3)?.contactValue;
       default:
         return this.SocialContact.find((i:any) => i.socialType === 4)?.contactValue;
+    }
+  }
+
+  setMarkerPosition(event: any) {
+    let position = event.latLng?.toJSON();
+    if (position) {
+      this.lat = this.Info.latitude;
+      this.lng = this.Info.latitude;
+      this.markerPositions = position;
     }
   }
 
