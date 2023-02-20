@@ -65,7 +65,7 @@ export class RestaurantDashboardComponent implements OnInit {
       (response: ResponseModel<Array<ReviewInfoModel>>) => {
         if (response && response?.status === 200) {
           this.Reviews = response.data;
-          
+          this.Reviews.reverse();
           if (this.Reviews.length != 0) {
             this.TotalReview = this.Reviews.length
             let ratingCount = 0;
