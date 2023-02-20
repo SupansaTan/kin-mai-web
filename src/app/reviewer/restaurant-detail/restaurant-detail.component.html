@@ -1,14 +1,15 @@
 <div class="py-4">
-  <div class="row row-cols-4 gy-2 gx-3">
+  <div *ngIf="!isLoadingRestaurantInfo" class="row row-cols-4 gy-2 gx-3">
     <!-- Image -->
     <div class="col-3" data-cy="restaurantImage">
       <a type="button" (click)="openModalGallery()">
-        <div class="mb-2 mx-1">
-          <img src="../../../assets/image/food-real.jpg" class="rounded big-img"/>
+        <div class="col-12 mb-2 mx-1">
+          <img [src]="awsS3Url + '/' + restaurantDetail.imageCover[0]" class="rounded big-img"/>
         </div>
+
         <div class="d-flex justify-content-between">
-          <div class="col mx-1" *ngFor="let item of Info.Images; index as i;">
-            <img src="{{item}}" class="rounded mini-img"/>
+          <div *ngFor="let item of restaurantDetail.imageCover?.slice(1,4); index as i;" class="col mx-1">
+            <img [src]="awsS3Url + '/' + item" class="rounded mini-img"/>
           </div>
         </div>
       </a>
@@ -17,74 +18,79 @@
     <!-- Information -->
     <div class="col-5" data-cy="information">
       <div class="mb-3">
-        <h1 class="mb-1">ร้านคุณป้าใจป้ำ</h1>
+        <h1 class="mb-1">{{restaurantDetail.restaurantName}}</h1>
         <div class="d-flex mb-2">
-          <span class="rounded-pill px-2 bg-light-yellow text-dark border-yellow me-1"><h4 class="m-0">60-120 ฿</h4></span>
-          <span class="rounded-pill px-2 bg-white border-grey me-1"><h4 class="m-0">ร้านอาหารตามสั่ง</h4></span>
-          <span class="rounded-pill px-2 bg-white border-grey me-1"><h4 class="m-0">เครื่องดื่ม</h4></span>
+          <span class="rounded-pill px-2 bg-light-yellow text-dark border-yellow me-1">
+            <h4 class="m-0">{{restaurantDetail.minPriceRate}}-{{restaurantDetail.maxPriceRate}} ฿</h4>
+          </span>
+
+          <ng-container *ngIf="restaurantDetail.categoryList">
+            <span
+              *ngFor="let item of restaurantDetail.categoryList"
+              class="rounded-pill px-2 bg-white border-grey me-1"
+            >
+              <h4 class="m-0">{{ getCategoryLable(item) }}</h4>
+            </span>
+          </ng-container>
         </div>
       </div>
       <div class="d-flex">
         <div class="col-auto me-5">
           <div class="d-flex align-items-center mb-2">
             <i class="bi bi-clock me-2"></i>
-            <h4 class="mb-0">เวลาทำการ : 8:00 - 22:00 น.</h4>
-          </div>
-          <div class="d-flex align-items-center mb-2">
-            <i class="bi bi-telephone-fill me-2"></i>
-            <h4 class="mb-0">0812345678</h4>
-          </div>
-          <div class="d-flex align-items-center mb-2">
-            <i class="bi bi-cash-coin me-2"></i>
-            <span *ngFor="let item of Info.Payments; index as i;" class="rounded-pill px-2 bg-white border-grey me-1"><h4 class="m-0">{{item}}</h4></span>
-          </div>
-        </div>
-
-        <div>
-          <div class="d-flex align-items-center mb-2">
-            <i class="bi bi-facebook text-primary me-2"></i>
-            <h4 class="mb-0">ร้านคุณป้าใจป้ำ</h4>
+            <h4 class="mb-0">เวลาทำการ : {{restaurantDetail.startTime}} - {{restaurantDetail.endTime}} น.</h4>
           </div>
 
-          <div class="d-flex align-items-center mb-2">
-            <i class="bi bi-line text-success me-2"></i>
-            <h4 class="mb-0">@Pajaipum</h4>
+          <div class="row row-cols-2">
+            <div class="col d-flex align-items-center mb-2" *ngFor="let item of restaurantDetail.socialContactList">
+              <i class="bi me-2" [ngClass]="getSocialContactIcon(item.SocialType)"></i>
+              <h4 class="mb-0">{{ item.ContactValue }}</h4>
+            </div>
           </div>
 
-          <div class="d-flex align-items-center mb-2">
-            <i class="bi bi-instagram text-danger me-2"></i>
-            <h4 class="mb-0">Pajaipum</h4>
-          </div>
+          <ng-container *ngIf="restaurantDetail.paymentMethodList">
+            <div class="d-flex align-items-center mb-2">
+              <i class="bi bi-cash-coin me-2"></i>
+              <span
+                *ngFor="let item of restaurantDetail.paymentMethodList; index as i;"
+                class="rounded-pill px-2 bg-white border-grey me-1"><h4 class="m-0">{{ getPaymentMethodLabel(item) }}</h4>
+              </span>
+            </div>
+          </ng-container>
         </div>
       </div>
 
       <div class="d-flex my-2">
         <i class="bi bi-geo-alt-fill me-2"></i>
         <div>
-          <h4 class="mb-2">ห่าง 500 เมตร</h4>
-          <h4 class="mb-2">55/55 หมู่ที่ 5 ถ.เลี่ยงเมืองปากเกร็ด ต.บางตลาด อ.ปากเกร็ด ต.บางตลาด ปากเกร็ด นนทบุรี 11120</h4>
+          <h4 class="mb-2">ห่าง {{ restaurantDetail.distance | shortNumber }}m</h4>
+          <h4 class="mb-2">{{ restaurantDetail.address }}</h4>
         </div>
       </div>
 
-      <div class="d-flex align-items-center my-2">
-        <i class="bi bi-emoji-smile me-2"></i>
-        <span class="rounded-pill px-2 bg-white">
-          <h4 class="m-0">ร้านของเรามีอาหารหลากหลาย ใส่ใจในคุณภาพอาหารและความสะอาด</h4>
-        </span>
-      </div>
+      <ng-container *ngIf="restaurantDetail.description">
+        <div class="d-flex align-items-center my-2">
+          <i class="bi bi-emoji-smile me-2"></i>
+          <span class="rounded-pill px-2 bg-white">
+            <h4 class="m-0">{{ restaurantDetail.description }}</h4>
+          </span>
+        </div>
+      </ng-container>
     </div>
 
     <!-- Dine in / Delivery -->
-    <div class="col-1 text-center">
-      <div>
-        <img src="../../../assets/image/restaurant_pin.png" class="w-100">
-        <p class="mb-2">นั่งรับประทานที่ร้าน</p>
+    <ng-container *ngIf="restaurantDetail.deliveryTypeList">
+      <div class="col-1 text-center">
+        <div *ngIf="restaurantDetail.deliveryTypeList.includes(deliveryType.PickUp)">
+          <img src="../../../assets/image/restaurant_pin.png" class="w-100">
+          <p class="mb-2">นั่งรับประทานที่ร้าน</p>
+        </div>
+        <div *ngIf="restaurantDetail.deliveryTypeList.includes(deliveryType.Delivery)">
+          <img src="../../../assets/image/motorbike.png" class="w-100">
+          <p class="mt-2">มีบริการจัดส่ง</p>
+        </div>
       </div>
-      <div>
-        <img src="../../../assets/image/motorbike.png" class="w-100">
-        <p class="mt-2">มีบริการจัดส่ง</p>
-      </div>
-    </div>
+    </ng-container>
 
     <!-- Rating -->
     <div class="col-3">
@@ -94,10 +100,10 @@
 
           <div class="d-flex align-items-center mb-2" data-cy="rating">
             <div class="col-auto me-3">
-              <h1 class="mb-0 fs-2">{{Info.Rating}}</h1>
+              <h1 class="mb-0 fs-2">{{restaurantDetail.rating}}</h1>
             </div>
             <div class="col-auto d-flex">
-              <ngb-rating [rate]=4 [max]="5" id="rating" formControlName="rating" data-cy="star">
+              <ngb-rating [rate]="restaurantDetail.rating" [max]="5" id="rating" data-cy="star">
                 <ng-template let-fill="fill" let-index="index">
                   <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color"></i>
                 </ng-template>
@@ -107,22 +113,35 @@
 
           <div class="d-flex align-items-center mb-2">
             <i class="bi bi-person-fill"></i>
-            <h3 class="card-text mx-2 mb-0">ทั้งหมด {{Info.TotalReview}} รีวิว</h3>
+            <h3 class="card-text mx-2 mb-0">ทั้งหมด {{restaurantDetail.totalReview}} รีวิว</h3>
           </div>
 
-          <h3 class="mb-1">เมนูที่ได้รับการแนะนำ</h3>
-          <div class="d-flex flex-wrap">
-            <span class="rounded-pill bg-light-grey me-2 mb-2 px-2" *ngFor="let item of Info.Menus; index as i;" data-cy="recommendMenu">
-              <h4 class="m-0">{{item}}</h4>
-            </span>
-          </div>
+          <ng-container *ngIf="restaurantDetail.foodRecommendList">
+            <h3 class="mb-1">เมนูที่ได้รับการแนะนำ</h3>
+            <div class="d-flex flex-wrap">
+              <span
+                class="rounded-pill bg-light-grey me-2 mb-2 px-2"
+                *ngFor="let item of restaurantDetail.foodRecommendList" data-cy="recommendMenu">
+                <h4 class="m-0">{{item}}</h4>
+              </span>
+            </div>
+          </ng-container>
         </div>
       </div>
 
       <div>
-        <button type="button" class="btn btn-yellow d-flex align-items-center" (click)="openModalReview()" data-cy="reviewBtn">
-          <i class="bi bi-pencil-square me-2"></i>
-          เขียนรีวิว
+        <button *ngIf="restaurantDetail.isReview" type="button" class="btn btn-light-grey px-2 me-2"
+          (click)="seeExistReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName)"
+        >
+          <i class="bi bi-eye-fill me-2"></i>รีวิวของฉัน
+        </button>
+
+        <button type="button" class="btn btn-yellow"
+          [ngClass]="restaurantDetail.isReview ? 'btn-yellow':'btn-light-yellow'"
+          (click)="restaurantDetail.isReview? editReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName) : addReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName)"
+        >
+          <i class="bi fs-6 me-1" [ngClass]="restaurantDetail.isReview ? 'bi-pencil-square':'bi-plus-lg'"></i>
+          {{ restaurantDetail.isReview ? 'แก้ไขรีวิว':'รีวิวร้านนี้' }}
         </button>
       </div>
     </div>
@@ -155,7 +174,7 @@
   </div>
 
   <div class="row row-cols-3 g-2">
-    <div *ngFor="let item of Reviews; index as i;" class="col" data-cy="reviews">
+    <!-- <div *ngFor="let item of Reviews; index as i;" class="col" data-cy="reviews">
       <div class="rounded-2 bg-white p-2">
         <div class="row px-2">
           <div class="col-2 px-1">
@@ -177,7 +196,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
 
 <!-- Modal -->

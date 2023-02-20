@@ -11,8 +11,8 @@ export class GetRestaurantDetailRequestModel {
 }
 
 export class SocialContactItemModel {
-  socialType: SocialContact;
-  contactValue: string;
+  SocialType: SocialContact;
+  ContactValue: string;
 }
 
 export class GetRestaurantDetailModel {
