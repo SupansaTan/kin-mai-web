@@ -9,7 +9,14 @@ Feature: Reviewer random food game
     And I click on Login button
     And I should be on reviewer homepage
 
-
+  Scenario: Reviewer play and pause music backgroud
+    Given I visit on random game page
+    And   I should see music button
+    When  I click play music button
+    Then  I should listen music
+    When  I click pause music button
+    Then  I should not listen music
+  
   Scenario: Reviewer click gachapon random game for receive food categories
     Given I visit on random game page
     And   I should see gachapon game

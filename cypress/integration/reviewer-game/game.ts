@@ -29,6 +29,35 @@ And('I should be on reviewer homepage', () => {
   cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
+// play and pause music
+Given(`I visit on random game page`, () => {
+  cy.visit('/reviewer/random');
+});
+
+And('I should see music button', () => {
+  cy.get('[data-cy="MusicBtn"]').should('be.visible');
+});
+
+When('I click play music button', () => {
+  cy.get(`[data-cy="MusicBtn"]`).click();
+});
+
+Then('I should listen music', () => {
+  cy.wait(5000)
+  cy.get('[data-cy="MusicBtn"]').should('be.visible');
+  
+});
+
+When('I click pause music button', () => {
+  cy.get(`[data-cy="MusicBtn"]`).click();
+});
+
+Then('I should not listen music', () => {
+  cy.get('[data-cy="MusicBtn"]').should('be.visible');
+});
+
+
+
 
 // --------click gachapon random game----------
 Given(`I visit on random game page`, () => {
@@ -45,7 +74,6 @@ When('I click on gachapon game', () => {
 
 Then('I should see food category', () => {
   cy.get('.swal2-confirm.swal2-styled').first().click({force: true});
-
 });
 
 And('I should see button', (dataTable) => {
