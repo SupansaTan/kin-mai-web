@@ -30,6 +30,7 @@ export class DetailComponent implements OnInit {
   awsS3Url = environment.awsS3Url;
   userId: string;
   restaurantId: string;
+  RecommendMenu: Array<string> = [];
 
   options: google.maps.MapOptions;
   markerOptions: google.maps.MarkerOptions = {draggable: true};
@@ -70,13 +71,13 @@ export class DetailComponent implements OnInit {
       (response: ResponseModel<Array<ReviewInfoModel>>) => {
         if (response && response?.status === 200) {
           this.Reviews = response.data;
-          console.log(response.data);
           
           if (this.Reviews.length != 0) {
             this.TotalReview = this.Reviews.length
             let ratingCount = 0;
             this.Reviews.forEach(x => { 
               ratingCount += x.rating
+              this.RecommendMenu = [ ...this.RecommendMenu, ...(x.foodRecommendList)]
             });
             this.Rating = ratingCount/this.Reviews.length
           }
@@ -165,9 +166,6 @@ export class DetailComponent implements OnInit {
       lat: this.Info.latitude,
       lng: this.Info.longitude
     }
-    console.log(this.markerPositions );
-    
-    
   }
 
 }
