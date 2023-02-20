@@ -8,9 +8,16 @@
   width: 100%;
 }
 
+.review-img {
+  max-height:100px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
 .totalR1{
   font-weight: bolder;
-  font: size 20px;;
+  font: size 20px;
 }
 
 .totalR2{
@@ -136,12 +143,6 @@
     -webkit-transform: rotate(135deg);
     transform: rotate(135deg);
   }
-}
-
-#btreply {
-  position: relative;
-  left: 145px
-
 }
 
 #numberrate{

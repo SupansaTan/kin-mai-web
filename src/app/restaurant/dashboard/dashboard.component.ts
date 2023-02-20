@@ -84,6 +84,7 @@ export class RestaurantDashboardComponent implements OnInit {
                 this.CountGoodReview += 1;
               }
               element.reviewTimeString = this.getReviewTimeInString(reviewDate)
+              element.userName = element.userName.replace(/(?<!^).(?!$)/g, '*')
             });
 
             if (this.TodayReview.length != 0) {
@@ -140,8 +141,6 @@ export class RestaurantDashboardComponent implements OnInit {
     let stringTime = "";
     let today = new Date();
     let diffTime = (+today - +date)/60000;
-    console.log(today);
-    console.log(date);
     // diffTime/60000 time difference in minute unit
     if (diffTime < 60) {
       if (diffTime < 1) {
@@ -153,25 +152,19 @@ export class RestaurantDashboardComponent implements OnInit {
     } 
     else if (diffTime >= 60 && diffTime < 1140) {
         stringTime = String(Math.floor(diffTime/60)) + " ชั่วโมงที่แล้ว"
-        console.log(diffTime/60/24);
     }
     else if (diffTime >= 1140 && diffTime < 10080) {
         stringTime = String(Math.floor(diffTime/60/24)) + " วันที่แล้ว"
-        console.log(diffTime/60/24);
     }
     else if (diffTime >= 10080 && diffTime < 40320) {
         stringTime = String(Math.floor(diffTime/60/24/7)) + " สัปดาห์ที่แล้ว"
-        console.log(diffTime/60/24/7);
     }
     else if (diffTime >= 10080 && diffTime < 483840) {
         stringTime = String(Math.floor(diffTime/60/24/7/4)) + " เดือนที่แล้ว"
-        console.log(diffTime/60/24/7/4);
     }
     else if (diffTime >= 483840 ) {
         stringTime = String(Math.floor(diffTime/60/24/7/4/12)) + " ปีที่แล้ว"
-        console.log(diffTime/60/24/7/4/12);
     }
-    
     return stringTime;
   }
 
