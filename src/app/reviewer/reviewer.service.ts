@@ -6,6 +6,7 @@ import { ResponseModel } from 'src/models/response.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { GetRestaurantListFromFilterRequestModel, GetRestaurantNearMeRequestModel, SetFavoriteRestaurantRequestModel } from './../../models/reviewer-homepage.model';
 import { GetReviewInfoRequest, ReviewInfoModel, UpdateReviewInfoRequest } from 'src/models/review-info.model';
+import { GetRestaurantDetailModel, GetRestaurantDetailRequestModel } from 'src/models/restaurant-detail.model';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,17 @@ export class ReviewerService {
     });
 
     this.sub = this.http.get<ResponseModel<RestaurantCardListModel>>(url, { params: params });
+    return this.sub;
+  }
+
+  getRestaurantDetail(model: GetRestaurantDetailRequestModel) {
+    const url = `${environment.kinMaiApi}/Reviewer/GetRestaurantDetail`;
+    let params = new HttpParams();
+    params = params.append('userId', model.userId);
+    params = params.append('latitude', model.latitude);
+    params = params.append('longitude', model.longitude);
+    params = params.append('restaurantId', model.restaurantId);
+    this.sub = this.http.get<ResponseModel<GetRestaurantDetailModel>>(url, { params: params });
     return this.sub;
   }
 
