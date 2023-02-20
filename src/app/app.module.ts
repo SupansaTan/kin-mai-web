@@ -22,11 +22,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthenticationService } from './authentication/authentication.service';
 import { GoogleAuthService } from './service/google-auth.service';
 import { AngMusicPlayerModule } from  'ang-music-player';
+import { EditProfileComponent } from './reviewer/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,
