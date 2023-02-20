@@ -6,7 +6,7 @@
 
         <div class="d-flex justify-content-between align-items-center">
           <h1 class="totalR1">Today Rating</h1>
-          <p class="" *ngIf="this.TodayReview.length != 0" >({{TodayReview.length}} reviews)</p>
+          <p *ngIf="this.TodayReview.length != 0" >({{TodayReview.length}} reviews)</p>
         </div>
 
         <div class="d-flex" data-cy="todayRating">
