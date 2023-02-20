@@ -5,18 +5,22 @@
 }
 
 .review-star-cover {
-    max-height:20px;
-    width: 100%;
+  max-height:20px;
+  width: 100%;
 }
 
 .big-img {
-    height: 200px;
-    width: 100%;
-    object-fit: cover;
+  min-height: 250px;
+  max-height: 250px;
+  width: 100%;
+  overflow: hidden;
+  object-fit: cover;
 }
 
 .mini-img {
-    height: 100px;
-    width: 100%;
-    object-fit: cover;
+  min-height: 100px;
+  max-height: 100px;
+  width: 100%;
+  overflow: hidden;
+  object-fit: cover;
 }

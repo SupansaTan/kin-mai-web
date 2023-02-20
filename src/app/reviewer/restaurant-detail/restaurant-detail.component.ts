@@ -4,7 +4,6 @@ import { DeliveryType } from 'src/enum/delivery-type.enum';
 import { ResponseModel } from 'src/models/response.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalReviewComponent } from '../modal-review/modal-review.component';
-import { ModalGalleryComponent } from '../modal-gallery/modal-gallery.component';
 import { GetRestaurantDetailModel, GetRestaurantDetailRequestModel, SocialContactItemModel } from 'src/models/restaurant-detail.model';
 import { ReviewerService } from '../reviewer.service';
 import { ActivatedRoute } from '@angular/router';
@@ -20,7 +19,6 @@ import { DrinkAndDessertCategory, FoodCategory } from 'src/constant/food-categor
 })
 export class RestaurantDetailComponent implements OnInit {
   @ViewChild('modalReviewComponent') modalReview: ModalReviewComponent;
-  @ViewChild('modalGalleryComponent') modalGallery: ModalGalleryComponent;
 
   private sub: any;
   restaurantId: string;
@@ -100,9 +98,5 @@ export class RestaurantDetailComponent implements OnInit {
 
   editReviewRestaurant(restaurantId: string, restaurantName: string) {
     this.modalReview.openReviewModal(true, true, restaurantId, restaurantName);
-  }
-
-  openModalGallery() {
-    this.modalGallery.openSuccessModal();
   }
 }
