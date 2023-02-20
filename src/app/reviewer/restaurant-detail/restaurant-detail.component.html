@@ -103,7 +103,7 @@
               <h1 class="mb-0 fs-2">{{restaurantDetail.rating}}</h1>
             </div>
             <div class="col-auto d-flex">
-              <ngb-rating [rate]="restaurantDetail.rating" [max]="5" id="rating" data-cy="star">
+              <ngb-rating [rate]="restaurantDetail.rating" [max]="5" id="rating" data-cy="star" [readonly]="true">
                 <ng-template let-fill="fill" let-index="index">
                   <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color"></i>
                 </ng-template>
