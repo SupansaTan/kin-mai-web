@@ -75,6 +75,8 @@ export class ReviewerHomepageComponent implements OnInit {
         (position) => {
           this.lat = position.coords.latitude;
           this.lng = position.coords.longitude;
+          this.localStorageService.set(LocalStorageKey.latitude, this.lat);
+          this.localStorageService.set(LocalStorageKey.longitude, this.lng);
           resolve(true);
         },
         (err) => {
@@ -82,6 +84,8 @@ export class ReviewerHomepageComponent implements OnInit {
           // set coordinates at Bangkok, Thailand
           this.lat = 13.736717;
           this.lng = 100.523186;
+          this.localStorageService.set(LocalStorageKey.latitude, this.lat);
+          this.localStorageService.set(LocalStorageKey.longitude, this.lng);
           resolve(true);
         },
         {timeout:10000}

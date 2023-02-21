@@ -6,6 +6,8 @@ import { ResponseModel } from 'src/models/response.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { GetRestaurantListFromFilterRequestModel, GetRestaurantNearMeRequestModel, SetFavoriteRestaurantRequestModel } from './../../models/reviewer-homepage.model';
 import { GetReviewInfoRequest, ReviewInfoModel, UpdateReviewInfoRequest } from 'src/models/review-info.model';
+import { GetRestaurantDetailModel, GetRestaurantDetailRequestModel } from 'src/models/restaurant-detail.model';
+import { GetReviewInfoFilterModel, GetReviewInfoListModel } from 'src/models/get-review-info.model';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +58,17 @@ export class ReviewerService {
     return this.sub;
   }
 
+  getRestaurantDetail(model: GetRestaurantDetailRequestModel) {
+    const url = `${environment.kinMaiApi}/Reviewer/GetRestaurantDetail`;
+    let params = new HttpParams();
+    params = params.append('userId', model.userId);
+    params = params.append('latitude', model.latitude);
+    params = params.append('longitude', model.longitude);
+    params = params.append('restaurantId', model.restaurantId);
+    this.sub = this.http.get<ResponseModel<GetRestaurantDetailModel>>(url, { params: params });
+    return this.sub;
+  }
+
   setFavoriteRestaurant(model: SetFavoriteRestaurantRequestModel) {
     const url = `${environment.kinMaiApi}/Reviewer/SetFavoriteRestaurant`;
     this.sub = this.http.post<ResponseModel<boolean>>(url, model);
@@ -83,6 +96,19 @@ export class ReviewerService {
   getReviewInfo(model: GetReviewInfoRequest) {
     const url = `${environment.kinMaiApi}/Reviewer/GetReviewInfo?userId=${model.userId}&restaurantId=${model.restaurantId}`;
     this.sub = this.http.get<ResponseModel<ReviewInfoModel>>(url);
+    return this.sub;
+  }
+
+  getRestaurantReviewList(model: GetReviewInfoFilterModel) {
+    const url = `${environment.kinMaiApi}/Reviewer/GetRestaurantReviewList`;
+    let params = new HttpParams();
+    params = params.append('restaurantId', model.restaurantId);
+    params = params.append('keywords', model.keywords);
+    params = params.append('rating', model.rating);
+    params = params.append('isOnlyReviewHaveImage', model.isOnlyReviewHaveImage);
+    params = params.append('isOnlyReviewHaveComment', model.isOnlyReviewHaveComment);
+    params = params.append('isOnlyReviewHaveFoodRecommend', model.isOnlyReviewHaveFoodRecommend);
+    this.sub = this.http.get<ResponseModel<GetReviewInfoListModel>>(url, { params: params });
     return this.sub;
   }
 

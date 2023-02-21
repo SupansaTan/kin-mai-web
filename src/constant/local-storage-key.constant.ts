@@ -6,5 +6,7 @@ export const LocalStorageKey = {
   userType: 'userType',
   userId: 'userId',
   restaurantName: 'restaurantName',
-  viewMode: 'viewMode'
+  viewMode: 'viewMode',
+  latitude: 'latitude',
+  longitude: 'longitude'
 }

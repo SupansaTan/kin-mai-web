@@ -1,6 +1,6 @@
 import { DeliveryType } from 'src/enum/delivery-type.enum';
 import { FilterRestaurantRequest } from './../../../../models/reviewer-homepage.model';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { DrinkAndDessertCategory, FoodCategory } from 'src/constant/food-category.constant';
 import { FilterRestaurantType } from 'src/enum/filter-restaurant.enum';
@@ -10,6 +10,8 @@ import { ToggleFavoriteRestaurantRequestModel } from 'src/models/toggle-favorite
 import { ReviewerService } from '../../reviewer.service';
 import { PaymentMethod } from 'src/enum/payment-method.enum';
 import { ModalReviewComponent } from '../../modal-review/modal-review.component';
+import { Router } from '@angular/router';
+import { PageLink } from 'src/constant/path-link.constant';
 
 @Component({
   selector: 'app-filter-restaurant',
@@ -36,18 +38,27 @@ export class FilterRestaurantComponent implements OnInit {
   isSelectedQRCode: boolean = false;
   isSelectedDelivery: boolean = false;
   isSelectedPickup: boolean = false;
+  isCollapsedFilter: boolean = false;
   awsS3Url = environment.awsS3Url;
   totalRestaurant: number = 0;
   restaurantCumulativeCount: number = 0;
   isError: boolean;
   isOpen: boolean;
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+    this.isCollapsedFilter = (window.innerWidth < 992);
     this.selectedCategory = new Array<number>();
     this.foodCategories = [...FoodCategory, ...DrinkAndDessertCategory];
     this.foodCategories.map(x => x.isSelected = false);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.isCollapsedFilter = (window.innerWidth < 992);
   }
 
   @Input()
@@ -160,5 +171,11 @@ export class FilterRestaurantComponent implements OnInit {
 
   editReviewRestaurant(restaurantId: string, restaurantName: string) {
     this.reviewModal.openReviewModal(true, true, restaurantId, restaurantName);
+  }
+
+  routeToRestaurantDetail(restaurantId: string) {
+    this.router.navigate([PageLink.reviewer.restaurantDetail, {
+      restaurantId: restaurantId,
+    }]);
   }
 }
