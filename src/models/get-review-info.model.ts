@@ -2,7 +2,7 @@ export class GetReviewInfoModel {
   username: string;
   rating: number;
   comment: string;
-  createdDateDiff: string;
+  createdDateDiff: number;
   imageReviewList: Array<string>;
   foodRecommendList: Array<string>;
   reviewLabelList: Array<number>;

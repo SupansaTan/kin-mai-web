@@ -11,6 +11,7 @@ import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { environment } from 'src/environments/environment';
 import { DrinkAndDessertCategory, FoodCategory } from 'src/constant/food-category.constant';
+import { GetReviewInfoFilterModel, GetReviewInfoListModel, GetReviewInfoModel } from 'src/models/get-review-info.model';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -22,10 +23,22 @@ export class RestaurantDetailComponent implements OnInit {
 
   private sub: any;
   restaurantId: string;
+  keywords: string = "";
+  ratingFilter: number = 6;
+  isSelectedTotalReview: boolean = true;
+  isSelectedOnlyReviewHaveImage: boolean = false;
+  isSelectedOnlyReviewHaveComment: boolean = false;
+  isSelectedOnlyReviewHaveFoodRecommend: boolean = false;
+  reviewList: Array<GetReviewInfoModel>;
+  totalReview: number = 0;
+  totalReviewHaveImage: number = 0;
+  totalReviewHaveComment: number = 0;
+  totalReviewHaveFoodRecommend: number = 0;
   deliveryType = DeliveryType;
   socialContact = SocialContact
   awsS3Url = environment.awsS3Url;
   isLoadingRestaurantInfo: boolean = true;
+  isLoadingReviewList: boolean = true;
   restaurantDetail: GetRestaurantDetailModel;
 
   constructor(
@@ -40,6 +53,7 @@ export class RestaurantDetailComponent implements OnInit {
 
       if (this.restaurantId) {
         this.getRestaurantDetail();
+        this.getReviewList();
       }
     });
   }
@@ -59,6 +73,28 @@ export class RestaurantDetailComponent implements OnInit {
             return JSON.parse(e.toString())
           });
           this.isLoadingRestaurantInfo = false;
+        }
+    })
+  }
+
+  getReviewList() {
+    let request = new GetReviewInfoFilterModel();
+    request.restaurantId = this.restaurantId;
+    request.keywords = this.keywords;
+    request.rating = this.ratingFilter;
+    request.isOnlyReviewHaveImage = this.isSelectedOnlyReviewHaveImage;
+    request.isOnlyReviewHaveComment = this.isSelectedOnlyReviewHaveComment;
+    request.isOnlyReviewHaveFoodRecommend = this.isSelectedOnlyReviewHaveFoodRecommend;
+
+    this.reviewerService.getRestaurantReviewList(request).subscribe(
+      (response: ResponseModel<GetReviewInfoListModel>) => {
+        if (response && response?.status === 200) {
+          this.reviewList = response.data.reviewList;
+          this.totalReview = response.data.totalReview;
+          this.totalReviewHaveImage = response.data.totalReviewHaveImage;
+          this.totalReviewHaveComment = response.data.totalReviewHaveComment;
+          this.totalReviewHaveFoodRecommend = response.data.totalReviewHaveFoodRecommend;
+          this.isLoadingReviewList = false;
         }
     })
   }
@@ -86,6 +122,39 @@ export class RestaurantDetailComponent implements OnInit {
         return 'bi-instagram text-danger';
     }
     return '';
+  }
+
+  numberEnding (number: number) {
+    return (number > 1) ? 's' : '';
+  }
+
+  millisecondsToStr (milliseconds: number) {
+    var temp = Math.floor(milliseconds / 1000);
+    var years = Math.floor(temp / 31536000);
+    if (years) {
+      return years + ' year' + this.numberEnding(years);
+    }
+
+    var days = Math.floor((temp %= 31536000) / 86400);
+    if (days) {
+      return days + ' day' + this.numberEnding(days);
+    }
+
+    var hours = Math.floor((temp %= 86400) / 3600);
+    if (hours) {
+      return hours + ' hour' + this.numberEnding(hours);
+    }
+
+    var minutes = Math.floor((temp %= 3600) / 60);
+    if (minutes) {
+      return minutes + ' minute' + this.numberEnding(minutes);
+    }
+
+    var seconds = temp % 60;
+    if (seconds) {
+      return seconds + ' second' + this.numberEnding(seconds);
+    }
+    return 'less than a second';
   }
 
   addReviewRestaurant(restaurantId: string, restaurantName: string) {
