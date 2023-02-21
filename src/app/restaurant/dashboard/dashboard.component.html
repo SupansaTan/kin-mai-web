@@ -143,6 +143,16 @@
               </ngb-rating>
               <h5 class="m-0 mt-1 ms-2">{{review.rating}}</h5>
             </div>
+            <div class="mb-2">
+              <span class="rounded-pill bg-light-yellow border-yellow me-1 mb-2 px-2 py-1"
+                *ngFor="let item of review.reviewLabelList; index as i;">
+                  {{getReviewLabel(review.rating,item)}}
+              </span>
+              <span class="rounded-pill bg-light-grey border-grey me-1 mb-2 px-2 py-1"
+                *ngFor="let item of review.foodRecommendList index as i;">
+                  {{item}}
+              </span>
+            </div>
             <p class="text-break">{{review.comment}}</p>
 
             <div class="col row d-flex align-items-center mb-2 w-100">

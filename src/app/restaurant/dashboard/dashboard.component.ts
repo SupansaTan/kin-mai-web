@@ -6,6 +6,8 @@ import { RestaurantService } from '../restaurant.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { ResponseModel } from 'src/models/response.model';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
+import { BadReviewLabelItem, GoodReviewLabelItem } from 'src/constant/review-label.constant';
+import { GoodReviewLabel } from 'src/enum/review-label.enum';
 
 @Component({
   selector: 'app-dashboard',
@@ -166,20 +168,20 @@ export class RestaurantDashboardComponent implements OnInit {
         stringTime = String(Math.floor(diffTime)) + " นาทีที่แล้ว"
       }
     }
-    else if (diffTime >= 60 && diffTime < 1140) {
-        stringTime = String(Math.floor(diffTime/60)) + " ชั่วโมงที่แล้ว"
+    else if (diffTime >= 60 && diffTime < 1440) {
+      stringTime = String(Math.floor(diffTime/60)) + " ชั่วโมงที่แล้ว"
     }
-    else if (diffTime >= 1140 && diffTime < 10080) {
-        stringTime = String(Math.floor(diffTime/60/24)) + " วันที่แล้ว"
+    else if (diffTime >= 1440 && diffTime < 10080) {
+      stringTime = String(Math.floor(diffTime/60/24)) + " วันที่แล้ว"
     }
     else if (diffTime >= 10080 && diffTime < 40320) {
-        stringTime = String(Math.floor(diffTime/60/24/7)) + " สัปดาห์ที่แล้ว"
+      stringTime = String(Math.floor(diffTime/60/24/7)) + " สัปดาห์ที่แล้ว"
     }
     else if (diffTime >= 10080 && diffTime < 483840) {
-        stringTime = String(Math.floor(diffTime/60/24/7/4)) + " เดือนที่แล้ว"
+      stringTime = String(Math.floor(diffTime/60/24/7/4)) + " เดือนที่แล้ว"
     }
     else if (diffTime >= 483840 ) {
-        stringTime = String(Math.floor(diffTime/60/24/7/4/12)) + " ปีที่แล้ว"
+      stringTime = String(Math.floor(diffTime/60/24/7/4/12)) + " ปีที่แล้ว"
     }
     return stringTime;
   }
@@ -211,5 +213,16 @@ export class RestaurantDashboardComponent implements OnInit {
         this.isSelectedOnlyReviewHaveImage = false;
         break;
     }
+  }
+
+  getReviewLabel(rating:number, label:number) {
+    let result: any;
+    if (rating <= 2) {
+      result = BadReviewLabelItem.find( x => x.id = label)?.name;
+    }
+    else {
+      result = GoodReviewLabelItem.find( x => x.id = label)?.name;
+    }
+    return result;
   }
 }
