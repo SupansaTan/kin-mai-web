@@ -1,12 +1,12 @@
 <div class="py-4">
-  <div *ngIf="!isLoadingRestaurantInfo" class="row row-cols-4 gy-2 gx-3">
+  <div *ngIf="!isLoadingRestaurantInfo" class="row row-cols-1 row-cols-lg-4 gy-2 gx-3">
     <!-- Image -->
-    <div class="col-3" data-cy="restaurantImage" ngxViewer>
+    <div class="col-12 col-md-3" data-cy="restaurantImage" ngxViewer>
       <div class="col-12 mb-2">
         <img [src]="awsS3Url + '/' + restaurantDetail.imageCover[0]" class="rounded big-img" role="button"/>
       </div>
 
-      <div class="row row-cols-3 g-2">
+      <div class="row g-2">
         <div *ngFor="let item of restaurantDetail.imageCover?.slice(1,4); index as i;" class="col">
           <img [src]="awsS3Url + '/' + item" class="rounded mini-img w-100" role="button"/>
         </div>
@@ -24,7 +24,7 @@
     </div>
 
     <!-- Information -->
-    <div class="col-4" data-cy="information">
+    <div class="col-12 col-md-9 col-lg-4" data-cy="information">
       <div class="mb-3">
         <h3 class="mb-1">{{restaurantDetail.restaurantName}}</h3>
         <div class="d-flex flex-wrap row ps-2 gy-2 mb-2">
@@ -88,10 +88,10 @@
 
     <!-- Dine in / Delivery -->
     <ng-container *ngIf="restaurantDetail.deliveryTypeList">
-      <div class="col-2 text-center">
+      <div class="col-12 col-md-6 col-lg-2 text-center d-flex align-items-center justify-content-center justify-content-lg-start flex-row flex-lg-column">
         <div *ngIf="restaurantDetail.deliveryTypeList.includes(deliveryType.PickUp)">
           <img src="../../../assets/image/restaurant_pin.png" class="w-50">
-          <p class="mb-2">นั่งรับประทานที่ร้าน</p>
+          <p class="my-2">นั่งรับประทานที่ร้าน</p>
         </div>
         <div *ngIf="restaurantDetail.deliveryTypeList.includes(deliveryType.Delivery)">
           <img src="../../../assets/image/motorbike.png" class="w-50">
@@ -101,7 +101,7 @@
     </ng-container>
 
     <!-- Rating -->
-    <div class="col-3">
+    <div class="col-12 col-md-6 col-lg-3">
       <div class="card border-0 rounded-2 mb-2">
         <div class="card-body">
           <h3 class="fw-bold mb-2">Rating</h3>
@@ -159,11 +159,11 @@
   <!-- Reviews filter bar -->
   <h4 class="mb-1 mt-3 fw-bolder">Reviews</h4>
   <div class="row g-2 mb-3" data-cy="reviewFilter">
-    <div class="col">
+    <div class="col-12 col-md">
       <label>Search</label>
       <input [(ngModel)]="keywords" class="form-control form-control-sm shadow-none" type="text" placeholder="ความคิดเห็น" (ngModelChange)="getReviewList()"/>
     </div>
-    <div class="col-2">
+    <div class="col-12 col-md-2">
       <label>จำนวนดาว</label>
       <select [(ngModel)]="ratingFilter" class="form-select form-select-sm shadow-none" (ngModelChange)="getReviewList()">
         <option value="6">ทั้งหมด</option>
@@ -174,20 +174,20 @@
         <option value="5">5</option>
       </select>
     </div>
-    <div class="col-auto d-flex align-content-end flex-wrap">
-      <button class="btn btn-sm border-warning rounded-0 rounded-start"
+    <div class="col-12 col-lg-auto d-flex align-content-end flex-wrap">
+      <button class="col-6 col-md-auto btn btn-sm border-warning rounded-0 rounded-md-start"
         [ngClass]="isSelectedTotalReview? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(1)">
         ทั้งหมด ({{ totalReview }})
       </button>
-      <button class="btn btn-sm border-warning rounded-0"
+      <button class="col-6 col-md-auto btn btn-sm border-warning rounded-0"
         [ngClass]="isSelectedOnlyReviewHaveImage? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(2)">
         มีรูปภาพ ({{ totalReviewHaveImage }})
       </button>
-      <button class="btn btn-sm border-warning rounded-0"
+      <button class="col-6 col-md-auto btn btn-sm border-warning rounded-0"
         [ngClass]="isSelectedOnlyReviewHaveComment? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(3)">
         มีความคิดเห็น ({{ totalReviewHaveComment }})
       </button>
-      <button class="btn btn-sm border-warning rounded-0 rounded-end"
+      <button class="col-6 col-md-auto btn btn-sm border-warning rounded-0 rounded-md-end"
         [ngClass]="isSelectedOnlyReviewHaveFoodRecommend? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(4)">
         มีเมนูแนะนำ ({{ totalReviewHaveFoodRecommend }})
       </button>
@@ -195,7 +195,7 @@
   </div>
 
   <!-- review list -->
-  <div class="row row-cols-3 g-2">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-2">
     <div *ngFor="let item of reviewList; index as i;" class="col h-100" data-cy="reviews">
       <div class="rounded-2 bg-white p-2">
         <div class="row px-2 pb-2">
