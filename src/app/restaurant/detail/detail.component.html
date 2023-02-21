@@ -20,55 +20,58 @@
             </div>
           </div>
         </div>
-        <h2 id="title">{{Info.name}}</h2>
+        <h4 id="title">{{Info.name}}</h4>
       </div>
 
-      <!-- Delivery & Card -->
-      <div class="col-lg-6 row mb-3">
-        <!-- Delivery -->
-        <div class="col-3 text-center">
-          <div *ngIf="this.Info.deliveryType.includes(1)">
+      <!-- Delivery -->
+      <ng-container *ngIf="this.Info.deliveryType">
+        <div class="col-2 text-center">
+          <div *ngIf="this.Info.deliveryType.includes(deliveryType.PickUp)">
             <img src="../../../assets/image/restaurant_pin.png" class="w-50">
-            <h4 class="m-0">นั่งรับประทานที่ร้าน</h4>
+            <p class="mb-2">นั่งรับประทานที่ร้าน</p>
           </div>
-          <div *ngIf="this.Info.deliveryType.includes(2)">
+          <div *ngIf="this.Info.deliveryType.includes(deliveryType.Delivery)">
             <img src="../../../assets/image/motorbike.png" class="w-50">
-            <h4 class="m-0">มีบริการจัดส่ง</h4>
-          </div> 
+            <p class="mt-2">มีบริการจัดส่ง</p>
+          </div>
         </div>
-        
-        <!-- Card -->
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <h1 class="card-title m-0">Rating</h1>
-    
-              <div class="d-flex my-3" data-cy="rating" *ngIf="this.Reviews.length != 0">
-                <div class="me-3">
-                  <h2 class="m-0">{{this.Rating}}</h2>
-                </div>
-                <div *ngFor="let item of this.Star; index as i;">
-                  <img src="../../../assets/image/{{item}}.png" class="star-cover">
-                </div>
+      </ng-container>
+
+      <!-- Rating -->
+      <div class="col-3">
+        <div class="card border-0 rounded-2 mb-2">
+          <div class="card-body">
+            <h3 class="fw-bold mb-2">Rating</h3>
+
+            <div class="d-flex align-items-center mb-2" data-cy="rating">
+              <div class="col-auto me-3">
+                <h3 class="mb-0">{{this.Rating.toFixed(1)}}</h3>
               </div>
-  
-              <div class="d-flex my-3" data-cy="rating" *ngIf="this.Reviews.length == 0">
-                <div class="me-3">
-                  <h3 class="m-0">- ยังไม่มีรีวิว -</h3>
-                </div>
+              <div class="col-auto d-flex">
+                <ngb-rating [rate]="this.Rating" [max]="5" id="rating" data-cy="star" [readonly]="true">
+                  <ng-template let-fill="fill" let-index="index">
+                    <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color"></i>
+                  </ng-template>
+                </ngb-rating>
               </div>
-    
-              <div class="d-flex align-items-center my-2" *ngIf="this.Reviews.length != 0">
-                <i class="bi bi-person-fill"></i>
-                <h3 class="card-text mx-2 my-0">ทั้งหมด {{this.TotalReview}} รีวิว</h3>
-              </div>
-              
-              <div *ngIf="this.Reviews.length != 0">
-                <h2 class="card-text">เมนูที่ได้รับการแนะนำ</h2>
-                <span class="badge rounded-pill bg-light text-dark border border-dark me-1 mb-2" *ngFor="let item of RecommendMenu; index as i;"><h4 class="m-0">{{item}}</h4></span>
-              </div>
-    
             </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <i class="bi bi-person-fill"></i>
+              <span class="card-text mx-2 mb-0">ทั้งหมด {{this.TotalReview}} รีวิว</span>
+            </div>
+
+            <ng-container *ngIf="RecommendMenu">
+              <p class="mb-1">เมนูที่ได้รับการแนะนำ</p>
+              <div class="d-flex flex-wrap">
+                <span
+                  class="rounded-pill bg-light-grey me-2 mb-2 px-2"
+                  *ngFor="let item of RecommendMenu" data-cy="recommendMenu"
+                >
+                  {{item}}
+                </span>
+              </div>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -80,48 +83,52 @@
       <div class="col" data-cy="information">
         <div class="col d-flex align-items-center mb-3">
           <i class="bi bi-shop me-2"></i>
-          <span class="badge rounded-pill bg-light text-dark border border-dark me-1 fs-6 font-regular" *ngFor="let item of getRestaurantType(Info.restaurantType)"><h4>{{item}}</h4></span>
+          <span class="rounded-pill bg-white border-grey me-1 px-2"
+            *ngFor="let item of getRestaurantType(Info.restaurantType)">
+            {{item}}
+          </span>
         </div>
         <div class="col d-flex align-items-center mb-3">
           <i class="bi bi-clock me-2"></i>
-          <h4>เวลาทำการ : 8:00 - 22:00 น.</h4>
+          เวลาทำการ : 8:00 - 22:00 น.
         </div>
         <div class="col d-flex mb-2">
           <i class="bi bi-geo-alt-fill me-2"></i>
-          <div>
-            <h4 >{{Info.address.slice(1,-1)}}</h4>
-          </div>
+          {{Info.address.slice(1,-1)}}
         </div>
       </div>
 
       <div class="col">
         <div class="col d-flex align-items-center mb-3 mt-1">
           <i class="bi bi-cash-coin me-2"></i>
-          <span *ngFor="let item of Info.paymentMethod; index as i;" class="badge rounded-pill bg-light text-dark border border-dark me-1"><h4>{{getPaymentMethod(item)}}</h4></span>
+          <span *ngFor="let item of Info.paymentMethod; index as i;"
+            class="rounded-pill bg-light border-grey px-2 me-1">
+            {{getPaymentMethod(item)}}
+          </span>
         </div>
         <div *ngFor="let item of this.SocialContact">
           <div class="col d-flex align-items-center mb-3" *ngIf="item.socialType == 1">
             <i class="bi bi-telephone-fill me-2"></i>
-            <h4>{{getSocialContactValue(1)}}</h4>
+            {{getSocialContactValue(1)}}
           </div>
           <div class="col d-flex align-items-center mb-3" *ngIf="item.socialType == 2">
             <i class="bi bi-facebook text-primary me-2"></i>
-            <h4>{{getSocialContactValue(2)}}</h4>
+            {{getSocialContactValue(2)}}
           </div>
           <div class="col d-flex align-items-center mb-3" *ngIf="item.socialType == 3">
             <i class="bi bi-line text-success me-2"></i>
-            <h4>{{getSocialContactValue(3)}}</h4>
+            {{getSocialContactValue(3)}}
           </div>
           <div class="col d-flex align-items-center mb-3" *ngIf="item.socialType == 4">
             <i class="bi bi-instagram text-danger me-2"></i>
-            <h4>{{getSocialContactValue(4)}}</h4>
+            {{getSocialContactValue(4)}}
           </div>
         </div>
-        
+
       </div>
-  
+
       <div class="mb-3" data-cy="googleMap">
-        {{Info.latitude}} {{Info.longitude}}
+        <!-- {{Info.latitude}} {{Info.longitude}} -->
         <!-- <google-map
           width="100%"
           height="180"
@@ -135,14 +142,14 @@
           </map-marker>
         </google-map> -->
       </div>
-  
+
       <div class="d-flex align-items-center mb-2">
         <i class="bi bi-emoji-smile me-2"></i>
-        <span class="badge rounded-pill bg-light text-dark border border-gray px-4">
-          <h4>{{Info.description}}</h4>
+        <span class="rounded-pill bg-white px-2">
+          {{Info.description}}
         </span>
       </div>
-  
+
     </div>
 
   <!-- EditBtn -->
@@ -152,7 +159,7 @@
       แก้ไข
     </button>
   </div>
-  
+
 </div>
 
 <!-- Modal -->

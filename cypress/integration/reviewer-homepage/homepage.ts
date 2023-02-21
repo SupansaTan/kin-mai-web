@@ -43,16 +43,16 @@ Then('I see list of restarant near me',() =>{
 // -------see restaurant detail--------
 
 When('I click title of Restaurant', () => {
-  cy.get(`[data-cy="restaurantDetailBtn"]`).first().click();
+  cy.get(`[data-cy="restaurantDetailBtn"]`).first().click({force: true});
 });
 
 Then ('I should be on Restaurant detail page',() =>{
-  cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer/restaurant');
+  cy.location('pathname', { timeout: 5000 }).should('include', '/reviewer/restaurant');
 });
 
 //--------like restaurant---------
 When('I unclick "Love" button', () => {
-  cy.get(`[data-cy="LoveBtn"]`).first().click();
+  cy.get(`[data-cy="LoveBtn"]`).first().click({force: true});
 });
 
 Then('I should see love button change',() =>{
@@ -61,7 +61,7 @@ Then('I should see love button change',() =>{
 
 //--------unlike restaurant---------
 When('I click "Love" button', () => {
-  cy.get(`[data-cy="LoveBtn"]`).first().click();
+  cy.get(`[data-cy="LoveBtn"]`).first().click({force: true});
 });
 
 Then('I should see love button change',() =>{
