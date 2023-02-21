@@ -36,6 +36,7 @@
     "bs5-lightbox": "^1.8.2",
     "font-awesome": "^4.7.0",
     "ng-circle-progress": "^1.7.1",
+    "ngx-avatar": "^4.1.0",
     "ngx-bootstrap": "^9.0.0",
     "ngx-ellipsis": "^4.1.1",
     "ngx-google-places-autocomplete": "^2.0.5",

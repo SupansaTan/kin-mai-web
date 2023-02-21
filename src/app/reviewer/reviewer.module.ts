@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EllipsisModule } from 'ngx-ellipsis';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxViewerModule } from '@erengee/ngx-viewer';
+import { AvatarModule } from 'ngx-avatar';
 
 import { ReviewerRoutingModule } from './reviewer-routing.module';
 import { ReviewerHomepageComponent } from './homepage/homepage.component';
@@ -43,6 +44,7 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule,
     NgbCollapseModule,
     NgxViewerModule,
+    AvatarModule,
   ],
   providers: [
     ReviewerService,
