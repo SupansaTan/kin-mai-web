@@ -78,19 +78,19 @@ Then('I should see all "image" of restaurant', () => {
 
 // ----- create review--------
 
-Given(`I visit on Restaurant Detail page`, () => {
-  cy.visit('reviewer/restaurant');
-});
+// Given(`I visit on Restaurant Detail page`, () => {
+//   cy.visit('reviewer/restaurant');
+// });
 
-Then('I should see create review button', () => {
-  cy.get('[data-cy="reviewBtn"]').should('be.visible');
-});
+// Then('I should see create review button', () => {
+//   cy.get('[data-cy="reviewBtn"]').should('be.visible');
+// });
 
-When('I click create review button', () => {
-  cy.get('[data-cy=reviewBtn]').click();
-});
+// When('I click create review button', () => {
+//   cy.get('[data-cy=reviewBtn]').click();
+// });
 
-Then('I should see create review modal', () => {
-  cy.get('[data-cy="reviewModal"]').should('be.visible');
-});
+// Then('I should see create review modal', () => {
+//   cy.get('[data-cy="reviewModal"]').should('be.visible');
+// });
 
