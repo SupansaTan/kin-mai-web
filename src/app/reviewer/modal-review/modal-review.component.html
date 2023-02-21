@@ -2,13 +2,13 @@
   <form [formGroup]="reviewForm" data-cy="reviewModal">
     <div class="container pb-2">
       <div class="modal-header">
-        <h2 class="m-0">รีวิวร้านอาหาร : {{ restaurantName }}</h2>
+        <h4 class="m-0">รีวิวร้านอาหาร : {{ restaurantName }}</h4>
         <button type="button" class="btn-close" (click)="closeModal()"></button>
       </div>
 
       <div class="modal-body my-2">
         <!-- Rating -->
-        <h3 class="mb-2 me-2 fw-semibold">คุณภาพอาหาร & บรรยากาศร้านอาหาร</h3>
+        <h5 class="mb-2 me-2 fw-semibold">คุณภาพอาหาร & บรรยากาศร้านอาหาร</h5>
         <div class="row align-items-center justify-content-center mb-3">
           <div class="col-auto mb-2">
             <ngb-rating [(rate)]="currentRate" [max]="5" id="rating" formControlName="rating" data-cy="star" [readonly]="!isReview" (ngModelChange)="resetRecommendReviewLabel()">
@@ -19,7 +19,7 @@
           </div>
           <div class="col-auto d-flex justify-content-center mb-2">
             <div *ngIf="currentRate > 0">
-              <h3 class="m-0">{{ getRatingLabel() }} <i class="bi ms-2 fs-5" [ngClass]="getRatingEmoji()"></i></h3>
+              <h5 class="m-0">{{ getRatingLabel() }} <i class="bi ms-2 fs-5" [ngClass]="getRatingEmoji()"></i></h5>
             </div>
           </div>
         </div>
@@ -88,7 +88,7 @@
           <!-- Recommend menu -->
           <div class="my-3 px-0">
             <div class="d-flex align-items-center">
-              <h3 class="mb-0 me-2">เมนูแนะนำ</h3>
+              <h5 class="mb-0 me-2">เมนูแนะนำ</h5>
               <button *ngIf="isReview" class="btn btn-sm btn-yellow rounded-4 py-0" (click)="addRecommendMenu()" data-cy="addMenuBtn">
                 <i class="bi bi-plus"></i>
                 เพิ่ม

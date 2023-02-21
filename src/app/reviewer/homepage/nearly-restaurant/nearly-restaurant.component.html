@@ -1,4 +1,4 @@
-<h2 class="mb-1">ร้านอาหารใกล้ฉัน</h2>
+<h4 class="mb-1">ร้านอาหารใกล้ฉัน</h4>
 
 <!-- loading -->
 <div *ngIf="isLoading" class="row d-flex justify-content-center py-2">
@@ -19,9 +19,9 @@
         <!-- restaurant info -->
         <div class="col ps-1" data-cy="restaurantInfo" >
           <div class="row d-flex align-items-center">
-            <h2 class="col mb-1 restaurant-name" role="button" data-cy="restaurantDetailBtn" (click)="routeToRestaurantDetail(item.restaurantId)"
+            <h5 class="col mb-0 mt-2 restaurant-name" role="button" data-cy="restaurantDetailBtn" (click)="routeToRestaurantDetail(item.restaurantId)"
               ellipsis [ellipsis-content]="item.restaurantName">
-            </h2>
+            </h5>
             <i class="col-auto bi fs-5" [ngClass]="item.isFavorite ? 'bi-heart-fill text-yellow':'bi-heart'" type="button" data-cy="LoveBtn"
               (click)="toggleFavoriteRestaurant(item.restaurantId, item.restaurantName, !item.isFavorite, i)">
             </i>
@@ -47,7 +47,7 @@
               <i class="bi bi-geo-alt-fill me-2"></i>
               <span>ห่าง {{item.distance | shortNumber }}m</span>
             </div>
-            <span class="px-2 rounded-pill bg-light-yellow border-yellow text-dark fw-semibold price-rate">
+            <span class="px-2 rounded-pill bg-light-yellow border-yellow text-dark price-rate">
               {{item.minPriceRate}}-{{item.maxPriceRate}} ฿
             </span>
           </div>
