@@ -79,8 +79,9 @@ export class DetailComponent implements OnInit {
             let ratingCount = 0;
             this.Reviews.forEach(x => {
               ratingCount += x.rating
-              this.RecommendMenu = [ ...this.RecommendMenu, ...(x.foodRecommendList)]
+              this.RecommendMenu = (x.foodRecommendList.length != 0)? [ ...this.RecommendMenu, ...(x.foodRecommendList)] : this.RecommendMenu
             });
+            this.RecommendMenu = [...new Set(this.RecommendMenu)];
             this.Rating = ratingCount/this.Reviews.length
           }
           this.getStarArray();
