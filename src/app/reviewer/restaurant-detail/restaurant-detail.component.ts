@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 import { DrinkAndDessertCategory, FoodCategory } from 'src/constant/food-category.constant';
 import { GetReviewInfoFilterModel, GetReviewInfoListModel, GetReviewInfoModel } from 'src/models/get-review-info.model';
 import { BadReviewLabelItem, GoodReviewLabelItem } from 'src/constant/review-label.constant';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -46,6 +47,7 @@ export class RestaurantDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private reviewerService: ReviewerService,
     private localStorageService: LocalStorageService,
+    private spinner: NgxSpinnerService,
   ) { }
 
   ngOnInit(): void {
@@ -53,6 +55,7 @@ export class RestaurantDetailComponent implements OnInit {
       this.restaurantId = params['restaurantId'];
 
       if (this.restaurantId) {
+        this.spinner.show();
         this.getRestaurantDetail();
         this.getReviewList();
       }
@@ -74,6 +77,7 @@ export class RestaurantDetailComponent implements OnInit {
             return JSON.parse(e.toString())
           });
           this.isLoadingRestaurantInfo = false;
+          this.spinner.hide();
         }
     })
   }
