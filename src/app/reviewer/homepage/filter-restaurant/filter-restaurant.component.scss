@@ -1,8 +1,8 @@
 .big-image-cover {
-  min-height: 140px;
-  max-height: 140px;
-  min-width: 140px;
-  max-width: 140px;
+  min-height: 150px;
+  max-height: 150px;
+  min-width: 100%;
+  max-width: 100%;
   width: 100%;
   background-size: cover;
   overflow: hidden;
@@ -18,6 +18,12 @@ i.bi-star-fill {
     overflow: hidden;
     top: 0;
     left: 0;
+  }
+}
+
+i.collapsed-filter {
+  @media screen and (min-width: 993px) {
+    display: none;
   }
 }
 
@@ -44,6 +50,11 @@ i.bi-star-fill {
 }
 
 .restaurant-name {
-  width: inherit;
-  height: 150px;
+  width: fit-content;
+  height: 25px;
+}
+
+.description {
+  width: fit-content;
+  height: 25px;
 }

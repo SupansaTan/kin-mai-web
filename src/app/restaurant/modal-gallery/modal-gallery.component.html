@@ -10,8 +10,8 @@
       [thumbs]="{ swiper: thumbsSwiper }"
       class="mySwiper2"
     >
-        <ng-template swiperSlide *ngFor="let item of Info.Images; index as i;">
-            <img src="{{item}}" />
+        <ng-template swiperSlide *ngFor="let image of ImageData; index as i;">
+            <img [src]="awsS3Url + '/' + image" />
         </ng-template> 
     </swiper>
 
@@ -23,8 +23,8 @@
       [watchSlidesProgress]="true"
       class="mySwiper"
     >
-        <ng-template swiperSlide *ngFor="let item of Info.Images; index as i;">
-            <img src="{{item}}" class="rounded" />
+        <ng-template swiperSlide *ngFor="let image of ImageData; index as i;">
+            <img [src]="awsS3Url + '/' + image" class="rounded" />
         </ng-template>
     </swiper>
 </ng-template>
