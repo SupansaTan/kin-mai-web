@@ -33,6 +33,7 @@ export class RestaurantDashboardComponent implements OnInit {
   awsS3Url = environment.awsS3Url;
   userId: string;
   restaurantId: string;
+  RecommendMenu: Array<string> = [];
 
 
   constructor(
@@ -85,6 +86,8 @@ export class RestaurantDashboardComponent implements OnInit {
               }
               element.reviewTimeString = this.getReviewTimeInString(reviewDate)
               element.userName = element.userName.replace(/(?<!^).(?!$)/g, '*')
+              this.RecommendMenu = (element.foodRecommendList.length != 0)? [ ...this.RecommendMenu, ...(element.foodRecommendList)] : this.RecommendMenu
+            this.RecommendMenu = [...new Set(this.RecommendMenu)];
             });
 
             if (this.TodayReview.length != 0) {
