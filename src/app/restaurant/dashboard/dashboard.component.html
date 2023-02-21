@@ -8,51 +8,61 @@
 
 <div *ngIf="Reviews && !isLoading">
 <div class="row mt-3">
-  <div class="col mb-3">
+  <div class="col">
     <!-- Today Rating -->
-    <div class="card h-100">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center">
-          <h3 class="totalR1">Today Rating</h3>
-          <p *ngIf="this.TodayReview.length != 0" >({{TodayReview.length}} reviews)</p>
+    <div class="card h-100 rounded-2 border-0">
+      <div class="card-body p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h3 class="totalR1 mb-0">Today Rating
+            <h6 class="d-inline fw-bolder mb-0">({{TodayReview.length}} reviews)</h6>
+          </h3>
         </div>
 
-        <div class="d-flex" data-cy="todayRating">
-          <div class="d-flex" *ngIf="this.TodayReview.length != 0">
-            <h3 class="me-4" id="numberrate">{{TodayRating}}</h3>
-            <div class="me-1" *ngFor="let item of this.Star ; index as i">
-              <img src="../../../assets/image/{{item}}.png" class="star-cover ">
-            </div>
+        <div class="row d-flex align-items-center mb-2" data-cy="todayRating">
+          <div class="d-flex align-items-center" *ngIf="this.TodayReview.length != 0">
+            <h3 class="me-4 mb-0" id="numberrate">{{TodayRating}}</h3>
+            <ngb-rating [rate]="TodayRating" [max]="5" id="rating" [readonly]="true">
+              <ng-template let-fill="fill" let-index="index">
+                <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color"></i>
+              </ng-template>
+            </ngb-rating>
           </div>
           <div class="d-flex" *ngIf="this.TodayReview.length == 0">
-            <h3 class="mb-3">- วันนี้ยังไม่มีรีวิว -</h3>
+            <h4 class="mb-3">- วันนี้ยังไม่มีรีวิว -</h4>
           </div>
         </div>
 
         <!-- Total Rating -->
-        <h3 class="totalR2 mb-3" data-cy="totalRating">Total Rating {{TotalRating.toFixed(1)}}</h3>
+        <h3 class="totalR2" data-cy="totalRating">Total Rating
+          <h2 class="d-inline">{{TotalRating.toFixed(1)}}</h2>
+        </h3>
       </div>
     </div>
   </div>
 
   <!-- Customer Satisfaction -->
   <div class="col row">
-    <h4 class="m-0 d-flex justify-content-center">ระดับความพึงพอใจ</h4>
+    <h5 class="m-0 d-flex justify-content-center">ระดับความพึงพอใจ</h5>
     <div class="d-flex justify-content-center">
       <circle-progress
-        [percent]="CountGoodReview/TotalReview*100"
-        [radius]="100"
-        [outerStrokeWidth]="16"
-        [innerStrokeWidth]="8"
-        [outerStrokeColor]="'#78C000'"
-        [innerStrokeColor]="'#C7E596'"
+        [percent]="CountGoodReview/TotalReview * 100"
+        [radius]="60"
+        [space]="-12"
+        [outerStrokeWidth]="12"
+        [innerStrokeWidth]="12"
+        [innerStrokeColor]="'#e7e8ea'"
+        [outerStrokeColor]="'#70C879'"
         [animation]="true"
-        [animationDuration]="300"
+        [animationDuration]="500"
         [subtitle]="CountGoodReview+'/'+TotalReview+' คน'"
-        [titleFontSize]="'24'"
-        [subtitleFontSize]="'20'"
+        [subtitleColor]="'#7A7C7A'"
+        [subtitleFontSize]="'22'"
+        [titleFontSize]="'35'"
+        unitsFontSize="30"
+        [titleFontWeight]="'800'"
+        [subtitleFontWeight]="'600'"
+        [showTitle]="true"
         [renderOnClick]="false"
-        [showBackground]="false"
         *ngIf="this.Reviews.length != 0"
       >
       </circle-progress>
@@ -63,7 +73,7 @@
 
   <!-- recommendMenu -->
   <div class="col-md" data-cy="recommendMenu">
-    <h4>เมนูที่ได้รับการแนะนำ</h4>
+    <h5>เมนูที่ได้รับการแนะนำ</h5>
     <span class="rounded-pill bg-white border-grey me-1 mb-2 px-2 py-1"
       *ngFor="let item of RecommendMenu; index as i;">
         {{item}}
@@ -73,38 +83,42 @@
 
 <!-- reviewForm -->
 <div data-cy="reviewForm">
-  <div class="row mt-4">
-    <h4 class="mb-1" id="reviews">Reviews</h4>
-
-    <div class="col-md d-flex">
-      <div class="col me-4">
-        <div>
-          <label class="m-0 p-0">ค้นหา</label>
-          <input class="form-control form-control-sm" type="text" placeholder="เมนูแนะนำ, ความคิดเห็น"/>
-        </div>
-      </div>
-
-      <div class="col-3">
-        <label class="m-0 p-0">จำนวนดาว</label>
-        <select class="form-select form-select-sm">
-          <option>ทั้งหมด</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
-      </div>
+  <h4 class="mb-1 mt-3 fw-bolder">Reviews</h4>
+  <!-- filter review bar -->
+  <div class="row g-2 mb-3" data-cy="reviewFilter">
+    <div class="col">
+      <label>Search</label>
+      <input [(ngModel)]="keywords" class="form-control form-control-sm shadow-none" type="text" placeholder="ความคิดเห็น"/>
     </div>
-
-    <div class="col-md">
-      <br>
-      <button type="button" class="col btn btn-light-yellow border-warning rounded-0 rounded-start ">ทั้งหมด(60)</button>
-      <button type="button" class="col btn btn-light-yellow border-warning rounded-0 " >มีรูปภาพ(20)</button>
-      <button type="button" class="col btn btn-light-yellow border-warning rounded-0 " >มีความคิดเห็น(30)</button>
-      <button type="button" class="col btn btn-light-yellow border-warning rounded-0 rounded-end " >มีเมนูแนะนำ(5)</button>
+    <div class="col-2">
+      <label>จำนวนดาว</label>
+      <select [(ngModel)]="ratingFilter" class="form-select form-select-sm shadow-none">
+        <option value="6">ทั้งหมด</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
     </div>
-
+    <div class="col-auto d-flex align-content-end flex-wrap">
+      <button class="btn btn-sm border-warning rounded-0 rounded-start"
+        [ngClass]="isSelectedTotalReview? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(1)">
+        ทั้งหมด ({{ totalReview }})
+      </button>
+      <button class="btn btn-sm border-warning rounded-0"
+        [ngClass]="isSelectedOnlyReviewHaveImage? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(2)">
+        มีรูปภาพ ({{ totalReviewHaveImage }})
+      </button>
+      <button class="btn btn-sm border-warning rounded-0"
+        [ngClass]="isSelectedOnlyReviewHaveComment? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(3)">
+        มีความคิดเห็น ({{ totalReviewHaveComment }})
+      </button>
+      <button class="btn btn-sm border-warning rounded-0 rounded-end"
+        [ngClass]="isSelectedOnlyReviewHaveFoodRecommend? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(4)">
+        มีเมนูแนะนำ ({{ totalReviewHaveFoodRecommend }})
+      </button>
+    </div>
   </div>
 
   <!-- Customer Reviews -->
@@ -122,9 +136,11 @@
               <p class="m-0">{{review.reviewTimeString}}</p>
             </div>
             <div class="col-auto d-flex align-items-center mb-2">
-              <div class="col-auto me-1" *ngFor="let item of getRatingStarArray(review.rating); index as i;">
-                <img src="../../../assets/image/{{item}}.png" class="review-star-cover">
-              </div>
+              <ngb-rating [rate]="review.rating" [max]="5" id="rating" [readonly]="true">
+                <ng-template let-fill="fill" let-index="index">
+                  <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color review"></i>
+                </ng-template>
+              </ngb-rating>
               <h5 class="m-0 mt-1 ms-2">{{review.rating}}</h5>
             </div>
             <p class="text-break">{{review.comment}}</p>

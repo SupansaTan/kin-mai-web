@@ -28,6 +28,19 @@ export class RestaurantDashboardComponent implements OnInit {
 
   CountGoodReview: number = 0;
 
+  totalReview: number = 0;
+  totalReviewHaveImage: number = 0;
+  totalReviewHaveComment: number = 0;
+  totalReviewHaveFoodRecommend: number = 0;
+
+  // for filter reviews
+  keywords: string = "";
+  ratingFilter: number = 6;
+  isSelectedTotalReview: boolean = true;
+  isSelectedOnlyReviewHaveImage: boolean = false;
+  isSelectedOnlyReviewHaveComment: boolean = false;
+  isSelectedOnlyReviewHaveFoodRecommend: boolean = false;
+
   Star: Array<string>;
   RestaurantType: Array<string>;
   awsS3Url = environment.awsS3Url;
@@ -70,11 +83,11 @@ export class RestaurantDashboardComponent implements OnInit {
           if (this.Reviews.length != 0) {
             this.TotalReview = this.Reviews.length
             let ratingCount = 0;
-            this.Reviews.forEach(x => { 
+            this.Reviews.forEach(x => {
               ratingCount += x.rating
             });
             this.TotalRating = ratingCount/this.Reviews.length
-            
+
             this.Reviews.forEach(element => {
               let today = new Date();
               let reviewDate = new Date(element.createAt)
@@ -92,7 +105,7 @@ export class RestaurantDashboardComponent implements OnInit {
 
             if (this.TodayReview.length != 0) {
               let ratingCount = 0;
-              this.TodayReview.forEach(x => { 
+              this.TodayReview.forEach(x => {
                 ratingCount += x.rating;
               });
               this.TodayRating = ratingCount/this.TodayReview.length;
@@ -114,7 +127,7 @@ export class RestaurantDashboardComponent implements OnInit {
     let result = (d1.getFullYear() == d2.getFullYear() &&
             d1.getMonth() == d2.getMonth() &&
             d1.getDate() == d2.getDate());
-    return result;  
+    return result;
   }
 
   getRatingStarArray(rating: number) {
@@ -152,7 +165,7 @@ export class RestaurantDashboardComponent implements OnInit {
       else if (diffTime < 60) {
         stringTime = String(Math.floor(diffTime)) + " นาทีที่แล้ว"
       }
-    } 
+    }
     else if (diffTime >= 60 && diffTime < 1140) {
         stringTime = String(Math.floor(diffTime/60)) + " ชั่วโมงที่แล้ว"
     }
@@ -171,4 +184,32 @@ export class RestaurantDashboardComponent implements OnInit {
     return stringTime;
   }
 
+  changeFilterButton(i: number) {
+    switch(i) {
+      case 1:
+        this.isSelectedTotalReview = true;
+        this.isSelectedOnlyReviewHaveImage = false;
+        this.isSelectedOnlyReviewHaveComment = false;
+        this.isSelectedOnlyReviewHaveFoodRecommend = false;
+        break;
+      case 2:
+        this.isSelectedOnlyReviewHaveImage = true;
+        this.isSelectedTotalReview = false;
+        this.isSelectedOnlyReviewHaveComment = false;
+        this.isSelectedOnlyReviewHaveFoodRecommend  = false;
+        break;
+      case 3:
+        this.isSelectedOnlyReviewHaveComment = true;
+        this.isSelectedTotalReview = false;
+        this.isSelectedOnlyReviewHaveImage = false;
+        this.isSelectedOnlyReviewHaveFoodRecommend = false;
+        break;
+      case 4:
+        this.isSelectedOnlyReviewHaveFoodRecommend = true;
+        this.isSelectedTotalReview = false;
+        this.isSelectedOnlyReviewHaveComment = false;
+        this.isSelectedOnlyReviewHaveImage = false;
+        break;
+    }
+  }
 }
