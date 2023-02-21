@@ -18,6 +18,8 @@ import { SharedModule } from '../shared/shared.module';
 import { ModalGalleryComponent } from './modal-gallery/modal-gallery.component';
 import { SwiperModule } from "swiper/angular";
 
+import { NgCircleProgressModule } from 'ng-circle-progress';
+
 @NgModule({
   declarations: [
     RestaurantDashboardComponent,
@@ -40,6 +42,9 @@ import { SwiperModule } from "swiper/angular";
     GoogleMapsModule,
     GooglePlaceModule,
     SwiperModule,
+    NgCircleProgressModule.forRoot({
+      // set defaults here
+    }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
