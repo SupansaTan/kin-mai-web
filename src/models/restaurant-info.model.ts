@@ -1,3 +1,5 @@
+import { ReviewInfoModel } from "./review-info.model";
+
 export class RestaurantInfoListModel {
   restaurantInfo: Array<RestaurantInfoItemModel>;
   restaurantCumulativeCount: number;
@@ -38,4 +40,33 @@ export class RestaurantCardInfoModel {
   totalReview: number;
   isFavorite: boolean;
   isReview: boolean;
+}
+
+export class RestaurantDetailModel {
+  restaurantInfo: Restaurant;
+  socialContact: Array<SocialContactModel>;
+  isFavorite: boolean
+}
+
+
+export class SocialContactModel {
+  socialType: number;
+  contactValue: string;
+}
+
+export class Restaurant {
+  id: string;
+  ownerId: string;
+  name: string;
+  imageLink: Array<string>;
+  description: string;
+  address: string;
+  createAt: Date;
+  deliveryType: Array<number>;
+  paymentMethod: Array<number>;
+  restaurantType: number;
+  latitude: number;
+  longitude: number;
+  minPriceRate: number;
+  maxPriceRate: number;
 }

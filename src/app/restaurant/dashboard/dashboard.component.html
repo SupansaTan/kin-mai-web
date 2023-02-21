@@ -1,56 +1,72 @@
-<div class="row mt-3">
-  <div class="col-auto me-4">
 
+<!-- loading -->
+<div *ngIf="isLoading" class="row d-flex justify-content-center py-2">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden text-grey">Loading...</span>
+  </div>
+</div>
+
+<div *ngIf="Reviews && !isLoading">
+<div class="row mt-3">
+  <div class="col mb-3">
     <!-- Today Rating -->
-    <div class="card">
+    <div class="card h-100">
       <div class="card-body">
 
-        <div class="d-flex">
+        <div class="d-flex justify-content-between align-items-center">
           <h1 class="totalR1">Today Rating</h1>
-          <p class="ms-4 mt-1">(2 reviews)</p>
+          <p *ngIf="this.TodayReview.length != 0" >({{TodayReview.length}} reviews)</p>
         </div>
 
         <div class="d-flex" data-cy="todayRating">
-          <h1 class="me-4" id="numberrate">4.5</h1>
-          <div class="me-1" *ngFor="let item of Info.Stars ; index as i">
-            <img src="../../../assets/image/{{item}}.png" class="star-cover ">
+          <div class="d-flex" *ngIf="this.TodayReview.length != 0">
+            <h1 class="me-4" id="numberrate">{{TodayRating}}</h1>
+            <div class="me-1" *ngFor="let item of this.Star ; index as i">
+              <img src="../../../assets/image/{{item}}.png" class="star-cover ">
+            </div>
+          </div>
+          <div class="d-flex" *ngIf="this.TodayReview.length == 0">
+            <h3 class="mb-3">- วันนี้ยังไม่มีรีวิว -</h3>
           </div>
         </div>
 
         <!-- Total Rating -->
-        <h3 class="totalR2" data-cy="totalRating">Total Rating {{Info.Rating}}</h3>
+        <h3 class="totalR2 mb-3" data-cy="totalRating">Total Rating {{TotalRating}}</h3>
 
       </div>
     </div>
-
   </div>
 
   <!-- Customer Satisfaction -->
-  <div class="col-3 d-flex justify-content-center">
-    <div class="col row">
-      <h2 class="m-0">ระดับความพึงพอใจ</h2>
-      <div class="progress green">
-        <span class="progress-left">
-          <span class="progress-bar"></span>
-        </span>
-        <span class="progress-right">
-            <span class="progress-bar"></span>
-        </span>
-        <div class="progress-value mt-4" data-cy="customerSatisfaction">
-          <h2 class="m-0 mt-3 fs-1">80%</h2>
-          <h2 class="m-0 fs-6">50/60 คน</h2>
-        </div>
-      </div>
-      <div class="ms-5">
-        <p>3 - 5 ดาว</p>
-      </div>
+  <div class="col row">
+    <h2 class="m-0 d-flex justify-content-center">ระดับความพึงพอใจ</h2>
+    <div class="d-flex justify-content-center">
+      <circle-progress
+        [percent]="CountGoodReview/TotalReview*100"
+        [radius]="100"
+        [outerStrokeWidth]="16"
+        [innerStrokeWidth]="8"
+        [outerStrokeColor]="'#78C000'"
+        [innerStrokeColor]="'#C7E596'"
+        [animation]="true"
+        [animationDuration]="300"
+        [subtitle]="CountGoodReview+'/'+TotalReview+' คน'"
+        [titleFontSize]="'24'"
+        [subtitleFontSize]="'20'"
+        [renderOnClick]="false"
+        [showBackground]="false"
+        *ngIf="this.Reviews.length != 0"
+      >
+      </circle-progress>
+      <h3 *ngIf="this.Reviews.length == 0">ไม่มีมีรีวิว</h3>
     </div>
+    <p class="m-0 d-flex justify-content-center" *ngIf="this.Reviews.length != 0">3 - 5 ดาว</p>
   </div>
 
   <!-- recommendMenu -->
   <div class="col-md" data-cy="recommendMenu">
     <h2>เมนูที่ได้รับการแนะนำ</h2>
-    <span class="badge rounded-pill bg-light text-dark border border-dark me-1 mb-2" *ngFor="let item of Info.Menus; index as i;"><h4 class="m-0">{{item}}</h4></span>
+    <span class="badge rounded-pill bg-light text-dark border border-dark me-1 mb-2" *ngFor="let item of Reviews; index as i;"><h4 class="m-0">{{item.foodRecommendList}}</h4></span>
   </div>
 
 </div>
@@ -92,9 +108,9 @@
   </div>
 
   <!-- Customer Reviews -->
-  <div class="row">
+  <div class="row" *ngIf="this.Reviews.length != 0">
 
-    <div *ngFor="let item of Reviews; index as i;" class="col-lg rounded bg-white p-3 m-3">
+    <div *ngFor="let review of Reviews; index as i;" class="col-lg-5 rounded bg-white p-3 m-3 mb-1">
       <div class="row">
 
           <div class="col-2 px-1">
@@ -102,26 +118,41 @@
           </div>
           <div class="col">
             <div class="d-flex justify-content-between">
-              <p class="m-0 mb-1">B**r</p>
-              <p class="m-0">30 นาทีที่แล้ว</p>
+              <p class="m-0 mb-1">{{review.userName}}</p>
+              <p class="m-0">{{review.reviewTimeString}}</p>
             </div>
             <div class="col-auto d-flex align-items-center mb-2">
-              <div class="col-auto me-1" *ngFor="let item of Info.Stars; index as i;">
+              <div class="col-auto me-1" *ngFor="let item of getRatingStarArray(review.rating); index as i;">
                 <img src="../../../assets/image/{{item}}.png" class="review-star-cover">
               </div>
-              <p class="m-0">4.5</p>
+              <h4 class="m-0 mt-1 ms-2">{{review.rating}}</h4>
             </div>
-            <p class="text-break">อาหารอร่อย ร้านสะอาด ราคาถูกไม่แพง แต่รอนานไปนิส </p>
+            <p class="text-break">{{review.comment}}</p>
+            
+            <div class="col-auto d-flex align-items-center mb-2">
+              <div class="col-auto me-1" *ngFor="let image of review.imageLink; index as i;">
+                <img [src]="awsS3Url + '/' + image" class="review-img">
+              </div>
+            </div>
 
-            <div><button type="button" class="btn btn-yellow btn-sm" id="btreply">
+            <div class="d-flex justify-content-end mb-1">
+              <input class="form-control form-control-sm col me-1" type="text" placeholder="..."/>
+              <button type="button" class="btn btn-yellow btn-sm col-auto" id="btreply">
               <i class="bi bi-arrow-return-left"></i>
                 ตอบกลับ
-            </button></div>
+              </button>
+            </div>
 
           </div>
       </div>
 
     </div>
   </div>
+
+  <div class="d-flex justify-content-center mt-5" *ngIf="this.Reviews.length == 0">
+    <h3>ไม่มีมีรีวิว</h3>
+  </div>
+
+</div>
 
 </div>

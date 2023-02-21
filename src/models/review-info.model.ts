@@ -5,6 +5,10 @@ export class ReviewInfoModel {
   imageLink: Array<string>;
   foodRecommendList: Array<string>;
   reviewLabelList: Array<number>;
+  createAt: Date;
+  reviewTimeString: string;
+  userId: string;
+  userName: string;
 }
 
 export class GetReviewInfoRequest {
