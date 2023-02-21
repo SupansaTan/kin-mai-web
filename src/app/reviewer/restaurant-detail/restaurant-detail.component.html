@@ -219,17 +219,26 @@
               <p class="m-0 mt-1 ms-2">{{ item.rating }}</p>
             </div>
 
-            <!-- food recommend list -->
-            <ng-container *ngIf="item.foodRecommendList && item.foodRecommendList.length > 0">
-              <div class="d-flex flex-wrap align-items-center">
+            <!-- food recommend list && review label -->
+            <div class="d-flex flex-wrap align-items-center">
+              <ng-container *ngIf="item.reviewLabelList && item.reviewLabelList.length > 0">
+                <span
+                  *ngFor="let item of item.reviewLabelList; index as i;"
+                  class="rounded-pill px-2 bg-light-yellow text-dark border-yellow me-1 mb-1"
+                >
+                  {{ getReviewLabel(item) }}
+                </span>
+              </ng-container>
+
+              <ng-container *ngIf="item.foodRecommendList && item.foodRecommendList.length > 0">
                 <span
                   *ngFor="let item of item.foodRecommendList; index as i;"
                   class="rounded-pill px-2 bg-white border-grey me-1 mb-1"
                 >
                   {{ item }}
                 </span>
-              </div>
-            </ng-container>
+              </ng-container>
+            </div>
 
             <!-- comment -->
             <ng-container *ngIf="item.comment && item.comment.length > 0">

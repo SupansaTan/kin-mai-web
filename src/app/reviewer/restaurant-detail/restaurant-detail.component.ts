@@ -12,6 +12,7 @@ import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { environment } from 'src/environments/environment';
 import { DrinkAndDessertCategory, FoodCategory } from 'src/constant/food-category.constant';
 import { GetReviewInfoFilterModel, GetReviewInfoListModel, GetReviewInfoModel } from 'src/models/get-review-info.model';
+import { BadReviewLabelItem, GoodReviewLabelItem } from 'src/constant/review-label.constant';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -104,6 +105,14 @@ export class RestaurantDetailComponent implements OnInit {
       return DrinkAndDessertCategory.find(x => x.id === type)?.name;
     }
     return FoodCategory.find(x => x.id === type)?.name;
+  }
+
+  getReviewLabel(type: number) {
+    if (type > 5) {
+      return GoodReviewLabelItem.find(x => x.id === type)?.name;
+    } else {
+      return BadReviewLabelItem.find(x => x.id === type)?.name;
+    }
   }
 
   getPaymentMethodLabel(type: number) {
