@@ -12,15 +12,14 @@
     <!-- Today Rating -->
     <div class="card h-100">
       <div class="card-body">
-
         <div class="d-flex justify-content-between align-items-center">
-          <h1 class="totalR1">Today Rating</h1>
+          <h3 class="totalR1">Today Rating</h3>
           <p *ngIf="this.TodayReview.length != 0" >({{TodayReview.length}} reviews)</p>
         </div>
 
         <div class="d-flex" data-cy="todayRating">
           <div class="d-flex" *ngIf="this.TodayReview.length != 0">
-            <h1 class="me-4" id="numberrate">{{TodayRating}}</h1>
+            <h3 class="me-4" id="numberrate">{{TodayRating}}</h3>
             <div class="me-1" *ngFor="let item of this.Star ; index as i">
               <img src="../../../assets/image/{{item}}.png" class="star-cover ">
             </div>
@@ -31,15 +30,14 @@
         </div>
 
         <!-- Total Rating -->
-        <h3 class="totalR2 mb-3" data-cy="totalRating">Total Rating {{TotalRating}}</h3>
-
+        <h3 class="totalR2 mb-3" data-cy="totalRating">Total Rating {{TotalRating.toFixed(1)}}</h3>
       </div>
     </div>
   </div>
 
   <!-- Customer Satisfaction -->
   <div class="col row">
-    <h2 class="m-0 d-flex justify-content-center">ระดับความพึงพอใจ</h2>
+    <h4 class="m-0 d-flex justify-content-center">ระดับความพึงพอใจ</h4>
     <div class="d-flex justify-content-center">
       <circle-progress
         [percent]="CountGoodReview/TotalReview*100"
@@ -65,27 +63,29 @@
 
   <!-- recommendMenu -->
   <div class="col-md" data-cy="recommendMenu">
-    <h2>เมนูที่ได้รับการแนะนำ</h2>
-    <span class="badge rounded-pill bg-light text-dark border border-dark me-1 mb-2" *ngFor="let item of Reviews; index as i;"><h4 class="m-0">{{item.foodRecommendList}}</h4></span>
+    <h4>เมนูที่ได้รับการแนะนำ</h4>
+    <span class="rounded-pill bg-white border-grey me-1 mb-2 px-2 py-1"
+      *ngFor="let item of RecommendMenu; index as i;">
+        {{item}}
+    </span>
   </div>
-
 </div>
 
 <!-- reviewForm -->
 <div data-cy="reviewForm">
   <div class="row mt-4">
-    <h2 class="mb-1" id="reviews">Reviews</h2>
-    
+    <h4 class="mb-1" id="reviews">Reviews</h4>
+
     <div class="col-md d-flex">
       <div class="col me-4">
         <div>
-          <h3 class="m-0 p-0">ค้นหา</h3>
+          <label class="m-0 p-0">ค้นหา</label>
           <input class="form-control form-control-sm" type="text" placeholder="เมนูแนะนำ, ความคิดเห็น"/>
         </div>
       </div>
 
       <div class="col-3">
-        <h3 class="m-0 p-0">จำนวนดาว</h3>
+        <label class="m-0 p-0">จำนวนดาว</label>
         <select class="form-select form-select-sm">
           <option>ทั้งหมด</option>
           <option>1</option>
@@ -108,9 +108,9 @@
   </div>
 
   <!-- Customer Reviews -->
-  <div class="row" *ngIf="this.Reviews.length != 0">
+  <div class="cols-3 row g-2 d-flex mt-2" *ngIf="this.Reviews.length != 0">
 
-    <div *ngFor="let review of Reviews; index as i;" class="col-lg-5 rounded bg-white p-3 m-3 mb-1">
+    <div *ngFor="let review of Reviews; index as i;" class="col-lg rounded-2 bg-white p-3 my-2 me-2">
       <div class="row">
 
           <div class="col-2 px-1">
@@ -125,12 +125,12 @@
               <div class="col-auto me-1" *ngFor="let item of getRatingStarArray(review.rating); index as i;">
                 <img src="../../../assets/image/{{item}}.png" class="review-star-cover">
               </div>
-              <h4 class="m-0 mt-1 ms-2">{{review.rating}}</h4>
+              <h5 class="m-0 mt-1 ms-2">{{review.rating}}</h5>
             </div>
             <p class="text-break">{{review.comment}}</p>
-            
-            <div class="col-auto d-flex align-items-center mb-2">
-              <div class="col-auto me-1" *ngFor="let image of review.imageLink; index as i;">
+
+            <div class="col row d-flex align-items-center mb-2 w-100">
+              <div class="col-3" *ngFor="let image of review.imageLink; index as i;">
                 <img [src]="awsS3Url + '/' + image" class="review-img">
               </div>
             </div>

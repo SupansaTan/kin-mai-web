@@ -9,6 +9,7 @@ import { Restaurant, RestaurantDetailModel, SocialContactModel } from 'src/model
 import { RestaurantType } from 'src/constant/restaurant-type.constant';
 import { PaymentMethod } from 'src/constant/payment-method.constant';
 import { environment } from 'src/environments/environment';
+import { DeliveryType } from 'src/enum/delivery-type.enum';
 
 @Component({
   selector: 'app-detail',
@@ -31,6 +32,7 @@ export class DetailComponent implements OnInit {
   userId: string;
   restaurantId: string;
   RecommendMenu: Array<string> = [];
+  deliveryType = DeliveryType;
 
   options: google.maps.MapOptions;
   markerOptions: google.maps.MarkerOptions = {draggable: true};
@@ -71,14 +73,15 @@ export class DetailComponent implements OnInit {
       (response: ResponseModel<Array<ReviewInfoModel>>) => {
         if (response && response?.status === 200) {
           this.Reviews = response.data;
-          
+
           if (this.Reviews.length != 0) {
             this.TotalReview = this.Reviews.length
             let ratingCount = 0;
-            this.Reviews.forEach(x => { 
+            this.Reviews.forEach(x => {
               ratingCount += x.rating
-              this.RecommendMenu = [ ...this.RecommendMenu, ...(x.foodRecommendList)]
+              this.RecommendMenu = (x.foodRecommendList.length != 0)? [ ...this.RecommendMenu, ...(x.foodRecommendList)] : this.RecommendMenu
             });
+            this.RecommendMenu = [...new Set(this.RecommendMenu)];
             this.Rating = ratingCount/this.Reviews.length
           }
           this.getStarArray();
@@ -154,7 +157,7 @@ export class DetailComponent implements OnInit {
         return this.SocialContact.find((i:SocialContactModel) => i.socialType === 1)?.contactValue;
       case 2:
         return this.SocialContact.find((i:any) => i.socialType === 2)?.contactValue;
-      case 3: 
+      case 3:
         return this.SocialContact.find((i:any) => i.socialType === 3)?.contactValue;
       default:
         return this.SocialContact.find((i:any) => i.socialType === 4)?.contactValue;
