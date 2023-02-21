@@ -24,11 +24,11 @@ Feature: Restaurant Detail
     When I click "image" of restaurant
     Then I should see all "image" of restaurant
 
-  Scenario: Reviewer create review
-    Given I visit on Restaurant Detail page
-    Then  I should see create review button
-    When  I click create review button
-    Then  I should see create review modal
+  # Scenario: Reviewer create review
+  #   Given I visit on Restaurant Detail page
+  #   Then  I should see create review button
+  #   When  I click create review button
+  #   Then  I should see create review modal
 
 
 

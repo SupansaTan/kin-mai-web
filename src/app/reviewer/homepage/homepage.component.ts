@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { RestaurantCardListModel, RestaurantInfoListModel } from '../../../models/restaurant-info.model';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -19,11 +20,14 @@ export class ReviewerHomepageComponent implements OnInit {
   restaurantFromFilterInfo: RestaurantCardListModel = new RestaurantCardListModel();
   filterRestaurantRequest: FilterRestaurantRequest;
 
+  private sub: any;
   searchKeyword: string = "";
   awsS3Url = environment.awsS3Url;
   isShowNearMeList: boolean = true;
   isError: boolean;
   isLoading: boolean = true;
+  categoryType: number;
+  categoryTypeParam: number;
   skip: number = 0;
   lat: number;
   lng: number;
@@ -31,12 +35,30 @@ export class ReviewerHomepageComponent implements OnInit {
   constructor(
     private reviewerService: ReviewerService,
     private localStorageService: LocalStorageService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
-    this.initFilterRequest();
-    this.getUserCurrentLocation();
+    this.sub = this.route.params.subscribe(params => {
+      this.categoryTypeParam = params['categoryType'];
+      if (this.categoryTypeParam) {
+        this.isShowNearMeList = false;
+      }
+    });
+    this.initComponent();
+  }
+
+  async initComponent() {
+    const getCoordinate = await this.getUserCurrentLocation();
+    this.isLoading = false;
+
+    if (this.isShowNearMeList) {
+      this.initFilterRequest();
+      this.getRestaurantNearMeList();
+    } else {
+      this.categoryType = this.categoryTypeParam;
+    }
   }
 
   initFilterRequest() {
@@ -48,21 +70,27 @@ export class ReviewerHomepageComponent implements OnInit {
   }
 
   getUserCurrentLocation() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        this.getRestaurantNearMeList();
-      },
-      (err) => {
-        // User not allowed to get current position
-        // set coordinates at Bangkok, Thailand
-        this.lat = 13.736717;
-        this.lng = 100.523186;
-        this.getRestaurantNearMeList();
-      },
-      {timeout:10000}
-    );
+    return new Promise<boolean>((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.lat = position.coords.latitude;
+          this.lng = position.coords.longitude;
+          this.localStorageService.set(LocalStorageKey.latitude, this.lat);
+          this.localStorageService.set(LocalStorageKey.longitude, this.lng);
+          resolve(true);
+        },
+        (err) => {
+          // User not allowed to get current position
+          // set coordinates at Bangkok, Thailand
+          this.lat = 13.736717;
+          this.lng = 100.523186;
+          this.localStorageService.set(LocalStorageKey.latitude, this.lat);
+          this.localStorageService.set(LocalStorageKey.longitude, this.lng);
+          resolve(true);
+        },
+        {timeout:10000}
+      );
+    });
   }
 
   getRestaurantNearMeList() {

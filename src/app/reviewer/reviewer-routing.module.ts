@@ -3,8 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RandomFoodComponent } from './random-food/random-food.component';
 import { ReviewerHomepageComponent } from './homepage/homepage.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
-import { PlaylistComponent } from './playlist/playlist.component';
-import { PlaylistDetailComponent } from './playlist-detail/playlist-detail.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { AuthGuardService } from '../service/auth-guard.service';
 import { AccessLevel } from 'src/enum/access-level.enum';
 
@@ -34,21 +33,14 @@ const routes: Routes = [
     },
   },
   {
-    path: 'playlist',
-    component: PlaylistComponent,
+    path: 'profile',
+    component: EditProfileComponent,
     canActivate: [AuthGuardService],
     data: {
-      AccessLevel: [AccessLevel.Reviewer],
+      AccessLevel: [AccessLevel.Reviewer, AccessLevel.Public],
     },
   },
-  {
-    path: 'playlist-detail',
-    component: PlaylistDetailComponent,
-    canActivate: [AuthGuardService],
-    data: {
-      AccessLevel: [AccessLevel.Reviewer],
-    },
-  },
+ 
   {
     path: '',
     redirectTo: '/reviewer',

@@ -68,11 +68,23 @@ export class ModalReviewComponent implements OnInit {
     });
   }
 
+  clearReviewValue() {
+    this.initForm();
+    this.badReviewLabel.map(x => x.selected = false);
+    this.goodReviewLabel.map(x => x.selected = false);
+    this.selectedRecommendReviewLabel = new Array<number>();
+    this.reviewImageList = new Array<string>();
+    this.removeImageList = new Array<string>();
+    this.imageFileList = new Array<File>();
+    this.reviewInfo = new ReviewInfoModel();
+  }
+
   public openReviewModal(isReview: boolean, isEditReview: boolean, restaurantId: string, restaurantName: string): void {
     this.isReview = isReview;
     this.isEditReview = isEditReview;
     this.restaurantId = restaurantId;
     this.restaurantName = restaurantName;
+    this.clearReviewValue();
 
     if (!isReview || (isReview && isEditReview)) {
       this.getExistReview();
