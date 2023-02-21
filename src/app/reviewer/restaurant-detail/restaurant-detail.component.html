@@ -176,19 +176,19 @@
     </div>
     <div class="col-auto d-flex align-content-end flex-wrap">
       <button class="btn btn-sm border-warning rounded-0 rounded-start"
-        [ngClass]="isSelectedTotalReview? 'btn-yellow':'btn-light-yellow'">
+        [ngClass]="isSelectedTotalReview? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(1)">
         ทั้งหมด ({{ totalReview }})
       </button>
       <button class="btn btn-sm border-warning rounded-0"
-        [ngClass]="isSelectedOnlyReviewHaveImage? 'btn-yellow':'btn-light-yellow'">
+        [ngClass]="isSelectedOnlyReviewHaveImage? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(2)">
         มีรูปภาพ ({{ totalReviewHaveImage }})
       </button>
       <button class="btn btn-sm border-warning rounded-0"
-        [ngClass]="isSelectedOnlyReviewHaveComment? 'btn-yellow':'btn-light-yellow'">
+        [ngClass]="isSelectedOnlyReviewHaveComment? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(3)">
         มีความคิดเห็น ({{ totalReviewHaveComment }})
       </button>
       <button class="btn btn-sm border-warning rounded-0 rounded-end"
-        [ngClass]="isSelectedOnlyReviewHaveFoodRecommend? 'btn-yellow':'btn-light-yellow'">
+        [ngClass]="isSelectedOnlyReviewHaveFoodRecommend? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(4)">
         มีเมนูแนะนำ ({{ totalReviewHaveFoodRecommend }})
       </button>
     </div>

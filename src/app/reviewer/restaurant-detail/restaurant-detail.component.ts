@@ -157,6 +157,39 @@ export class RestaurantDetailComponent implements OnInit {
     return 'less than a second';
   }
 
+  changeFilterButton(i: number) {
+    switch(i) {
+      case 1:
+        this.isSelectedTotalReview = true;
+        this.isSelectedOnlyReviewHaveImage = false;
+        this.isSelectedOnlyReviewHaveComment = false;
+        this.isSelectedOnlyReviewHaveFoodRecommend = false;
+        this.getReviewList();
+        break;
+      case 2:
+        this.isSelectedOnlyReviewHaveImage = true;
+        this.isSelectedTotalReview = false;
+        this.isSelectedOnlyReviewHaveComment = false;
+        this.isSelectedOnlyReviewHaveFoodRecommend  = false;
+        this.getReviewList();
+        break;
+      case 3:
+        this.isSelectedOnlyReviewHaveComment = true;
+        this.isSelectedTotalReview = false;
+        this.isSelectedOnlyReviewHaveImage = false;
+        this.isSelectedOnlyReviewHaveFoodRecommend = false;
+        this.getReviewList();
+        break;
+      case 4:
+        this.isSelectedOnlyReviewHaveFoodRecommend = true;
+        this.isSelectedTotalReview = false;
+        this.isSelectedOnlyReviewHaveComment = false;
+        this.isSelectedOnlyReviewHaveImage = false;
+        this.getReviewList();
+        break;
+    }
+  }
+
   addReviewRestaurant(restaurantId: string, restaurantName: string) {
     this.modalReview.openReviewModal(true, false, restaurantId, restaurantName);
   }
