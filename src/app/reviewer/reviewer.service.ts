@@ -8,6 +8,7 @@ import { GetRestaurantListFromFilterRequestModel, GetRestaurantNearMeRequestMode
 import { GetReviewInfoRequest, ReviewInfoModel, UpdateReviewInfoRequest } from 'src/models/review-info.model';
 import { GetRestaurantDetailModel, GetRestaurantDetailRequestModel } from 'src/models/restaurant-detail.model';
 import { GetReviewInfoFilterModel, GetReviewInfoListModel } from 'src/models/get-review-info.model';
+import { UserProfileModel } from 'src/models/user-info.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,12 @@ export class ReviewerService {
 
   getSelectedCategoryType() {
     return this.selectedCategoryType;
+  }
+
+  getUserProfile(userId: string) {
+    const url = `${environment.kinMaiApi}/Authentication/GetUserProfile?userId=${userId}`;
+    this.sub = this.http.get<ResponseModel<UserProfileModel>>(url);
+    return this.sub;
   }
 
   getRestaurantNearMeList(model: GetRestaurantNearMeRequestModel) {

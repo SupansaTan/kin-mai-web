@@ -4,3 +4,12 @@ export interface UserInfoModel {
   restaurantName: string;
   userType: number;
 }
+
+export interface UserProfileModel {
+  userId: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  isLoginWithGoogle: boolean;
+}

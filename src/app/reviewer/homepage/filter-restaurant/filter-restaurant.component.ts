@@ -169,10 +169,6 @@ export class FilterRestaurantComponent implements OnInit {
     this.reviewModal.openReviewModal(false, false, restaurantId, restaurantName);
   }
 
-  editReviewRestaurant(restaurantId: string, restaurantName: string) {
-    this.reviewModal.openReviewModal(true, true, restaurantId, restaurantName);
-  }
-
   routeToRestaurantDetail(restaurantId: string) {
     this.router.navigate([PageLink.reviewer.restaurantDetail, {
       restaurantId: restaurantId,
