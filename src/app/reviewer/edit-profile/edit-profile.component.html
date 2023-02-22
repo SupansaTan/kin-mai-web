@@ -1,3 +1,5 @@
+<h2 class="text-center mt-5 mb-4">แก้ไขข้อมูลบัญชีผู้ใช้งาน</h2>
+
 <form [formGroup]="registerForm" data-cy="personalInfoForm">
   <!-- step progress -->
   <div class="row d-flex justify-content-center align-items-center my-2">
@@ -91,55 +93,11 @@
           </div>
         </div>
       </div>
-
-      <!-- password -->
-      <div *ngIf="!isLoginWithGoogle" class="col">
-        <label for="password" class="form-label fw-semibold">รหัสผ่าน <span class="text-danger">*</span></label>
-        <div class="position-relative">
-          <input id="password" [type]="isShowPassword ? 'text':'password'" placeholder="Password" formControlName="password" class="form-control shadow-none"
-            [ngClass]="{ 'border-danger': f['password'].invalid && f['password'].touched }" data-cy="password"
-          >
-          <i class="bi eye-icon position-absolute" role="button" (click)="isShowPassword = !isShowPassword"
-            [ngClass]="isShowPassword ? 'bi-eye-slash':'bi-eye'">
-          </i>
-        </div>
-
-        <div *ngIf="f['password'].invalid && f['password'].touched" class="text-danger mt-2">
-          <div *ngIf="f['password'].errors?.['required']">
-            Password is required.
-          </div>
-          <div *ngIf="f['password'].errors?.['minlength']">
-            Password must be at least 8 characters.
-          </div>
-        </div>
-      </div>
-
-      <!-- confirm password -->
-      <div *ngIf="!isLoginWithGoogle" class="col">
-        <label for="confirmPassword" class="form-label fw-semibold">ยืนยันรหัสผ่าน <span class="text-danger">*</span></label>
-        <div class="position-relative">
-          <input id="confirmPassword" [type]="isShowConfirmPassword ? 'text':'password'" placeholder="Confirm Password" formControlName="confirmPassword" class="form-control shadow-none"
-            [ngClass]="{ 'border-danger': f['confirmPassword'].invalid && f['confirmPassword'].touched }" data-cy="confirmPassword"
-          >
-          <i class="bi eye-icon position-absolute" role="button" (click)="isShowConfirmPassword = !isShowConfirmPassword"
-            [ngClass]="isShowConfirmPassword ? 'bi-eye-slash':'bi-eye'">
-          </i>
-        </div>
-
-        <div *ngIf="f['confirmPassword'].invalid && f['confirmPassword'].touched" class="text-danger mt-2" data-cy="confirmPasswordError">
-          <div *ngIf="f['confirmPassword'].errors?.['required']" data-cy="RequireConfirmPassword">
-            Confirm Password is required.
-          </div>
-          <div *ngIf="f['confirmPassword'].errors?.['ConfirmPassword']">
-            Password doesn't match.
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="col-auto my-3">
       <button type="button" class="btn btn-light-grey mx-2 px-5"
-        (click)="stage === 1? resetUserType() : changeToPreviousStage()"
+        (click)="stage === 1? routeToHomepage() : changeToPreviousStage()"
       >
         {{ stage === 1? 'ยกเลิก' : 'ก่อนหน้า' }}
       </button>

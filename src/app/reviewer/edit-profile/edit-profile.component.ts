@@ -1,10 +1,16 @@
+import { PageLink } from 'src/constant/path-link.constant';
+import { UserProfileModel } from 'src/models/user-info.model';
+import { ResponseModel } from 'src/models/response.model';
+import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
+import { LocalStorageService } from 'src/app/service/local-storage.service';
+import { ReviewerService } from './../reviewer.service';
 import { ModalSuccessComponent } from './../../shared/modal-success/modal-success.component';
 import { ConfirmPasswordValidator } from '../../shared/password-match-validator.component';
 import { ReviewerStepItems, StepItem } from './../../../models/step-item.model';
 import { ReviewerRegisterModel } from './../../../models/register.model';
-import { Component, EventEmitter, OnInit, Output, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -12,14 +18,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss']
 })
-export class EditProfileComponent implements OnInit,OnDestroy {
-
+export class EditProfileComponent implements OnInit {
   @ViewChild('successModalComponent') successModal: ModalSuccessComponent;
-  @Output() onResetUserType = new EventEmitter<boolean>();
-
-  private sub: any;
 
   steps: Array<StepItem> = new Array<StepItem>();
+  userInfo: UserProfileModel;
   registerForm: FormGroup;
   stage: number = 1;
   firstname: string;
@@ -33,8 +36,9 @@ export class EditProfileComponent implements OnInit,OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private reviewerService: ReviewerService,
+    private localStorageService: LocalStorageService
   ) {
     this.registerForm = this.fb.group({
       firstname: new FormControl('', [
@@ -51,14 +55,6 @@ export class EditProfileComponent implements OnInit,OnDestroy {
         Validators.email,
         Validators.required
       ]),
-      password: new FormControl('', [
-        Validators.minLength(8),
-        Validators.required
-      ]),
-      confirmPassword: new FormControl('', [
-        Validators.minLength(8),
-        Validators.required
-      ])
     }, {
       validators: ConfirmPasswordValidator.MatchPassword
     });
@@ -66,22 +62,7 @@ export class EditProfileComponent implements OnInit,OnDestroy {
 
   ngOnInit(): void {
     this.steps = ReviewerStepItems;
-    this.sub = this.route.params.subscribe(params => {
-      this.firstname = params['firstName'];
-      this.lastname = params['lastName'];
-      this.email = params['email'];
-
-      if (this.firstname && this.email) {
-        this.isLoginWithGoogle = true;
-        this.setRegisterInfo();
-      } else {
-        this.isLoginWithGoogle = false;
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.getUserProfile();
   }
 
   initForm() {
@@ -103,13 +84,28 @@ export class EditProfileComponent implements OnInit,OnDestroy {
     });
   }
 
-  setRegisterInfo() {
-    this.initForm();
-    this.registerForm.controls['firstname'].setValue(this.firstname);
-    this.registerForm.controls['lastname'].setValue(this.lastname);
-    this.registerForm.controls['email'].setValue(this.email);
+  setUserInfo() {
+    this.registerForm.controls['firstname'].setValue(this.userInfo.firstName);
+    this.registerForm.controls['lastname'].setValue(this.userInfo.lastName);
+    this.registerForm.controls['email'].setValue(this.userInfo.email);
+    this.registerForm.controls['username'].setValue(this.userInfo.username);
     this.registerForm.controls['email'].disable();
-    this.registerForm.controls['username'].markAsTouched();
+  }
+
+  getUserProfile() {
+    this.spinner.show();
+    let userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
+    this.reviewerService.getUserProfile(userId).subscribe(
+      (response: ResponseModel<UserProfileModel>) => {
+        this.spinner.hide();
+
+        if (response?.status === 200) {
+          this.userInfo = response.data;
+          this.setUserInfo();
+        } else {
+          this.successModal.openSuccessModal(false, response.message);
+        }
+    })
   }
 
   get f(): { [key: string]: AbstractControl } {
@@ -118,6 +114,7 @@ export class EditProfileComponent implements OnInit,OnDestroy {
 
   changeToPreviousStage() {
     this.registerForm.enable();
+    this.registerForm.controls['email'].disable();
     this.stage = 1;
   }
 
@@ -131,10 +128,8 @@ export class EditProfileComponent implements OnInit,OnDestroy {
     }
   }
 
-  resetUserType() {
-    this.onResetUserType.emit();
-    this.registerForm.reset();
-    this.isLoginWithGoogle = false;
+  routeToHomepage() {
+    this.router.navigate([PageLink.reviewer.homepage]);
   }
 
   getRegisterFormValue() {
@@ -143,15 +138,11 @@ export class EditProfileComponent implements OnInit,OnDestroy {
     registerModel.lastName = this.registerForm.get('lastname')?.value;
     registerModel.username = this.registerForm.get('username')?.value;
     registerModel.email = this.registerForm.get('email')?.value;
-    registerModel.password = this.registerForm.get('password')?.value;
-    registerModel.confirmPassword = this.registerForm.get('confirmPassword')?.value;
     return registerModel;
   }
 
   submit() {
-    
+
 
   }
-
-
 }
