@@ -10,7 +10,7 @@ Feature: Reviewer Homepage
     And I should be on reviewer homepage
     And I see searchbox
     And I see list of restarant near me
-  
+
   Scenario: Reviewer click restaurant detail
     When  I click title of Restaurant
     Then  I should be on Restaurant detail page
@@ -23,7 +23,7 @@ Feature: Reviewer Homepage
     When  I click "Love" button
     Then  I should see love button change
 
-  Scenario: Reviewer search restaurant 
+  Scenario: Reviewer search restaurant
     When  I search "Jaidee" in a search box
       | searchbox |
       | Jaidee |
@@ -31,7 +31,7 @@ Feature: Reviewer Homepage
     And   I should see filter
     And   I should see restaurant
 
-  Scenario: Reviewer filter restaurant 
+  Scenario: Reviewer filter restaurant
     When  I search "test" in a search box
       | searchbox |
       | test |
@@ -39,7 +39,7 @@ Feature: Reviewer Homepage
     And   I should see filter
     When  I click open button
     Then  I should see restaurants which open
-  
+
   Scenario: Reviewer see review
     When  I search "Jaidee" in a search box
       | searchbox |
@@ -48,14 +48,15 @@ Feature: Reviewer Homepage
     And   I should see filter
     When  I click MyReview button
     Then  I should see review form
-    
+
   Scenario: Reviewer edit review
     When  I search "Jaidee" in a search box
       | searchbox |
       | Jaidee |
     Then  I should see list of "restaurant" near me
     And   I should see filter
-    When  I click EditReview button
+    When  I click MyReview button
+    And   I click EditReview button
     Then  I should see review form
     When  I rates stars
     And   I click comment words button
@@ -76,7 +77,8 @@ Feature: Reviewer Homepage
       | Jaidee |
     Then  I should see list of "restaurant" near me
     And   I should see filter
-    When  I click EditReview button
+    When  I click MyReview button
+    And   I click EditReview button
     Then  I should see review form
     And   I remove comment
     And   I remove photo

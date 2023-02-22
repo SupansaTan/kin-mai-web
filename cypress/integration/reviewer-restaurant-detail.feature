@@ -24,11 +24,72 @@ Feature: Restaurant Detail
     When I click "image" of restaurant
     Then I should see all "image" of restaurant
 
-  # Scenario: Reviewer create review
-  #   Given I visit on Restaurant Detail page
-  #   Then  I should see create review button
-  #   When  I click create review button
-  #   Then  I should see create review modal
+
+  Scenario: Reviewer read myreview
+    Given I visit on Restaurant Detail page
+    Then  I should see  myreview button
+    When  I click myreview button
+    Then  I should see review modal
+
+  Scenario: Reviewer edit review
+    Given I visit on Restaurant Detail page
+    Then  I should see  ditReview button
+    And   I click EditReview button
+    Then  I should see review form
+    When  I rates stars
+    And   I click comment words button
+    And   I write comment
+      | commentBox |
+      | อร่อยมากๆค่ะ |
+    And   I click submit button
+    Then  I should review successful
+
+  Scenario: Reviewer search review
+    When I search "อร่อย" in search review
+      | SearchReview |
+      | อร่อย      |
+    Then I should see reviews
+
+  Scenario: Reviewer select stars
+    When I select star
+    Then I should see reviews
+
+
+  Scenario: Reviewer filer reviews
+    When I select star
+    And  I click filters button
+    Then I should see reviews
+
+
+  Scenario: Reviewer filer all reviews
+    When I select star
+    And  I click All button
+    Then I should see reviews
+
+  Scenario: Reviewer filer picture reviews
+    When I select star
+    And  I click Picture button
+    Then I should see reviews
+
+  Scenario: Reviewer filer comment reviews
+    When I select star
+    And  I click Comment button
+    Then I should see reviews
+
+  Scenario: Reviewer search and filter reviews
+    When I search "อร่อย" in search review
+      | SearchReview |
+      | อร่อย      |
+    And I select star
+    And I click Picture button
+    Then I should see reviews
+
+  Scenario: Reviewer filer menu reviews
+    When I select star
+    And  I click Menu  button
+    Then I should see reviews
+
+
 
 
 
