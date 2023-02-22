@@ -13,3 +13,10 @@ export interface UserProfileModel {
   email: string;
   isLoginWithGoogle: boolean;
 }
+
+export class UpdateUserProfile {
+  userId: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+}
