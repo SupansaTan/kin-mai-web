@@ -1,5 +1,5 @@
 import { PageLink } from 'src/constant/path-link.constant';
-import { UserProfileModel } from 'src/models/user-info.model';
+import { UpdateUserProfile, UserProfileModel } from 'src/models/user-info.model';
 import { ResponseModel } from 'src/models/response.model';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
@@ -132,17 +132,31 @@ export class EditProfileComponent implements OnInit {
     this.router.navigate([PageLink.reviewer.homepage]);
   }
 
-  getRegisterFormValue() {
-    let registerModel = new ReviewerRegisterModel();
-    registerModel.firstName = this.registerForm.get('firstname')?.value;
-    registerModel.lastName = this.registerForm.get('lastname')?.value;
-    registerModel.username = this.registerForm.get('username')?.value;
-    registerModel.email = this.registerForm.get('email')?.value;
-    return registerModel;
+  getFormValue() {
+    let userModel = new UpdateUserProfile();
+    userModel.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
+    userModel.firstName = this.registerForm.get('firstname')?.value;
+    userModel.lastName = this.registerForm.get('lastname')?.value;
+    userModel.username = this.registerForm.get('username')?.value;
+    return userModel;
   }
 
   submit() {
+    this.spinner.show();
+    let request = this.getFormValue();
 
+    this.reviewerService.updateUserProfile(request).subscribe(
+      (response: ResponseModel<boolean>) => {
+        this.spinner.hide();
 
+        if (response && response.status === 200) {
+          this.successModal.openSuccessModal(true, 'Update profile successful.');
+          setTimeout(() => {
+            this.router.navigate([PageLink.reviewer.homepage]);
+          }, 200);
+        } else {
+          this.successModal.openSuccessModal(false, response?.message);
+        }
+    })
   }
 }
