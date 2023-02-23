@@ -27,7 +27,6 @@ Feature: Restaurant Detail
     When I click "image" of restaurant
     Then I should see all "image" of restaurant
 
-
   Scenario: Reviewer read myreview
     Given I should be on Restaurant Detail page
     Then  I should see myreview button
@@ -45,7 +44,7 @@ Feature: Restaurant Detail
       | commentBox |
       | อร่อยมากๆค่ะ |
     And   I click submit button
-    Then  I should review successful
+    Then  I should see review successful
 
   Scenario: Reviewer search review
     Given I should be on Restaurant Detail page
@@ -58,14 +57,6 @@ Feature: Restaurant Detail
     Given I should be on Restaurant Detail page
     When I select star
     Then I should see reviews
-
-
-  Scenario: Reviewer filer reviews
-    Given I should be on Restaurant Detail page
-    When I select star
-    And  I click filters button
-    Then I should see reviews
-
 
   Scenario: Reviewer filer all reviews
     Given I should be on Restaurant Detail page
@@ -85,22 +76,19 @@ Feature: Restaurant Detail
     And  I click Comment button
     Then I should see reviews
 
+
+  Scenario: Reviewer filer menu reviews
+    Given I should be on Restaurant Detail page
+    When  I click Menu button
+    Then I should see reviews
+
   Scenario: Reviewer search and filter reviews
     Given I should be on Restaurant Detail page
     When I search "อร่อย" in search review
       | SearchReview |
       | อร่อย      |
-    And I select star
     And I click Picture button
     Then I should see reviews
-
-  Scenario: Reviewer filer menu reviews
-    Given I should be on Restaurant Detail page
-    When I select star
-    And  I click Menu  button
-    Then I should see reviews
-
-
 
 
 

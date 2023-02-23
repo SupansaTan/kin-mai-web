@@ -145,7 +145,7 @@
           <i class="bi bi-eye-fill me-2"></i>รีวิวของฉัน
         </button>
 
-        <button type="button" class="btn btn-yellow"  data-cy=" EditReviewBtn"
+        <button type="button" class="btn btn-yellow"  data-cy="EditReviewBtn"
           [ngClass]="restaurantDetail.isReview ? 'btn-yellow':'btn-light-yellow'"
           (click)="restaurantDetail.isReview? editReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName) : addReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName)"
         >
@@ -184,7 +184,7 @@
         มีรูปภาพ ({{ totalReviewHaveImage }})
       </button>
       <button class="col-6 col-md-auto btn btn-sm border-warning rounded-0"
-        [ngClass]="isSelectedOnlyReviewHaveComment? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(3)">
+        [ngClass]="isSelectedOnlyReviewHaveComment? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(3)" data-cy="CommentBtn">
         มีความคิดเห็น ({{ totalReviewHaveComment }})
       </button>
       <button class="col-6 col-md-auto btn btn-sm border-warning rounded-0 rounded-md-end"
