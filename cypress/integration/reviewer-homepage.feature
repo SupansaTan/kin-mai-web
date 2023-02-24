@@ -34,7 +34,7 @@ Feature: Reviewer Homepage
   Scenario: Reviewer filter restaurant
     When  I search "test" in a search box
       | searchbox |
-      | test |
+      | ร้าน |
     Then  I should see list of "restaurant" near me
     And   I should see filter
     When  I click open button

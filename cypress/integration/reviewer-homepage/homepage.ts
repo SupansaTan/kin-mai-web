@@ -105,7 +105,7 @@ And('I should see filter', () => {
 
 
 When('I click open button', () => {
-  cy.get(`[data-cy="OpenBtn"]`).click();
+  cy.get(`[data-cy="OpenBtn"]`).first().click({force: true});
 });
 
 Then('I should see restaurants which open', () => {
