@@ -25,10 +25,6 @@ export class RandomFoodComponent implements OnInit {
 
   ImageClick() {
     this.randomResult = this.categoryList[Math.floor(Math.random() * this.categoryList.length)];
-    Swal.fire({
-      title: this.randomResult.name,
-      timer: 5000
-    });
     this.isRandomAlready = true;
   }
 
