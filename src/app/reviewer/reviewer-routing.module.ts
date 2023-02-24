@@ -1,3 +1,4 @@
+import { FavoriteRestaurantComponent } from './favorite-restaurant/favorite-restaurant.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RandomFoodComponent } from './random-food/random-food.component';
@@ -40,7 +41,14 @@ const routes: Routes = [
       AccessLevel: [AccessLevel.Reviewer, AccessLevel.Public],
     },
   },
- 
+  {
+    path: 'favorite-restaurant',
+    component: FavoriteRestaurantComponent,
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccessLevel.Reviewer],
+    },
+  },
   {
     path: '',
     redirectTo: '/reviewer',

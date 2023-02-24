@@ -20,6 +20,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NearlyRestaurantComponent } from './homepage/nearly-restaurant/nearly-restaurant.component';
 import { FilterRestaurantComponent } from './homepage/filter-restaurant/filter-restaurant.component';
 import { SharedModule } from '../shared/shared.module';
+import { FavoriteRestaurantComponent } from './favorite-restaurant/favorite-restaurant.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { SharedModule } from '../shared/shared.module';
     ShortNumberPipe,
     NearlyRestaurantComponent,
     FilterRestaurantComponent,
+    FavoriteRestaurantComponent,
   ],
   imports: [
     CommonModule,
