@@ -1,0 +1,30 @@
+.big-image-cover {
+  min-height: 150px;
+  max-height: 150px;
+  min-width: 100%;
+  max-width: 100%;
+  width: 100%;
+  background-size: cover;
+  overflow: hidden;
+  border-radius: 10px;
+  object-fit: cover;
+
+  &.close {
+    filter: brightness(50%);
+  }
+}
+
+.restaurant-name {
+  width: fit-content;
+  height: 25px;
+}
+
+.description {
+  width: fit-content;
+  height: 25px;
+}
+
+.text-close {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

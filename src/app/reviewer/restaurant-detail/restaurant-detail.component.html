@@ -1,5 +1,5 @@
 <div class="py-4">
-  <div *ngIf="!isLoadingRestaurantInfo" class="row row-cols-1 row-cols-lg-4 gy-2 gx-3">
+  <div *ngIf="!isLoadingRestaurantInfo && restaurantDetail" class="row row-cols-1 row-cols-lg-4 gy-2 gx-3">
     <!-- Image -->
     <div class="col-12 col-md-3" data-cy="restaurantImage" ngxViewer>
       <div class="col-12 mb-2">
@@ -138,14 +138,14 @@
         </div>
       </div>
 
-      <div>
-        <button *ngIf="restaurantDetail.isReview" type="button" class="btn btn-light-grey px-2 me-2"
+      <div data-cy="reviewBtn">
+        <button *ngIf="restaurantDetail.isReview" type="button" class="btn btn-light-grey px-2 me-2" data-cy="MyReviewBtn"
           (click)="seeExistReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName)"
         >
           <i class="bi bi-eye-fill me-2"></i>รีวิวของฉัน
         </button>
 
-        <button type="button" class="btn btn-yellow"
+        <button type="button" class="btn btn-yellow"  data-cy="EditReviewBtn"
           [ngClass]="restaurantDetail.isReview ? 'btn-yellow':'btn-light-yellow'"
           (click)="restaurantDetail.isReview? editReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName) : addReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName)"
         >
@@ -161,11 +161,11 @@
   <div class="row g-2 mb-3" data-cy="reviewFilter">
     <div class="col-12 col-md">
       <label>Search</label>
-      <input [(ngModel)]="keywords" class="form-control form-control-sm shadow-none" type="text" placeholder="ความคิดเห็น" (ngModelChange)="getReviewList()"/>
+      <input data-cy="SearchReview" [(ngModel)]="keywords" class="form-control form-control-sm shadow-none" type="text" placeholder="ความคิดเห็น" (ngModelChange)="getReviewList()"/>
     </div>
     <div class="col-12 col-md-2">
       <label>จำนวนดาว</label>
-      <select [(ngModel)]="ratingFilter" class="form-select form-select-sm shadow-none" (ngModelChange)="getReviewList()">
+      <select [(ngModel)]="ratingFilter" class="form-select form-select-sm shadow-none" (ngModelChange)="getReviewList()" data-cy="Stars">
         <option value="6">ทั้งหมด</option>
         <option value="1">1</option>
         <option value="2">2</option>
@@ -176,26 +176,26 @@
     </div>
     <div class="col-12 col-lg-auto d-flex align-content-end flex-wrap">
       <button class="col-6 col-md-auto btn btn-sm border-warning rounded-0 rounded-md-start"
-        [ngClass]="isSelectedTotalReview? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(1)">
+        [ngClass]="isSelectedTotalReview? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(1)" data-cy="AllBtn">
         ทั้งหมด ({{ totalReview }})
       </button>
       <button class="col-6 col-md-auto btn btn-sm border-warning rounded-0"
-        [ngClass]="isSelectedOnlyReviewHaveImage? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(2)">
+        [ngClass]="isSelectedOnlyReviewHaveImage? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(2)" data-cy="PicBtn">
         มีรูปภาพ ({{ totalReviewHaveImage }})
       </button>
       <button class="col-6 col-md-auto btn btn-sm border-warning rounded-0"
-        [ngClass]="isSelectedOnlyReviewHaveComment? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(3)">
+        [ngClass]="isSelectedOnlyReviewHaveComment? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(3)" data-cy="CommentBtn">
         มีความคิดเห็น ({{ totalReviewHaveComment }})
       </button>
       <button class="col-6 col-md-auto btn btn-sm border-warning rounded-0 rounded-md-end"
-        [ngClass]="isSelectedOnlyReviewHaveFoodRecommend? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(4)">
+        [ngClass]="isSelectedOnlyReviewHaveFoodRecommend? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(4)" data-cy="MenuBtn">
         มีเมนูแนะนำ ({{ totalReviewHaveFoodRecommend }})
       </button>
     </div>
   </div>
 
   <!-- review list -->
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-2">
+  <div *ngIf="reviewList && reviewList.length > 0" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-2">
     <div *ngFor="let item of reviewList; index as i;" class="col h-100" data-cy="reviews">
       <div class="rounded-2 bg-white p-2">
         <div class="row px-2 pb-2">
@@ -261,7 +261,7 @@
     </div>
   </div>
 
-  <ng-container *ngIf="reviewList.length === 0 && !isLoadingReviewList">
+  <ng-container *ngIf="reviewList?.length === 0 && !isLoadingReviewList">
     <div class="row g-2 px-1">
       <p class="col-12 bg-light-grey rounded px-2 py-3 text-center">ร้านนี้ยังไม่มีรีวิว</p>
     </div>

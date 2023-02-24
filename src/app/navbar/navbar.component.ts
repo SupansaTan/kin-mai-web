@@ -75,6 +75,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
+  routeToFavoriteRestaurant() {
+    this.router.navigate([PageLink.reviewer.favoriteRestaurant]);
+  }
+
   logout() {
     this.localStorageService.removeAll();
     this.authenticationService.loginSuccessEvent(false);

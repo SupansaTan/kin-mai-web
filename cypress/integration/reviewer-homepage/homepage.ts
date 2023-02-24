@@ -105,7 +105,7 @@ And('I should see filter', () => {
 
 
 When('I click open button', () => {
-  cy.get(`[data-cy="OpenBtn"]`).click();
+  cy.get(`[data-cy="OpenBtn"]`).first().click({force: true});
 });
 
 Then('I should see restaurants which open', () => {
@@ -155,7 +155,12 @@ And('I should see filter', () => {
   cy.get('[data-cy="filter"]').should('be.visible');
 });
 
-When('I click EditReview button', () => {
+When('I click MyReview button', () => {
+  cy.wait(2000)
+  cy.get(`[data-cy="MyReviewBtn"]`).click();
+});
+
+And('I click EditReview button', () => {
   cy.wait(2000)
   cy.get(`[data-cy="EditReviewBtn"]`).click();
 });
@@ -218,7 +223,12 @@ And('I should see filter', () => {
   cy.get('[data-cy="filter"]').should('be.visible');
 });
 
-When('I click EditReview button', () => {
+When('I click MyReview button', () => {
+  cy.wait(2000)
+  cy.get(`[data-cy="MyReviewBtn"]`).click();
+});
+
+And('I click EditReview button', () => {
   cy.wait(2000)
   cy.get(`[data-cy="EditReviewBtn"]`).click();
 });

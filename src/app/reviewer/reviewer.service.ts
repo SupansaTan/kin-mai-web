@@ -8,6 +8,8 @@ import { GetRestaurantListFromFilterRequestModel, GetRestaurantNearMeRequestMode
 import { GetReviewInfoRequest, ReviewInfoModel, UpdateReviewInfoRequest } from 'src/models/review-info.model';
 import { GetRestaurantDetailModel, GetRestaurantDetailRequestModel } from 'src/models/restaurant-detail.model';
 import { GetReviewInfoFilterModel, GetReviewInfoListModel } from 'src/models/get-review-info.model';
+import { UpdateUserProfile, UserProfileModel } from 'src/models/user-info.model';
+import { GetFavoriteRestaurantList, GetFavoriteRestaurantRequest } from 'src/models/favorite-restaurant.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,18 @@ export class ReviewerService {
 
   getSelectedCategoryType() {
     return this.selectedCategoryType;
+  }
+
+  getUserProfile(userId: string) {
+    const url = `${environment.kinMaiApi}/Authentication/GetUserProfile?userId=${userId}`;
+    this.sub = this.http.get<ResponseModel<UserProfileModel>>(url);
+    return this.sub;
+  }
+
+  updateUserProfile(model: UpdateUserProfile) {
+    const url = `${environment.kinMaiApi}/Authentication/UpdateUserProfile`;
+    this.sub = this.http.put<ResponseModel<boolean>>(url, model);
+    return this.sub;
   }
 
   getRestaurantNearMeList(model: GetRestaurantNearMeRequestModel) {
@@ -126,6 +140,16 @@ export class ReviewerService {
       }
     });
     this.sub = this.http.put<ResponseModel<boolean>>(url, formData);
+    return this.sub;
+  }
+
+  getFavoriteRestaurantList(model: GetFavoriteRestaurantRequest) {
+    const url = `${environment.kinMaiApi}/Reviewer/GetFavoriteRestaurantList`;
+    let params = new HttpParams();
+    Object.entries(model).forEach(([k,v]) => {
+      params = params.append(k, v);
+    });
+    this.sub = this.http.get<ResponseModel<Array<GetFavoriteRestaurantList>>>(url, { params: params });
     return this.sub;
   }
 }
