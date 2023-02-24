@@ -5,7 +5,8 @@ export const PageLink = {
   },
   reviewer: {
     homepage: `reviewer`,
-    restaurantDetail: 'reviewer/restaurant'
+    restaurantDetail: 'reviewer/restaurant',
+    favoriteRestaurant: 'reviewer/favorite-restaurant'
   },
   restaurant: {
     dashboard: `restaurant`
