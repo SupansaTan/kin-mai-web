@@ -1,9 +1,10 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { LocalStorageService } from './../../service/local-storage.service';
 import { ReviewerService } from './../reviewer.service';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { GetFavoriteRestaurantList } from 'src/models/favorite-restaurant.model';
+import { GetFavoriteRestaurantList, GetFavoriteRestaurantRequest } from 'src/models/favorite-restaurant.model';
 import { SetFavoriteRestaurantRequestModel } from 'src/models/reviewer-homepage.model';
 import { ToggleFavoriteRestaurantRequestModel } from 'src/models/toggle-favorite-request.model';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
@@ -19,16 +20,35 @@ import { PageLink } from 'src/constant/path-link.constant';
 export class FavoriteRestaurantComponent implements OnInit {
   restaurantList: Array<GetFavoriteRestaurantList>;
   awsS3Url = environment.awsS3Url;
-  isLoading: boolean = true;
 
   constructor(
     private reviewerService: ReviewerService,
     private localStorageService: LocalStorageService,
     private toastr: ToastrService,
     private router: Router,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
+    this.getFavoriteRestaurantList();
+  }
+
+  getFavoriteRestaurantList() {
+    this.spinner.show();
+    let request = new GetFavoriteRestaurantRequest();
+    request.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
+    request.latitude = this.localStorageService.get<number>(LocalStorageKey.latitude) ?? 0;
+    request.longitude = this.localStorageService.get<number>(LocalStorageKey.longitude) ?? 0;
+
+    this.reviewerService.getFavoriteRestaurantList(request).subscribe(
+      (response: ResponseModel<Array<GetFavoriteRestaurantList>>) => {
+        if (response && response?.status === 200) {
+          this.restaurantList = response.data;
+          this.spinner.hide();
+        } else {
+          this.spinner.hide();
+        }
+    });
   }
 
   showtoasSuccess(text: string) {
