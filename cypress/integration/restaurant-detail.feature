@@ -16,10 +16,9 @@ Feature: Reataurnat Detail
       And I should see information
       And I should see google map
       And I should see edit button
-    
+
     Scenario: Restaurant owner click edit button
       Given I visit on Restaurant Detail page
-      When I press edit button
+      When I click edit button
       Then I should be on edit page
 
-        

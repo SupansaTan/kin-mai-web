@@ -103,7 +103,7 @@
                     [ngClass]="{ 'border-danger' : menu.errors && menu.touched }"
                     type="text" [formControlName]="menuIndex" data-cy="MenuName"
                   />
-                  <button *ngIf="isReview" class="btn col-auto" data-cy="DelMenuBtn" (click)="delRecommendMenu(menuIndex)">  
+                  <button *ngIf="isReview" class="btn col-auto" data-cy="DelMenuBtn" (click)="delRecommendMenu(menuIndex)">
                     <i class="bi bi-trash text-danger col-2 fs-4"></i>
                   </button>
                 </div>
@@ -116,7 +116,7 @@
       <!-- Submit button -->
       <div class="d-flex justify-content-end px-2 mb-2">
         <button *ngIf="isReview" class="btn btn-yellow px-5" (click)="submit()" data-cy="submitBtn">ยืนยัน</button>
-        <button *ngIf="!isReview" class="btn btn-yellow px-5" (click)="changeToEditMode()" data-cy="editBtn">แก้ไขรีวิว</button>
+        <button *ngIf="!isReview" class="btn btn-yellow px-5" (click)="changeToEditMode()" data-cy="EditReviewBtn">แก้ไขรีวิว</button>
       </div>
     </div>
   </form>

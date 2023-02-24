@@ -6,6 +6,8 @@ import { RestaurantService } from '../restaurant.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { ResponseModel } from 'src/models/response.model';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
+import { BadReviewLabelItem, GoodReviewLabelItem } from 'src/constant/review-label.constant';
+import { GoodReviewLabel } from 'src/enum/review-label.enum';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,6 +29,19 @@ export class RestaurantDashboardComponent implements OnInit {
   TodayRating: number = 0;
 
   CountGoodReview: number = 0;
+
+  totalReview: number = 0;
+  totalReviewHaveImage: number = 0;
+  totalReviewHaveComment: number = 0;
+  totalReviewHaveFoodRecommend: number = 0;
+
+  // for filter reviews
+  keywords: string = "";
+  ratingFilter: number = 6;
+  isSelectedTotalReview: boolean = true;
+  isSelectedOnlyReviewHaveImage: boolean = false;
+  isSelectedOnlyReviewHaveComment: boolean = false;
+  isSelectedOnlyReviewHaveFoodRecommend: boolean = false;
 
   Star: Array<string>;
   RestaurantType: Array<string>;
@@ -70,11 +85,11 @@ export class RestaurantDashboardComponent implements OnInit {
           if (this.Reviews.length != 0) {
             this.TotalReview = this.Reviews.length
             let ratingCount = 0;
-            this.Reviews.forEach(x => { 
+            this.Reviews.forEach(x => {
               ratingCount += x.rating
             });
             this.TotalRating = ratingCount/this.Reviews.length
-            
+
             this.Reviews.forEach(element => {
               let today = new Date();
               let reviewDate = new Date(element.createAt)
@@ -92,7 +107,7 @@ export class RestaurantDashboardComponent implements OnInit {
 
             if (this.TodayReview.length != 0) {
               let ratingCount = 0;
-              this.TodayReview.forEach(x => { 
+              this.TodayReview.forEach(x => {
                 ratingCount += x.rating;
               });
               this.TodayRating = ratingCount/this.TodayReview.length;
@@ -114,7 +129,7 @@ export class RestaurantDashboardComponent implements OnInit {
     let result = (d1.getFullYear() == d2.getFullYear() &&
             d1.getMonth() == d2.getMonth() &&
             d1.getDate() == d2.getDate());
-    return result;  
+    return result;
   }
 
   getRatingStarArray(rating: number) {
@@ -152,23 +167,62 @@ export class RestaurantDashboardComponent implements OnInit {
       else if (diffTime < 60) {
         stringTime = String(Math.floor(diffTime)) + " นาทีที่แล้ว"
       }
-    } 
-    else if (diffTime >= 60 && diffTime < 1140) {
-        stringTime = String(Math.floor(diffTime/60)) + " ชั่วโมงที่แล้ว"
     }
-    else if (diffTime >= 1140 && diffTime < 10080) {
-        stringTime = String(Math.floor(diffTime/60/24)) + " วันที่แล้ว"
+    else if (diffTime >= 60 && diffTime < 1440) {
+      stringTime = String(Math.floor(diffTime/60)) + " ชั่วโมงที่แล้ว"
+    }
+    else if (diffTime >= 1440 && diffTime < 10080) {
+      stringTime = String(Math.floor(diffTime/60/24)) + " วันที่แล้ว"
     }
     else if (diffTime >= 10080 && diffTime < 40320) {
-        stringTime = String(Math.floor(diffTime/60/24/7)) + " สัปดาห์ที่แล้ว"
+      stringTime = String(Math.floor(diffTime/60/24/7)) + " สัปดาห์ที่แล้ว"
     }
     else if (diffTime >= 10080 && diffTime < 483840) {
-        stringTime = String(Math.floor(diffTime/60/24/7/4)) + " เดือนที่แล้ว"
+      stringTime = String(Math.floor(diffTime/60/24/7/4)) + " เดือนที่แล้ว"
     }
     else if (diffTime >= 483840 ) {
-        stringTime = String(Math.floor(diffTime/60/24/7/4/12)) + " ปีที่แล้ว"
+      stringTime = String(Math.floor(diffTime/60/24/7/4/12)) + " ปีที่แล้ว"
     }
     return stringTime;
   }
 
+  changeFilterButton(i: number) {
+    switch(i) {
+      case 1:
+        this.isSelectedTotalReview = true;
+        this.isSelectedOnlyReviewHaveImage = false;
+        this.isSelectedOnlyReviewHaveComment = false;
+        this.isSelectedOnlyReviewHaveFoodRecommend = false;
+        break;
+      case 2:
+        this.isSelectedOnlyReviewHaveImage = true;
+        this.isSelectedTotalReview = false;
+        this.isSelectedOnlyReviewHaveComment = false;
+        this.isSelectedOnlyReviewHaveFoodRecommend  = false;
+        break;
+      case 3:
+        this.isSelectedOnlyReviewHaveComment = true;
+        this.isSelectedTotalReview = false;
+        this.isSelectedOnlyReviewHaveImage = false;
+        this.isSelectedOnlyReviewHaveFoodRecommend = false;
+        break;
+      case 4:
+        this.isSelectedOnlyReviewHaveFoodRecommend = true;
+        this.isSelectedTotalReview = false;
+        this.isSelectedOnlyReviewHaveComment = false;
+        this.isSelectedOnlyReviewHaveImage = false;
+        break;
+    }
+  }
+
+  getReviewLabel(rating:number, label:number) {
+    let result: any;
+    if (rating <= 2) {
+      result = BadReviewLabelItem.find( x => x.id = label)?.name;
+    }
+    else {
+      result = GoodReviewLabelItem.find( x => x.id = label)?.name;
+    }
+    return result;
+  }
 }
