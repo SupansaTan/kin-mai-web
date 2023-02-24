@@ -26,12 +26,26 @@ img:not(.isRamdomAlready) {
   animation-iteration-count: infinite;
 }
 
+.random-result {
+  animation-name: moveMessage;
+  animation-duration: .8s;
+}
+
 @keyframes moveCursor {
   from {
     transform: rotate(-40deg);
   }
   to {
     transform: translateY(10px) rotate(-46deg);
+  }
+}
+
+@keyframes moveMessage {
+  from {
+    transform: translateY(-30px);
+  }
+  to {
+    transform: translateY(0px);
   }
 }
 

@@ -190,6 +190,12 @@ export class ReviewerHomepageComponent implements OnInit {
       .subscribe((response: ResponseModel<boolean>) => {
       if (response?.status === 200) {
         this.showtoasSuccess(`${item.isFavorite? 'Favorite':'Disfavor'} '${item.restaurantName}' Successful`);
+
+        if (this.isShowNearMeList) {
+          this.getRestaurantNearMeList();
+        } else {
+          this.getRestaurantListRequestFromFilter();
+        }
       } else {
         this.showtoasError(`Favorite ${item.restaurantName} Unsuccessful`);
       }
