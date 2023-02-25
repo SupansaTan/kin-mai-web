@@ -25,7 +25,7 @@ export class GenerateQrCodeComponent implements OnInit {
     this.qrCode = `http://localhost:4200/reviewer/restaurant;restaurantId=${restaurantId}`
   }
 
-  generateImage(){
+  generateImage() {
     toBlob(this.qrCodeCard.nativeElement)
     .then(function (blob) {
       saveAs(blob ?? '', 'restaurant-qr-code.png');
