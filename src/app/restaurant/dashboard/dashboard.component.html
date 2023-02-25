@@ -7,7 +7,7 @@
 </div>
 
 <div *ngIf="Reviews && !isLoading">
-<div class="row pt-3">
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-2 pt-3">
   <div class="col">
     <!-- Today Rating -->
     <div class="card h-100 rounded-2 border-0">
@@ -41,7 +41,7 @@
   </div>
 
   <!-- Customer Satisfaction -->
-  <div class="col row">
+  <div class="col">
     <h5 class="m-0 d-flex justify-content-center">ระดับความพึงพอใจ</h5>
     <div class="d-flex justify-content-center">
       <circle-progress
@@ -72,12 +72,14 @@
   </div>
 
   <!-- recommendMenu -->
-  <div class="col-md" data-cy="recommendMenu">
+  <div class="col" data-cy="recommendMenu">
     <h5>เมนูที่ได้รับการแนะนำ</h5>
-    <span class="rounded-pill bg-white border-grey me-1 mb-2 px-2 py-1"
-      *ngFor="let item of RecommendMenu; index as i;">
-        {{item}}
-    </span>
+    <div class="d-flex flex-wrap">
+      <span class="rounded-pill bg-white border-grey me-1 mb-1 px-2"
+        *ngFor="let item of RecommendMenu; index as i;">
+          {{item}}
+      </span>
+    </div>
   </div>
 </div>
 
@@ -86,11 +88,11 @@
   <h4 class="mb-1 mt-3 fw-bolder">Reviews</h4>
   <!-- filter review bar -->
   <div class="row g-2 mb-3" data-cy="reviewFilter">
-    <div class="col">
+    <div class="col-12 col-md">
       <label>Search</label>
       <input [(ngModel)]="keywords" class="form-control form-control-sm shadow-none" type="text" placeholder="ความคิดเห็น"/>
     </div>
-    <div class="col-2">
+    <div class="col-12 col-md-2">
       <label>จำนวนดาว</label>
       <select [(ngModel)]="ratingFilter" class="form-select form-select-sm shadow-none">
         <option value="6">ทั้งหมด</option>
@@ -101,7 +103,7 @@
         <option value="5">5</option>
       </select>
     </div>
-    <div class="col-auto d-flex align-content-end flex-wrap">
+    <div class="col-12 col-lg-auto d-flex align-content-end flex-wrap">
       <button class="btn btn-sm border-warning rounded-0 rounded-start"
         [ngClass]="isSelectedTotalReview? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(1)">
         ทั้งหมด ({{ totalReview }})
