@@ -124,12 +124,10 @@ export class RestaurantDashboardComponent implements OnInit {
             }
 
           }
-          this.star = this.getRatingStarArray(this.todayRating);
           this.isLoading = false;
         }
         else {
           this.reviews = [];
-          this.getRatingStarArray(this.todayRating);
           this.isLoading = false;
         }
     })
@@ -140,29 +138,6 @@ export class RestaurantDashboardComponent implements OnInit {
             d1.getMonth() == d2.getMonth() &&
             d1.getDate() == d2.getDate());
     return result;
-  }
-
-  getRatingStarArray(rating: number) {
-    switch (rating) {
-      case 5:
-        return ["star", "star", "star", "star", "star"]
-      case 4.5:
-        return ["star", "star", "star", "star", "star_half"]
-      case 4:
-        return ["star", "star", "star", "star", "star_empty"]
-      case 3.5:
-        return ["star", "star", "star", "star_half", "star_empty"]
-      case 3:
-        return ["star", "star", "star", "star_empty", "star_empty"]
-      case 2.5:
-        return ["star", "star", "star_half", "star_empty", "star_empty"]
-      case 2:
-        return ["star", "star", "star_empty", "star_empty", "star_empty"]
-      case 1:
-        return ["star", "star_empty", "star_empty", "star_empty", "star_empty"]
-      default:
-        return ["star_empty", "star_empty", "star_empty", "star_empty", "star_empty"]
-    }
   }
 
   getReviewTimeInString(date: Date) {
@@ -203,7 +178,7 @@ export class RestaurantDashboardComponent implements OnInit {
         this.isSelectedOnlyReviewHaveImage = false;
         this.isSelectedOnlyReviewHaveComment = false;
         this.isSelectedOnlyReviewHaveFoodRecommend = false;
-        this.displayReview = this.reviews.filter(item => 
+        this.displayReview = this.reviews.filter(item =>
           ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
@@ -213,8 +188,8 @@ export class RestaurantDashboardComponent implements OnInit {
         this.isSelectedTotalReview = false;
         this.isSelectedOnlyReviewHaveComment = false;
         this.isSelectedOnlyReviewHaveFoodRecommend  = false;
-        this.displayReview = this.reviews.filter(item => 
-          item.imageLink.length != 0 
+        this.displayReview = this.reviews.filter(item =>
+          item.imageLink.length != 0
           && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
@@ -224,8 +199,8 @@ export class RestaurantDashboardComponent implements OnInit {
         this.isSelectedTotalReview = false;
         this.isSelectedOnlyReviewHaveImage = false;
         this.isSelectedOnlyReviewHaveFoodRecommend = false;
-        this.displayReview = this.reviews.filter(item => 
-          item.comment.length != 0 
+        this.displayReview = this.reviews.filter(item =>
+          item.comment.length != 0
           && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
@@ -235,8 +210,8 @@ export class RestaurantDashboardComponent implements OnInit {
         this.isSelectedTotalReview = false;
         this.isSelectedOnlyReviewHaveComment = false;
         this.isSelectedOnlyReviewHaveImage = false;
-        this.displayReview = this.reviews.filter(item => 
-          item.foodRecommendList.length != 0 
+        this.displayReview = this.reviews.filter(item =>
+          item.foodRecommendList.length != 0
           && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );

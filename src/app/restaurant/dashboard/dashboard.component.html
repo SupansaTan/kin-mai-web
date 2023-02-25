@@ -7,7 +7,7 @@
 </div>
 
 <div *ngIf="reviews && !isLoading">
-<div class="row mt-3">
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-2 pt-3">
   <div class="col">
     <!-- Today Rating -->
     <div class="card h-100 rounded-2 border-0">
@@ -80,6 +80,11 @@
           {{item}}
       </span>
     </div>
+
+    <button class="btn btn-yellow mt-3" routerLink="/restaurant/qr-code">
+      <i class="bi bi-qr-code-scan me-2"></i>
+      QR Code สำหรับให้ผู้ใช้งานรีวิว
+    </button>
   </div>
 </div>
 
@@ -87,7 +92,8 @@
 <div data-cy="reviewForm">
   <div class="d-flex align-items-center">
     <h4 class="m-0 mb-1 mt-3 me-3 fw-bolder">Reviews</h4>
-    <span *ngIf="isSelectedOnlyReviewHaveImage||isSelectedOnlyReviewHaveComment||isSelectedOnlyReviewHaveFoodRecommend||(keywords!='')||(ratingFilter!=6)" (click)="clearFilter()" class="rounded-pill bg-white me-1 px-2 py-1 mt-3">
+    <span *ngIf="isSelectedOnlyReviewHaveImage||isSelectedOnlyReviewHaveComment||isSelectedOnlyReviewHaveFoodRecommend||(keywords!='')||(ratingFilter!=6)"
+      (click)="clearFilter()" class="rounded-pill bg-white me-1 px-2 py-1 mt-3">
       <i class="bi bi-x-lg"></i> ล้าง
     </span>
   </div>
@@ -129,33 +135,33 @@
   </div>
 
   <!-- Customer Reviews -->
-  <div class="row row-cols-1 row-cols-lg-3 g-2 g-lg-3">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2">
     <div class="col" *ngFor="let review of displayReview; index as i;">
-      <div class="p-3 border bg-white rounded-2 h-100">
-        <div class="d-flex mb-3">
-          <!-- avatar -->
-          <div class="col-2">
-            <ngx-avatar [name]="review.userName" [round]="true"></ngx-avatar>
+      <div class="row row-cols-2 border bg-white rounded-3 h-100 px-2 py-3 m-0">
+        <!-- avatar -->
+        <div class="col-2">
+          <ngx-avatar [name]="review.userName" [round]="true"></ngx-avatar>
+        </div>
+
+        <!-- username & date diff -->
+        <div class="col-10">
+          <div class=" d-flex justify-content-between" >
+            <p class="m-0 mb-1">{{review.userName}}</p>
+            <p class="m-0">{{review.reviewTimeString}}</p>
           </div>
-          <!-- username & date diff -->
-          <div class="col-10 row">
-            <div class=" d-flex justify-content-between" >
-              <p class="m-0 mb-1">{{review.userName}}</p>
-              <p class="m-0">{{review.reviewTimeString}}</p>
-            </div>
-            <!-- star rating -->
-            <div class="d-flex">
-              <ngb-rating [rate]="review.rating" [max]="5" id="rating" [readonly]="true">
-                <ng-template let-fill="fill" let-index="index">
-                  <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color review"></i>
-                </ng-template>
-              </ngb-rating>
-              <h5 class="m-0 mt-1 ms-2">{{review.rating}}</h5>
-            </div>
+
+          <!-- star rating -->
+          <div class="col-auto d-flex align-items-center mb-2">
+            <ngb-rating [rate]="review.rating" [max]="5" id="rating" [readonly]="true">
+              <ng-template let-fill="fill" let-index="index">
+                <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color review"></i>
+              </ng-template>
+            </ngb-rating>
+            <h5 class="m-0 mt-1 ms-2">{{review.rating}}</h5>
           </div>
         </div>
-        
-        <div class="row">
+
+        <div class="col-12">
           <!-- review label & food recommend -->
           <div class="mb-2 d-flex flex-wrap align-items-center">
             <span class="rounded-pill bg-light-yellow border-yellow me-1 px-2 mb-1"
@@ -169,10 +175,10 @@
           </div>
 
           <!-- comment -->
-          <p class="text-break mb-2">{{review.comment}}</p>
+          <p class="text-break mb-1">{{review.comment}}</p>
 
           <!-- review image -->
-          <div class="col row row-cols-3 g-2 d-flex align-items-center mb-2 w-100" ngxViewer>
+          <div class="col row row-cols-3 g-2 d-flex align-items-center mb-2" ngxViewer>
             <div class="col" *ngFor="let image of review.imageLink; index as i;">
               <img [src]="awsS3Url + '/' + image" class="review-img">
             </div>
