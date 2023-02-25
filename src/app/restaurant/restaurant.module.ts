@@ -10,6 +10,7 @@ import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { AvatarModule } from 'ngx-avatar';
 import { NgxViewerModule } from '@erengee/ngx-viewer';
+import { QRCodeModule } from 'angularx-qrcode';
 
 import { RestaurantDashboardComponent } from './dashboard/dashboard.component';
 import { EditRestaurantDetailComponent } from './edit-detail/edit-detail.component';
@@ -50,6 +51,7 @@ import { GenerateQrCodeComponent } from './generate-qr-code/generate-qr-code.com
     NgbRatingModule,
     AvatarModule,
     NgxViewerModule,
+    QRCodeModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
     }),
