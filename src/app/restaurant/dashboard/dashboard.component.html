@@ -120,13 +120,11 @@
       </button>
     </div>
   </div>
-
+  
   <!-- Customer Reviews -->
-  <div class="cols-3 row g-2 d-flex mt-2" *ngIf="this.Reviews.length != 0">
-
-    <div *ngFor="let review of Reviews; index as i;" class="col-lg rounded-2 bg-white p-3 my-2 me-2">
-      <div class="row">
-        <!-- avatar -->
+  <div class="row row-cols-1 row-cols-lg-3 g-2 g-lg-3">
+    <div class="col" *ngFor="let review of Reviews; index as i;">
+      <div class="p-3 border bg-white rounded-2 h-100">
         <div class="col-2 px-1">
           <ngx-avatar [name]="review.userName" [round]="true"></ngx-avatar>
         </div>
@@ -149,11 +147,11 @@
 
           <!-- review label & food recommend -->
           <div class="mb-2">
-            <span class="rounded-pill bg-light-yellow border-yellow me-1 mb-2 px-2 py-1"
+            <span class="rounded-pill bg-light-yellow border-yellow me-1 px-2 py-1"
               *ngFor="let item of review.reviewLabelList; index as i;">
               {{getReviewLabel(review.rating,item)}}
             </span>
-            <span class="rounded-pill bg-light-grey border-grey me-1 mb-2 px-2 py-1"
+            <span class="rounded-pill bg-light-grey border-grey me-1 px-2 py-1"
               *ngFor="let item of review.foodRecommendList index as i;">
               {{item}}
             </span>
@@ -181,6 +179,7 @@
       </div>
     </div>
   </div>
+
 
   <div class="d-flex justify-content-center mt-5" *ngIf="this.Reviews.length == 0">
     <h3>ไม่มีมีรีวิว</h3>
