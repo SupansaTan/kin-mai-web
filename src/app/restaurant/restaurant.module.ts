@@ -22,6 +22,7 @@ import { ModalGalleryComponent } from './modal-gallery/modal-gallery.component';
 import { SwiperModule } from "swiper/angular";
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { GenerateQrCodeComponent } from './generate-qr-code/generate-qr-code.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     DetailComponent,
     EditRestaurantInfoComponent,
     EditUploadPhotoComponent,
-    ModalGalleryComponent
+    ModalGalleryComponent,
+    GenerateQrCodeComponent
   ],
   imports: [
     CommonModule,
