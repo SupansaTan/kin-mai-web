@@ -9,6 +9,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { AvatarModule } from 'ngx-avatar';
+import { NgxViewerModule } from '@erengee/ngx-viewer';
 
 import { RestaurantDashboardComponent } from './dashboard/dashboard.component';
 import { EditRestaurantDetailComponent } from './edit-detail/edit-detail.component';
@@ -46,6 +47,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     SwiperModule,
     NgbRatingModule,
     AvatarModule,
+    NgxViewerModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
     }),

@@ -7,7 +7,7 @@
 </div>
 
 <div *ngIf="Reviews && !isLoading">
-<div class="row mt-3">
+<div class="row pt-3">
   <div class="col">
     <!-- Today Rating -->
     <div class="card h-100 rounded-2 border-0">
@@ -120,15 +120,15 @@
       </button>
     </div>
   </div>
-  
+
   <!-- Customer Reviews -->
-  <div class="row row-cols-1 row-cols-lg-3 g-2 g-lg-3">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2">
     <div class="col" *ngFor="let review of Reviews; index as i;">
-      <div class="p-3 border bg-white rounded-2 h-100">
+      <div class="row row-cols-2 border bg-white rounded-3 h-100 px-2 py-3 m-0">
         <div class="col-2 px-1">
           <ngx-avatar [name]="review.userName" [round]="true"></ngx-avatar>
         </div>
-        <div class="col">
+        <div class="col-10">
           <!-- username & date diff -->
           <div class="d-flex justify-content-between">
             <p class="m-0 mb-1">{{review.userName}}</p>
@@ -146,35 +146,35 @@
           </div>
 
           <!-- review label & food recommend -->
-          <div class="mb-2">
-            <span class="rounded-pill bg-light-yellow border-yellow me-1 px-2 py-1"
+          <div class="mb-2 d-flex flex-wrap align-items-center">
+            <span class="rounded-pill bg-light-yellow border-yellow me-1 px-2 mb-1"
               *ngFor="let item of review.reviewLabelList; index as i;">
-              {{getReviewLabel(review.rating,item)}}
+              {{ getReviewLabel(item) }}
             </span>
-            <span class="rounded-pill bg-light-grey border-grey me-1 px-2 py-1"
+            <span class="rounded-pill bg-light-grey border-grey me-1 px-2 mb-1"
               *ngFor="let item of review.foodRecommendList index as i;">
               {{item}}
             </span>
           </div>
 
           <!-- comment -->
-          <p class="text-break">{{review.comment}}</p>
+          <p class="text-break mb-2">{{review.comment}}</p>
 
           <!-- review image -->
-          <div class="col row d-flex align-items-center mb-2 w-100">
-            <div class="col-3" *ngFor="let image of review.imageLink; index as i;">
+          <div class="col row row-cols-3 g-2 d-flex align-items-center mb-2 w-100" ngxViewer>
+            <div class="col" *ngFor="let image of review.imageLink; index as i;">
               <img [src]="awsS3Url + '/' + image" class="review-img">
             </div>
           </div>
+        </div>
 
+        <div class="col-12 d-flex align-items-end">
           <!-- reply comment -->
-          <div class="d-flex justify-content-end mb-1">
-            <input class="form-control form-control-sm col me-1" type="text" placeholder="..."/>
-            <button type="button" class="btn btn-yellow btn-sm col-auto" id="btreply">
-            <i class="bi bi-arrow-return-left"></i>
-              ตอบกลับ
-            </button>
-          </div>
+          <input class="form-control form-control-sm col me-1 shadow-none" type="text" placeholder="..."/>
+          <button type="button" class="btn btn-yellow btn-sm col-auto" id="btreply">
+          <i class="bi bi-arrow-return-left"></i>
+            ตอบกลับ
+          </button>
         </div>
       </div>
     </div>

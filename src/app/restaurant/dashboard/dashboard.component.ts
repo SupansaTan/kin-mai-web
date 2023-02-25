@@ -215,14 +215,11 @@ export class RestaurantDashboardComponent implements OnInit {
     }
   }
 
-  getReviewLabel(rating:number, label:number) {
-    let result: any;
-    if (rating <= 2) {
-      result = BadReviewLabelItem.find( x => x.id = label)?.name;
+  getReviewLabel(type: number) {
+    if (type > 5) {
+      return GoodReviewLabelItem.find(x => x.id === type)?.name;
+    } else {
+      return BadReviewLabelItem.find(x => x.id === type)?.name;
     }
-    else {
-      result = GoodReviewLabelItem.find( x => x.id = label)?.name;
-    }
-    return result;
   }
 }
