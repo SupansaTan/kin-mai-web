@@ -9,6 +9,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { AvatarModule } from 'ngx-avatar';
+import { NgxViewerModule } from '@erengee/ngx-viewer';
+import { QRCodeModule } from 'angularx-qrcode';
 
 import { RestaurantDashboardComponent } from './dashboard/dashboard.component';
 import { EditRestaurantDetailComponent } from './edit-detail/edit-detail.component';
@@ -21,6 +23,7 @@ import { ModalGalleryComponent } from './modal-gallery/modal-gallery.component';
 import { SwiperModule } from "swiper/angular";
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { GenerateQrCodeComponent } from './generate-qr-code/generate-qr-code.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,8 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     DetailComponent,
     EditRestaurantInfoComponent,
     EditUploadPhotoComponent,
-    ModalGalleryComponent
+    ModalGalleryComponent,
+    GenerateQrCodeComponent
   ],
   imports: [
     CommonModule,
@@ -46,6 +50,8 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     SwiperModule,
     NgbRatingModule,
     AvatarModule,
+    NgxViewerModule,
+    QRCodeModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
     }),

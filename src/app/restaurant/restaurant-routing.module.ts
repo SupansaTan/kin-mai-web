@@ -1,3 +1,4 @@
+import { GenerateQrCodeComponent } from './generate-qr-code/generate-qr-code.component';
 import { AccessLevel } from 'src/enum/access-level.enum';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -32,7 +33,14 @@ const routes: Routes = [
       AccessLevel: [AccessLevel.RestaurantOwner],
     },
   },
-
+  {
+    path: 'qr-code',
+    component: GenerateQrCodeComponent,
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccessLevel.RestaurantOwner],
+    },
+  },
   {
     path: '',
     redirectTo: '/restaurant',
