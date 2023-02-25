@@ -18,22 +18,23 @@ export class RestaurantDashboardComponent implements OnInit {
 
   @Input() isLoading: boolean = true;
 
-  Info: Restaurant;
-  Reviews: Array<ReviewInfoModel>
-  SocialContact: Array<SocialContactModel>;
-
-  TotalReview: number = 0;
-  TotalRating: number = 0;
-
-  TodayReview: Array<ReviewInfoModel> = [];
-  TodayRating: number = 0;
-
-  CountGoodReview: number = 0;
+  info: Restaurant;
+  reviews: Array<ReviewInfoModel>;
+  socialContact: Array<SocialContactModel>;
 
   totalReview: number = 0;
+  totalRating: number = 0;
+
+  todayReview: Array<ReviewInfoModel> = [];
+  todayRating: number = 0;
+
+  countGoodReview: number = 0;
+
   totalReviewHaveImage: number = 0;
   totalReviewHaveComment: number = 0;
   totalReviewHaveFoodRecommend: number = 0;
+
+  displayReview: Array<ReviewInfoModel>;
 
   // for filter reviews
   keywords: string = "";
@@ -43,8 +44,7 @@ export class RestaurantDashboardComponent implements OnInit {
   isSelectedOnlyReviewHaveComment: boolean = false;
   isSelectedOnlyReviewHaveFoodRecommend: boolean = false;
 
-  Star: Array<string>;
-  RestaurantType: Array<string>;
+  star: Array<string>;
   awsS3Url = environment.awsS3Url;
   userId: string;
   restaurantId: string;
@@ -70,8 +70,8 @@ export class RestaurantDashboardComponent implements OnInit {
     this.restaurantService.getRestaurantDetail(request).subscribe(
       (response: ResponseModel<RestaurantDetailModel>) => {
         if (response && response?.status === 200) {
-          this.Info = response.data.restaurantInfo;
-          this.SocialContact = response.data.socialContact;
+          this.info = response.data.restaurantInfo;
+          this.socialContact = response.data.socialContact;
         }
     })
   }
@@ -80,24 +80,34 @@ export class RestaurantDashboardComponent implements OnInit {
     this.restaurantService.getRestaurantReviews(this.restaurantId).subscribe(
       (response: ResponseModel<Array<ReviewInfoModel>>) => {
         if (response && response?.status === 200) {
-          this.Reviews = response.data;
-          this.Reviews.reverse();
-          if (this.Reviews.length != 0) {
-            this.TotalReview = this.Reviews.length
+          this.reviews = response.data;
+          this.reviews.reverse();
+          this.displayReview = this.reviews;
+          if (this.reviews.length != 0) {
+            this.totalReview = this.reviews.length
             let ratingCount = 0;
-            this.Reviews.forEach(x => {
+            this.reviews.forEach(x => {
               ratingCount += x.rating
             });
-            this.TotalRating = ratingCount/this.Reviews.length
+            this.totalRating = ratingCount/this.reviews.length
 
-            this.Reviews.forEach(element => {
+            this.reviews.forEach(element => {
               let today = new Date();
               let reviewDate = new Date(element.createAt)
               if (this.checkIsToday(today,reviewDate)) {
-                this.TodayReview.push(element);
+                this.todayReview.push(element);
               }
               if (element.rating >= 3) {
-                this.CountGoodReview += 1;
+                this.countGoodReview += 1;
+              }
+              if (element.comment != "") {
+                this.totalReviewHaveComment += 1
+              }
+              if (element.imageLink.length !=0) {
+                this.totalReviewHaveImage += 1
+              }
+              if (element.foodRecommendList.length !=0) {
+                this.totalReviewHaveFoodRecommend += 1
               }
               element.reviewTimeString = this.getReviewTimeInString(reviewDate)
               element.userName = element.userName.replace(/(?<!^).(?!$)/g, '*')
@@ -105,21 +115,21 @@ export class RestaurantDashboardComponent implements OnInit {
             this.RecommendMenu = [...new Set(this.RecommendMenu)];
             });
 
-            if (this.TodayReview.length != 0) {
+            if (this.todayReview.length != 0) {
               let ratingCount = 0;
-              this.TodayReview.forEach(x => {
+              this.todayReview.forEach(x => {
                 ratingCount += x.rating;
               });
-              this.TodayRating = ratingCount/this.TodayReview.length;
+              this.todayRating = ratingCount/this.todayReview.length;
             }
 
           }
-          this.Star = this.getRatingStarArray(this.TodayRating);
+          this.star = this.getRatingStarArray(this.todayRating);
           this.isLoading = false;
         }
         else {
-          this.Reviews = [];
-          this.getRatingStarArray(this.TodayRating);
+          this.reviews = [];
+          this.getRatingStarArray(this.todayRating);
           this.isLoading = false;
         }
     })
@@ -193,26 +203,54 @@ export class RestaurantDashboardComponent implements OnInit {
         this.isSelectedOnlyReviewHaveImage = false;
         this.isSelectedOnlyReviewHaveComment = false;
         this.isSelectedOnlyReviewHaveFoodRecommend = false;
+        this.displayReview = this.reviews.filter(item => 
+          ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
+          && ((this.keywords=="")? true : item.comment.includes(this.keywords))
+          );
         break;
       case 2:
         this.isSelectedOnlyReviewHaveImage = true;
         this.isSelectedTotalReview = false;
         this.isSelectedOnlyReviewHaveComment = false;
         this.isSelectedOnlyReviewHaveFoodRecommend  = false;
+        this.displayReview = this.reviews.filter(item => 
+          item.imageLink.length != 0 
+          && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
+          && ((this.keywords=="")? true : item.comment.includes(this.keywords))
+          );
         break;
       case 3:
         this.isSelectedOnlyReviewHaveComment = true;
         this.isSelectedTotalReview = false;
         this.isSelectedOnlyReviewHaveImage = false;
         this.isSelectedOnlyReviewHaveFoodRecommend = false;
+        this.displayReview = this.reviews.filter(item => 
+          item.comment.length != 0 
+          && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
+          && ((this.keywords=="")? true : item.comment.includes(this.keywords))
+          );
         break;
       case 4:
         this.isSelectedOnlyReviewHaveFoodRecommend = true;
         this.isSelectedTotalReview = false;
         this.isSelectedOnlyReviewHaveComment = false;
         this.isSelectedOnlyReviewHaveImage = false;
+        this.displayReview = this.reviews.filter(item => 
+          item.foodRecommendList.length != 0 
+          && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
+          && ((this.keywords=="")? true : item.comment.includes(this.keywords))
+          );
         break;
     }
+  }
+
+  clearFilter() {
+    this.isSelectedOnlyReviewHaveImage = false;
+    this.isSelectedOnlyReviewHaveComment = false;
+    this.isSelectedOnlyReviewHaveFoodRecommend  = false;
+    this.keywords = "";
+    this.ratingFilter = 6;
+    this.changeFilterButton(1);
   }
 
   getReviewLabel(type: number) {
