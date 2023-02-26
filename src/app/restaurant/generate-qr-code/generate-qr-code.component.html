@@ -1,7 +1,7 @@
 <div class="row d-flex align-items-center justify-content-center text-center pt-4">
   <h4 class="mb-3">QR Code สำหรับให้ผู้ใช้งานรีวิว</h4>
 
-  <div #qrCodeCard class="col-auto rounded-3">
+  <div #qrCodeCard class="col-auto rounded-3" data-cy="QRForm">
     <div class="row rounded-3 card-bg">
       <div class="rounded-2 px-3 py-3">
         <h4 class="text-white">รีวิวร้านอาหาร</h4>
@@ -18,6 +18,6 @@
   </div>
 
   <div class="d-flex justify-content-center mt-3">
-    <button class="btn btn-yellow" (click)="generateImage()"><i class="bi bi-download me-2"></i>บันทึกรูปภาพ</button>
+    <button class="btn btn-yellow" (click)="generateImage()" data-cy="SaveImgBtn"><i class="bi bi-download me-2"></i>บันทึกรูปภาพ</button>
   </div>
 </div>

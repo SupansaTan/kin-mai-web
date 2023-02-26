@@ -73,7 +73,7 @@ When('I click on gachapon game', () => {
 });
 
 Then('I should see food category', () => {
-  cy.get('.swal2-confirm.swal2-styled').first().click({force: true});
+   cy.get('[data-cy="FoodCategory"]').should('be.visible');
 });
 
 And('I should see button', (dataTable) => {
