@@ -98,7 +98,6 @@ export class LoginComponent implements OnInit {
                   ? AccessLevel.Reviewer
                   : AccessLevel.RestaurantOwner
                 );
-                this.authenticationService.loginSuccessEvent(true);
                 this.routePage(resp.data.userType);
               }
             })

@@ -1,11 +1,22 @@
+import { LocalStorageKey } from './../../constant/local-storage-key.constant';
 import { LocalStorageModel } from 'src/models/local-storage.model';
-import { Injectable, Type } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocalStorageService {
+  private isLogin = new BehaviorSubject<boolean>(false);
+  public storageSubObs = this.isLogin.asObservable();
+
   constructor() { }
+
+  getUserIsLogin(): Observable<boolean> {
+    let user = localStorage.getItem(LocalStorageKey.userName);
+    this.isLogin.next(!(user === null));
+    return this.storageSubObs;
+  }
 
   get<Type>(key: string): Type | null {
     let result = null;
@@ -19,15 +30,19 @@ export class LocalStorageService {
     }
     return result;
   }
+
   set<Type>(key: string, value: Type): void {
     localStorage.setItem(key, JSON.stringify(value));
   }
+
   setBulk(keyPairsSet: Array<LocalStorageModel>): void {
     keyPairsSet.forEach((item) => this.set(item.Key, item.Value));
   }
+
   remove(key: string): void {
     localStorage.removeItem(key);
   }
+
   removeAll(): void {
     localStorage.clear();
   }

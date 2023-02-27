@@ -121,7 +121,6 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
           this.localStorageService.set(LocalStorageKey.restaurantName, resp.data.restaurantName);
           this.localStorageService.set(LocalStorageKey.userType, resp.data.userType);
           this.localStorageService.set(LocalStorageKey.viewMode, AccountType.Reviewer);
-          this.authenticationService.loginSuccessEvent(true);
           this.router.navigate([PageLink.restaurant.dashboard]);
         } else {
           this.router.navigate([PageLink.authentication.login]);
