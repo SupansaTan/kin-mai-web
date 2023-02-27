@@ -15,7 +15,6 @@ import { RandomFoodComponent } from './random-food/random-food.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
 import { ModalReviewComponent } from './modal-review/modal-review.component';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
-import { SwiperModule } from "swiper/angular";
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NearlyRestaurantComponent } from './homepage/nearly-restaurant/nearly-restaurant.component';
 import { FilterRestaurantComponent } from './homepage/filter-restaurant/filter-restaurant.component';
@@ -39,7 +38,6 @@ import { FavoriteRestaurantComponent } from './favorite-restaurant/favorite-rest
     ReactiveFormsModule,
     ReviewerRoutingModule,
     NgbRatingModule,
-    SwiperModule,
     FormsModule,
     MatButtonToggleModule,
     EllipsisModule,
