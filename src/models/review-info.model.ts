@@ -9,6 +9,7 @@ export class ReviewInfoModel {
   reviewTimeString: string;
   userId: string;
   userName: string;
+  replyComment: string;
 }
 
 export class GetReviewInfoRequest {
@@ -24,4 +25,9 @@ export class UpdateReviewInfoRequest {
   NewImageFile: Array<File>;
   FoodRecommendList: Array<string>;
   ReviewLabelList: Array<number>;
+}
+
+export class UpdateReviewReplyRequest {
+  reviewId: string;
+  replyComment: string;
 }

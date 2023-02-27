@@ -1,12 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Restaurant, RestaurantDetailModel, SocialContactModel } from 'src/models/restaurant-info.model';
-import { GetReviewInfoRequest, ReviewInfoModel } from 'src/models/review-info.model';
+import { GetReviewInfoRequest, UpdateReviewReplyRequest, ReviewInfoModel } from 'src/models/review-info.model';
 import { RestaurantService } from '../restaurant.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { ResponseModel } from 'src/models/response.model';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { BadReviewLabelItem, GoodReviewLabelItem } from 'src/constant/review-label.constant';
+import {NgForm} from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-success.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,9 +19,11 @@ import { BadReviewLabelItem, GoodReviewLabelItem } from 'src/constant/review-lab
 export class RestaurantDashboardComponent implements OnInit {
 
   @Input() isLoading: boolean = true;
+  @ViewChild('successModalComponent') successModal: ModalSuccessComponent;
 
   info: Restaurant;
   reviews: Array<ReviewInfoModel>;
+  displayReview: Array<ReviewInfoModel>;
   socialContact: Array<SocialContactModel>;
 
   totalReview: number = 0;
@@ -33,8 +38,6 @@ export class RestaurantDashboardComponent implements OnInit {
   totalReviewHaveImage: number = 0;
   totalReviewHaveComment: number = 0;
   totalReviewHaveFoodRecommend: number = 0;
-
-  displayReview: Array<ReviewInfoModel>;
 
   // for filter reviews
   keywords: string = "";
@@ -54,6 +57,7 @@ export class RestaurantDashboardComponent implements OnInit {
   constructor(
     private restaurantService: RestaurantService,
     private localStorageService: LocalStorageService,
+    private spinner: NgxSpinnerService,
   ) { }
 
   ngOnInit(): void {
@@ -245,6 +249,24 @@ export class RestaurantDashboardComponent implements OnInit {
       if (element.foodRecommendList.length !=0) {
         this.totalReviewHaveFoodRecommend += 1
       }
+    });
+  }
+
+  onSubmitReplyComment(f: NgForm, i: number) {
+    this.spinner.show();
+    let data = this.displayReview[i];;
+    let request = new UpdateReviewReplyRequest();
+    request.reviewId = data.reviewId;
+    request.replyComment = f.value.replyComment;
+    
+    this.restaurantService.updateReplyReviewInfo(request).subscribe(
+      (response: ResponseModel<boolean>) => {
+        this.spinner.hide();
+        if (response && response?.status === 200) {
+          this.successModal.openSuccessModal(true, 'Update Reply successful');
+        } else {
+          this.successModal.openSuccessModal(false, response.message);
+        }
     });
   }
 }

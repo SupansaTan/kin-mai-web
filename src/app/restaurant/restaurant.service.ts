@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { GetReviewInfoRequest, ReviewInfoModel } from 'src/models/review-info.model';
+import { HttpClient } from '@angular/common/http';
+import { GetReviewInfoRequest, UpdateReviewReplyRequest, ReviewInfoModel } from 'src/models/review-info.model';
 import { environment } from 'src/environments/environment';
 import { ResponseModel } from 'src/models/response.model';
 import { RestaurantDetailModel } from 'src/models/restaurant-info.model';
@@ -24,5 +24,12 @@ export class RestaurantService {
     this.sub = this.http.get<ResponseModel<Array<ReviewInfoModel>>>(url);
     return this.sub;
   }
+
+  updateReplyReviewInfo(model: UpdateReviewReplyRequest) {
+    const url = `${environment.kinMaiApi}/Restaurant/UpdateReplyReviewInfo`;
+    this.sub = this.http.put<ResponseModel<boolean>>(url, model);
+    return this.sub;
+  }
+  
   
 }
