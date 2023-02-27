@@ -27,17 +27,17 @@ export class AuthGuardService implements CanActivate {
     const viewMode = this.localStorageService.get<string>(LocalStorageKey.viewMode);
     const accessToken = this.localStorageService.get<string>(LocalStorageKey.accessToken);
 
-    if (userId && userType && accessToken && viewMode) {
+    if (userId && userType && accessToken) {
       if (accessLevel && accessLevel.includes(Number(viewMode))) {
         return true;
       }
-      else if (!accessLevel) {
-        return true;
-      } else {
+      else {
         // that page can not access by current mode --> route to correct page
-        this.routeByUserType(Number(viewMode));
+        this.routeByMode(Number(viewMode));
         return false;
       }
+    } else if (accessLevel?.includes(AccessLevel.Public)) {
+      return true;
     } else {
       this.localStorageService.removeAll();
       this.router.navigate([PageLink.authentication.login]);
@@ -45,14 +45,13 @@ export class AuthGuardService implements CanActivate {
     }
   }
 
-  routeByUserType(userType: AccountType) {
-    if (userType === AccountType.Reviewer) {
+  routeByMode(mode: AccessLevel) {
+    if (mode === AccessLevel.Reviewer) {
+      this.router.navigate([PageLink.reviewer.homepage]);
+    } else if (mode === AccessLevel.RestaurantOwner) {
       this.router.navigate([PageLink.restaurant.dashboard]);
-      // this.router.navigate([PageLink.reviewer.homepage]);
-
     } else {
-      this.router.navigate([PageLink.restaurant.dashboard]);
-    
+      this.router.navigate([PageLink.reviewer.homepage]);
     }
   }
 }

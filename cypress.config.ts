@@ -1,4 +1,5 @@
 import { defineConfig } from "cypress";
+import { environment } from "src/environments/environment";
 const browserify = require('@cypress/browserify-preprocessor');
 const cucumber = require('cypress-cucumber-preprocessor').default;
 const resolve = require('resolve');
@@ -15,5 +16,8 @@ export default defineConfig({
     },
     specPattern: "cypress/integration/*.feature",
     baseUrl: 'http://localhost:4200',
+    experimentalSessionAndOrigin: true,
+    viewportHeight: 980,
+    viewportWidth: 1440,
   },
 });

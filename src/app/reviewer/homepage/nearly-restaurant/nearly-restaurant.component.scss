@@ -1,0 +1,49 @@
+.big-image-cover {
+  min-height: 100%;
+  max-height: 100%;
+  width: 100%;
+  background-size: cover;
+  overflow: hidden;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.mini-image-cover {
+  min-height: 70px;
+  max-height: 70px;
+  width: 100%;
+  background-size: cover;
+  overflow: hidden;
+  border-radius: 10px;
+  object-fit: cover;
+
+  @media screen and (min-width: 768px) {
+    min-height: 100px;
+    max-height: 100px;
+  }
+
+  @media screen and (min-width: 993px) {
+    min-height: 110px;
+    max-height: 110px;
+  }
+}
+
+i.bi-star-fill {
+  position: relative;
+  display: inline-block;
+
+  .filled {
+    overflow: hidden;
+    top: 0;
+    left: 0;
+  }
+}
+
+.price-rate {
+  padding-top: 3px;
+}
+
+.restaurant-name {
+  width: fit-content;
+  height: 31px;
+}

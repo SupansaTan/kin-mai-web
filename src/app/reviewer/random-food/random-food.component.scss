@@ -1,9 +1,52 @@
+
+#bt-play{
+  width: 40px;
+  height: 35px;
+
+}
 img:hover {
   /* Start the shake animation and make the animation last for 0.5 seconds */
   animation: shake 0.5s;
 
   /* When the animation is finished, start again */
   animation-iteration-count: infinite;
+}
+
+img:not(.isRamdomAlready) {
+  animation: shake 0.5s;
+  animation-iteration-count: infinite;
+}
+
+.cursor {
+  position: absolute;
+  bottom: 50px;
+  right: 60px;
+  animation-name: moveCursor;
+  animation-duration: .8s;
+  animation-iteration-count: infinite;
+}
+
+.random-result {
+  animation-name: moveMessage;
+  animation-duration: .8s;
+}
+
+@keyframes moveCursor {
+  from {
+    transform: rotate(-40deg);
+  }
+  to {
+    transform: translateY(10px) rotate(-46deg);
+  }
+}
+
+@keyframes moveMessage {
+  from {
+    transform: translateY(-30px);
+  }
+  to {
+    transform: translateY(0px);
+  }
 }
 
 @keyframes shake {

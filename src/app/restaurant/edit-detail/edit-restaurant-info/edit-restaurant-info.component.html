@@ -1,281 +1,289 @@
-<form [formGroup]="registerRestaurantForm">
-    <div class="row d-flex align-items-center justify-content-center">
-      <div class="col-11 col-lg-10 row row-cols-1 row-cols-md-2 bg-white rounded-3 mt-4 pb-4 gy-3">
-        <!-- restaurant name -->
-        <div class="col">
-          <label for="restaurantName" class="form-label fw-semibold">ชื่อร้านอาหาร <span class="text-danger">*</span></label>
-          <input id="restaurantName" type="text" placeholder="ชื่อร้านอาหาร" formControlName="restaurantName" class="form-control shadow-none"
-            [ngClass]="{ 'border-danger': registerRestaurantForm.controls['restaurantName'].invalid && registerRestaurantForm.controls['restaurantName'].touched }"
-          >
   
-          <div *ngIf="registerRestaurantForm.controls['restaurantName'].invalid && registerRestaurantForm.controls['restaurantName'].touched" class="text-danger mt-2">
-            <div *ngIf="registerRestaurantForm.controls['restaurantName'].errors?.['required']">
-              Restaurant name is required.
-            </div>
-            <div *ngIf="registerRestaurantForm.controls['restaurantName'].errors?.['minlength']">
-              Restaurant name must be at least 3 characters.
-            </div>
+<form [formGroup]="registerRestaurantForm" data-cy="restaurantInfoForm">
+  <div class="row d-flex align-items-center justify-content-center">
+    <div class="col-11 col-lg-10 row row-cols-1 row-cols-md-2 bg-white rounded-3 mt-4 pb-4 gy-3">
+      <!-- restaurant name -->
+      <div class="col">
+        <label for="restaurantName" class="form-label fw-semibold">ชื่อร้านอาหาร <span class="text-danger">*</span></label>
+        <input id="restaurantName" type="text" placeholder="ชื่อร้านอาหาร" formControlName="restaurantName" class="form-control shadow-none"
+          [ngClass]="{ 'border-danger': registerRestaurantForm.controls['restaurantName'].invalid && registerRestaurantForm.controls['restaurantName'].touched }"
+          data-cy="restaurantName"
+        >
+
+        <div *ngIf="registerRestaurantForm.controls['restaurantName'].invalid && registerRestaurantForm.controls['restaurantName'].touched" class="text-danger mt-2">
+          <div *ngIf="registerRestaurantForm.controls['restaurantName'].errors?.['required']">
+            Restaurant name is required.
+          </div>
+          <div *ngIf="registerRestaurantForm.controls['restaurantName'].errors?.['minlength']">
+            Restaurant name must be at least 3 characters.
           </div>
         </div>
-  
-        <!-- price rate -->
-        <div class="col">
-          <label class="form-label fw-semibold">
-            ช่วงเรทราคา
-            <span class="text-danger">*</span>
-            <span class="text-muted ms-2">(ขั้นต่ำ - สูงสุด)</span>
-          </label>
-          <div class="row mx-0 d-flex align-items-center">
-            <div class="col px-0 position-relative">
-              <input id="minPriceRate" type="number" placeholder="0" formControlName="minPriceRate" class="form-control shadow-none text-end pe-4"
-                [ngClass]="{ 'border-danger': registerRestaurantForm.controls['minPriceRate'].invalid
-                                              && registerRestaurantForm.controls['minPriceRate'].touched }"
-              >
-              <label for="minPriceRate" class="text-muted position-absolute currency-symbol">฿</label>
-            </div>
-            <span class="col-auto fw-bold">-</span>
-            <div class="col px-0 position-relative">
-              <input id="maxPriceRate" type="number" placeholder="0" formControlName="maxPriceRate" class="form-control shadow-none text-end pe-4"
-                [ngClass]="{ 'border-danger': registerRestaurantForm.controls['maxPriceRate'].invalid
-                                              && registerRestaurantForm.controls['maxPriceRate'].touched }"
-              >
-              <label for="maxPriceRate" class="text-muted position-absolute currency-symbol">฿</label>
-            </div>
-          </div>
-  
-          <div
-            *ngIf="(registerRestaurantForm.controls['minPriceRate'].invalid && registerRestaurantForm.controls['minPriceRate'].touched)
-                   || (registerRestaurantForm.controls['maxPriceRate'].invalid && registerRestaurantForm.controls['maxPriceRate'].touched)"
-            class="text-danger mt-2"
-          >
-            <div *ngIf="registerRestaurantForm.controls['minPriceRate'].errors?.['required']
-                        && registerRestaurantForm.controls['minPriceRate'].touched
-                        && registerRestaurantForm.controls['maxPriceRate'].valid">
-              Minimum price is required.
-            </div>
-            <div *ngIf="registerRestaurantForm.controls['maxPriceRate'].errors?.['required']
-                        && registerRestaurantForm.controls['maxPriceRate'].touched
-                        && registerRestaurantForm.controls['minPriceRate'].valid">
-              Maximum price is required.
-            </div>
-            <div *ngIf="registerRestaurantForm.controls['maxPriceRate'].errors?.['required']
-                        && registerRestaurantForm.controls['maxPriceRate'].touched
-                        && registerRestaurantForm.controls['minPriceRate'].errors?.['required']
-                        && registerRestaurantForm.controls['minPriceRate'].touched">
-              Minimum and maximum price is required.
-            </div>
-          </div>
-        </div>
-  
-        <!-- pin address -->
-        <div class="col">
-          <label for="address" class="form-label fw-semibold">ปักหมุดของร้าน <span class="text-danger">*</span></label>
-          <input ngx-google-places-autocomplete
-            #placeAutocomplete
-            class="form-control mb-2 shadow-none"
-            [hidden]="stage !== 2"
-            (onAddressChange)="addressChange($event); placeAutocomplete.value = ''"
-          />
-          <ng-container *ngIf="formatAddress">
-            <p class="mb-2 bg-light-yellow rounded-2 py-2 px-2">{{ formatAddress }}</p>
-            <label class="px-2 py-1 rounded-4 bg-yellow mb-2" role="button" (click)="setRestaurantAddress()" [hidden]="stage !== 2">
-              <i class="bi bi-geo-alt-fill me-1"></i>ใช้เป็นที่อยู่ร้านอาหาร
-            </label>
-          </ng-container>
-  
-          <google-map
-            width="100%"
-            height="180"
-            [options]="options"
-            [ngClass]="{ 'border-danger border-2': isNotSetMarker }"
-            (mapClick)="addMarker($event)"
-          >
-            <map-marker *ngIf="markerPositions"
-              [position]="markerPositions"
-              [options]="markerOptions"
-              [markerDraggable]="true"
-              (mapDragend)="setMarkerPosition($event)"
+      </div>
+
+      <!-- price rate -->
+      <div class="col">
+        <label class="form-label fw-semibold">
+          ช่วงเรทราคา
+          <span class="text-danger">*</span>
+          <span class="text-muted ms-2">(ขั้นต่ำ - สูงสุด)</span>
+        </label>
+        <div class="row mx-0 d-flex align-items-center">
+          <div class="col px-0 position-relative">
+            <input id="minPriceRate" type="number" placeholder="0" formControlName="minPriceRate" class="form-control shadow-none text-end pe-4"
+              [ngClass]="{ 'border-danger': registerRestaurantForm.controls['minPriceRate'].invalid
+                                            && registerRestaurantForm.controls['minPriceRate'].touched }"
+              data-cy="minPriceRate"
             >
-            </map-marker>
-          </google-map>
-  
-          <div *ngIf="isNotSetMarker" class="text-danger mt-2">
-            Pin address is required.
+            <label for="minPriceRate" class="text-muted position-absolute currency-symbol">฿</label>
           </div>
-        </div>
-  
-        <!-- address -->
-        <div class="col">
-          <label for="address" class="form-label fw-semibold">ที่อยู่ร้านอาหาร <span class="text-danger">*</span></label>
-          <textarea id="address" type="text" formControlName="address" class="form-control shadow-none" rows="4"
-            [ngClass]="{ 'border-danger': registerRestaurantForm.controls['address'].invalid && registerRestaurantForm.controls['address'].touched }"
-          >
-          </textarea>
-  
-          <div *ngIf="registerRestaurantForm.controls['address'].invalid && registerRestaurantForm.controls['address'].touched" class="text-danger mt-2">
-            <div *ngIf="registerRestaurantForm.controls['address'].errors?.['required']">
-              Address is required.
-            </div>
-          </div>
-        </div>
-  
-        <!-- restaurant type -->
-        <div class="col">
-          <label for="restaurantType" class="form-label fw-semibold">หมวดหมู่ร้านอาหาร <span class="text-danger">*</span></label>
-          <ng-select [items]="restaurantType" bindLabel="name" bindValue="id" placeholder="เลือกหมวดหมู่" formControlName="restaurantType"
-            [searchable]="false" (ngModelChange)="setFoodCategorySelector()"
-          >
-          </ng-select>
-  
-          <div *ngIf="registerRestaurantForm.controls['restaurantType'].invalid && registerRestaurantForm.controls['restaurantType'].touched" class="text-danger mt-2">
-            <div *ngIf="registerRestaurantForm.controls['restaurantType'].errors?.['required']">
-              Restaurant type is required.
-            </div>
-          </div>
-        </div>
-  
-        <!-- food category -->
-        <div class="col">
-          <label for="foodCategory" class="form-label fw-semibold">ประเภทอาหารที่ขาย</label>
-          <ng-select [items]="foodCategory" bindLabel="name" bindValue="id" placeholder="เลือกประเภทอาหาร" formControlName="foodCategory"
-            [multiple]="true" [clearable]="false" [searchable]="false">
-            <ng-template ng-multi-label-tmp let-item="item" let-items="items" let-clear="clear">
-              <label>{{ items.length }} ประเภท</label>
-            </ng-template>
-          </ng-select>
-  
-          <div class="d-flex flex-wrap">
-            <ng-container *ngFor="let item of FoodCategoryList; let i = index">
-              <div class="px-2 py-1 bg-light-grey rounded-5 d-flex align-items-center mt-2 me-2">
-                <span>{{ item }}</span>
-                <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" (click)="removeFoodCategorySelected(i)"></i>
-              </div>
-            </ng-container>
-          </div>
-        </div>
-  
-        <!-- delivery type -->
-        <div class="col">
-          <label for="deliveryType" class="form-label fw-semibold">ประเภทการจัดส่งที่รองรับ</label>
-          <ng-select [items]="deliveryType" bindLabel="name" bindValue="id" placeholder="เลือกประเภทการจัดส่ง"
-            [multiple]="true" [clearable]="false" formControlName="deliveryType" [searchable]="false" [closeOnSelect]="false"
-          >
-            <ng-template ng-multi-label-tmp let-item="item" let-items="items">
-              <div class="ng-value" *ngIf="items.length < deliveryType.length">
-                <span class="ng-value-label font-Sarabun bg-white">{{ items.length }} ประเภท</span>
-              </div>
-              <div class="ng-value" *ngIf="items.length === deliveryType.length">
-                <span class="ng-value-label font-Sarabun bg-white">ทั้งหมด</span>
-              </div>
-            </ng-template>
-          </ng-select>
-  
-          <div class="d-flex flex-wrap">
-            <ng-container *ngFor="let item of DeliveryTypeList; let i = index">
-              <div class="px-2 py-1 bg-light-grey rounded-5 d-flex align-items-center mt-2 me-2">
-                <span>{{ item }}</span>
-                <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" (click)="removeDeliveryTypeSelected(i)"></i>
-              </div>
-            </ng-container>
-          </div>
-        </div>
-  
-        <!-- payment method -->
-        <div class="col">
-          <label for="paymentMethod" class="form-label fw-semibold">วิธีการจ่ายเงินที่รองรับ</label>
-          <ng-select [items]="paymentMethod" bindLabel="name" bindValue="id" placeholder="เลือกวิธีการจ่ายเงิน" formControlName="paymentMethod"
-            [multiple]="true" [clearable]="false" [searchable]="false" [closeOnSelect]="false">
-            <ng-template ng-multi-label-tmp let-item="item" let-items="items">
-              <div class="ng-value" *ngIf="items.length < paymentMethod.length">
-                <span class="ng-value-label font-Sarabun bg-white">{{ items.length }} ประเภท</span>
-              </div>
-              <div class="ng-value" *ngIf="items.length === paymentMethod.length">
-                <span class="ng-value-label font-Sarabun bg-white">ทั้งหมด</span>
-              </div>
-            </ng-template>
-          </ng-select>
-  
-          <div class="d-flex flex-wrap">
-            <ng-container *ngFor="let item of PaymentMethodList; let i = index">
-              <div class="px-2 py-1 bg-light-grey rounded-5 d-flex align-items-center mt-2 me-2">
-                <span>{{ item }}</span>
-                <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" (click)="removePaymentMethodSelected(i)"></i>
-              </div>
-            </ng-container>
-          </div>
-        </div>
-  
-        <!-- social contact -->
-        <div class="col">
-          <label for="socialContact" class="form-label fw-semibold">ช่องทางการติดต่อ
-            <span class="mx-2 px-2 py-1 rounded-4 bg-yellow" role="button" (click)="addSocialContact()" [hidden]="stage === 4">
-              <i class="bi bi-plus-circle me-2"></i>เพิ่มช่องทาง
-            </span>
-          </label>
-  
-          <ng-container formArrayName="socialContact">
-            <div class="row mb-2 d-flex align-items-center" *ngFor="let item of SocialContactArray.controls; let i = index;">
-              <!-- select social -->
-              <div class="col-5" [formGroupName]="i">
-                <ng-select [items]="socialContactType" bindLabel="name" bindValue="id" placeholder="เลือกช่องทาง" formControlName="contact"
-                  [searchable]="false" >
-                </ng-select>
-              </div>
-  
-              <!-- contact value -->
-              <div class="col ps-0" [formGroupName]="i">
-                <input type="text" class="form-control" id="contactValue" name="contactValue"
-                  formControlName="contactValue" maxlength="320"
-                  [ngClass]="{ 'border-danger' : getContactValueFormControl(i).errors && getContactValueFormControl(i).touched }"
-                />
-              </div>
-              <i class="bi bi-trash col-auto fs-4 ps-0 text-danger" role="button" (click)="removeSocialContact(i)"></i>
-            </div>
-  
-            <!-- any contact -->
-            <p *ngIf="SocialContactArray.controls.length === 0"
-              class="text-muted text-center bg-light-grey rounded-2 py-2"
+          <span class="col-auto fw-bold">-</span>
+          <div class="col px-0 position-relative">
+            <input id="maxPriceRate" type="number" placeholder="0" formControlName="maxPriceRate" class="form-control shadow-none text-end pe-4"
+              [ngClass]="{ 'border-danger': registerRestaurantForm.controls['maxPriceRate'].invalid
+                                            && registerRestaurantForm.controls['maxPriceRate'].touched }"
+              data-cy="maxPriceRate"
             >
-              ไม่มีช่องทางการติดต่อ
-            </p>
-          </ng-container>
+            <label for="maxPriceRate" class="text-muted position-absolute currency-symbol">฿</label>
+          </div>
         </div>
-  
-        <!-- business hours -->
-        <div class="col">
-          <label for="businessHour" class="form-label fw-semibold">วันและเวลาทำการ <span class="text-danger">*</span>
-            <span class="mx-2 px-2 py-1 rounded-4 bg-yellow" role="button" (click)="addBusinessHour()" [hidden]="stage === 4">
-              <i class="bi bi-plus-circle me-2"></i>เพิ่มวันทำการ
-            </span>
+
+        <div
+          *ngIf="(registerRestaurantForm.controls['minPriceRate'].invalid && registerRestaurantForm.controls['minPriceRate'].touched)
+                 || (registerRestaurantForm.controls['maxPriceRate'].invalid && registerRestaurantForm.controls['maxPriceRate'].touched)"
+          class="text-danger mt-2"
+        >
+          <div *ngIf="registerRestaurantForm.controls['minPriceRate'].errors?.['required']
+                      && registerRestaurantForm.controls['minPriceRate'].touched
+                      && registerRestaurantForm.controls['maxPriceRate'].valid">
+            Minimum price is required.
+          </div>
+          <div *ngIf="registerRestaurantForm.controls['maxPriceRate'].errors?.['required']
+                      && registerRestaurantForm.controls['maxPriceRate'].touched
+                      && registerRestaurantForm.controls['minPriceRate'].valid">
+            Maximum price is required.
+          </div>
+          <div *ngIf="registerRestaurantForm.controls['maxPriceRate'].errors?.['required']
+                      && registerRestaurantForm.controls['maxPriceRate'].touched
+                      && registerRestaurantForm.controls['minPriceRate'].errors?.['required']
+                      && registerRestaurantForm.controls['minPriceRate'].touched">
+            Minimum and maximum price is required.
+          </div>
+        </div>
+      </div>
+
+      <!-- pin address -->
+      <div class="col">
+        <label for="address" class="form-label fw-semibold">ปักหมุดของร้าน <span class="text-danger">*</span></label>
+        <input ngx-google-places-autocomplete
+          #placeAutocomplete
+          class="form-control mb-2 shadow-none"
+          [hidden]="stage !== 2"
+          (onAddressChange)="addressChange($event); placeAutocomplete.value = ''"
+          data-cy="googleAddressAutocomplete"
+        />
+        <ng-container *ngIf="formatAddress" data-cy="formatAddress">
+          <p class="mb-2 bg-light-yellow rounded-2 py-2 px-2">{{ formatAddress }}</p>
+          <label class="px-2 py-1 rounded-4 bg-yellow mb-2" role="button" (click)="setRestaurantAddress()" [hidden]="stage !== 2" data-cy="setRestaurantAddress">
+            <i class="bi bi-geo-alt-fill me-1"></i>ใช้เป็นที่อยู่ร้านอาหาร
           </label>
-  
-          <ng-container formArrayName="businessHour">
-            <div class="row mb-2 d-flex align-items-center gy-2" *ngFor="let item of BusinessHourArray.controls; let j = index;">
-              <!-- select day -->
-              <div class="col-12 col-xl-4" [formGroupName]="j">
-                <ng-select [items]="dayList" bindLabel="name" bindValue="id" placeholder="เลือกวัน" formControlName="day"
-                  [searchable]="false" >
-                </ng-select>
-              </div>
-  
-              <!-- range of open/close time -->
-              <div class="col ps-xl-0 pe-1" [formGroupName]="j">
-                <input type="time" class="form-control shadow-none" formControlName="startTime"
-                  [ngClass]="{ 'border-danger': getStartTimeFormControl(j).invalid && getStartTimeFormControl(j).touched }"
-                >
-              </div>
-              <span class="col-auto px-1 fw-bold">-</span>
-              <div class="col ps-1" [formGroupName]="j">
-                <input type="time" class="form-control shadow-none" formControlName="endTime"
-                  [ngClass]="{ 'border-danger': getEndTimeFormControl(j).invalid && getEndTimeFormControl(j).touched }"
-                >
-              </div>
-  
-              <i *ngIf="j > 0" class="bi bi-trash col-auto fs-4 ps-0 text-danger" role="button" (click)="removeBusinessHour(j)"></i>
+        </ng-container>
+
+        <google-map
+          width="100%"
+          height="180"
+          [options]="options"
+          [ngClass]="{ 'border-danger border-2': isNotSetMarker }"
+          (mapClick)="addMarker($event)"
+        >
+          <map-marker *ngIf="markerPositions"
+            [position]="markerPositions"
+            [options]="markerOptions"
+            [markerDraggable]="true"
+            (mapDragend)="setMarkerPosition($event)"
+          >
+          </map-marker>
+        </google-map>
+
+        <div *ngIf="isNotSetMarker" class="text-danger mt-2">
+          Pin address is required.
+        </div>
+      </div>
+
+      <!-- address -->
+      <div class="col">
+        <label for="address" class="form-label fw-semibold">ที่อยู่ร้านอาหาร <span class="text-danger">*</span></label>
+        <textarea id="address" type="text" formControlName="address" class="form-control shadow-none" rows="4" data-cy="address"
+          [ngClass]="{ 'border-danger': registerRestaurantForm.controls['address'].invalid && registerRestaurantForm.controls['address'].touched }"
+        >
+        </textarea>
+
+        <div *ngIf="registerRestaurantForm.controls['address'].invalid && registerRestaurantForm.controls['address'].touched" class="text-danger mt-2">
+          <div *ngIf="registerRestaurantForm.controls['address'].errors?.['required']">
+            Address is required.
+          </div>
+        </div>
+      </div>
+
+      <!-- restaurant type -->
+      <div class="col">
+        <label for="restaurantType" class="form-label fw-semibold">หมวดหมู่ร้านอาหาร <span class="text-danger">*</span></label>
+        <ng-select [items]="restaurantType" bindLabel="name" bindValue="id" placeholder="เลือกหมวดหมู่" formControlName="restaurantType"
+          [searchable]="false" (ngModelChange)="setFoodCategorySelector()" data-cy="restaurantType"
+        >
+        </ng-select>
+
+        <div *ngIf="registerRestaurantForm.controls['restaurantType'].invalid && registerRestaurantForm.controls['restaurantType'].touched" class="text-danger mt-2" data-cy="restaurantTypeError">
+          <div *ngIf="registerRestaurantForm.controls['restaurantType'].errors?.['required']" data-cy="RequireRestaurantType">
+            Restaurant type is required.
+          </div>
+        </div>
+      </div>
+
+      <!-- food category -->
+      <div class="col">
+        <label for="foodCategory" class="form-label fw-semibold">ประเภทอาหารที่ขาย</label>
+        <ng-select [items]="foodCategory" bindLabel="name" bindValue="id" placeholder="เลือกประเภทอาหาร" formControlName="foodCategory"
+          [multiple]="true" [clearable]="false" [searchable]="false" [closeOnSelect]="false" data-cy="foodCategory">
+          <ng-template ng-multi-label-tmp let-item="item" let-items="items" let-clear="clear">
+            <label>{{ items.length }} ประเภท</label>
+          </ng-template>
+        </ng-select>
+
+        <div class="d-flex flex-wrap">
+          <ng-container *ngFor="let item of FoodCategoryList; let i = index">
+            <div class="px-2 py-1 bg-light-grey rounded-5 d-flex align-items-center mt-2 me-2">
+              <span>{{ item }}</span>
+              <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" (click)="removeFoodCategorySelected(i)"></i>
             </div>
           </ng-container>
         </div>
       </div>
+
+      <!-- delivery type -->
+      <div class="col">
+        <label for="deliveryType" class="form-label fw-semibold">ประเภทการจัดส่งที่รองรับ</label>
+        <ng-select [items]="deliveryType" bindLabel="name" bindValue="id" placeholder="เลือกประเภทการจัดส่ง" data-cy="deliveryType"
+          [multiple]="true" [clearable]="false" formControlName="deliveryType" [searchable]="false" [closeOnSelect]="false"
+        >
+          <ng-template ng-multi-label-tmp let-item="item" let-items="items">
+            <div class="ng-value" *ngIf="items.length < deliveryType.length">
+              <span class="ng-value-label font-Sarabun bg-white">{{ items.length }} ประเภท</span>
+            </div>
+            <div class="ng-value" *ngIf="items.length === deliveryType.length">
+              <span class="ng-value-label font-Sarabun bg-white">ทั้งหมด</span>
+            </div>
+          </ng-template>
+        </ng-select>
+
+        <div class="d-flex flex-wrap">
+          <ng-container *ngFor="let item of DeliveryTypeList; let i = index">
+            <div class="px-2 py-1 bg-light-grey rounded-5 d-flex align-items-center mt-2 me-2">
+              <span>{{ item }}</span>
+              <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" (click)="removeDeliveryTypeSelected(i)"></i>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- payment method -->
+      <div class="col">
+        <label for="paymentMethod" class="form-label fw-semibold">วิธีการจ่ายเงินที่รองรับ</label>
+        <ng-select [items]="paymentMethod" bindLabel="name" bindValue="id" placeholder="เลือกวิธีการจ่ายเงิน" formControlName="paymentMethod"
+          [multiple]="true" [clearable]="false" [searchable]="false" [closeOnSelect]="false" data-cy="paymentMethod">
+          <ng-template ng-multi-label-tmp let-item="item" let-items="items">
+            <div class="ng-value" *ngIf="items.length < paymentMethod.length">
+              <span class="ng-value-label font-Sarabun bg-white">{{ items.length }} ประเภท</span>
+            </div>
+            <div class="ng-value" *ngIf="items.length === paymentMethod.length">
+              <span class="ng-value-label font-Sarabun bg-white">ทั้งหมด</span>
+            </div>
+          </ng-template>
+        </ng-select>
+
+        <div class="d-flex flex-wrap">
+          <ng-container *ngFor="let item of PaymentMethodList; let i = index">
+            <div class="px-2 py-1 bg-light-grey rounded-5 d-flex align-items-center mt-2 me-2">
+              <span>{{ item }}</span>
+              <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" (click)="removePaymentMethodSelected(i)"></i>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- social contact -->
+      <div class="col">
+        <label for="socialContact" class="form-label fw-semibold">ช่องทางการติดต่อ
+          <span class="mx-2 px-2 py-1 rounded-4 bg-yellow" role="button" (click)="addSocialContact()" [hidden]="stage === 4" data-cy="addSocialContact">
+            <i class="bi bi-plus-circle me-2"></i>เพิ่มช่องทาง
+          </span>
+        </label>
+
+        <ng-container formArrayName="socialContact">
+          <div class="row mb-2 d-flex align-items-center" *ngFor="let item of SocialContactArray.controls; let i = index;">
+            <!-- select social -->
+            <div class="col-5" [formGroupName]="i">
+              <ng-select [items]="socialContactType" bindLabel="name" bindValue="id" placeholder="เลือกช่องทาง" formControlName="contact"
+                [searchable]="false" [readonly]="stage === 4" data-cy="socialContactType">
+              </ng-select>
+            </div>
+
+            <!-- contact value -->
+            <div class="col ps-0" [formGroupName]="i">
+              <input type="text" class="form-control" id="contactValue" name="contactValue"
+                formControlName="contactValue" maxlength="320" [attr.disabled]="stage === 4? true:null" data-cy="contactValue"
+                [ngClass]="{ 'border-danger' : getContactValueFormControl(i).errors && getContactValueFormControl(i).touched }"
+              />
+            </div>
+            <i class="bi bi-trash col-auto fs-4 ps-0 text-danger" role="button" (click)="removeSocialContact(i)" [hidden]="stage !== 2"></i>
+          </div>
+
+          <!-- any contact -->
+          <p *ngIf="SocialContactArray.controls.length === 0"
+            class="text-muted text-center bg-light-grey rounded-2 py-2"
+          >
+            ไม่มีช่องทางการติดต่อ
+          </p>
+        </ng-container>
+      </div>
+
+      <!-- business hours -->
+      <div class="col">
+        <label for="businessHour" class="form-label fw-semibold">วันและเวลาทำการ <span class="text-danger">*</span>
+          <span class="mx-2 px-2 py-1 rounded-4 bg-yellow" role="button" (click)="addBusinessHour()" [hidden]="stage === 4" data-cy="addBusinessHour">
+            <i class="bi bi-plus-circle me-2"></i>เพิ่มวันทำการ
+          </span>
+        </label>
+
+        <ng-container formArrayName="businessHour">
+          <div class="row mb-2 d-flex align-items-center gy-2" *ngFor="let item of BusinessHourArray.controls; let j = index;">
+            <!-- select day -->
+            <div class="col-12 col-xl-4" [formGroupName]="j">
+              <ng-select [items]="dayList" bindLabel="name" bindValue="id" placeholder="เลือกวัน" formControlName="day"
+                [searchable]="false" [readonly]="stage === 4" data-cy="day">
+              </ng-select>
+            </div>
+
+            <!-- range of open/close time -->
+            <div class="col ps-xl-0 pe-1" [formGroupName]="j">
+              <input type="time" class="form-control shadow-none" formControlName="startTime" [attr.disabled]="stage === 4? true:null"
+                [ngClass]="{ 'border-danger': getStartTimeFormControl(j).invalid && getStartTimeFormControl(j).touched }" data-cy="startTime"
+              >
+            </div>
+            <span class="col-auto px-1 fw-bold">-</span>
+            <div class="col ps-1" [formGroupName]="j">
+              <input type="time" class="form-control shadow-none" formControlName="endTime" [attr.disabled]="stage === 4? true:null"
+                [ngClass]="{ 'border-danger': getEndTimeFormControl(j).invalid && getEndTimeFormControl(j).touched }" data-cy="endTime"
+              >
+            </div>
+
+            <i *ngIf="j > 0" class="bi bi-trash col-auto fs-4 ps-0 text-danger" role="button"
+              [hidden]="stage !== 2"
+              (click)="removeBusinessHour(j)"
+            >
+            </i>
+          </div>
+        </ng-container>
+      </div>
     </div>
-  </form>
-  
+  </div>
+</form>

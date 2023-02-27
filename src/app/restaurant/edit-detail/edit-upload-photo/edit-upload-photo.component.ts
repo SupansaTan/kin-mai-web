@@ -14,7 +14,7 @@ export class EditUploadPhotoComponent implements OnInit {
   @Output() uploadPhotoFormValue = new EventEmitter<RestaurantPhotoModel>();
 
   uploadPhotoForm: FormGroup;
-  currentStage: number = 0;
+  currentStage: number = 2;
   restaurantImageList: Array<string> = new Array<string>();
   imageFileList: Array<File> = new Array<File>();
 
@@ -36,7 +36,7 @@ export class EditUploadPhotoComponent implements OnInit {
   set stage(value: number) {
     this.currentStage = value;
 
-    if (value === 4) {
+    if (value === 3) {
       this.uploadPhotoForm.disable();
     } else {
       this.uploadPhotoForm.enable();

@@ -21,7 +21,11 @@
 
 /* border */
 .border-yellow {
-  border-color: $yellow;
+  border: 1px solid $yellow;
+}
+
+.border-grey {
+  border: 1px solid $grey;
 }
 
 /* text */
@@ -31,4 +35,8 @@
 
 .text-green {
   color: $green;
+}
+
+.text-grey {
+  color: #e4e4e4;
 }

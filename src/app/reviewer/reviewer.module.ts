@@ -1,29 +1,37 @@
+import { ShortNumberPipe } from './../../pipe/short-number.pipe';
+import { ReviewerService } from './reviewer.service';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EllipsisModule } from 'ngx-ellipsis';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxViewerModule } from '@erengee/ngx-viewer';
+import { AvatarModule } from 'ngx-avatar';
 
 import { ReviewerRoutingModule } from './reviewer-routing.module';
 import { ReviewerHomepageComponent } from './homepage/homepage.component';
-import { ModalFoodComponent } from './modal-food/modal-food.component';
-import { ModalDessertComponent } from './modal-dessert/modal-dessert.component';
 import { RandomFoodComponent } from './random-food/random-food.component';
-import { SearchRestaurantComponent } from './search-result/search-result.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
 import { ModalReviewComponent } from './modal-review/modal-review.component';
-import { ModalGalleryComponent } from './modal-gallery/modal-gallery.component';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { SwiperModule } from "swiper/angular";
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { NearlyRestaurantComponent } from './homepage/nearly-restaurant/nearly-restaurant.component';
+import { FilterRestaurantComponent } from './homepage/filter-restaurant/filter-restaurant.component';
+import { SharedModule } from '../shared/shared.module';
+import { FavoriteRestaurantComponent } from './favorite-restaurant/favorite-restaurant.component';
 
 @NgModule({
   declarations: [
     ReviewerHomepageComponent,
-    ModalFoodComponent,
-    ModalDessertComponent,
     RandomFoodComponent,
-    SearchRestaurantComponent,
     RestaurantDetailComponent,
     ModalReviewComponent,
-    ModalGalleryComponent,
+    ShortNumberPipe,
+    NearlyRestaurantComponent,
+    FilterRestaurantComponent,
+    FavoriteRestaurantComponent,
   ],
   imports: [
     CommonModule,
@@ -31,7 +39,19 @@ import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     ReviewerRoutingModule,
     NgbRatingModule,
-  ]
+    SwiperModule,
+    FormsModule,
+    MatButtonToggleModule,
+    EllipsisModule,
+    SharedModule,
+    NgbCollapseModule,
+    NgxViewerModule,
+    AvatarModule,
+  ],
+  providers: [
+    ReviewerService,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 
 export class ReviewerModule { }

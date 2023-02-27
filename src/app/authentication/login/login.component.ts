@@ -1,6 +1,7 @@
+import { AccessLevel } from 'src/enum/access-level.enum';
 import { AccountType } from './../../../enum/account-type.enum';
 import { GoogleAuthService } from './../../service/google-auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
@@ -8,6 +9,10 @@ import { LocalStorageService } from './../../service/local-storage.service';
 import { PageLink } from './../../../constant/path-link.constant';
 import { AuthenticationService } from './../authentication.service';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-success.component';
+import { ResponseModel } from 'src/models/response.model';
+import { TokenResponseModel } from 'src/models/token-response.model';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +20,7 @@ import { SocialAuthService } from '@abacritt/angularx-social-login';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  @ViewChild('successModalComponent') successModal: ModalSuccessComponent;
   loginForm: FormGroup;
   isShowPassword: boolean = false;
 
@@ -25,6 +31,7 @@ export class LoginComponent implements OnInit {
     , private authenticationService: AuthenticationService
     , private authService: SocialAuthService
     , private googleAuthService: GoogleAuthService
+    , private spinner: NgxSpinnerService
     ) {
     this.loginForm = this.fb.group({
       username: new FormControl('', [
@@ -67,7 +74,9 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const email = this.loginForm.get('username')?.value;
       const password = this.loginForm.get('password')?.value;
-      this.authenticationService.login(email, password).subscribe((response: any) => {
+      this.spinner.show();
+
+      this.authenticationService.login(email, password).subscribe((response: ResponseModel<TokenResponseModel>) => {
         if (response?.status === 200) {
           if (response.data) {
             let token = response.data;
@@ -76,22 +85,26 @@ export class LoginComponent implements OnInit {
             this.localStorageService.set(LocalStorageKey.accessToken, token.token);
 
             this.authenticationService.getUserInfo(email).subscribe((resp: any) => {
+              this.spinner.hide();
+
               if (resp.status === 200) {
                 this.localStorageService.set(LocalStorageKey.userId, resp.data.userId);
                 this.localStorageService.set(LocalStorageKey.userName, resp.data.userName);
                 this.localStorageService.set(LocalStorageKey.restaurantName, resp.data.restaurantName);
+                this.localStorageService.set(LocalStorageKey.restaurantId, resp.data.restaurantId);
                 this.localStorageService.set(LocalStorageKey.userType, resp.data.userType);
                 this.localStorageService.set(LocalStorageKey.viewMode,
                   resp.data.userType === AccountType.Reviewer
-                  ? AccountType.Reviewer
-                  : AccountType.RestaurantOwner
+                  ? AccessLevel.Reviewer
+                  : AccessLevel.RestaurantOwner
                 );
-
-                this.authenticationService.loginSuccessEvent(true);
                 this.routePage(resp.data.userType);
               }
             })
           }
+        } else {
+          this.spinner.hide();
+          this.successModal.openSuccessModal(false, response.message);
         }
       });
     }

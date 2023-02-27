@@ -11,6 +11,8 @@ import { NgProgressHttpModule } from 'ngx-progressbar/http';
 import { SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { ToastrModule } from 'ngx-toastr';
 
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -19,24 +21,29 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthenticationService } from './authentication/authentication.service';
 import { GoogleAuthService } from './service/google-auth.service';
-
+import { AngMusicPlayerModule } from  'ang-music-player';
+import { EditProfileComponent } from './reviewer/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,
+    AngMusicPlayerModule,
     AppRoutingModule,
     ReactiveFormsModule,
     RouterModule,
     NgbModule,
     SharedModule,
     ModalModule.forRoot(),
+    ToastrModule.forRoot(),
     BrowserAnimationsModule,
     NgProgressModule,
     GoogleMapsModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-spin-clockwise' }),
     NgProgressHttpModule.withConfig({
       id: 'progressBar'
     }),

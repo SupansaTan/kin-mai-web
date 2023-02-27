@@ -1,45 +1,53 @@
-import { Component, NgModule } from '@angular/core';
+import { FavoriteRestaurantComponent } from './favorite-restaurant/favorite-restaurant.component';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { RandomFoodComponent } from './random-food/random-food.component';
 import { ReviewerHomepageComponent } from './homepage/homepage.component';
-import { SearchRestaurantComponent } from './search-result/search-result.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { AuthGuardService } from '../service/auth-guard.service';
-import { AccountType } from 'src/enum/account-type.enum';
+import { AccessLevel } from 'src/enum/access-level.enum';
 
 const routes: Routes = [
   {
     path: '',
     component: ReviewerHomepageComponent,
-    // canActivate: [AuthGuardService],
-    // data: {
-    //   AccessLevel: [AccountType.Reviewer],
-    // },
-  },
-  {
-    path: 'search',
-    component: SearchRestaurantComponent,
-    // canActivate: [AuthGuardService],
-    // data: {
-    //   AccessLevel: [AccountType.Reviewer],
-    // },
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccessLevel.Reviewer, AccessLevel.Public],
+    },
   },
   {
     path: 'random',
     component: RandomFoodComponent,
-    // canActivate: [AuthGuardService],
-    // data: {
-    //   AccessLevel: [AccountType.Reviewer],
-    // },
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccessLevel.Reviewer],
+    },
   },
   {
     path: 'restaurant',
     component: RestaurantDetailComponent,
-    // canActivate: [AuthGuardService],
-    // data: {
-    //   AccessLevel: [AccountType.Reviewer],
-    // },
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccessLevel.Reviewer, AccessLevel.Public],
+    },
+  },
+  {
+    path: 'profile',
+    component: EditProfileComponent,
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccessLevel.Reviewer, AccessLevel.Public],
+    },
+  },
+  {
+    path: 'favorite-restaurant',
+    component: FavoriteRestaurantComponent,
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccessLevel.Reviewer],
+    },
   },
   {
     path: '',

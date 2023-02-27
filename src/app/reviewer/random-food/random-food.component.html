@@ -1,23 +1,38 @@
-<div class="row mt-5">
-  <div class="col d-flex justify-content-center mt-5 ">
-    <div>
-      <h1>วันนี้กินอะไรดีน้าาา...มาสุ่มกัน</h1>
-      <!--shake https://www.w3schools.com/howto/howto_css_shake_image.asp-->
-      <!-- popup https://www.positronx.io/angular-popup-notification-with-sweetalert2-example/ -->
-      <!-- random word https://codepen.io/justpete/pen/ogNBPp ยังไม่ได้ทำ -->
-      <img src="../../../assets/image/game.png" width="280" height="280" (click)="ImageClick()" > 
+<div class="row">
+  <div class="d-flex align-items-center justify-content-end mt-4 py-2" >
+    <!-- sound https://www.youtube.com/watch?v=04riTiv5aG0 -->
+    <h5 class="mb-0">แตะเพื่อเปิดเพลง: </h5>
+    <audio #audioPlayer src="../../../assets/audio/샛별(Daystar)-Sugar Cookie.mp3" ></audio>
+
+    <button type="button" id="bt-play" class="btn btn-sm mx-2"
+      [ngClass]="isPlayingMusic? 'btn-outline-dark':'btn-outline-success'" data-cy="MusicBtn"
+      (click)="isPlayingMusic? pause() : play()"
+    >
+      <i class="bi" [ngClass]="isPlayingMusic? 'bi-pause-circle-fill':'bi-play-circle-fill'"></i>
+    </button>
+  </div>
+
+
+  <div class="col d-flex justify-content-center mt-4">
+    <div class="position-relative">
+      <h4>วันนี้กินอะไรดีน้าาา...มาสุ่มกัน</h4>
+      <img src="../../../assets/image/game.png" width="280" height="280"
+        [ngClass]="{ 'isRamdomAlready': isRandomAlready }"
+        role="button"
+        (click)="ImageClick()" data-cy="gachapongame"
+      >
+      <i class="bi bi-hand-index-fill text-yellow cursor fs-1" role="button" [hidden]="isRandomAlready" (click)="ImageClick()"></i>
     </div>
   </div>
-  <div class="d-flex justify-content-center mt-5 ">
-    <button type="button" class="btn btn-yellow mx-4">
-      <i class="bi bi-search-heart-fill mx-1"></i>
-      ค้นหาร้านอาหาร
-    </button>
 
-    <button type="button" class="btn btn-secondary">
-      <i class="bi bi-search-heart-fill mx-1"></i>
-      ค้นหาเพลย์ลิสต์ร้านอาหาร
-    </button>
+  <div class="row mt-3 " *ngIf="isRandomAlready">
+    <h4 class="text-center mb-3" [class.random-result]="isRandomAlready" data-cy="FoodCategory">ประเภท: {{ randomResult.name }} </h4>
+
+    <div class="col d-flex justify-content-center mt-2">
+      <button type="button" class="btn btn-yellow" data-cy="SearchRestaurantBtn" (click)="routeToHomepage()">
+        <i class="bi bi-search-heart-fill mx-1"></i>
+        ร้าน<span class="fw-bolder">{{randomResult.name}}</span>
+      </button>
+    </div>
   </div>
-
 </div>

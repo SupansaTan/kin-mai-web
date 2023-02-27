@@ -7,6 +7,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { AvatarModule } from 'ngx-avatar';
+import { NgxViewerModule } from '@erengee/ngx-viewer';
+import { QRCodeModule } from 'angularx-qrcode';
 
 import { RestaurantDashboardComponent } from './dashboard/dashboard.component';
 import { EditRestaurantDetailComponent } from './edit-detail/edit-detail.component';
@@ -16,6 +20,8 @@ import { EditRestaurantInfoComponent } from './edit-detail/edit-restaurant-info/
 import { EditUploadPhotoComponent } from './edit-detail/edit-upload-photo/edit-upload-photo.component';
 import { SharedModule } from '../shared/shared.module';
 
+import { NgCircleProgressModule } from 'ng-circle-progress';
+import { GenerateQrCodeComponent } from './generate-qr-code/generate-qr-code.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +29,8 @@ import { SharedModule } from '../shared/shared.module';
     EditRestaurantDetailComponent,
     DetailComponent,
     EditRestaurantInfoComponent,
-    EditUploadPhotoComponent
+    EditUploadPhotoComponent,
+    GenerateQrCodeComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +44,13 @@ import { SharedModule } from '../shared/shared.module';
     DragDropModule,
     GoogleMapsModule,
     GooglePlaceModule,
+    NgbRatingModule,
+    AvatarModule,
+    NgxViewerModule,
+    QRCodeModule,
+    NgCircleProgressModule.forRoot({
+      // set defaults here
+    }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

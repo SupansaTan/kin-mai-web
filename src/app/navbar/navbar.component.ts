@@ -1,33 +1,35 @@
+import { AccessLevel } from 'src/enum/access-level.enum';
 import { AuthenticationService } from './../authentication/authentication.service';
-import { NavigationEnd, Router } from '@angular/router';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { AccountType } from 'src/enum/account-type.enum';
 import { LocalStorageService } from '../service/local-storage.service';
 import { PageLink } from 'src/constant/path-link.constant';
-import { filter } from 'rxjs';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit, OnDestroy {
-  private sub: any;
+export class NavbarComponent implements OnInit {
+  sub: any;
 
   username: string = '';
   isLogin: boolean = true;
   accountType: number = AccountType.Reviewer;
+  viewMode: number;
   restaurantName: string = '';
   isReviewerAccount: boolean = true;
   isMenuCollapsed: boolean = true;
 
   AccountTypeEnum = AccountType;
+  AccessLevelEnum = AccessLevel;
 
   constructor(
     private router: Router,
     private localStorageService: LocalStorageService,
-    private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
@@ -37,22 +39,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
     const viewMode = this.localStorageService.get<string>(LocalStorageKey.viewMode);
     this.username = username ?? 'Username';
     this.restaurantName = restaurantName ?? 'RestaurantName';
+    this.viewMode = Number(viewMode);
     this.accountType = Number(userType);
-    this.isReviewerAccount = (Number(viewMode) ?? 0) === AccountType.Reviewer;
+    this.isReviewerAccount = (Number(viewMode) ?? 0) === AccessLevel.Reviewer;
 
-    this.sub = this.authenticationService.handleLoginSuccessEvent
-      .subscribe((isSuccess) => {
-        console.log(isSuccess)
-        if (isSuccess) {
-          this.isLogin = true;
-        } else {
-          this.isLogin = false;
-        }
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+    this.sub = this.localStorageService.getUserIsLogin().pipe(take(1)).subscribe((status) => {
+      this.isLogin = status;
     })
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 
   changeAccountMode(nextMode: AccountType) {
@@ -60,16 +56,25 @@ export class NavbarComponent implements OnInit, OnDestroy {
       && nextMode === AccountType.RestaurantOwner
     ) {
       // to mode restaurant
+      this.localStorageService.set(LocalStorageKey.viewMode, AccessLevel.RestaurantOwner);
+      this.router.navigate([PageLink.restaurant.dashboard]);
       this.isReviewerAccount = false;
     } else {
       // to mode reviewer
+      this.localStorageService.set(LocalStorageKey.viewMode, AccessLevel.Reviewer);
+      this.router.navigate([PageLink.reviewer.homepage]);
       this.isReviewerAccount = true;
     }
   }
 
+  routeToFavoriteRestaurant() {
+    this.router.navigate([PageLink.reviewer.favoriteRestaurant]);
+  }
+
   logout() {
     this.localStorageService.removeAll();
-    this.authenticationService.loginSuccessEvent(false);
-    this.router.navigate([PageLink.authentication.login]);
+    setTimeout(() => {
+      this.router.navigate([PageLink.authentication.login]);
+    }, 200);
   }
 }

@@ -1,24 +1,5 @@
-.bi-search {
+.clear-search {
   top: 50%;
-  right: 10px;
-  z-index: 100;
+  right: 12px;
   transform: translateY(-50%);
-}
-
-.big-image-cover {
-  max-height: 200px;
-  width: 100%;
-  background-size: cover;
-  overflow: hidden;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-.mini-image-cover {
-  max-height: 60px;
-  width: 100%;
-  background-size: cover;
-  overflow: hidden;
-  border-radius: 10px;
-  object-fit: cover;
 }
