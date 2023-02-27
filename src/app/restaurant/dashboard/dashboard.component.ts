@@ -7,7 +7,6 @@ import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { ResponseModel } from 'src/models/response.model';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { BadReviewLabelItem, GoodReviewLabelItem } from 'src/constant/review-label.constant';
-import { GoodReviewLabel } from 'src/enum/review-label.enum';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,6 +29,7 @@ export class RestaurantDashboardComponent implements OnInit {
 
   countGoodReview: number = 0;
 
+  totalDisplayReview: number = 0;
   totalReviewHaveImage: number = 0;
   totalReviewHaveComment: number = 0;
   totalReviewHaveFoodRecommend: number = 0;
@@ -100,20 +100,13 @@ export class RestaurantDashboardComponent implements OnInit {
               if (element.rating >= 3) {
                 this.countGoodReview += 1;
               }
-              if (element.comment != "") {
-                this.totalReviewHaveComment += 1
-              }
-              if (element.imageLink.length !=0) {
-                this.totalReviewHaveImage += 1
-              }
-              if (element.foodRecommendList.length !=0) {
-                this.totalReviewHaveFoodRecommend += 1
-              }
               element.reviewTimeString = this.getReviewTimeInString(reviewDate)
               element.userName = element.userName.replace(/(?<!^).(?!$)/g, '*')
               this.RecommendMenu = (element.foodRecommendList.length != 0)? [ ...this.RecommendMenu, ...(element.foodRecommendList)] : this.RecommendMenu
-            this.RecommendMenu = [...new Set(this.RecommendMenu)];
+              this.RecommendMenu = [...new Set(this.RecommendMenu)];
             });
+
+            this.countReviewFilter();
 
             if (this.todayReview.length != 0) {
               let ratingCount = 0;
@@ -182,6 +175,7 @@ export class RestaurantDashboardComponent implements OnInit {
           ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
+        this.countReviewFilter();
         break;
       case 2:
         this.isSelectedOnlyReviewHaveImage = true;
@@ -234,5 +228,23 @@ export class RestaurantDashboardComponent implements OnInit {
     } else {
       return BadReviewLabelItem.find(x => x.id === type)?.name;
     }
+  }
+
+  countReviewFilter() {
+    this.totalDisplayReview =  this.displayReview.length;
+    this.totalReviewHaveImage = 0;
+    this.totalReviewHaveComment = 0;
+    this.totalReviewHaveFoodRecommend = 0;
+    this.displayReview.forEach(element => {
+      if (element.comment != "") {
+        this.totalReviewHaveComment += 1
+      }
+      if (element.imageLink.length !=0) {
+        this.totalReviewHaveImage += 1
+      }
+      if (element.foodRecommendList.length !=0) {
+        this.totalReviewHaveFoodRecommend += 1
+      }
+    });
   }
 }
