@@ -22,6 +22,7 @@ import { RestaurantInfoComponent } from './register/register-restaurant/restaura
 import { PersonalInfoComponent } from './register/register-restaurant/personal-info/personal-info.component';
 import { UploadPhotoComponent } from './register/register-restaurant/upload-photo/upload-photo.component';
 import { LocalStorageService } from '../service/local-storage.service';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { LocalStorageService } from '../service/local-storage.service';
     RegisterRestaurantComponent,
     RestaurantInfoComponent,
     PersonalInfoComponent,
-    UploadPhotoComponent
+    UploadPhotoComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     CommonModule,

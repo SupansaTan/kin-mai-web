@@ -57,7 +57,6 @@ export class GoogleAuthService {
                     : AccountType.RestaurantOwner
                   );
 
-                  this.authenticationService.loginSuccessEvent(true);
                   this.routePage(resp.data.userType);
                 }
               }
