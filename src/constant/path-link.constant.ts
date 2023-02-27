@@ -9,6 +9,7 @@ export const PageLink = {
     favoriteRestaurant: 'reviewer/favorite-restaurant'
   },
   restaurant: {
-    dashboard: `restaurant`
+    dashboard: `restaurant`,
+    qrCode: `restaurant/qr-code`,
   }
 };
