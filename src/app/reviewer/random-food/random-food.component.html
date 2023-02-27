@@ -26,7 +26,7 @@
   </div>
 
   <div class="row mt-3 " *ngIf="isRandomAlready">
-    <h4 class="text-center mb-3" [class.random-result]="isRandomAlready">ประเภท: {{ randomResult.name }}</h4>
+    <h4 class="text-center mb-3" [class.random-result]="isRandomAlready" data-cy="FoodCategory">ประเภท: {{ randomResult.name }} </h4>
 
     <div class="col d-flex justify-content-center mt-2">
       <button type="button" class="btn btn-yellow" data-cy="SearchRestaurantBtn" (click)="routeToHomepage()">

@@ -1,4 +1,3 @@
-
 import { And, Given, Then, When } from "cypress-cucumber-preprocessor/steps";
 
 Given(`I visit on login page`, () => {
