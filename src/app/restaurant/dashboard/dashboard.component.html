@@ -180,7 +180,7 @@
           <!-- review image -->
           <div class="col row row-cols-3 g-2 d-flex align-items-center mb-2" ngxViewer>
             <div class="col" *ngFor="let image of review.imageLink; index as i;">
-              <img [src]="awsS3Url + '/' + image" class="review-img">
+              <img [src]="awsS3Url + '/' + image" class="review-img" role="button">
             </div>
           </div>
         </div>
