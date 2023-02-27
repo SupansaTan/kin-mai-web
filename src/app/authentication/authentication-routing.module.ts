@@ -1,3 +1,4 @@
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { AccessLevel } from 'src/enum/access-level.enum';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -39,6 +40,14 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     data: {
       AccessLevel: [AccessLevel.Public],
+    },
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
+    canActivate: [AuthGuardService],
+    data: {
+      AccessLevel: [AccessLevel.Public, AccessLevel.Reviewer, AccessLevel.RestaurantOwner],
     },
   },
   {
