@@ -117,7 +117,7 @@
     <div class="col-12 col-lg-auto d-flex align-content-end flex-wrap">
       <button class="btn btn-sm border-warning rounded-0 rounded-start"
         [ngClass]="isSelectedTotalReview? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(1)">
-        ทั้งหมด ({{ totalReview }})
+        ทั้งหมด ({{ totalDisplayReview }})
       </button>
       <button class="btn btn-sm border-warning rounded-0"
         [ngClass]="isSelectedOnlyReviewHaveImage? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(2)">
@@ -185,14 +185,19 @@
           </div>
         </div>
 
-        <div class="col-12 d-flex align-items-end">
-          <!-- reply comment -->
-          <input class="form-control form-control-sm col me-1 shadow-none" type="text" placeholder="..."/>
-          <button type="button" class="btn btn-yellow btn-sm col-auto" id="btreply">
-          <i class="bi bi-arrow-return-left"></i>
-            ตอบกลับ
-          </button>
+        <!-- reply comment -->
+        <div class="w-100">
+          <form #f="ngForm" (ngSubmit)="onSubmitReplyComment(f,i)">
+            <div class="form-group d-flex w-100">
+              <textarea class="form-control form-control-sm col me-1 w-100" name="replyComment" rows="1" placeholder="{{review.replyComment}}" ngModel></textarea>
+              <button type="submit" class="btn btn-yellow btn-sm col-auto h-100" id="btreply">
+                <i class="bi bi-arrow-return-left"></i>
+                  ตอบกลับ
+              </button>
+            </div>  
+          </form>
         </div>
+
       </div>
     </div>
   </div>
@@ -204,4 +209,6 @@
 
 </div>
 
-</div>
+
+<!-- modal -->
+<app-modal-success #successModalComponent></app-modal-success>
