@@ -35,7 +35,7 @@ const routes: Routes = [
     },
   },
   {
-    path: 'reset-password',
+    path: 'reset-password/:userId',
     component: ResetComponent,
     canActivate: [AuthGuardService],
     data: {

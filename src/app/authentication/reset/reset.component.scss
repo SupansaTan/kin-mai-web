@@ -1,21 +1,5 @@
-.container-fluid{
-  margin-top: 150px;
-}
-
-.resetform{
-  height: 350px;
-  width: 400px;
-  border-radius: 15px;
-  background-color: #f2f2f2;
-  padding: 20px
-}
-
-input[type=password] {
-  width: 300px;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-sizing: border-box;
+.eye-icon {
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
 }
