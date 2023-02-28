@@ -1,13 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Restaurant, RestaurantDetailModel, SocialContactModel } from 'src/models/restaurant-info.model';
-import { GetReviewInfoRequest, ReviewInfoModel } from 'src/models/review-info.model';
+import { GetReviewInfoRequest, UpdateReviewReplyRequest, ReviewInfoModel } from 'src/models/review-info.model';
 import { RestaurantService } from '../restaurant.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { ResponseModel } from 'src/models/response.model';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { BadReviewLabelItem, GoodReviewLabelItem } from 'src/constant/review-label.constant';
-import { GoodReviewLabel } from 'src/enum/review-label.enum';
+import {NgForm} from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-success.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,9 +19,11 @@ import { GoodReviewLabel } from 'src/enum/review-label.enum';
 export class RestaurantDashboardComponent implements OnInit {
 
   @Input() isLoading: boolean = true;
+  @ViewChild('successModalComponent') successModal: ModalSuccessComponent;
 
   info: Restaurant;
   reviews: Array<ReviewInfoModel>;
+  displayReview: Array<ReviewInfoModel>;
   socialContact: Array<SocialContactModel>;
 
   totalReview: number = 0;
@@ -30,11 +34,10 @@ export class RestaurantDashboardComponent implements OnInit {
 
   countGoodReview: number = 0;
 
+  totalDisplayReview: number = 0;
   totalReviewHaveImage: number = 0;
   totalReviewHaveComment: number = 0;
   totalReviewHaveFoodRecommend: number = 0;
-
-  displayReview: Array<ReviewInfoModel>;
 
   // for filter reviews
   keywords: string = "";
@@ -54,6 +57,7 @@ export class RestaurantDashboardComponent implements OnInit {
   constructor(
     private restaurantService: RestaurantService,
     private localStorageService: LocalStorageService,
+    private spinner: NgxSpinnerService,
   ) { }
 
   ngOnInit(): void {
@@ -100,20 +104,13 @@ export class RestaurantDashboardComponent implements OnInit {
               if (element.rating >= 3) {
                 this.countGoodReview += 1;
               }
-              if (element.comment != "") {
-                this.totalReviewHaveComment += 1
-              }
-              if (element.imageLink.length !=0) {
-                this.totalReviewHaveImage += 1
-              }
-              if (element.foodRecommendList.length !=0) {
-                this.totalReviewHaveFoodRecommend += 1
-              }
               element.reviewTimeString = this.getReviewTimeInString(reviewDate)
               element.userName = element.userName.replace(/(?<!^).(?!$)/g, '*')
               this.RecommendMenu = (element.foodRecommendList.length != 0)? [ ...this.RecommendMenu, ...(element.foodRecommendList)] : this.RecommendMenu
-            this.RecommendMenu = [...new Set(this.RecommendMenu)];
+              this.RecommendMenu = [...new Set(this.RecommendMenu)];
             });
+
+            this.countReviewFilter();
 
             if (this.todayReview.length != 0) {
               let ratingCount = 0;
@@ -182,6 +179,7 @@ export class RestaurantDashboardComponent implements OnInit {
           ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
+        this.countReviewFilter();
         break;
       case 2:
         this.isSelectedOnlyReviewHaveImage = true;
@@ -234,5 +232,41 @@ export class RestaurantDashboardComponent implements OnInit {
     } else {
       return BadReviewLabelItem.find(x => x.id === type)?.name;
     }
+  }
+
+  countReviewFilter() {
+    this.totalDisplayReview =  this.displayReview.length;
+    this.totalReviewHaveImage = 0;
+    this.totalReviewHaveComment = 0;
+    this.totalReviewHaveFoodRecommend = 0;
+    this.displayReview.forEach(element => {
+      if (element.comment != "") {
+        this.totalReviewHaveComment += 1
+      }
+      if (element.imageLink.length !=0) {
+        this.totalReviewHaveImage += 1
+      }
+      if (element.foodRecommendList.length !=0) {
+        this.totalReviewHaveFoodRecommend += 1
+      }
+    });
+  }
+
+  onSubmitReplyComment(f: NgForm, i: number) {
+    this.spinner.show();
+    let data = this.displayReview[i];;
+    let request = new UpdateReviewReplyRequest();
+    request.reviewId = data.reviewId;
+    request.replyComment = f.value.replyComment;
+    
+    this.restaurantService.updateReplyReviewInfo(request).subscribe(
+      (response: ResponseModel<boolean>) => {
+        this.spinner.hide();
+        if (response && response?.status === 200) {
+          this.successModal.openSuccessModal(true, 'Update Reply successful');
+        } else {
+          this.successModal.openSuccessModal(false, response.message);
+        }
+    });
   }
 }

@@ -19,8 +19,6 @@ import { DetailComponent } from './detail/detail.component';
 import { EditRestaurantInfoComponent } from './edit-detail/edit-restaurant-info/edit-restaurant-info.component';
 import { EditUploadPhotoComponent } from './edit-detail/edit-upload-photo/edit-upload-photo.component';
 import { SharedModule } from '../shared/shared.module';
-import { ModalGalleryComponent } from './modal-gallery/modal-gallery.component';
-import { SwiperModule } from "swiper/angular";
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { GenerateQrCodeComponent } from './generate-qr-code/generate-qr-code.component';
@@ -32,7 +30,6 @@ import { GenerateQrCodeComponent } from './generate-qr-code/generate-qr-code.com
     DetailComponent,
     EditRestaurantInfoComponent,
     EditUploadPhotoComponent,
-    ModalGalleryComponent,
     GenerateQrCodeComponent
   ],
   imports: [
@@ -47,7 +44,6 @@ import { GenerateQrCodeComponent } from './generate-qr-code/generate-qr-code.com
     DragDropModule,
     GoogleMapsModule,
     GooglePlaceModule,
-    SwiperModule,
     NgbRatingModule,
     AvatarModule,
     NgxViewerModule,

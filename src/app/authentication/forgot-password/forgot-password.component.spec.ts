@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalGalleryComponent } from './modal-gallery.component';
+import { ForgotPasswordComponent } from './forgot-password.component';
 
-describe('ModalGalleryComponent', () => {
-  let component: ModalGalleryComponent;
-  let fixture: ComponentFixture<ModalGalleryComponent>;
+describe('ForgotPasswordComponent', () => {
+  let component: ForgotPasswordComponent;
+  let fixture: ComponentFixture<ForgotPasswordComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ModalGalleryComponent ]
+      declarations: [ ForgotPasswordComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ModalGalleryComponent);
+    fixture = TestBed.createComponent(ForgotPasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ModalGalleryComponent } from '../modal-gallery/modal-gallery.component';
 import { GetReviewInfoRequest, ReviewInfoModel } from 'src/models/review-info.model';
 import { RestaurantService } from '../restaurant.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
@@ -18,7 +17,6 @@ import { DeliveryType } from 'src/enum/delivery-type.enum';
 })
 export class DetailComponent implements OnInit {
 
-  @ViewChild('modalGalleryComponent') modalGallery: ModalGalleryComponent;
   @Input() isLoading: boolean = true;
 
   Info: Restaurant;
@@ -48,10 +46,6 @@ export class DetailComponent implements OnInit {
     this.restaurantId = this.localStorageService.get<string>(LocalStorageKey.restaurantId) ?? '';
     this.getRestaurantDetail();
     this.getRestaurantReviews();
-  }
-
-  openModalGallery() {
-    this.modalGallery.openSuccessModal();
   }
 
   getRestaurantDetail() {
