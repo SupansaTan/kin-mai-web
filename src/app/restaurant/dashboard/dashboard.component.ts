@@ -7,9 +7,9 @@ import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { ResponseModel } from 'src/models/response.model';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { BadReviewLabelItem, GoodReviewLabelItem } from 'src/constant/review-label.constant';
-import {NgForm} from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-success.component';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -53,12 +53,20 @@ export class RestaurantDashboardComponent implements OnInit {
   restaurantId: string;
   RecommendMenu: Array<string> = [];
 
+  replyForm: FormGroup;
+
+  formEditStatus: Array<boolean> = [];
 
   constructor(
     private restaurantService: RestaurantService,
     private localStorageService: LocalStorageService,
     private spinner: NgxSpinnerService,
-  ) { }
+    private fb: FormBuilder,
+  ) { 
+    this.replyForm = this.fb.group({
+      replies: this.fb.array([]) ,
+    });
+  }
 
   ngOnInit(): void {
     this.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
@@ -87,6 +95,7 @@ export class RestaurantDashboardComponent implements OnInit {
           this.reviews = response.data;
           this.reviews.reverse();
           this.displayReview = this.reviews;
+          this.addReply()
           if (this.reviews.length != 0) {
             this.totalReview = this.reviews.length
             let ratingCount = 0;
@@ -119,7 +128,6 @@ export class RestaurantDashboardComponent implements OnInit {
               });
               this.todayRating = ratingCount/this.todayReview.length;
             }
-
           }
           this.isLoading = false;
         }
@@ -180,6 +188,7 @@ export class RestaurantDashboardComponent implements OnInit {
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
         this.countReviewFilter();
+        this.addReply()
         break;
       case 2:
         this.isSelectedOnlyReviewHaveImage = true;
@@ -191,6 +200,7 @@ export class RestaurantDashboardComponent implements OnInit {
           && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
+          this.addReply()
         break;
       case 3:
         this.isSelectedOnlyReviewHaveComment = true;
@@ -202,6 +212,7 @@ export class RestaurantDashboardComponent implements OnInit {
           && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
+          this.addReply()
         break;
       case 4:
         this.isSelectedOnlyReviewHaveFoodRecommend = true;
@@ -213,6 +224,7 @@ export class RestaurantDashboardComponent implements OnInit {
           && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
+          this.addReply()
         break;
     }
   }
@@ -252,21 +264,59 @@ export class RestaurantDashboardComponent implements OnInit {
     });
   }
 
-  onSubmitReplyComment(f: NgForm, i: number) {
+  // ------------------------------
+
+  editReplyComment(i: number) {
+    this.formEditStatus[i] = true;
+  }
+
+  get replies() : FormArray {
+    return this.replyForm.get("replies") as FormArray
+  }
+ 
+  newReply(reviewId:string, replyComment: string): FormGroup {
+    return this.fb.group({
+      reviewId: reviewId,
+      replyComment: replyComment,
+      isEdit: Boolean,
+    })
+  }
+ 
+  addReply() {
+    this.replies.clear();
+    this.displayReview.map(x => {
+      this.replies.push(this.newReply(x.reviewId, x.replyComment));
+    });
+    this.displayReview.forEach(element => {
+      if (element.replyComment != '') {
+        this.formEditStatus.push(false)
+      }
+      else {
+        this.formEditStatus.push(true)
+      }
+    });
+  }
+ 
+  onSubmitReplyComment(i:number) {
+    this.displayReview[i].replyComment = this.replies.value[i].replyComment;
+
     this.spinner.show();
-    let data = this.displayReview[i];;
     let request = new UpdateReviewReplyRequest();
-    request.reviewId = data.reviewId;
-    request.replyComment = f.value.replyComment;
+    request.reviewId = this.displayReview[i].reviewId;
+    request.replyComment = this.replies.value[i].replyComment;
     
     this.restaurantService.updateReplyReviewInfo(request).subscribe(
       (response: ResponseModel<boolean>) => {
         this.spinner.hide();
         if (response && response?.status === 200) {
           this.successModal.openSuccessModal(true, 'Update Reply successful');
+          this.displayReview[i].replyComment = this.replies.value[i].replyComment;
+          this.formEditStatus[i] = false;
         } else {
           this.successModal.openSuccessModal(false, response.message);
         }
     });
   }
+
+
 }
