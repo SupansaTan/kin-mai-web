@@ -48,15 +48,13 @@
         [percent]="countGoodReview/totalReview * 100"
         [radius]="60"
         [space]="-12"
+        [showSubtitle]="false"
         [outerStrokeWidth]="12"
         [innerStrokeWidth]="12"
         [innerStrokeColor]="'#e7e8ea'"
         [outerStrokeColor]="'#70C879'"
         [animation]="true"
         [animationDuration]="500"
-        [subtitle]="countGoodReview+'/'+totalReview+' คน'"
-        [subtitleColor]="'#7A7C7A'"
-        [subtitleFontSize]="'22'"
         [titleFontSize]="'35'"
         unitsFontSize="30"
         [titleFontWeight]="'800'"
@@ -69,6 +67,7 @@
       <h3 *ngIf="this.reviews.length == 0">ไม่มีมีรีวิว</h3>
     </div>
     <p class="m-0 d-flex justify-content-center" *ngIf="this.reviews.length != 0">3 - 5 ดาว</p>
+    <p class="text-center">{{countGoodReview}}/{{totalReview}} คน</p>
   </div>
 
   <!-- recommendMenu -->
@@ -81,7 +80,7 @@
       </span>
     </div>
 
-    <button class="btn btn-yellow mt-3" routerLink="/restaurant/qr-code" data-cy="QRBtn"> 
+    <button class="btn btn-yellow mt-3 mt-lg-4" routerLink="/restaurant/qr-code" data-cy="QRBtn">
       <i class="bi bi-qr-code-scan me-2"></i>
       QR Code สำหรับให้ผู้ใช้งานรีวิว
     </button>
@@ -194,7 +193,7 @@
                 <i class="bi bi-arrow-return-left"></i>
                   ตอบกลับ
               </button>
-            </div>  
+            </div>
           </form>
         </div>
 
