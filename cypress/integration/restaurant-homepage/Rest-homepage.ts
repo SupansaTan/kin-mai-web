@@ -71,7 +71,7 @@ Then('I should see reviews', () => {
   cy.get('[data-cy="reviews"]').should('be.visible');
 });
 
-//-----filer all reviews
+//-----filer all reviews-------
 
 When('I select star', () => {
   cy.get('[data-cy="Stars"]').click();
@@ -85,7 +85,7 @@ Then('I should see reviews', () => {
   cy.get('[data-cy="reviews"]').should('be.visible');
 });
 
-//------ filer picture reviews
+//------ filer picture reviews--------
 When('I select star', () => {
   cy.get('[data-cy="Stars"]').click();
 });
@@ -98,7 +98,7 @@ Then('I should see reviews', () => {
   cy.get('[data-cy="reviews"]').should('be.visible');
 });
 
-// filer menu reviews
+//----------filer menu reviews-------
 When('I select star', () => {
   cy.get('[data-cy="Stars"]').click();
 });
@@ -111,7 +111,7 @@ Then('I should see reviews', () => {
   cy.get('[data-cy="reviews"]').should('be.visible');
 });
 
-//--------search and filter reviews
+//--------search and filter reviews-----
 
 When ('I search "อร่อย" in search review', (dataTable) => {
   dataTable.hashes().forEach((item: { SearchReview : string }) => {

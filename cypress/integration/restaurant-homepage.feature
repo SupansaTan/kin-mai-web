@@ -16,7 +16,6 @@ Feature: Restaurant Homepage
     And   I should see recommend menu
     And   I should see reviews
 
-  # -----------------------
   Scenario: Owner search review
     When I search "อร่อย" in search review
       | SearchReview |
@@ -54,13 +53,23 @@ Feature: Restaurant Homepage
     And I select star
     And I click Picture button
     Then I should see reviews
-
+    
+  # ----------------------------------
   Scenario: Owner reply review
-    When I type answer box
+    When I type answer button
       | AnswerBox |
       | ขอบคุณสำหรับรีวิวจ้า |
     And I click reply button
-    Then I should see my answer
+    Then I should see successful modal
+
+  Scenario: Owner edit review
+    When I click edit button
+    And  I remove old reply
+    And  I type answer box
+      | AnswerBox |
+      | จะนำไปปรับปรุงแก้ไขค่ะ |
+    And I click reply button
+    Then I should see successful modal
 
 
 
