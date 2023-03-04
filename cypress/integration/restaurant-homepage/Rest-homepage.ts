@@ -166,8 +166,12 @@ When('I click edit button', () => {
   cy.get('[data-cy="EditBtn"]').first().click();
 });
 
+And('I click answer box', () => {
+  cy.get('[data-cy="AnswerBox"]').first().click();
+});
+
 And('I remove old reply', () => {
-  cy.get('[data-cy="AnswerBox]').clear();
+  cy.get('[data-cy="AnswerBox"]').clear();
 });
 
 And ('I type answer box', (dataTable) => {
@@ -188,6 +192,10 @@ Then('I should see successful modal', () => {
 
 When('I click edit button', () => {
   cy.get('[data-cy="EditBtn"]').first().click();
+});
+
+And('I click answer box', () => {
+  cy.get('[data-cy="AnswerBox"]').first().click();
 });
 
 And('I remove old reply', () => {
