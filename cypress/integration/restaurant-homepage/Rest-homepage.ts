@@ -50,6 +50,27 @@ And('I should see reviews', () => {
     cy.get('[data-cy="reviewForm"]').should('be.visible');
 });
 
+//-----have QR Code-----
+When('I click QR code button', () => {
+  cy.get('[data-cy="QRBtn"]').first().click();
+});
+
+Then(`I should be on QR code page`, () => {
+  cy.url().should('include', '/restaurant/qr-code');
+});
+
+And('I should see QR code', () => {
+  cy.get('[data-cy="QRForm"]').should('be.visible');
+});
+
+When('I click save image', () => {
+  cy.get('[data-cy="SaveImgBtn"]').first().click();
+});
+
+Then('I should see QR code image', () => {
+  cy.get('[data-cy="SaveImgBtn"]').should('be.visible');
+});
+
 // --------- Search review--------
 When ('I search "อร่อย" in search review', (dataTable) => {
   dataTable.hashes().forEach((item: { SearchReview : string }) => {

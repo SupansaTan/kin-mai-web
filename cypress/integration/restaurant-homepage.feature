@@ -15,6 +15,14 @@ Feature: Restaurant Homepage
     And   I should see customer satisfaction
     And   I should see recommend menu
     And   I should see reviews
+  
+  Scenario: Owner have QR Code
+    When  I click QR code button
+    Then  I should be on QR code page
+    And   I should see QR code
+    When  I click save image
+    Then  I should see QR code image
+    
 
   Scenario: Owner search review
     When I search "อร่อย" in search review
