@@ -48,15 +48,13 @@
         [percent]="countGoodReview/totalReview * 100"
         [radius]="60"
         [space]="-12"
+        [showSubtitle]="false"
         [outerStrokeWidth]="12"
         [innerStrokeWidth]="12"
         [innerStrokeColor]="'#e7e8ea'"
         [outerStrokeColor]="'#70C879'"
         [animation]="true"
         [animationDuration]="500"
-        [subtitle]="countGoodReview+'/'+totalReview+' คน'"
-        [subtitleColor]="'#7A7C7A'"
-        [subtitleFontSize]="'22'"
         [titleFontSize]="'35'"
         unitsFontSize="30"
         [titleFontWeight]="'800'"
@@ -69,6 +67,7 @@
       <h3 *ngIf="this.reviews.length == 0">ไม่มีมีรีวิว</h3>
     </div>
     <p class="m-0 d-flex justify-content-center" *ngIf="this.reviews.length != 0">3 - 5 ดาว</p>
+    <p class="text-center">{{countGoodReview}}/{{totalReview}} คน</p>
   </div>
 
   <!-- recommendMenu -->
@@ -81,7 +80,7 @@
       </span>
     </div>
 
-    <button class="btn btn-yellow mt-3" routerLink="/restaurant/qr-code" data-cy="QRBtn"> 
+    <button class="btn btn-yellow mt-3 mt-lg-4" routerLink="/restaurant/qr-code" data-cy="QRBtn">
       <i class="bi bi-qr-code-scan me-2"></i>
       QR Code สำหรับให้ผู้ใช้งานรีวิว
     </button>
@@ -187,14 +186,25 @@
 
         <!-- reply comment -->
         <div class="w-100">
-          <form #f="ngForm" (ngSubmit)="onSubmitReplyComment(f,i)">
-            <div class="form-group d-flex w-100">
-              <textarea class="form-control form-control-sm col me-1 w-100" name="replyComment" rows="1" placeholder="{{review.replyComment}}" ngModel></textarea>
-              <button type="submit" class="btn btn-yellow btn-sm col-auto h-100" id="btreply">
-                <i class="bi bi-arrow-return-left"></i>
-                  ตอบกลับ
-              </button>
-            </div>  
+          <div *ngIf="review.replyComment != '' && !formEditStatus[i]" class="d-flex">
+            <span class="rounded-2 bg-light-grey me-1 px-2 mb-1 pt-1 w-100">
+              {{review.replyComment}}
+            </span>
+            <button  class="btn btn-yellow btn-sm col-auto h-100" (click)="editReplyComment(i)">
+              <i class="bi bi-pencil"></i>
+                แก้ไข
+            </button>
+          </div>
+          <form [formGroup]="replyForm" (ngSubmit)="onSubmitReplyComment(i)" *ngIf="formEditStatus[i]">
+            <div formArrayName="replies" class="d-flex w-100">
+                <div [formGroupName]="i" class="col me-1">
+                  <input type="text" formControlName="replyComment" class="form-control form-control-sm col me-1 w-100">
+                </div>
+                <button type="submit" class="btn btn-yellow btn-sm col-auto h-100" id="btreply">
+                  <i class="bi bi-arrow-return-left"></i>
+                    ตอบกลับ
+                </button>
+            </div>
           </form>
         </div>
 
@@ -208,7 +218,6 @@
   </div>
 
 </div>
-
 
 <!-- modal -->
 <app-modal-success #successModalComponent></app-modal-success>

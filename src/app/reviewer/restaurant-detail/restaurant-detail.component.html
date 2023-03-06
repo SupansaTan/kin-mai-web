@@ -139,18 +139,12 @@
       </div>
 
       <div data-cy="reviewBtn">
-        <button *ngIf="restaurantDetail.isReview" type="button" class="btn btn-light-grey px-2 me-2" data-cy="MyReviewBtn"
-          (click)="seeExistReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName)"
+        <button type="button" class="btn"  data-cy="EditReviewBtn"
+          [ngClass]="restaurantDetail.isReview ? 'btn-light-grey':'btn-yellow'"
+          (click)="restaurantDetail.isReview? seeExistReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName) : addReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName)"
         >
-          <i class="bi bi-eye-fill me-2"></i>รีวิวของฉัน
-        </button>
-
-        <button type="button" class="btn btn-yellow"  data-cy="EditReviewBtn"
-          [ngClass]="restaurantDetail.isReview ? 'btn-yellow':'btn-light-yellow'"
-          (click)="restaurantDetail.isReview? editReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName) : addReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName)"
-        >
-          <i class="bi fs-6 me-1" [ngClass]="restaurantDetail.isReview ? 'bi-pencil-square':'bi-plus-lg'"></i>
-          {{ restaurantDetail.isReview ? 'แก้ไขรีวิว':'รีวิวร้านนี้' }}
+          <i class="bi fs-6 me-1" [ngClass]="restaurantDetail.isReview ? 'bi-eye-fill':'bi-plus-lg'"></i>
+          {{ restaurantDetail.isReview ? 'รีวิวของฉัน':'รีวิวร้านนี้' }}
         </button>
       </div>
     </div>
