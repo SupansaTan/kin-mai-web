@@ -34,19 +34,19 @@ Feature: Restaurant Homepage
     When I select star
     Then I should see reviews
 
-  Scenario: Owner filer all reviews
+  Scenario: Owner filter all reviews
     When  I click All button
     Then  I should see reviews
 
-  Scenario: Owner filer picture reviews
+  Scenario: Owner filter picture reviews
     When  I click Picture button
     Then  I should see reviews
 
-  Scenario: Owner filer comment reviews
+  Scenario: Owner filter comment reviews
     When I click Comment button
     Then I should see reviews
 
-  Scenario: Owner filer menu reviews
+  Scenario: Owner filter menu reviews
     When I click Menu button
     Then I should see reviews
 
@@ -63,8 +63,7 @@ Feature: Restaurant Homepage
     And I select star
     And I click reset button
     Then I should see reviews
-    
-  # # ----------------------------------
+
   Scenario: Owner reply review
     When I click answer box
     And I type answer box
