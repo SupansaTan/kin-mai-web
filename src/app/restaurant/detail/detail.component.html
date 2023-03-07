@@ -79,19 +79,38 @@
 
     <!-- Info -->
     <div class="row my-2">
-
+      
       <div class="col" data-cy="information">
+        <!-- restaurant type -->
         <div class="col d-flex align-items-center mb-3">
           <i class="bi bi-shop me-2"></i>
           <span class="rounded-pill bg-white border-grey me-1 px-2"
             *ngFor="let item of getRestaurantType(Info.restaurantType)">
             {{item}}
           </span>
+          <span class="rounded-pill bg-light-yellow border-yellow me-1 px-2">
+            {{Info.minPriceRate}} - {{Info.maxPriceRate}} ฿
+          </span>
         </div>
+        <!-- categories -->
         <div class="col d-flex align-items-center mb-3">
-          <i class="bi bi-clock me-2"></i>
-          เวลาทำการ : 8:00 - 22:00 น.
+          <i class="bi bi-tags me-2"></i>
+          <span class="rounded-pill bg-light-yellow border-yellow me-1 px-2"
+            *ngFor="let item of this.Categories">
+            {{item.categoryName}}
+          </span>
         </div>
+        <!-- BU hours -->
+        <div class="col d-flex align-items-start mb-3">
+          <i class="bi bi-clock me-2"></i>
+          <p class="m-0 me-2 col-auto">เวลาทำการ : </p>
+          <div class="col ">
+            <div *ngFor="let item of BusinessHours">
+              {{getBuHourString(item.day)}} {{item.openTime.toLocaleString().slice(0,-3)}} - {{item.closeTime.toLocaleString().slice(0,-3)}}
+            </div>
+          </div>
+        </div>
+        <!-- address -->
         <div class="col d-flex mb-2">
           <i class="bi bi-geo-alt-fill me-2"></i>
           {{Info.address.slice(1,-1)}}
