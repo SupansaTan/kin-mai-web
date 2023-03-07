@@ -81,4 +81,10 @@ export class AuthenticationService {
     this.sub = this.http.get<ResponseModel<boolean>>(url);
     return this.sub;
   }
+
+  sendEmailForgotPassword(email: string) {
+    const url = `${environment.kinMaiApi}/Authentication/SendEmailResetPassword`;
+    this.sub = this.http.post<ResponseModel<boolean>>(url, { email });
+    return this.sub;
+  }
 }
