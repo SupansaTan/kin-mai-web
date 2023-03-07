@@ -8,13 +8,11 @@ Feature: Reviewer Homepage
       | nampunch1@gmail.com | 12345678 |
     And I click on Login button
     And I should be on reviewer homepage
-    And I see searchbox
-    And I see list of restarant near me
 
   Scenario: Reviewer click restaurant detail
     When  I click title of Restaurant
     Then  I should be on Restaurant detail page
-
+  
   Scenario: Reviewer unlike restaurant
     When  I unclick "Love" button
     Then  I should see love button change
@@ -23,21 +21,14 @@ Feature: Reviewer Homepage
     When  I click "Love" button
     Then  I should see love button change
 
-  Scenario: Reviewer search restaurant
-    When  I search "Jaidee" in a search box
-      | searchbox |
-      | Jaidee |
-    Then  I should see list of "restaurant" near me
-    And   I should see filter
-    And   I should see restaurant
-
-  Scenario: Reviewer filter restaurant
+  Scenario: Reviewer search and filter restaurant
     When  I search "test" in a search box
       | searchbox |
-      | ร้าน |
+      | test |
     Then  I should see list of "restaurant" near me
     And   I should see filter
     When  I click open button
+    And   I click food categories
     Then  I should see restaurants which open
 
   Scenario: Reviewer see review

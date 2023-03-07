@@ -41,7 +41,7 @@
   </div>
 
   <!-- Customer Satisfaction -->
-  <div class="col">
+  <div class="col" data-cy="customerSatisfaction">
     <h5 class="m-0 d-flex justify-content-center">ระดับความพึงพอใจ</h5>
     <div class="d-flex justify-content-center">
       <circle-progress
@@ -91,7 +91,7 @@
 <div data-cy="reviewForm">
   <div class="d-flex align-items-center">
     <h4 class="m-0 mb-1 mt-3 me-3 fw-bolder">Reviews</h4>
-    <span *ngIf="isSelectedOnlyReviewHaveImage||isSelectedOnlyReviewHaveComment||isSelectedOnlyReviewHaveFoodRecommend||(keywords!='')||(ratingFilter!=6)"
+    <span data-cy="ResetBtn" *ngIf="isSelectedOnlyReviewHaveImage||isSelectedOnlyReviewHaveComment||isSelectedOnlyReviewHaveFoodRecommend||(keywords!='')||(ratingFilter!=6)"
       (click)="clearFilter()" class="rounded-pill bg-white me-1 px-2 py-1 mt-3">
       <i class="bi bi-x-lg"></i> ล้าง
     </span>
@@ -100,7 +100,7 @@
   <div class="row g-2 mb-3" data-cy="reviewFilter">
     <div class="col-12 col-md">
       <label>Search</label>
-      <input [(ngModel)]="keywords" (change)="changeFilterButton(1)" #search class="form-control form-control-sm shadow-none" type="text" placeholder="ความคิดเห็น"/>
+      <input data-cy="SearchReview" [(ngModel)]="keywords" (change)="changeFilterButton(1)" #search class="form-control form-control-sm shadow-none" type="text" placeholder="ความคิดเห็น"/>
     </div>
     <div class="col-12 col-md-2">
       <label>จำนวนดาว</label>
@@ -114,19 +114,19 @@
       </select>
     </div>
     <div class="col-12 col-lg-auto d-flex align-content-end flex-wrap">
-      <button class="btn btn-sm border-warning rounded-0 rounded-start"
+      <button class="btn btn-sm border-warning rounded-0 rounded-start" data-cy="AllBtn"
         [ngClass]="isSelectedTotalReview? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(1)">
         ทั้งหมด ({{ totalDisplayReview }})
       </button>
-      <button class="btn btn-sm border-warning rounded-0"
+      <button class="btn btn-sm border-warning rounded-0" data-cy="PicBtn"
         [ngClass]="isSelectedOnlyReviewHaveImage? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(2)">
         มีรูปภาพ ({{ totalReviewHaveImage }})
       </button>
-      <button class="btn btn-sm border-warning rounded-0"
+      <button class="btn btn-sm border-warning rounded-0" data-cy="CommentBtn"
         [ngClass]="isSelectedOnlyReviewHaveComment? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(3)">
         มีความคิดเห็น ({{ totalReviewHaveComment }})
       </button>
-      <button class="btn btn-sm border-warning rounded-0 rounded-end"
+      <button class="btn btn-sm border-warning rounded-0 rounded-end" data-cy="MenuBtn"
         [ngClass]="isSelectedOnlyReviewHaveFoodRecommend? 'btn-yellow':'btn-light-yellow'" (click)="changeFilterButton(4)">
         มีเมนูแนะนำ ({{ totalReviewHaveFoodRecommend }})
       </button>
@@ -190,17 +190,17 @@
             <span class="rounded-2 bg-light-grey me-1 px-2 mb-1 pt-1 w-100">
               {{review.replyComment}}
             </span>
-            <button  class="btn btn-yellow btn-sm col-auto h-100" (click)="editReplyComment(i)">
+            <button  data-cy="EditBtn" class="btn btn-yellow btn-sm col-auto h-100" (click)="editReplyComment(i)">
               <i class="bi bi-pencil"></i>
                 แก้ไข
             </button>
           </div>
-          <form [formGroup]="replyForm" (ngSubmit)="onSubmitReplyComment(i)" *ngIf="formEditStatus[i]">
+          <form [formGroup]="replyForm" (ngSubmit)="onSubmitReplyComment(i)" *ngIf="formEditStatus[i] || review.replyComment == ''">
             <div formArrayName="replies" class="d-flex w-100">
                 <div [formGroupName]="i" class="col me-1">
-                  <input type="text" formControlName="replyComment" class="form-control form-control-sm col me-1 w-100">
+                  <input data-cy="AnswerBox" type="text" formControlName="replyComment" class="form-control form-control-sm col me-1 w-100">
                 </div>
-                <button type="submit" class="btn btn-yellow btn-sm col-auto h-100" id="btreply">
+                <button data-cy="ReplyBtn" type="submit" class="btn btn-yellow btn-sm col-auto h-100" id="btreply">
                   <i class="bi bi-arrow-return-left"></i>
                     ตอบกลับ
                 </button>

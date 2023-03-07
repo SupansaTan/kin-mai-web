@@ -25,20 +25,9 @@ And('I click on Login button', () => {
   cy.get('[data-cy="loginBtn"]').click();
 });
 
-
-//-------------Reviewer see homepage detail---------------------
 And('I should be on reviewer homepage', () => {
   cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
-
-Then('I see searchbox',() =>{
-  cy.get('[data-cy="searchbox"]').should('be.visible');
-});
-
-Then('I see list of restarant near me',() =>{
-  cy.get('[data-cy="RestaurantNearMe"]').should('be.visible');
-});
-
 
 // -------see restaurant detail--------
 
@@ -68,27 +57,8 @@ Then('I should see love button change',() =>{
   cy.get('[data-cy="LoveBtn"]').should('be.visible');
 });
 
-//----- search restaurant------
-When ('I search "Jaidee" in a search box', (dataTable) => {
-  dataTable.hashes().forEach((item: { searchbox : string }) => {
-    cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
-  });
-});
 
-Then('I should see list of "restaurant" near me', () => {
-  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
-});
-
-And('I should see filter', () => {
-  cy.get('[data-cy="filter"]').should('be.visible');
-});
-
-And('I should see restaurant', () => {
-  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
-});
-
-
-// ------filter ---------
+// ------search & filter ---------
 When ('I search "test" in a search box', (dataTable) => {
   dataTable.hashes().forEach((item: { searchbox : string }) => {
     cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
@@ -103,18 +73,19 @@ And('I should see filter', () => {
   cy.get('[data-cy="filter"]').should('be.visible');
 });
 
-
 When('I click open button', () => {
   cy.get(`[data-cy="OpenBtn"]`).first().click({force: true});
+});
+
+And('I click food categories', () => {
+  cy.get(`[data-cy="CatagoryBtn"]`).first().click({force: true});
 });
 
 Then('I should see restaurants which open', () => {
   cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
 });
 
-
 // ------ see review---------
-
 When ('I search "Jaidee" in a search box', (dataTable) => {
   dataTable.hashes().forEach((item: { searchbox : string }) => {
     cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
@@ -203,11 +174,11 @@ When('I click submit button', () => {
 });
 
 Then('I should see review successful', () => {
+  // cy.wait(3000);
   cy.get('[data-cy="successModal"]').should('be.visible');
 });
 
-
-// remove  review
+//------- remove  review------
 
 When ('I search "Jaidee" in a search box', (dataTable) => {
   dataTable.hashes().forEach((item: { searchbox : string }) => {
@@ -254,5 +225,6 @@ When('I click submit button', () => {
 });
 
 Then('I should see review successful', () => {
+  cy.wait(3000);
   cy.get('[data-cy="successModal"]').should('be.visible');
 });

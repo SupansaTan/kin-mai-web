@@ -47,13 +47,19 @@ export class RestaurantCardInfoModel {
 export class RestaurantDetailModel {
   restaurantInfo: Restaurant;
   socialContact: Array<SocialContactModel>;
-  isFavorite: boolean
+  categories: Array<CategoryModel>;
+  businessHours: Array<ResBusinessHourModel>;
 }
 
 
 export class SocialContactModel {
   socialType: number;
   contactValue: string;
+}
+
+export class CategoryModel {
+  categoryType: number;
+  categoryName: string;
 }
 
 export class Restaurant {
@@ -72,3 +78,10 @@ export class Restaurant {
   minPriceRate: number;
   maxPriceRate: number;
 }
+
+export class ResBusinessHourModel
+    {
+        day: number;
+        openTime: Date;
+        closeTime: Date;
+    }

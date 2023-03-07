@@ -35,7 +35,8 @@ Feature: Restaurant Detail
 
   Scenario: Reviewer edit review
     Given I should be on Restaurant Detail page
-    Then  I should see editReview button
+    Then  I should see myreview button
+    When  I click myreview button
     And   I click EditReview button
     Then  I should see review form
     When  I rates stars

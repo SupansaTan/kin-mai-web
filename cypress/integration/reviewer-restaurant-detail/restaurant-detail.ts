@@ -63,7 +63,7 @@ And('I should see recommended menu', () => {
 });
 
 And('I should see review button', () => {
-  cy.get('[data-cy="reviewBtn"]').should('be.visible');
+  cy.get('[data-cy="MyReviewBtn"]').should('be.visible');
 });
 
 And('I should see review filter', () => {
@@ -98,7 +98,6 @@ Given(`I should be on Restaurant Detail page`, () => {
   cy.url().should('include', '/reviewer/restaurant;restaurantId=');
 });
 
-
 Then('I should see myreview button', () => {
   cy.get('[data-cy="MyReviewBtn"]').should('be.visible');
 });
@@ -116,11 +115,15 @@ Given(`I should be on Restaurant Detail page`, () => {
   cy.url().should('include', '/reviewer/restaurant;restaurantId=');
 });
 
-Then('I should see editReview button', () => {
-  cy.get('[data-cy="EditReviewBtn"]').should('be.visible');
+Then('I should see myreview button', () => {
+  cy.get('[data-cy="MyReviewBtn"]').should('be.visible');
 });
 
-When('I click EditReview button', () => {
+When('I click myreview button', () => {
+  cy.get('[data-cy="MyReviewBtn"]').click();
+});
+
+And('I click EditReview button', () => {
   cy.get('[data-cy="EditReviewBtn"]').click();
 });
 
