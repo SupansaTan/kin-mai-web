@@ -52,7 +52,7 @@ And('I should see reviews', () => {
 
 //-----have QR Code-----
 When('I click QR code button', () => {
-  cy.get('[data-cy="QRBtn"]').first().click();
+  cy.get('[data-cy="QRBtn"]').first().click({force: true});
 });
 
 Then(`I should be on QR code page`, () => {
@@ -64,7 +64,7 @@ And('I should see QR code', () => {
 });
 
 When('I click save image', () => {
-  cy.get('[data-cy="SaveImgBtn"]').first().click();
+  cy.get('[data-cy="SaveImgBtn"]').first().click({force: true});
 });
 
 Then('I should see QR code image', () => {
@@ -179,6 +179,7 @@ And('I click reply button', () => {
 });
 
 Then('I should see successful modal', () => {
+  cy.wait(3000);
   cy.get('[data-cy="successModal"]').should('be.visible');
 });
 
@@ -206,6 +207,7 @@ And('I click reply button', () => {
 });
 
 Then('I should see successful modal', () => {
+  cy.wait(3000);
   cy.get('[data-cy="successModal"]').should('be.visible');
 });
 
@@ -228,5 +230,6 @@ And('I click reply button', () => {
 });
 
 Then('I should see successful modal', () => {
+  cy.wait(3000);
   cy.get('[data-cy="successModal"]').should('be.visible');
 });

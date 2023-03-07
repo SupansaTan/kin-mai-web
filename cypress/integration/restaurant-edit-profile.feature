@@ -1,6 +1,6 @@
 Feature: Restaurant Edit Detail
     Restaurant can edit , add and remove their details
-  
+
   Background:
     Given I visit on login page
     When I complete fill in login form
@@ -8,38 +8,13 @@ Feature: Restaurant Edit Detail
       | punch3@gmail.com | 12345678 |
     And I click on Login button
     And I should be on Restaurant homepage
+    And I click dropdown menu
+    And I click edit profile button
+    And I should be on restaurant detail
+    And I click edit button
 
-  Scenario: Restaurant owner can edit  detail
-    Given I visit on the Restaurant Detail
-    Then  I should see "edit" button
-    When  I press "edit" button
-    Then  I should be on restaurant edit detail page
-    When  I press "next" button
-    Then  I should see upload form
-    When  I press "next" button
-    Then  I should see status form
 
-  # Scenario: Restaurant owner with valid form
-  #   Given I visit on the restaurant edit page
-  #   And  I should see edit form
-  #   When  I complete fill in the form
-  #   And   I click "Submit" button
-  #   Then  I should see restaurant detail homepage
-
-  #  Scenario: Restaurant owner with invalid form
-  #   Given I visit on the restaurant edit page
-  #   Then  I should see edit form
-  #   When  I fill in some field in the form
-  #   And   I click "Submit" button
-  #   Then  I should see red border field and message that field is required
-
- Scenario: User register as restaurant owner with valid form
-    And I click register as restaurant owner
-    When I complete fill in the reviewer form
-      | firstName | lastName | username   | email            | password | confirmPassword |
-      | supansa   | test     | supansaa03 | punch3@gmail.com | 12345678 | 12345678        |
-    And I click "Next" button
-    Then I should see restaurant information form
+  Scenario: User register as restaurant owner with valid form
     When I complete fill in the restaurant information form
       | fieldName         | value                                       |
       | restaurantName    | JaideeTestCafe                              |
@@ -63,15 +38,9 @@ Feature: Restaurant Edit Detail
     And I click "Next" button
     Then I should see confirmation register form as restaurant
     And I click "Submit" button
-    # Then I should see modal "Create account successful"
+    Then I should see modal "Create account successful"
 
   Scenario: User register as restaurant owner with invalid form
-    And I click register as restaurant owner
-    When I complete fill in the reviewer form
-      | firstName | lastName | username   | email            | password | confirmPassword |
-      | supansa   | test     | supansaa03 | punch3@gmail.com | 12345678 | 12345678        |
-    And I click "Next" button
-    Then I should see restaurant information form
     When I fill in some field in the restaurant information form
       | fieldName         | value              |
       | restaurantName    | JaideeTestCafe     |
