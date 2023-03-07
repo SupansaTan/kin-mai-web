@@ -196,7 +196,7 @@
                 แก้ไข
             </button>
           </div>
-          <form [formGroup]="replyForm" (ngSubmit)="onSubmitReplyComment(i)" *ngIf="formEditStatus[i]">
+          <form [formGroup]="replyForm" (ngSubmit)="onSubmitReplyComment(i)" *ngIf="formEditStatus[i] || review.replyComment == ''">
             <div formArrayName="replies" class="d-flex w-100">
                 <div [formGroupName]="i" class="col me-1">
                   <input type="text" formControlName="replyComment" class="form-control form-control-sm col me-1 w-100">

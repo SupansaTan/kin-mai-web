@@ -76,10 +76,7 @@ export class RestaurantDashboardComponent implements OnInit {
   }
 
   getRestaurantDetail() {
-    let request = new GetReviewInfoRequest();
-    request.userId = this.userId;
-    request.restaurantId = this.restaurantId;
-    this.restaurantService.getRestaurantDetail(request).subscribe(
+    this.restaurantService.getRestaurantDetail(this.restaurantId).subscribe(
       (response: ResponseModel<RestaurantDetailModel>) => {
         if (response && response?.status === 200) {
           this.info = response.data.restaurantInfo;
@@ -298,8 +295,6 @@ export class RestaurantDashboardComponent implements OnInit {
   }
  
   onSubmitReplyComment(i:number) {
-    this.displayReview[i].replyComment = this.replies.value[i].replyComment;
-
     this.spinner.show();
     let request = new UpdateReviewReplyRequest();
     request.reviewId = this.displayReview[i].reviewId;
