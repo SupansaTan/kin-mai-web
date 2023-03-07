@@ -13,8 +13,8 @@ export class RestaurantService {
 
   constructor(private http: HttpClient) { }
 
-  getRestaurantDetail(model: GetReviewInfoRequest) {
-    const url = `${environment.kinMaiApi}/Restaurant/GetRestaurantDetail?userId=${model.userId}&restaurantId=${model.restaurantId}`;
+  getRestaurantDetail(restaurantId: string) {
+    const url = `${environment.kinMaiApi}/Restaurant/GetRestaurantDetail?restaurantId=${restaurantId}`;
     this.sub = this.http.get<ResponseModel<RestaurantDetailModel>>(url);
     return this.sub;
   }

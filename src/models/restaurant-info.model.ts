@@ -47,7 +47,6 @@ export class RestaurantCardInfoModel {
 export class RestaurantDetailModel {
   restaurantInfo: Restaurant;
   socialContact: Array<SocialContactModel>;
-  isFavorite: boolean
 }
 
 
