@@ -13,7 +13,6 @@ Feature: Restaurant Edit Detail
     And I should be on restaurant detail
     And I click edit button
 
-
   Scenario: User register as restaurant owner with valid form
     When I complete fill in the restaurant information form
       | fieldName         | value                                       |
@@ -38,7 +37,7 @@ Feature: Restaurant Edit Detail
     And I click "Next" button
     Then I should see confirmation register form as restaurant
     And I click "Submit" button
-    Then I should see modal "Create account successful"
+    Then I should see successful modal
 
   Scenario: User register as restaurant owner with invalid form
     When I fill in some field in the restaurant information form
