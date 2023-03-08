@@ -34,15 +34,22 @@ And('I click dropdown menu', () => {
 });
 
 And('I click edit profile button', () => {
-  cy.get('[data-cy="editBtn"]').click();
+  cy.get('[data-cy="EditProfileBtn"]').click();
 });
 
-Then(`I should be on restaurant detail`, () => {
+And(`I should be on restaurant detail`, () => {
   cy.visit('/restaurant/detail');
 });
 
-//------valid-----------
+And('I click edit button', () => {
+  cy.get('[data-cy="editBtn"]').first().click();
+});
 
+Then(`I should be on restaurant edit page`, () => {
+  cy.visit('/restaurant/edit');
+});
+
+//------valid-----------
 When('I complete fill in the restaurant information form', (dataTable) => {
   dataTable.hashes().forEach((item: {fieldName: string, value: string}) => {
     if (item.fieldName === 'address') {
