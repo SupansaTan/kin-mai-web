@@ -85,67 +85,37 @@ Then('I should see restaurants which open', () => {
   cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
 });
 
-// ------ see review---------
-When ('I search "Jaidee" in a search box', (dataTable) => {
+
+//------ add review----------
+
+When ('I search in a search box', (dataTable) => {
   dataTable.hashes().forEach((item: { searchbox : string }) => {
     cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
   });
+});
+
+And('I click open button', () => {
+  cy.get(`[data-cy="OpenBtn"]`).first().click();
 });
 
 Then('I should see list of "restaurant" near me', () => {
   cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
 });
 
-And('I should see filter', () => {
-  cy.get('[data-cy="filter"]').should('be.visible');
-});
-
 When('I click MyReview button', () => {
-  cy.wait(2000)
-  cy.get(`[data-cy="MyReviewBtn"]`).click();
+  cy.get(`[data-cy="MyReviewBtn"]`).first().click({force:true});
 });
 
 Then('I should see review form', () => {
   cy.get(`[data-cy="reviewModal"]`).should('be.visible');
 });
 
-
-//------ edit review----------
-
-When ('I search "Jaidee" in a search box', (dataTable) => {
-  dataTable.hashes().forEach((item: { searchbox : string }) => {
-    cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
-  });
-});
-
-Then('I should see list of "restaurant" near me', () => {
-  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
-});
-
-And('I should see filter', () => {
-  cy.get('[data-cy="filter"]').should('be.visible');
-});
-
-When('I click MyReview button', () => {
-  cy.wait(2000)
-  cy.get(`[data-cy="MyReviewBtn"]`).click();
-});
-
-And('I click EditReview button', () => {
-  cy.wait(2000)
-  cy.get(`[data-cy="EditReviewBtn"]`).click();
-});
-
-Then('I should see review form', () => {
-  cy.get(`[data-cy="reviewModal"]`).should('be.visible');
-});
-
-When('I rates stars', () => {
-  cy.get('[data-cy="star"]').click();
+When('I rate stars', () => {
+  cy.get('[data-cy="star"]').eq(4).click({force:true});
 });
 
 And('I click comment words button', () => {
-  cy.get('[data-cy="commentWordBtn"]').first().click();
+  cy.get('[data-cy="commentWordBtn"]').first().click({force:true});
 });
 
 And('I write comment', (dataTable) => {
@@ -165,9 +135,8 @@ And('I write menu name', (dataTable) => {
 });
 
 And('I upload photo', () => {
-  cy.get('[data-cy="uploadPhoto"]').selectFile('src/assets/image/cafe.jpg');
+  cy.get('[data-cy="uploadPhoto"]').selectFile('src/assets/image/dessert.jpg');
 });
-
 
 When('I click submit button', () => {
   cy.get('[data-cy="submitBtn"]').click();
@@ -178,25 +147,25 @@ Then('I should see review successful', () => {
   cy.get('[data-cy="successModal"]').should('be.visible');
 });
 
-//------- remove  review------
+//-------edit  review------
 
-When ('I search "Jaidee" in a search box', (dataTable) => {
+When ('I search in a search box', (dataTable) => {
   dataTable.hashes().forEach((item: { searchbox : string }) => {
     cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
   });
+});
+
+And('I click open button', () => {
+  cy.get(`[data-cy="OpenBtn"]`).first().click();
 });
 
 Then('I should see list of "restaurant" near me', () => {
   cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
 });
 
-And('I should see filter', () => {
-  cy.get('[data-cy="filter"]').should('be.visible');
-});
-
 When('I click MyReview button', () => {
   cy.wait(2000)
-  cy.get(`[data-cy="MyReviewBtn"]`).click();
+  cy.get(`[data-cy="MyReviewBtn"]`).first().click();
 });
 
 And('I click EditReview button', () => {
@@ -208,8 +177,22 @@ Then('I should see review form', () => {
   cy.get(`[data-cy="reviewModal"]`).should('be.visible');
 });
 
+When('I rates stars', () => {
+  cy.get('[data-cy="star"]').eq(3).click({force:true});
+});
+
+And('I click comment words button', () => {
+  cy.get('[data-cy="commentWordBtn"]').first().click({force:true});
+});
+
 And('I remove comment', () => {
   cy.get('[data-cy="commentBox"]').clear();
+});
+
+And('I write comment', (dataTable) => {
+  dataTable.hashes().forEach((item: { commentBox: string}) => {
+    cy.get('[data-cy="commentBox"]').type(item.commentBox);
+  });
 });
 
 And('I remove photo', () => {

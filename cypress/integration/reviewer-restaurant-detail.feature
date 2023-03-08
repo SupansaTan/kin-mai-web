@@ -10,36 +10,35 @@ Feature: Restaurant Detail
     And I should be on reviewer homepage
     And I click name of restaurant
 
+  Scenario: Reviewer see all restaurant detail
+    Given I should be on Restaurant Detail page
+    And   I should see restaurant image
+    And   I should see restaurant information
+    And   I should see rating
+    And   I should see recommended menu
+    And   I should see review button
+    And   I should see review filter
+    And   I should see reviews
 
-  # Scenario: Reviewer see all restaurant detail
-  #   Given I should be on Restaurant Detail page
-  #   And   I should see restaurant image
-  #   And   I should see restaurant information
-  #   And   I should see rating
-  #   And   I should see recommended menu
-  #   And   I should see review button
-  #   And   I should see review filter
-  #   And   I should see reviews
+  Scenario: Reviewer see all restaurant image
+    Given I should be on Restaurant Detail page
+    Then I should see restaurant image
+    When I click "image" of restaurant
+    Then I should see all "image" of restaurant
 
-  # Scenario: Reviewer see all restaurant image
-  #   Given I should be on Restaurant Detail page
-  #   Then I should see restaurant image
-  #   When I click "image" of restaurant
-  #   Then I should see all "image" of restaurant
+  Scenario: Reviewer read myreview
+    Given I should be on Restaurant Detail page
+    Then  I should see myreview button
+    When  I click myreview button
+    Then  I should see review modal
 
-  # Scenario: Reviewer read myreview
-  #   Given I should be on Restaurant Detail page
-  #   Then  I should see myreview button
-  #   When  I click myreview button
-  #   Then  I should see review modal
-
-  Scenario: Reviewer add review
+  Scenario: Reviewer add new review
     Given I should be on Restaurant Detail page
     Then  I should see myreview button
     When  I click myreview button
     Then  I should see review form
     When  I rate stars
-    # And   I click comment words button
+    And   I click comment words button
     And   I write comment
       | commentBox |
       | บรรยากาศร้านดีมากๆค่ะ|
@@ -51,27 +50,20 @@ Feature: Restaurant Detail
     When  I click submit button
     Then  I should see review successful
 
-  # Scenario: Reviewer edit review
-  #   Given I should be on Restaurant Detail page
-  #   Then  I should see myreview button
-  #   When  I click myreview button
-  #   And   I click EditReview button
-  #   Then  I should see review form
-  #   When  I rates stars
-  #   And   I click comment words button
-  #   And   I remove comment
-  #   And   I write comment
-  #     | commentBox |
-  #     | อร่อยมากๆค่ะ |
-  #   And   I click submit button
-  #   Then  I should see review successful
-
-  # Scenario: Reviewer search review
-  #   Given I should be on Restaurant Detail page
-  #   When I search "อร่อย" in search review
-  #     | SearchReview |
-  #     | อร่อย      |
-  #   Then I should see reviews
+  Scenario: Reviewer edit review
+    Given I should be on Restaurant Detail page
+    Then  I should see myreview button
+    When  I click myreview button
+    And   I click EditReview button
+    Then  I should see review form
+    When  I rates stars
+    And   I click comment words button
+    And   I remove comment
+    And   I write comment
+      | commentBox |
+      | อร่อยมากๆค่ะ |
+    And   I click submit button
+    Then  I should see review successful
 
   # Scenario: Reviewer select stars
   #   Given I should be on Restaurant Detail page
