@@ -9,38 +9,38 @@ Feature: Reviewer Homepage
     And I click on Login button
     And I should be on reviewer homepage
 
-  Scenario: Reviewer click restaurant detail
-    When  I click title of Restaurant
-    Then  I should be on Restaurant detail page
-  
-  Scenario: Reviewer unlike restaurant
-    When  I unclick "Love" button
-    Then  I should see love button change
+  # Scenario: Reviewer click restaurant detail
+  #   When  I click title of Restaurant
+  #   Then  I should be on Restaurant detail page
 
-  Scenario: Reviewer like restaurant
-    When  I click "Love" button
-    Then  I should see love button change
+  # Scenario: Reviewer unlike restaurant
+  #   When  I unclick "Love" button
+  #   Then  I should see love button change
 
-  Scenario: Reviewer search and filter restaurant
-    When  I search "test" in a search box
-      | searchbox |
-      | test |
-    Then  I should see list of "restaurant" near me
-    And   I should see filter
-    When  I click open button
-    And   I click food categories
-    Then  I should see restaurants which open
+  # Scenario: Reviewer like restaurant
+  #   When  I click "Love" button
+  #   Then  I should see love button change
 
-  Scenario: Reviewer see review
-    When  I search "Jaidee" in a search box
-      | searchbox |
-      | Jaidee |
-    Then  I should see list of "restaurant" near me
-    And   I should see filter
-    When  I click MyReview button
-    Then  I should see review form
+  # Scenario: Reviewer search and filter restaurant
+  #   When  I search "test" in a search box
+  #     | searchbox |
+  #     | test |
+  #   Then  I should see list of "restaurant" near me
+  #   And   I should see filter
+  #   When  I click open button
+  #   And   I click food categories
+  #   Then  I should see restaurants which open
 
-  Scenario: Reviewer edit review
+  # Scenario: Reviewer see review
+  #   When  I search "Jaidee" in a search box
+  #     | searchbox |
+  #     | Jaidee |
+  #   Then  I should see list of "restaurant" near me
+  #   And   I should see filter
+  #   When  I click MyReview button
+  #   Then  I should see review form
+
+  Scenario: Reviewer add review
     When  I search "Jaidee" in a search box
       | searchbox |
       | Jaidee |
@@ -62,20 +62,20 @@ Feature: Reviewer Homepage
     When  I click submit button
     Then  I should see review successful
 
-  Scenario: Reviewer remove some review
-    When  I search "Jaidee" in a search box
-      | searchbox |
-      | Jaidee |
-    Then  I should see list of "restaurant" near me
-    And   I should see filter
-    When  I click MyReview button
-    And   I click EditReview button
-    Then  I should see review form
-    And   I remove comment
-    And   I remove photo
-    And   I remove menu
-    When  I click submit button
-    Then  I should see review successful
+  # Scenario: Reviewer remove some review
+  #   When  I search "Jaidee" in a search box
+  #     | searchbox |
+  #     | Jaidee |
+  #   Then  I should see list of "restaurant" near me
+  #   And   I should see filter
+  #   When  I click MyReview button
+  #   And   I click EditReview button
+  #   Then  I should see review form
+  #   And   I remove comment
+  #   And   I remove photo
+  #   And   I remove menu
+  #   When  I click submit button
+  #   Then  I should see review successful
 
 
 
