@@ -14,32 +14,32 @@ Feature: Restaurant Edit Detail
     And I click edit button
     And I should be on restaurant edit page
 
-  # Scenario: User register as restaurant owner with valid form
-  #   When I complete fill in the restaurant information form
-  #     | fieldName         | value                                       |
-  #     | restaurantName    | TestCafe                              |
-  #     | minPriceRate      | 50                                          |
-  #     | maxPriceRate      | 200                                         |
-  #     | address           | 133 ประชาราษฎร์ 16/2                          |
-  #     | restaurantType    | ทั้งของคาวและของหวาน                           |
-  #     | foodCategory      | อาหารตามสั่ง,ชา/กาแฟ,เครื่องดื่ม/น้ำผลไม้             |
-  #     | deliveryType      | เดลิเวอรี่,รับที่ร้าน                                |
-  #     | paymentMethod     | เงินสด,โอนและสแกนจ่าย,บัตรเดบิตและบัตรเครดิต,คนละครึ่ง  |
-  #     | socialContactType | เบอร์โทร                                      |
-  #     | contactValue      | 0999999999                                  |
-  #     | day               | ทุกวัน                                        |
-  #     | startTime         | 00:00                                       |
-  #     | endTime           | 23:59                                       |
-  #   And I click google address
-  #   And I click "Next" button
-  #   Then I should see upload restaurant photo form
-  #   When I complete fill in the upload restaurant photo form
-  #     | filePath                                              | restaurantStatus |
-  #     | src\assets\image\cafe.jpg,src\assets\image\coffee.jpg | Open Now         |
-  #   And I click "Next" button
-  #   Then I should see confirmation register form as restaurant
-  #   And I click "Submit" button
-  #   Then I should see successful modal
+  Scenario: User register as restaurant owner with valid form
+    When I complete fill in the restaurant information form
+      | fieldName         | value                                       |
+      | restaurantName    | TestCafe                              |
+      | minPriceRate      | 50                                          |
+      | maxPriceRate      | 200                                         |
+      | address           | 133 ประชาราษฎร์ 16/2                          |
+      | restaurantType    | ทั้งของคาวและของหวาน                           |
+      | foodCategory      | อาหารตามสั่ง,ชา/กาแฟ,เครื่องดื่ม/น้ำผลไม้             |
+      | deliveryType      | เดลิเวอรี่,รับที่ร้าน                                |
+      | paymentMethod     | เงินสด,โอนและสแกนจ่าย,บัตรเดบิตและบัตรเครดิต,คนละครึ่ง  |
+      | socialContactType | เบอร์โทร                                      |
+      | contactValue      | 0999999999                                  |
+      | day               | ทุกวัน                                        |
+      | startTime         | 00:00                                       |
+      | endTime           | 23:59                                       |
+    And I click google address
+    And I click "Next" button
+    Then I should see upload restaurant photo form
+    When I complete fill in the upload restaurant photo form
+      | filePath                                              | restaurantStatus |
+      | src\assets\image\cafe.jpg,src\assets\image\coffee.jpg | Open Now         |
+    And I click "Next" button
+    Then I should see confirmation register form as restaurant
+    And I click "Submit" button
+    Then I should see successful modal
 
   Scenario: User register as restaurant owner with invalid form
     When I fill in some field in the restaurant information form
