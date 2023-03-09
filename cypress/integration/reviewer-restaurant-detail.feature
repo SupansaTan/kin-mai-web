@@ -65,42 +65,42 @@ Feature: Restaurant Detail
     And   I click submit button
     Then  I should see review successful
 
-  # Scenario: Reviewer select stars
-  #   Given I should be on Restaurant Detail page
-  #   When I select star
-  #   Then I should see reviews
+  Scenario: Reviewer select stars
+    Given I should be on Restaurant Detail page
+    When I select star
+    Then I should see reviews
 
-  # Scenario: Reviewer filter all reviews
-  #   Given I should be on Restaurant Detail page
-  #   When I select star
-  #   And  I click All button
-  #   Then I should see reviews
+  Scenario: Reviewer filter all reviews
+    Given I should be on Restaurant Detail page
+    When I select star
+    And  I click All button
+    Then I should see reviews
 
-  # Scenario: Reviewer filter picture reviews
-  #   Given I should be on Restaurant Detail page
-  #   When I select star
-  #   And  I click Picture button
-  #   Then I should see reviews
+  Scenario: Reviewer filter picture reviews
+    Given I should be on Restaurant Detail page
+    When I select star
+    And  I click Picture button
+    Then I should see reviews
 
-  # Scenario: Reviewer filter comment reviews
-  #   Given I should be on Restaurant Detail page
-  #   When I select star
-  #   And  I click Comment button
-  #   Then I should see reviews
+  Scenario: Reviewer filter comment reviews
+    Given I should be on Restaurant Detail page
+    When I select star
+    And  I click Comment button
+    Then I should see reviews
 
 
-  # Scenario: Reviewer filter menu reviews
-  #   Given I should be on Restaurant Detail page
-  #   When  I click Menu button
-  #   Then I should see reviews
+  Scenario: Reviewer filter menu reviews
+    Given I should be on Restaurant Detail page
+    When  I click Menu button
+    Then I should see reviews
 
-  # Scenario: Reviewer search and filter reviews
-  #   Given I should be on Restaurant Detail page
-  #   When I search "อร่อย" in search review
-  #     | SearchReview |
-  #     | อร่อย      |
-  #   And I click Picture button
-  #   Then I should see reviews
+  Scenario: Reviewer search and filter reviews
+    Given I should be on Restaurant Detail page
+    When I search "อร่อย" in search review
+      | SearchReview |
+      | อร่อย      |
+    And I click Picture button
+    Then I should see reviews
 
 
 

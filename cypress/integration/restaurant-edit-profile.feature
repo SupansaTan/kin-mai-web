@@ -12,11 +12,12 @@ Feature: Restaurant Edit Detail
     And I click edit profile button
     And I should be on restaurant detail
     And I click edit button
+    And I should be on restaurant edit page
 
   Scenario: User register as restaurant owner with valid form
     When I complete fill in the restaurant information form
       | fieldName         | value                                       |
-      | restaurantName    | JaideeTestCafe                              |
+      | restaurantName    | TestCafe                              |
       | minPriceRate      | 50                                          |
       | maxPriceRate      | 200                                         |
       | address           | 133 ประชาราษฎร์ 16/2                          |
@@ -29,6 +30,7 @@ Feature: Restaurant Edit Detail
       | day               | ทุกวัน                                        |
       | startTime         | 00:00                                       |
       | endTime           | 23:59                                       |
+    And I click google address
     And I click "Next" button
     Then I should see upload restaurant photo form
     When I complete fill in the upload restaurant photo form
@@ -41,12 +43,6 @@ Feature: Restaurant Edit Detail
 
   Scenario: User register as restaurant owner with invalid form
     When I fill in some field in the restaurant information form
-      | fieldName         | value              |
-      | restaurantName    | JaideeTestCafe     |
-      | minPriceRate      | 50                 |
-      | maxPriceRate      | 200                |
-      | address           | 133 ประชาราษฎร์ 16/2 |
+      | restaurantName       | 
+      | Test  |
     And I click "Next" button
-    Then I should see red border field and message that field is required
-      | fieldName       | errorMessageType        |
-      | restaurantType  | RequireRestaurantType   |

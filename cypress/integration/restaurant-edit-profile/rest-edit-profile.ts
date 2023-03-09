@@ -29,76 +29,97 @@ And(`I should be on Restaurant homepage`, () => {
   cy.location('pathname', { timeout: 5000 }).should('eq', '/restaurant');
 });
 
-//------------edit their detail------------------------
-
-Given(`I visit on the Restaurant Detail`, () => {
-    cy.visit('/restaurant/detail');
+And('I click dropdown menu', () => {
+  cy.get('.dropdown-toggle').click();
 });
 
-Then('I should see "edit" button', () => {
-    cy.get('[data-cy="editBtn"]').should('be.visible');
+And('I click edit profile button', () => {
+  cy.get('[data-cy="EditProfileBtn"]').click();
 });
 
-When('I press "edit" button', () => {
-    cy.get('[data-cy="editBtn"]').eq(1).click();
+And(`I should be on restaurant detail`, () => {
+  cy.visit('/restaurant/detail');
 });
 
-Then('I should be on restaurant edit detail page', () => {
-    cy.visit('/restaurant/edit');
+And('I click edit button', () => {
+  cy.get('[data-cy="editBtn"]').first().click();
 });
 
-When('I press "next" button', () => {
-  cy.get('[data-cy="nextBtn"]').eq(1).click();
+Then(`I should be on restaurant edit page`, () => {
+  cy.visit('/restaurant/edit');
 });
 
-Then('I should see upload form', () => {
-  cy.get('[data-cy="uploadform"]').should('be.visible');
+//------valid-----------
+When('I complete fill in the restaurant information form', (dataTable) => {
+  dataTable.hashes().forEach((item: {fieldName: string, value: string}) => {
+    if (item.fieldName === 'address') {
+      cy.get('[data-cy="address"]').type(item.value);
+    }
+    // input type: ng-select
+    else if (['restaurantType', 'foodCategory', 'deliveryType', 'paymentMethod', 'socialContactType', 'day'].indexOf(item.fieldName) > -1)
+    {
+      if (item.fieldName === 'socialContactType') {
+        cy.get('[data-cy="addSocialContact"]').click();
+      }
+
+      if (item.value.includes(',')) {
+        cy.selectMultipleOption(item.fieldName, item.value);
+      } else {
+        cy.selectOption(item.fieldName, item.value);
+      }
+    }
+    else {
+      // input type: text, time
+      cy.get(`[data-cy="${item.fieldName}"]`).type(item.value, {force: true});
+    }
+  });
 });
 
-When('I press "next" button', () => {
-  cy.get('[data-cy="nextBtn"]').eq(1).click();
+And('I click google address', () => {
+  cy.get('[data-cy="GoogleAddress"]').click();
 });
 
-Then('I should see status form', () => {
-  cy.get('[data-cy="statusform"]').should('be.visible');
+And('I click "Next" button', () => {
+  cy.get('[data-cy="SubmitBtn"]').first().click({force: true});
 });
 
-// // ---------- valid form -------------
-// Given(`I visit on the Restaurant Detail`, () => {
-//   cy.visit('/restaurant/detail');
-// });
+Then('I should see upload restaurant photo form', () => {
+  cy.get('[data-cy="uploadPhotoForm"]').should('be.visible');
+});
 
-// And('I should see edit form', () => {
-//   cy.get('[data-cy="editform"]').should('be.visible');
-// });
+When('I complete fill in the upload restaurant photo form', (dataTable) => {
+  dataTable.hashes().forEach((item: { filePath: string, restaurantStatus: string }) => {
+    const imageFile = item.filePath.split(',');
+    cy.get(`[data-cy="selectFile"]`).selectFile(imageFile, {force: true});
+    cy.get(`[data-cy="restaurantStatus"]`).type(item.restaurantStatus);
+  });
+});
 
-// When('I complete fill in the form', (dataTable) => {
-//     dataTable.hashes().forEach((item: { name: string, maxRate: string, minRate:string }) => {
-//       cy.get('[data-cy="restaurantName"]').type(item.name);
-//       cy.get('[data-cy="maxRate"]').type(item.maxRate);
-//       cy.get('[data-cy="minRate"]').type(item.minRate);
-//     });
-// });
+And('I click "Next" button', () => {
+  cy.get('[data-cy="SubmitBtn"]').first().click({force: true});
+});
 
-// And('I click "Submit" button', () => {
-//     cy.get('[data-cy="submitBtn"]').eq(1).click();
-//   });
+Then('I should see confirmation register form as restaurant', () => {
+  cy.get('[data-cy="restaurantInfoForm"]').should('be.visible');
+  cy.get('[data-cy="uploadPhotoForm"]').should('be.visible');
+});
 
-// Then('I should see restaurant detail homepage', () => {
-//     cy.location('pathname', { timeout: 5000 }).should('eq', '/restaurant/detail');
-// });
+And('I click "Submit" button', () => {
+  cy.get('[data-cy="SubmitBtn"]').first().click({force: true});
+});
 
-// // --------- invalid form -------------
+Then('I should see successful modal', () => {
+  cy.wait(3000);
+  cy.get('[data-cy="successModal"]').should('be.visible');
+});
 
-// When('I fill in some field in the form', (dataTable) => {
-//     dataTable.hashes().forEach((item: { name: string }) => {
-//         cy.get('[data-cy="restaurantName"]').type(item.name);
-//     });
-// });
+//-------- invalid--------
 
-// Then('I should see red border field and message that field is required', () => {
-//     cy.get('[data-cy="maxRate"]').should('have.class', 'border-danger');
-//     cy.get('[data-cy="minRate"]').should('have.class', 'border-danger');
-// });
-
-
+When('I fill in some field in the restaurant information form', (dataTable) => {
+  dataTable.hashes().forEach((item: { restaurantName : string}) => {
+    cy.get('[ data-cy="restaurantName"]').type(item.restaurantName );
+  });
+});
+And('I click "Next" button', () => {
+  cy.get('[data-cy="SubmitBtn"]').first().click({force: true});
+});
