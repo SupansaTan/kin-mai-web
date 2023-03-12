@@ -1,3 +1,6 @@
+import { PageLink } from 'src/constant/path-link.constant';
+import { ResponseModel } from 'src/models/response.model';
+import { ResetPasswordModel } from './../../../models/reset-password.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -15,7 +18,7 @@ export class ResetComponent implements OnInit {
   @ViewChild('successModal') successModal: ModalSuccessComponent;
   sub: any;
 
-  userId: string;
+  resetToken: string;
   resetPasswordForm: FormGroup;
   isShowPassword: boolean = false;
   isShowConfirmPassword: boolean = false;
@@ -43,7 +46,7 @@ export class ResetComponent implements OnInit {
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
-      this.userId = params['userId'];
+      this.resetToken = params['resetToken'];
     });
   }
 
@@ -55,10 +58,22 @@ export class ResetComponent implements OnInit {
     this.resetPasswordForm.markAllAsTouched();
 
     if (this.resetPasswordForm.valid) {
-      let password = this.resetPasswordForm.controls['password'].value;
-      let comfirmPassword = this.resetPasswordForm.controls['confirmPassword'].value;
+      let request = new ResetPasswordModel();
+      request.resetToken = this.resetToken;
+      request.password = this.resetPasswordForm.controls['password'].value;
+      request.confirmPassword = this.resetPasswordForm.controls['confirmPassword'].value;
       this.spinner.show();
 
+      this.authenticationService.resetPassword(request).subscribe(
+        (response: ResponseModel<boolean>) => {
+          this.spinner.hide();
+          if (response && response.status === 200) {
+            this.successModal.openSuccessModal(true, 'Reset password successful');
+            this.router.navigate([PageLink.authentication.login]);
+          } else {
+            this.successModal.openSuccessModal(false, response?.message);
+          }
+      })
     }
   }
 }
