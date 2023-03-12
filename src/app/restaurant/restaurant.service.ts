@@ -30,6 +30,5 @@ export class RestaurantService {
     this.sub = this.http.put<ResponseModel<boolean>>(url, model);
     return this.sub;
   }
-  
-  
+
 }

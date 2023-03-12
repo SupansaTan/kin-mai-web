@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { ResponseModel } from 'src/models/response.model';
 import { TokenResponseModel } from './../../models/token-response.model';
 import { UserInfoModel } from './../../models/user-info.model';
+import { ResetPasswordModel } from 'src/models/reset-password.model';
 
 @Injectable({
   providedIn: 'root'
@@ -85,6 +86,12 @@ export class AuthenticationService {
   sendEmailForgotPassword(email: string) {
     const url = `${environment.kinMaiApi}/Authentication/SendEmailResetPassword`;
     this.sub = this.http.post<ResponseModel<boolean>>(url, { email });
+    return this.sub;
+  }
+
+  resetPassword(request: ResetPasswordModel) {
+    const url = `${environment.kinMaiApi}/Authentication/ResetPassword`;
+    this.sub = this.http.post<ResponseModel<boolean>>(url, request);
     return this.sub;
   }
 }
