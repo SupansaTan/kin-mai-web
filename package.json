@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "cypress:open": "cypress open",
-    "config": "ts-node set-env.ts"
+    "config": "node set-env.js"
   },
   "private": true,
   "dependencies": {

@@ -1,4 +1,5 @@
-import { writeFile } from 'fs';
+fs = require("fs");
+writeFile = fs.writeFile;
 require('dotenv').load();
 
 const targetPathDev = "/vercel/path1/src/environments/environment.ts";
