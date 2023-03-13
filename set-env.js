@@ -1,9 +1,9 @@
 fs = require("fs");
 writeFile = fs.writeFile;
-require('dotenv').load();
+require('dotenv').config();
 
-const targetPathDev = "/vercel/path1/src/environments/environment.ts";
-const targetPathProd = "/vercel/path1/src/environments/environment.prod.ts";
+const targetPathDev = "/vercel/path0/src/environments/environment.ts";
+const targetPathProd = "/vercel/path0/src/environments/environment.prod.ts";
 
 const envConfigFile = `export const environment = {
   production: true,
