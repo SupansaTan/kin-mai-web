@@ -12,7 +12,7 @@ Feature: Reviewer Homepage
   Scenario: Reviewer click restaurant detail
     When  I click title of Restaurant
     Then  I should be on Restaurant detail page
-  
+
   Scenario: Reviewer unlike restaurant
     When  I unclick "Love" button
     Then  I should see love button change
@@ -31,47 +31,42 @@ Feature: Reviewer Homepage
     And   I click food categories
     Then  I should see restaurants which open
 
-  Scenario: Reviewer see review
-    When  I search "Jaidee" in a search box
+  Scenario: Reviewer add new review
+    When  I search in a search box
       | searchbox |
       | Jaidee |
+    And   I click open button
     Then  I should see list of "restaurant" near me
-    And   I should see filter
     When  I click MyReview button
     Then  I should see review form
+    When  I rate stars
+    And   I click comment words button
+    And   I write comment
+      | commentBox |
+      | บรรยากาศร้านดีมากๆค่ะ |
+    And   I click add menu button
+    And   I write menu name
+      | MenuName |
+      | คุ๊กกี้ขิง |
+    And   I upload photo
+    When  I click submit button
+    Then  I should see review successful
 
-  Scenario: Reviewer edit review
-    When  I search "Jaidee" in a search box
+  Scenario: Reviewer edit  review
+    When  I search in a search box
       | searchbox |
       | Jaidee |
+    And   I click open button
     Then  I should see list of "restaurant" near me
-    And   I should see filter
     When  I click MyReview button
     And   I click EditReview button
     Then  I should see review form
     When  I rates stars
     And   I click comment words button
+    And   I remove comment
     And   I write comment
       | commentBox |
-      | เค๊กหน้าตาประหลาด |
-    And   I click add menu button
-    And   I write menu name
-      | MenuName |
-      | บราวนี่เจ้าหญิง |
-    And   I upload photo
-    When  I click submit button
-    Then  I should see review successful
-
-  Scenario: Reviewer remove some review
-    When  I search "Jaidee" in a search box
-      | searchbox |
-      | Jaidee |
-    Then  I should see list of "restaurant" near me
-    And   I should see filter
-    When  I click MyReview button
-    And   I click EditReview button
-    Then  I should see review form
-    And   I remove comment
+      | อร่อยมากๆค่ะ |
     And   I remove photo
     And   I remove menu
     When  I click submit button

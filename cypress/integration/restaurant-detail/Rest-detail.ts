@@ -29,13 +29,20 @@ And(`I should be on Restaurant homepage`, () => {
   cy.location('pathname', { timeout: 5000 }).should('eq', '/restaurant');
 });
 
-//-------see all restaurant's information--------------
-
-Given(`I visit on Restaurant Detail page`, () => {
-    cy.visit('/restaurant/detail');
+And('I click dropdown menu', () => {
+  cy.get('.dropdown-toggle').click();
 });
 
-And('I should see restaurant image', () => {
+And('I click edit profile button', () => {
+  cy.get('[data-cy="EditProfileBtn"]').click();
+});
+
+Then(`I should be on restaurant detail`, () => {
+  cy.visit('/restaurant/detail');
+});
+
+//-------see all restaurant's information--------------
+Given('I should see restaurant image', () => {
     cy.get('[data-cy="restaurantImage"]').should('be.visible');
 });
 
@@ -47,21 +54,23 @@ And('I should see information', () => {
     cy.get('[data-cy="information"]').should('be.visible');
 });
 
-And('I should see google map', () => {
-    cy.get('[data-cy="googleMap"]').should('be.visible');
-});
 
 And('I should see edit button', () => {
   cy.get('[data-cy="editBtn"]').should('be.visible');
 });
 
-// click edit button
-Given(`I visit on Restaurant Detail page`, () => {
-  cy.visit('/restaurant/detail');
+//---- click image------
+When('I click image', () => {
+  cy.get('[data-cy="restaurantImage"]').click();
 });
 
-When('I press edit button', () => {
-  cy.get('[data-cy="editBtn"]').eq(1).click();
+Then(`I should see restaurant image`, () => {
+  cy.get('[data-cy="restaurantImage"]').should('be.visible');
+});
+
+//-------- click edit button-----------------
+When('I click edit button', () => {
+  cy.get('[data-cy="editBtn"]').first().click();
 });
 
 Then(`I should be on edit page`, () => {
