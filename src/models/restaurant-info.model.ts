@@ -10,6 +10,7 @@ export class RestaurantInfoItemModel {
   restaurantId: string;
   restaurantName: string;
   rating: number;
+  totalReview: number;
   startTime: string;
   endTime: string;
   distance: number;
@@ -17,6 +18,7 @@ export class RestaurantInfoItemModel {
   maxPriceRate: number;
   imageCover: string;
   isFavorite: boolean;
+  isReview: boolean;
   anotherImageCover: Array<string>;
 }
 

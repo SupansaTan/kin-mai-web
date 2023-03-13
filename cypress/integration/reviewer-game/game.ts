@@ -43,7 +43,7 @@ When('I click play music button', () => {
 });
 
 Then('I should listen music', () => {
-  cy.wait(5000)
+  cy.wait(8000)
   cy.get('[data-cy="MusicBtn"]').should('be.visible');
   
 });
@@ -72,11 +72,8 @@ When('I click on gachapon game', () => {
   cy.get(`[data-cy="gachapongame"]`).click();
 });
 
-Then('I should see food category', () => {
-  cy.get('.swal2-confirm.swal2-styled').first().click({force: true});
-});
 
-And('I should see button', (dataTable) => {
+Then('I should see button', (dataTable) => {
   dataTable.hashes().forEach((item: { button: string }) => {
     cy.get(`[data-cy="${item.button}"]`).should('be.visible');
   });

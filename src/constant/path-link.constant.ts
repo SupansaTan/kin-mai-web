@@ -2,6 +2,7 @@ export const PageLink = {
   authentication: {
     login: `auth/login`,
     register: `auth/register`,
+    forgetPassword: `auth/forgot-password`,
   },
   reviewer: {
     homepage: `reviewer`,

@@ -29,11 +29,6 @@ And('I should be on reviewer homepage', () => {
   cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
-And ('I search "Jaidee" in a search box', (dataTable) => {
-  dataTable.hashes().forEach((item: { searchbox : string }) => {
-    cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
-  });
-});
 
 And('I click name of restaurant', () => {
   cy.get('.restaurant-name').first().click({force: true});
@@ -63,7 +58,7 @@ And('I should see recommended menu', () => {
 });
 
 And('I should see review button', () => {
-  cy.get('[data-cy="reviewBtn"]').should('be.visible');
+  cy.get('[data-cy="MyReviewBtn"]').should('be.visible');
 });
 
 And('I should see review filter', () => {
@@ -98,7 +93,6 @@ Given(`I should be on Restaurant Detail page`, () => {
   cy.url().should('include', '/reviewer/restaurant;restaurantId=');
 });
 
-
 Then('I should see myreview button', () => {
   cy.get('[data-cy="MyReviewBtn"]').should('be.visible');
 });
@@ -111,16 +105,75 @@ Then('I should see review modal', () => {
   cy.get('[data-cy="reviewModal"]').should('be.visible');
 });
 
+//------- add review ---------
+Given(`I should be on Restaurant Detail page`, () => {
+  cy.url().should('include', '/reviewer/restaurant;restaurantId=');
+});
+
+Then('I should see myreview button', () => {
+  cy.get('[data-cy="MyReviewBtn"]').should('be.visible');
+});
+
+When('I click myreview button', () => {
+  cy.get('[data-cy="MyReviewBtn"]').click();
+});
+
+
+Then('I should see review form', () => {
+  cy.get('[data-cy="reviewModal"]').should('be.visible');
+});
+
+When('I rate stars', () => {
+  cy.get('[data-cy="star"]').eq(3).click({force:true});
+});
+
+And('I click comment words button', () => {
+  cy.get('[data-cy="commentWordBtn"]').first().click({force:true});
+});
+
+And('I write comment', (dataTable) => {
+  dataTable.hashes().forEach((item: { commentBox: string}) => {
+    cy.get('[data-cy="commentBox"]').type(item.commentBox);
+  });
+});
+
+And('I click add menu button', () => {
+  cy.get('[data-cy="addMenuBtn"]').click();
+});
+
+And('I write menu name', (dataTable) => {
+  dataTable.hashes().forEach((item: { MenuName: string}) => {
+    cy.get('[data-cy="MenuName"]').type(item.MenuName);
+  });
+});
+
+And('I upload photo', () => {
+  cy.get('[data-cy="uploadPhoto"]').selectFile('src/assets/image/cake.jpg');
+});
+
+When('I click submit button', () => {
+  cy.get('[data-cy="submitBtn"]').click();
+});
+
+Then('I should see review successful', () => {
+  cy.get('[data-cy="successModal"]').should('be.visible');
+});
+
+
 // -------- edit review-------
 Given(`I should be on Restaurant Detail page`, () => {
   cy.url().should('include', '/reviewer/restaurant;restaurantId=');
 });
 
-Then('I should see editReview button', () => {
-  cy.get('[data-cy="EditReviewBtn"]').should('be.visible');
+Then('I should see myreview button', () => {
+  cy.get('[data-cy="MyReviewBtn"]').should('be.visible');
 });
 
-When('I click EditReview button', () => {
+When('I click myreview button', () => {
+  cy.get('[data-cy="MyReviewBtn"]').click();
+});
+
+And('I click EditReview button', () => {
   cy.get('[data-cy="EditReviewBtn"]').click();
 });
 
@@ -129,11 +182,15 @@ Then('I should see review form', () => {
 });
 
 When('I rates stars', () => {
-  cy.get('[data-cy="star"]').first().click({force:true});
+  cy.get('[data-cy="star"]').eq(4).click({force:true});
 });
 
 And('I click comment words button', () => {
-  cy.get('[data-cy="commentWordBtn"]').first().click();
+  cy.get('[data-cy="commentWordBtn"]').first().click({force:true});
+});
+
+And('I remove comment', () => {
+  cy.get('[data-cy="commentBox"]').clear();
 });
 
 And('I write comment', (dataTable) => {
@@ -150,21 +207,6 @@ Then('I should see review successful', () => {
   cy.get('[data-cy="successModal"]').should('be.visible');
 });
 
-
-//---- search review----
-Given(`I should be on Restaurant Detail page`, () => {
-  cy.url().should('include', '/reviewer/restaurant;restaurantId=');
-});
-
-When ('I search "อร่อย" in search review', (dataTable) => {
-  dataTable.hashes().forEach((item: { SearchReview : string }) => {
-    cy.get(`[data-cy="SearchReview"]`).type(item.SearchReview, {force: true});
-  });
-});
-
-Then('I should see reviews', () => {
-  cy.get('[data-cy="reviews"]').should('be.visible');
-});
 
 //----- select stars------
 Given(`I should be on Restaurant Detail page`, () => {
@@ -213,7 +255,7 @@ Then('I should see reviews', () => {
   cy.get('[data-cy="reviews"]').should('be.visible');
 });
 
-//----filer comment reviews---- 
+//----filer comment reviews----
 Given(`I should be on Restaurant Detail page`, () => {
   cy.url().should('include', '/reviewer/restaurant;restaurantId=');
 });

@@ -6,7 +6,7 @@
 
 <div *ngIf="restaurantList && restaurantList.length > 0" class="col">
   <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 gx-2 gy-2 mb-2">
-    <div *ngFor="let item of restaurantList; index as i;" class="col">
+    <div *ngFor="let item of restaurantList; index as i;" class="col" data-cy="Favlist">
       <div class="bg-white border-rounded pt-2 px-3 position-relative " data-cy="RestaurantFilter">
         <div class="row pb-2">
           <!-- image cover -->
@@ -20,7 +20,7 @@
               <h5 class="mt-2 mb-1 fw-semibold restaurant-name" role="button" ellipsis [ellipsis-content]="item.restaurantName"
                 (click)="routeToRestaurantDetail(item.restaurantId)"
               ></h5>
-              <i class="bi fs-5 bi-heart-fill text-yellow" type="button"
+              <i class="bi fs-5 bi-heart-fill text-yellow" type="button" data-cy="LoveBtn"
                 (click)="toggleFavoriteRestaurant(item.restaurantId, i)">
               </i>
             </div>

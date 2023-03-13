@@ -1,4 +1,3 @@
-  
 <form [formGroup]="registerRestaurantForm" data-cy="restaurantInfoForm">
   <div class="row d-flex align-items-center justify-content-center">
     <div class="col-11 col-lg-10 row row-cols-1 row-cols-md-2 bg-white rounded-3 mt-4 pb-4 gy-3">
@@ -79,11 +78,11 @@
           class="form-control mb-2 shadow-none"
           [hidden]="stage !== 2"
           (onAddressChange)="addressChange($event); placeAutocomplete.value = ''"
-          data-cy="googleAddressAutocomplete"
+         
         />
         <ng-container *ngIf="formatAddress" data-cy="formatAddress">
           <p class="mb-2 bg-light-yellow rounded-2 py-2 px-2">{{ formatAddress }}</p>
-          <label class="px-2 py-1 rounded-4 bg-yellow mb-2" role="button" (click)="setRestaurantAddress()" [hidden]="stage !== 2" data-cy="setRestaurantAddress">
+          <label class="px-2 py-1 rounded-4 bg-yellow mb-2" role="button" (click)="setRestaurantAddress()" [hidden]="stage !== 2" >
             <i class="bi bi-geo-alt-fill me-1"></i>ใช้เป็นที่อยู่ร้านอาหาร
           </label>
         </ng-container>
@@ -94,6 +93,7 @@
           [options]="options"
           [ngClass]="{ 'border-danger border-2': isNotSetMarker }"
           (mapClick)="addMarker($event)"
+          data-cy="GoogleAddress"
         >
           <map-marker *ngIf="markerPositions"
             [position]="markerPositions"

@@ -62,7 +62,7 @@ export class RestaurantDashboardComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private spinner: NgxSpinnerService,
     private fb: FormBuilder,
-  ) { 
+  ) {
     this.replyForm = this.fb.group({
       replies: this.fb.array([]) ,
     });
@@ -270,7 +270,7 @@ export class RestaurantDashboardComponent implements OnInit {
   get replies() : FormArray {
     return this.replyForm.get("replies") as FormArray
   }
- 
+
   newReply(reviewId:string, replyComment: string): FormGroup {
     return this.fb.group({
       reviewId: reviewId,
@@ -278,7 +278,7 @@ export class RestaurantDashboardComponent implements OnInit {
       isEdit: Boolean,
     })
   }
- 
+
   addReply() {
     this.replies.clear();
     this.displayReview.map(x => {
@@ -293,13 +293,13 @@ export class RestaurantDashboardComponent implements OnInit {
       }
     });
   }
- 
+
   onSubmitReplyComment(i:number) {
     this.spinner.show();
     let request = new UpdateReviewReplyRequest();
     request.reviewId = this.displayReview[i].reviewId;
     request.replyComment = this.replies.value[i].replyComment;
-    
+
     this.restaurantService.updateReplyReviewInfo(request).subscribe(
       (response: ResponseModel<boolean>) => {
         this.spinner.hide();
@@ -312,6 +312,4 @@ export class RestaurantDashboardComponent implements OnInit {
         }
     });
   }
-
-
 }
