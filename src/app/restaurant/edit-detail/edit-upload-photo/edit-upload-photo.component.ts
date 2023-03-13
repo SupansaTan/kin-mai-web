@@ -2,6 +2,7 @@ import { RestaurantPhotoModel } from 'src/models/register.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { RestaurantUpdatePhotoModel } from 'src/models/restaurant-info.model';
 
 @Component({
   selector: 'app-edit-upload-photo',
@@ -11,22 +12,33 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 export class EditUploadPhotoComponent implements OnInit {
 
   @Output() isFormValid = new EventEmitter<boolean>();
-  @Output() uploadPhotoFormValue = new EventEmitter<RestaurantPhotoModel>();
+  @Output() uploadPhotoFormValue = new EventEmitter<RestaurantUpdatePhotoModel>();
+  @Input() imageData = new RestaurantUpdatePhotoModel();
 
   uploadPhotoForm: FormGroup;
   currentStage: number = 2;
   restaurantImageList: Array<string> = new Array<string>();
   imageFileList: Array<File> = new Array<File>();
+  restaurantStatus: string;
+  originalImg: Array<string>;
+  removeImg: Array<string>;
+  newImg: Array<File>;
 
   constructor(private fb: FormBuilder, private cf: ChangeDetectorRef) {
-    this.uploadPhotoForm = this.fb.group({
-      photo: new FormControl([], [
-        Validators.required
-      ]),
-      restaurantStatus: new FormControl('',[
-        Validators.maxLength(320)
-      ])
-    })
+    // this.uploadPhotoForm = this.fb.group({
+    //   imageLink: new FormControl([], [
+    //     Validators.required
+    //   ]),
+    //   removeImage: new FormControl([], [
+    //     Validators.required
+    //   ]),
+    //   newImage: new FormControl([], [
+    //     Validators.required
+    //   ]),
+    //   restaurantStatus: new FormControl('',[
+    //     Validators.maxLength(320)
+    //   ])
+    // })
   }
 
   ngOnInit(): void {
@@ -45,6 +57,24 @@ export class EditUploadPhotoComponent implements OnInit {
 
   get stage() {
     return this.currentStage;
+  }
+
+  getRestaurantPhotoToForm() {
+    this.originalImg = this.imageData.imageLink;
+    this.uploadPhotoForm = this.fb.group({
+      imageLink: new FormControl(this.imageData.imageLink, [
+        Validators.required
+      ]),
+      removeImage: new FormControl([], [
+        Validators.required
+      ]),
+      newImage: new FormControl([], [
+        Validators.required
+      ]),
+      restaurantStatus: new FormControl('',[
+        Validators.maxLength(320)
+      ])
+    })
   }
 
   onSelectFile(event: any) {
@@ -78,8 +108,10 @@ export class EditUploadPhotoComponent implements OnInit {
   }
 
   getRestaurantInfoValue() {
-    let restaurantInfo = new RestaurantPhotoModel();
-    restaurantInfo.imageFiles = this.imageFileList;
+    let restaurantInfo = new RestaurantUpdatePhotoModel();
+    restaurantInfo.imageLink = this.uploadPhotoForm.controls['imageLink']?.value;
+    restaurantInfo.removeImage = this.originalImg.filter(x => !restaurantInfo.imageLink.includes(x));
+    restaurantInfo.newImage = this.imageFileList;
     restaurantInfo.restaurantStatus = this.uploadPhotoForm.controls['restaurantStatus']?.value;
     return restaurantInfo;
   }

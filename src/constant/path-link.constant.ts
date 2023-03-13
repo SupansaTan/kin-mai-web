@@ -12,5 +12,6 @@ export const PageLink = {
   restaurant: {
     dashboard: `restaurant`,
     qrCode: `restaurant/qr-code`,
+    restaurantDetail: `restaurant/detail`
   }
 };
