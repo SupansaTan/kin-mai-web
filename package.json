@@ -3,13 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npm run config && ng serve",
     "build": "npm run config && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "cypress:open": "cypress open",
-    "config": "node src/environments/set-env.js",
-    "vercel-build": "npm run config && npm run build"
+    "config": "ts-node set-env.ts"
   },
   "private": true,
   "dependencies": {
@@ -36,6 +35,7 @@
     "angularx-qrcode": "^14.0.0",
     "bootstrap": "^5.2.2",
     "bootstrap-icons": "^1.9.1",
+    "dotenv": "^16.0.3",
     "file-saver": "^2.0.5",
     "font-awesome": "^4.7.0",
     "html-to-image": "^1.11.11",
@@ -48,6 +48,7 @@
     "ngx-spinner": "^14.0.0",
     "ngx-toastr": "^14.2.2",
     "rxjs": "~7.5.0",
+    "ts-node": "^10.9.1",
     "tslib": "^2.3.0",
     "viewerjs": "^1.11.2",
     "zone.js": "~0.11.4"
