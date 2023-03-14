@@ -4,6 +4,10 @@
   font-size: 2rem;
   padding-right: 0.1rem;
   color: #FACE7F;
+
+  &.border-danger {
+    color: #e4434e;
+  }
 }
 
 .btn-yellow {
