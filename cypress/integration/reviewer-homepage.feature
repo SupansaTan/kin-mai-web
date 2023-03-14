@@ -21,15 +21,33 @@ Feature: Reviewer Homepage
     When  I click "Love" button
     Then  I should see love button change
 
-  Scenario: Reviewer search and filter restaurant
-    When  I search "test" in a search box
+  Scenario: Reviewer can not find restaurant
+    When  I search in a search box
       | searchbox |
-      | test |
+      | ร้านลุงดีส้มตำ |
+    Then I should not see list of "restaurant" near me
+
+  Scenario: Reviewer can find restaurant
+    When  I search in a search box
+      | searchbox |
+      | ร้าน |
+    And  I should see filter
+    And  I click open button
+    And  I click food categories
+    Then I should see list of "restaurant" near me
+
+  #-------------------------------------------------------- 
+  Scenario: Reviewer invalid review 
+    When  I search in a search box
+      | searchbox |
+      | ร้านบ้านดีคาเฟ่ |
+    And   I click open button
     Then  I should see list of "restaurant" near me
-    And   I should see filter
-    When  I click open button
-    And   I click food categories
-    Then  I should see restaurants which open
+    When  I click MyReview button
+    And   I should see review form
+    And   I click submit button
+    Then  I should see review unsuccessful
+  #-----------------------------------------------------------
 
   Scenario: Reviewer add new review
     When  I search in a search box

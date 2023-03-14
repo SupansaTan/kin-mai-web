@@ -57,23 +57,29 @@ Then('I should see love button change',() =>{
   cy.get('[data-cy="LoveBtn"]').should('be.visible');
 });
 
-
-// ------search & filter ---------
-When ('I search "test" in a search box', (dataTable) => {
+//----- cant find restaurant------
+When ('I search in a search box', (dataTable) => {
   dataTable.hashes().forEach((item: { searchbox : string }) => {
     cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
   });
 });
 
-Then('I should see list of "restaurant" near me', () => {
-  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
+Then('I should not see list of "restaurant" near me', () => {
+  cy.get(`[data-cy="NoRestaurantFilter"]`).should('be.visible');
+});
+
+// ------can find restaurant ---------
+When ('I search in a search box', (dataTable) => {
+  dataTable.hashes().forEach((item: { searchbox : string }) => {
+    cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
+  });
 });
 
 And('I should see filter', () => {
   cy.get('[data-cy="filter"]').should('be.visible');
 });
 
-When('I click open button', () => {
+And('I click open button', () => {
   cy.get(`[data-cy="OpenBtn"]`).first().click({force: true});
 });
 
@@ -81,8 +87,40 @@ And('I click food categories', () => {
   cy.get(`[data-cy="CatagoryBtn"]`).first().click({force: true});
 });
 
-Then('I should see restaurants which open', () => {
+Then('I should see list of "restaurant" near me', () => {
   cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
+});
+
+//-------invalid review -------
+When ('I search in a search box', (dataTable) => {
+  dataTable.hashes().forEach((item: { searchbox : string }) => {
+    cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
+  });
+});
+
+And('I click open button', () => {
+  cy.get(`[data-cy="OpenBtn"]`).first().click();
+});
+
+Then('I should see list of "restaurant" near me', () => {
+  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
+});
+
+When('I click MyReview button', () => {
+  cy.get(`[data-cy="MyReviewBtn"]`).first().click({force:true});
+});
+
+And('I should see review form', () => {
+  cy.get(`[data-cy="reviewModal"]`).should('be.visible');
+});
+
+And('I click submit button', () => {
+  cy.get('[data-cy="submitBtn"]').click();
+});
+
+Then('I should see review unsuccessful', () => {
+  // cy.wait(3000);
+  cy.get('[data-cy="unsuccessModal"]').should('be.visible');
 });
 
 
@@ -164,12 +202,10 @@ Then('I should see list of "restaurant" near me', () => {
 });
 
 When('I click MyReview button', () => {
-  cy.wait(2000)
   cy.get(`[data-cy="MyReviewBtn"]`).first().click();
 });
 
 And('I click EditReview button', () => {
-  cy.wait(2000)
   cy.get(`[data-cy="EditReviewBtn"]`).click();
 });
 
