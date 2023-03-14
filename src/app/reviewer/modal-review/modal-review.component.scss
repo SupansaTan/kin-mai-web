@@ -4,13 +4,19 @@
   font-size: 2rem;
   padding-right: 0.1rem;
   color: #FACE7F;
+
+  &.border-danger {
+    color: #e4434e;
+  }
 }
 
 .btn-yellow {
   background-color: $yellow !important;
+  border-color: $yellow !important;
 
   &:hover, &:focus {
     background-color: #ffca68 !important;
+    border-color: #ffca68 !important;
   }
 
   &:disabled {
@@ -22,9 +28,11 @@
 
 .btn-light-grey {
   background-color: #dfdfdf !important;
+  border-color: #dfdfdf !important;
 
   &:hover, &:focus, &:active {
     background-color: #cecdcd !important;
+    border-color: #cecdcd !important;
   }
 
   &:disabled {
