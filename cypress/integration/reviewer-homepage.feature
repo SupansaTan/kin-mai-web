@@ -35,7 +35,7 @@ Feature: Reviewer Homepage
     When  I search in a search box
       | searchbox |
       | ร้านบ้านดีคาเฟ่ |
-    And   I click open button
+    And I click open button
     Then  I should see list of "restaurant" near me
     When  I click MyReview button
     Then  I should see review form
@@ -56,7 +56,7 @@ Feature: Reviewer Homepage
     When  I search in a search box
       | searchbox |
       | ร้านบ้านดีคาเฟ่ |
-    And   I click open button
+    And I click open button
     Then  I should see list of "restaurant" near me
     When  I click MyReview button
     And   I click EditReview button

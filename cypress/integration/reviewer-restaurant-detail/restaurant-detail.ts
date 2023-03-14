@@ -148,7 +148,7 @@ And('I write menu name', (dataTable) => {
 });
 
 And('I upload photo', () => {
-  cy.get('[data-cy="uploadPhoto"]').selectFile('src/assets/image/cake.jpg');
+  cy.get('[data-cy="uploadPhoto"]').selectFile('src/assets/image/halal.jpg');
 });
 
 When('I click submit button', () => {
