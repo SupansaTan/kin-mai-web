@@ -34,8 +34,8 @@ Feature: Reviewer Homepage
   Scenario: Reviewer add new review
     When  I search in a search box
       | searchbox |
-      | Jaidee |
-    And   I click open button
+      | ร้านบ้านดีคาเฟ่ |
+    And I click open button
     Then  I should see list of "restaurant" near me
     When  I click MyReview button
     Then  I should see review form
@@ -55,8 +55,8 @@ Feature: Reviewer Homepage
   Scenario: Reviewer edit  review
     When  I search in a search box
       | searchbox |
-      | Jaidee |
-    And   I click open button
+      | ร้านบ้านดีคาเฟ่ |
+    And I click open button
     Then  I should see list of "restaurant" near me
     When  I click MyReview button
     And   I click EditReview button
