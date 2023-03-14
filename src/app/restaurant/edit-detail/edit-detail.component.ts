@@ -7,6 +7,13 @@ import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-succes
 import { EditReataurantStepItems } from 'src/models/step-item.model';
 import { EditUploadPhotoComponent } from './edit-upload-photo/edit-upload-photo.component';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { RestaurantService } from '../restaurant.service';
+import { ResponseModel } from 'src/models/response.model';
+import { PageLink } from 'src/constant/path-link.constant';
+import { RestaurantDetailModel, RestaurantUpdateDetail, RestaurantUpdatePhotoModel } from 'src/models/restaurant-info.model';
+import { LocalStorageService } from 'src/app/service/local-storage.service';
+import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 
 @Component({
   selector: 'app-edit-detail',
@@ -22,14 +29,26 @@ export class EditRestaurantDetailComponent implements OnInit {
 
   steps: Array<StepItem> = new Array<StepItem>();
   stage: number = 1;
-  isFormValid: boolean = true;
+  isFormValid: boolean = false;
+  isSubmit: boolean = false;
   restaurantInfoForm: RestaurantInfoModel;
-  restaurantPhotoForm: RestaurantPhotoModel;
+  restaurantPhotoForm: RestaurantUpdatePhotoModel;
 
-  constructor(private router: Router) { }
+  restaurantDetailData: RestaurantDetailModel;
+  restaurantPhotoData: RestaurantUpdatePhotoModel;
+
+  restaurantId: string;
+  
+  constructor(
+    private router: Router,
+    private spinner: NgxSpinnerService,
+    private restaurantService: RestaurantService,
+    private localStorageService: LocalStorageService,
+  ) { }
 
   ngOnInit(): void {
     this.steps = EditReataurantStepItems;
+    this.restaurantId = this.localStorageService.get<string>(LocalStorageKey.restaurantId) ?? '';
   }
 
 
@@ -54,7 +73,6 @@ export class EditRestaurantDetailComponent implements OnInit {
         this.stage = 2
         break;
       case 2:
-        // this.uploadPhoto.checkFormIsValid();
         this.stage = 3
         break;
     }
@@ -64,17 +82,64 @@ export class EditRestaurantDetailComponent implements OnInit {
     this.router.navigate(['restaurant/detail'])
   }
 
-  set restaurantInfoFormValue(restaurantInfo: RestaurantInfoModel) {
+  restaurantInfoFormValue(restaurantInfo: RestaurantInfoModel) {
     this.restaurantInfoForm = restaurantInfo;
   }
 
-  set restaurantPhotoFormValue(restaurantPhoto: RestaurantPhotoModel) {
+  restaurantPhotoFormValue(restaurantPhoto: RestaurantUpdatePhotoModel) {
     this.restaurantPhotoForm = restaurantPhoto;
   }
 
 
-  submit() {
-    this.successModal.openSuccessModal(true, 'แก้ไขข้อมูลสำเร็จ');
+  getRestaurantDetail() {
+    this.restaurantService.getRestaurantDetail(this.restaurantId).subscribe(
+      (response: ResponseModel<RestaurantDetailModel>) => {
+        if (response && response?.status === 200) {
+          let data = response.data
+          this.restaurantDetailData.restaurantInfo.name = data.restaurantInfo.name;
+          this.restaurantDetailData.restaurantInfo.minPriceRate = data.restaurantInfo.minPriceRate;
+          this.restaurantDetailData.restaurantInfo.maxPriceRate = data.restaurantInfo.maxPriceRate;
+          this.restaurantDetailData.restaurantInfo.address = data.restaurantInfo.address;
+          this.restaurantDetailData.restaurantInfo.latitude = data.restaurantInfo.latitude;
+          this.restaurantDetailData.restaurantInfo.longitude = data.restaurantInfo.longitude;
+          this.restaurantDetailData.restaurantInfo.restaurantType = data.restaurantInfo.restaurantType;
+          this.restaurantDetailData.restaurantInfo.deliveryType = data.restaurantInfo.deliveryType;
+          this.restaurantDetailData.categories = data.categories;
+          this.restaurantDetailData.restaurantInfo.paymentMethod = data.restaurantInfo.paymentMethod;
+          this.restaurantDetailData.socialContact = data.socialContact;
+          this.restaurantDetailData.businessHours = data.businessHours;
+          this.restaurantPhotoData.restaurantStatus = data.restaurantInfo.description;
+          this.restaurantPhotoData.imageLink = data.restaurantInfo.imageLink;
+        }
+    })
   }
 
+
+  submit() {
+    this.isSubmit = true;
+    this.spinner.show();
+    let updateInfo = new RestaurantUpdateDetail();
+    updateInfo.restaurantId = this.restaurantId
+    updateInfo.resUpdateInfo = this.restaurantInfoForm;
+    updateInfo.RemoveImageLink = this.restaurantPhotoForm.removeImage;
+    updateInfo.NewImageFile = this.restaurantPhotoForm.newImage;
+    updateInfo.RestaurantStatus = this.restaurantPhotoForm.restaurantStatus;
+
+
+    this.restaurantService.updateRestaurantDetail(updateInfo).subscribe(
+      (response: ResponseModel<boolean>) => {
+        this.spinner.hide();
+
+        if (response?.status === 200) {
+          this.successModal.openSuccessModal(true, 'แก้ไขข้อมูลสำเร็จ');
+          setTimeout(() => {
+            this.isSubmit = false;
+            this.router.navigate([PageLink.restaurant.restaurantDetail]);
+          }, 200);
+        } else {
+          this.successModal.openSuccessModal(false, 'ไม่สำเร็จ โปรดลองอีกครั้ง');
+          this.isSubmit = false;
+        }
+    })
+  }
 }
