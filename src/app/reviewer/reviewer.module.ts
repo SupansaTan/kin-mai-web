@@ -15,7 +15,6 @@ import { RandomFoodComponent } from './random-food/random-food.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
 import { ModalReviewComponent } from './modal-review/modal-review.component';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NearlyRestaurantComponent } from './homepage/nearly-restaurant/nearly-restaurant.component';
 import { FilterRestaurantComponent } from './homepage/filter-restaurant/filter-restaurant.component';
 import { SharedModule } from '../shared/shared.module';
@@ -39,7 +38,6 @@ import { FavoriteRestaurantComponent } from './favorite-restaurant/favorite-rest
     ReviewerRoutingModule,
     NgbRatingModule,
     FormsModule,
-    MatButtonToggleModule,
     EllipsisModule,
     SharedModule,
     NgbCollapseModule,
