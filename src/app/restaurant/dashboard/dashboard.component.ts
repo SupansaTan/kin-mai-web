@@ -289,13 +289,14 @@ export class RestaurantDashboardComponent implements OnInit {
       this.replies.push(this.newReply(x.reviewId, x.replyComment));
     });
     this.displayReview.forEach(element => {
-      if (element.replyComment != '') {
+      if (element.replyComment != '' && element.replyComment) {
         this.formEditStatus.push(false)
       }
       else {
         this.formEditStatus.push(true)
       }
     });
+    
   }
 
   onSubmitReplyComment(i:number) {
