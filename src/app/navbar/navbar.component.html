@@ -40,16 +40,14 @@
 
             <!-- dropdown menu for reviewer -->
             <ng-container *ngIf="isReviewerAccount">
-              <li><a ngbDropdownItem role="button" routerLink="/reviewer/profile" data-cy="EditProfileBtn"><i class="bi bi-pencil-square me-2"></i>แก้ไขโปรไฟล์</a></li>
-              <li><a ngbDropdownItem role="button" (click)="routeToFavoriteRestaurant()"><i class="bi bi-heart me-2"></i>ร้านอาหารที่ถูกใจ</a></li>
-              <li><a ngbDropdownItem role="button"><i class="bi bi-key me-2"></i>เปลี่ยนรหัสผ่าน</a></li>
+              <li><a ngbDropdownItem role="button" routerLink="/reviewer/profile" data-cy="EditProfileReviewerBtn"><i class="bi bi-pencil-square me-2"></i>แก้ไขโปรไฟล์</a></li>
+              <li><a ngbDropdownItem role="button" (click)="routeToFavoriteRestaurant()" data-cy="FavBtn"><i class="bi bi-heart me-2"></i>ร้านอาหารที่ถูกใจ</a></li>
               <li><a ngbDropdownItem role="button" (click)="logout()"><i class="bi bi-box-arrow-right me-2"></i>ออกจากระบบ</a></li>
             </ng-container>
 
             <!-- dropdown menu for restaurant owner -->
             <ng-container *ngIf="!isReviewerAccount">
-              <li><a ngbDropdownItem role="button" routerLink="/restaurant/detail"><i class="bi bi-pencil-square me-2" data-cy="editBtn"></i>แก้ไขรายละเอียดร้าน</a></li>
-              <li><a ngbDropdownItem role="button"><i class="bi bi-key me-2"></i>เปลี่ยนรหัสผ่าน</a></li>
+              <li><a ngbDropdownItem role="button" routerLink="/restaurant/detail"><i class="bi bi-pencil-square me-2" data-cy="EditProfileBtn"></i>แก้ไขรายละเอียดร้าน</a></li>
               <li><a ngbDropdownItem role="button" (click)="logout()"><i class="bi bi-box-arrow-right me-2"></i>ออกจากระบบ</a></li>
             </ng-container>
           </ul>

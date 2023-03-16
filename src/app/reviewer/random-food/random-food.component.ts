@@ -1,7 +1,6 @@
 import { Router } from '@angular/router';
 import {ViewChild, Component, OnInit, ElementRef } from '@angular/core';
 import { DrinkAndDessertCategory, FoodCategory } from 'src/constant/food-category.constant';
-import Swal from 'sweetalert2';
 import { PageLink } from 'src/constant/path-link.constant';
 
 @Component({

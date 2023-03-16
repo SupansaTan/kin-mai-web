@@ -1,20 +1,20 @@
 import { AccessLevel } from 'src/enum/access-level.enum';
 import { AuthenticationService } from './../authentication/authentication.service';
-import { NavigationEnd, Router } from '@angular/router';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { AccountType } from 'src/enum/account-type.enum';
 import { LocalStorageService } from '../service/local-storage.service';
 import { PageLink } from 'src/constant/path-link.constant';
-import { filter } from 'rxjs';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit, OnDestroy {
-  private sub: any;
+export class NavbarComponent implements OnInit {
+  sub: any;
 
   username: string = '';
   isLogin: boolean = true;
@@ -30,7 +30,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private localStorageService: LocalStorageService,
-    private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
@@ -44,19 +43,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.accountType = Number(userType);
     this.isReviewerAccount = (Number(viewMode) ?? 0) === AccessLevel.Reviewer;
 
-    this.sub = this.authenticationService.handleLoginSuccessEvent
-      .subscribe((isSuccess) => {
-        console.log(isSuccess)
-        if (isSuccess) {
-          this.isLogin = true;
-        } else {
-          this.isLogin = false;
-        }
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+    this.sub = this.localStorageService.getUserIsLogin().pipe(take(1)).subscribe((status) => {
+      this.isLogin = status;
     })
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 
   changeAccountMode(nextMode: AccountType) {
@@ -81,7 +73,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   logout() {
     this.localStorageService.removeAll();
-    this.authenticationService.loginSuccessEvent(false);
     setTimeout(() => {
       this.router.navigate([PageLink.authentication.login]);
     }, 200);

@@ -14,8 +14,8 @@
 
 
   <div class="col d-flex justify-content-center mt-4">
-    <div class="position-relative">
-      <h4>วันนี้กินอะไรดีน้าาา...มาสุ่มกัน</h4>
+    <div class="position-relative text-center">
+      <h3>วันนี้กินอะไรดีน้า...คลิกเพื่อสุ่มกัน</h3>
       <img src="../../../assets/image/game.png" width="280" height="280"
         [ngClass]="{ 'isRamdomAlready': isRandomAlready }"
         role="button"
@@ -26,12 +26,10 @@
   </div>
 
   <div class="row mt-3 " *ngIf="isRandomAlready">
-    <h4 class="text-center mb-3" [class.random-result]="isRandomAlready">ประเภท: {{ randomResult.name }}</h4>
-
     <div class="col d-flex justify-content-center mt-2">
-      <button type="button" class="btn btn-yellow" data-cy="SearchRestaurantBtn" (click)="routeToHomepage()">
+      <button type="button" class="btn btn-yellow fs-5" data-cy="SearchRestaurantBtn" (click)="routeToHomepage()">
         <i class="bi bi-search-heart-fill mx-1"></i>
-        ร้าน<span class="fw-bolder">{{randomResult.name}}</span>
+        ร้าน{{randomResult.name}}
       </button>
     </div>
   </div>

@@ -2,6 +2,7 @@ export const PageLink = {
   authentication: {
     login: `auth/login`,
     register: `auth/register`,
+    forgetPassword: `auth/forgot-password`,
   },
   reviewer: {
     homepage: `reviewer`,
@@ -11,5 +12,6 @@ export const PageLink = {
   restaurant: {
     dashboard: `restaurant`,
     qrCode: `restaurant/qr-code`,
+    restaurantDetail: `restaurant/detail`
   }
 };

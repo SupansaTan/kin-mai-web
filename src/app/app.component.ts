@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
 
     // append google script
     let script = this._renderer2.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApi}&libraries=places&language=th`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApi}&libraries=places&language=th&callback=Function.prototype`;
     this._renderer2.appendChild(this._document.body, script);
   }
 }

@@ -25,6 +25,7 @@ Feature: Register Page
       | fieldName       | errorMessageType        |
       | confirmPassword | RequireConfirmPassword  |
 
+# --------------------------------------------------------------------------
   Scenario: User register as restaurant owner with valid form
     And I click register as restaurant owner
     When I complete fill in the reviewer form
