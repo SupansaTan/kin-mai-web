@@ -15,14 +15,12 @@ Feature: Restaurant Detail
     When I click "image" of restaurant
     Then I should see all "image" of restaurant
 
-  # --------------------------------------------------------
   Scenario: Reviewer invalid review
     When  I click myreview button
     And   I should see review form
     And   I click submit button
-    Then  I should see review unsuccessful
-  # -------------------------------------------------------
-  
+    Then  I should see rating is required
+
   Scenario: Reviewer add new review
     When  I click myreview button
     Then  I should see review form
@@ -81,6 +79,14 @@ Feature: Restaurant Detail
       | อร่อย      |
     And I click Picture button
     Then I should see reviews
+
+  Scenario: Reviewer can not find reviews
+    When I search in search review
+      | SearchReview |
+      | แย่ที่สุด     |
+    Then I should see dont have reviews
+    
+
 
 
 

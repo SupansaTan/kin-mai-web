@@ -4,8 +4,8 @@ Feature: Restaurant Edit Detail
   Background:
     Given I visit on login page
     When I complete fill in login form
-      | email               | password |
-      | punch3@gmail.com | 12345678 |
+      | email                    | password |
+      | natthamon200@gmail.com   | 12345678 |
     And I click on Login button
     And I should be on Restaurant homepage
     And I click dropdown menu

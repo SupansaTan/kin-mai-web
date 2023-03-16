@@ -48,6 +48,7 @@ Then('I should see all "image" of restaurant', () => {
 });
 
 //-------invalid review----------
+
 When('I click myreview button', () => {
   cy.get('[data-cy="MyReviewBtn"]').click();
 });
@@ -60,8 +61,8 @@ And('I click submit button', () => {
   cy.get('[data-cy="submitBtn"]').click();
 });
 
-Then('I should see review successful', () => {
-  cy.get('[data-cy="successModal"]').should('be.visible');
+Then('I should see rating is required', () => {
+  cy.get('.text-danger').should('be.visible');
 });
 
 //------- add review ---------
@@ -222,3 +223,13 @@ Then('I should see reviews', () => {
   cy.get('[data-cy="reviews"]').should('be.visible');
 });
 
+//--------can not find reviews------
+When ('I search in search review', (dataTable) => {
+  dataTable.hashes().forEach((item: { SearchReview : string }) => {
+    cy.get(`[data-cy="SearchReview"]`).type(item.SearchReview, {force: true});
+  });
+});
+
+Then('I should see dont have reviews', () => {
+  cy.get('[data-cy="Noreviews"]').should('be.visible');
+});

@@ -57,7 +57,7 @@ Then('I should see love button change',() =>{
   cy.get('[data-cy="LoveBtn"]').should('be.visible');
 });
 
-//----- cant find restaurant------
+//----- can't find restaurant------
 When ('I search in a search box', (dataTable) => {
   dataTable.hashes().forEach((item: { searchbox : string }) => {
     cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
@@ -118,9 +118,8 @@ And('I click submit button', () => {
   cy.get('[data-cy="submitBtn"]').click();
 });
 
-Then('I should see review unsuccessful', () => {
-  // cy.wait(3000);
-  cy.get('[data-cy="unsuccessModal"]').should('be.visible');
+Then('I should see rating is required', () => {
+  cy.get('.text-danger').should('be.visible');
 });
 
 
@@ -214,7 +213,7 @@ Then('I should see review form', () => {
 });
 
 When('I rates stars', () => {
-  cy.get('[data-cy="star"]').eq(3).click({force:true});
+  cy.get('[data-cy="star"]').eq(2).click({force:true});
 });
 
 And('I click comment words button', () => {

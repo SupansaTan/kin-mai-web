@@ -71,6 +71,17 @@ Then('I should see QR code image', () => {
   cy.get('[data-cy="SaveImgBtn"]').should('be.visible');
 });
 
+//-----can not find review-----//
+// When ('I search in search review', (dataTable) => {
+//   dataTable.hashes().forEach((item: { SearchReview : string }) => {
+//     cy.get(`[data-cy="SearchReview"]`).type(item.SearchReview, {force: true});
+//   });
+// });
+
+// Then('I should see dont have reviews', () => {
+//   cy.get('[data-cy="reviewForm"]').should('be.visible');
+// });
+
 // --------- Search review--------
 When ('I search "อร่อย" in search review', (dataTable) => {
   dataTable.hashes().forEach((item: { SearchReview : string }) => {
@@ -162,6 +173,19 @@ And('I click reset button', () => {
 Then('I should see reviews', () => {
   cy.get('[data-cy="reviewForm"]').should('be.visible');
 });
+
+//----invalid reply----
+// When('I click answer box', () => {
+//   cy.get('[data-cy="AnswerBox"]').first().click();
+// });
+
+// And('I click reply button', () => {
+//   cy.get('[data-cy="ReplyBtn"]').first().click();
+// });
+
+// Then('I should see reply is required', () => {
+//   cy.get('[data-cy="successModal"]').should('be.visible');
+// });
 
 //------ reply review -----
 When('I click answer box', () => {

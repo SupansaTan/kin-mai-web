@@ -36,7 +36,6 @@ Feature: Reviewer Homepage
     And  I click food categories
     Then I should see list of "restaurant" near me
 
-  #-------------------------------------------------------- 
   Scenario: Reviewer invalid review 
     When  I search in a search box
       | searchbox |
@@ -46,8 +45,7 @@ Feature: Reviewer Homepage
     When  I click MyReview button
     And   I should see review form
     And   I click submit button
-    Then  I should see review unsuccessful
-  #-----------------------------------------------------------
+    Then  I should see rating is required
 
   Scenario: Reviewer add new review
     When  I search in a search box

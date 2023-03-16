@@ -4,8 +4,8 @@ Feature: Restaurant Homepage
    Background:
     Given I visit on login page
     When  I complete fill in login form
-      | email               | password |
-      | punch3@gmail.com  | 12345678 |
+      | email                    | password |
+      | natthamon200@gmail.com   | 12345678 |
     And I click on Login button
     And I should be on Restaurant homepage
 
@@ -22,9 +22,14 @@ Feature: Restaurant Homepage
     And   I should see QR code
     When  I click save image
     Then  I should see QR code image
+  
+  # Scenario: Owner can not find review
+  #   When I search in search review
+  #     | SearchReview |
+  #     | อะไรกันครับเนี่ย     |
+  #   Then I should see dont have reviews
 
-
-  Scenario: Owner search review
+  Scenario: Owner can search review
     When I search "อร่อย" in search review
       | SearchReview |
       | อร่อย      |
@@ -63,6 +68,11 @@ Feature: Restaurant Homepage
     And I select star
     And I click reset button
     Then I should see reviews
+  
+  # Scenario: Owner invalid reply
+  #   When I click answer box
+  #   And I click reply button
+  #   Then I should see reply is required
 
   Scenario: Owner reply review
     When I click answer box
