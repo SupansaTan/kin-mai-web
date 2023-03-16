@@ -32,7 +32,7 @@ export class EditUploadPhotoComponent implements OnInit {
 
   ngOnInit(): void {
     this.uploadPhotoForm.controls['restaurantStatus'].setValue(this.restaurantPhotoData.restaurantStatus);
-    
+    this.restaurantImageList = this.restaurantPhotoData.imageLink;
   }
 
   @Input()

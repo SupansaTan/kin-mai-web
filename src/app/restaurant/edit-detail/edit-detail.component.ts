@@ -67,11 +67,12 @@ export class EditRestaurantDetailComponent implements OnInit {
   changeToNextStage() {
     switch(this.stage) {
       case 1:
-        // this.restaurantInfo.checkFormIsValid();
+        this.restaurantInfo.checkFormIsValid();
         this.stage = 2
         break;
       case 2:
         this.stage = 3
+        this.uploadPhoto.checkFormIsValid();
         break;
     }
   }
@@ -86,6 +87,7 @@ export class EditRestaurantDetailComponent implements OnInit {
           this.restaurantInfoForm.minPriceRate = data.restaurantInfo.minPriceRate
           this.restaurantInfoForm.paymentMethods = data.restaurantInfo.paymentMethod
           this.restaurantInfoForm.restaurantType = data.restaurantInfo.restaurantType
+          this.restaurantInfoForm.deliveryType = data.restaurantInfo.deliveryType
 
           this.restaurantInfoForm.address = new RestaurantAddressModel()
           this.restaurantInfoForm.address.address = data.restaurantInfo.address.slice(1,-1)
@@ -126,37 +128,13 @@ export class EditRestaurantDetailComponent implements OnInit {
     this.router.navigate(['restaurant/detail'])
   }
 
-  restaurantInfoFormValue(restaurantInfo: RestaurantInfoModel) {
+  set restaurantInfoFormValue(restaurantInfo: RestaurantInfoModel) {
     this.restaurantInfoForm = restaurantInfo;
   }
 
   set restaurantPhotoFormValue(restaurantPhoto: ResUpdatePhotoModel) {
     this.restaurantPhotoForm = restaurantPhoto;
   }
-
-
-  // getRestaurantDetail() {
-  //   this.restaurantService.getRestaurantDetail(this.restaurantId).subscribe(
-  //     (response: ResponseModel<RestaurantDetailModel>) => {
-  //       if (response && response?.status === 200) {
-  //         let data = response.data
-  //         this.restaurantDetailData.restaurantInfo.name = data.restaurantInfo.name;
-  //         this.restaurantDetailData.restaurantInfo.minPriceRate = data.restaurantInfo.minPriceRate;
-  //         this.restaurantDetailData.restaurantInfo.maxPriceRate = data.restaurantInfo.maxPriceRate;
-  //         this.restaurantDetailData.restaurantInfo.address = data.restaurantInfo.address;
-  //         this.restaurantDetailData.restaurantInfo.latitude = data.restaurantInfo.latitude;
-  //         this.restaurantDetailData.restaurantInfo.longitude = data.restaurantInfo.longitude;
-  //         this.restaurantDetailData.restaurantInfo.restaurantType = data.restaurantInfo.restaurantType;
-  //         this.restaurantDetailData.restaurantInfo.deliveryType = data.restaurantInfo.deliveryType;
-  //         this.restaurantDetailData.categories = data.categories;
-  //         this.restaurantDetailData.restaurantInfo.paymentMethod = data.restaurantInfo.paymentMethod;
-  //         this.restaurantDetailData.socialContact = data.socialContact;
-  //         this.restaurantDetailData.businessHours = data.businessHours;
-  //         this.restaurantPhotoData.restaurantStatus = data.restaurantInfo.description;
-  //         this.restaurantPhotoData.imageLink = data.restaurantInfo.imageLink;
-  //       }
-  //   })
-  // }
 
 
   submit() {
