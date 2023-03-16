@@ -86,19 +86,19 @@ export class ResBusinessHourModel
   closeTime: Date;
 }
 
-export class RestaurantUpdateDetail
+export class ResUpdatePhotoModel
 {
-  restaurantId: string;
-  resUpdateInfo: RestaurantInfoModel;
-  RemoveImageLink?: Array<string>;
-  NewImageFile: Array<File>;
-  RestaurantStatus?: string
+  imageLink: Array<string>;
+  removeImg: Array<string>;
+  newImg: Array<File>;
+  restaurantStatus: string;
 }
 
-export class RestaurantUpdatePhotoModel
+export class RestaurantUpdateModel
 {
-  removeImage: Array<string>;
-  imageLink: Array<string>;
-  newImage: Array<File>;
-  restaurantStatus?: string
+  RestaurantId: string
+  ResUpdateInfo: RestaurantInfoModel
+  RemoveImageLink: Array<string>
+  NewImageFile: Array<File>
+  RestaurantStatus: string
 }

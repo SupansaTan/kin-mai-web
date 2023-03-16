@@ -28,7 +28,7 @@ export class EditRestaurantInfoComponent implements OnInit {
 
   @Output() isFormValid = new EventEmitter<boolean>();
   @Output() restaurantInfoFormValue = new EventEmitter<RestaurantInfoModel>();
-  @Input() detailData: RestaurantDetailModel;
+  @Input() restaurantInfoData : RestaurantInfoModel;
 
   updateRestaurantForm: FormGroup;
   deliveryTypeInput: FormControl = new FormControl([]);
@@ -59,55 +59,55 @@ export class EditRestaurantInfoComponent implements OnInit {
     private restaurantService: RestaurantService,
     private localStorageService: LocalStorageService,
     ) {
-    // this.updateRestaurantForm = this.fb.group({
-    //   restaurantName: new FormControl('', [
-    //     Validators.minLength(3),
-    //     Validators.required
-    //   ]),
-    //   minPriceRate: new FormControl('', [
-    //     Validators.minLength(1),
-    //     Validators.required
-    //   ]),
-    //   maxPriceRate: new FormControl('', [
-    //     Validators.minLength(1),
-    //     Validators.required
-    //   ]),
-    //   address: new FormControl('', [
-    //     Validators.required
-    //   ]),
-    //   restaurantType: new FormControl(null, [
-    //     Validators.required
-    //   ]),
-    //   foodCategory: new FormControl([]),
-    //   deliveryType: new FormControl([]),
-    //   paymentMethod: new FormControl([]),
-    //   socialContact: this.fb.array([]),
-    //   businessHour: this.fb.array([
-    //     this.fb.group({
-    //       day: new FormControl(null, [
-    //         Validators.required
-    //       ]),
-    //       startTime: new FormControl(null, [
-    //         Validators.required
-    //       ]),
-    //       endTime: new FormControl(null, [
-    //         Validators.required
-    //       ]),
-    //     }, {
-    //       validators: this.timeRageValidator
-    //     })
-    //   ])
-    // })
+    this.updateRestaurantForm = this.fb.group({
+      restaurantName: new FormControl('', [
+        Validators.minLength(3),
+        Validators.required
+      ]),
+      minPriceRate: new FormControl('', [
+        Validators.minLength(1),
+        Validators.required
+      ]),
+      maxPriceRate: new FormControl('', [
+        Validators.minLength(1),
+        Validators.required
+      ]),
+      address: new FormControl('', [
+        Validators.required
+      ]),
+      restaurantType: new FormControl(null, [
+        Validators.required
+      ]),
+      foodCategory: new FormControl([]),
+      deliveryType: new FormControl([]),
+      paymentMethod: new FormControl([]),
+      socialContact: this.fb.array([]),
+      businessHour: this.fb.array([
+        // this.fb.group({
+        //   day: new FormControl(null, [
+        //     Validators.required
+        //   ]),
+        //   startTime: new FormControl(null, [
+        //     Validators.required
+        //   ]),
+        //   endTime: new FormControl(null, [
+        //     Validators.required
+        //   ]),
+        // }, {
+        //   validators: this.timeRageValidator
+        // })
+      ])
+    })
   }
 
   ngOnInit(): void {
     this.getUserCurrentLocation();
-    this.apiLoaded = this.httpClient
-      .jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApi}`, 'callback')
-      .pipe(
-        map(() => true),
-        catchError(() => of(false)),
-      );
+    // this.apiLoaded = this.httpClient
+    //   .jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApi}`, 'callback')
+    //   .pipe(
+    //     map(() => true),
+    //     catchError(() => of(false)),
+    //   );
     // set google map options
     this.options = {
       center: {
@@ -119,8 +119,48 @@ export class EditRestaurantInfoComponent implements OnInit {
       mapTypeControl: false,
       fullscreenControl: false,
     };
-    this.restaurantId = this.localStorageService.get<string>(LocalStorageKey.restaurantId) ?? '';
-    this.getRestaurantDetailToForm()
+    
+    this.updateRestaurantForm.controls['restaurantName'].setValue(this.restaurantInfoData.restaurantName)
+    this.updateRestaurantForm.controls['minPriceRate'].setValue(this.restaurantInfoData.minPriceRate)
+    this.updateRestaurantForm.controls['maxPriceRate'].setValue(this.restaurantInfoData.maxPriceRate)
+    this.updateRestaurantForm.controls['address'].setValue(this.restaurantInfoData.address.address)
+    this.updateRestaurantForm.controls['restaurantType'].setValue(this.restaurantInfoData.restaurantType)
+    this.updateRestaurantForm.controls['foodCategory'].setValue(this.restaurantInfoData.categories)
+    this.updateRestaurantForm.controls['deliveryType'].setValue(this.restaurantInfoData.deliveryType?? [])
+    this.updateRestaurantForm.controls['paymentMethod'].setValue(this.restaurantInfoData.paymentMethods?? [])
+    
+    this.restaurantInfoData.businessHours.forEach(x => {
+      let item = this.fb.group({
+        day: new FormControl(x.day, [
+          Validators.required
+        ]),
+        startTime: new FormControl(String(x.startTime).slice(0,5), [
+          Validators.required
+        ]),
+        endTime: new FormControl(String(x.endTime).slice(0,5), [
+          Validators.required
+        ]),
+      }, {
+        validators: this.timeRageValidator
+      })
+      this.BusinessHourArray.push(item)
+    })
+
+    this.restaurantInfoData.contact.forEach(x => {
+      let item = this.fb.group({
+        contact: new FormControl(x.social, [
+          Validators.required
+        ]),
+        contactValue: new FormControl(x.contactValue, [
+          Validators.required
+        ]),
+      }, {
+        validators: this.timeRageValidator
+      })
+      this.SocialContactArray.push(item)
+    })
+    
+
   }
 
   @Input()
@@ -138,95 +178,95 @@ export class EditRestaurantInfoComponent implements OnInit {
     return this.currentStage;
   }
 
-  getRestaurantDetailToForm() {
-    this.updateRestaurantForm = this.fb.group({
-      restaurantName: new FormControl(this.detailData.restaurantInfo.name, [
-        Validators.minLength(3),
-        Validators.required
-      ]),
-      minPriceRate: new FormControl(this.detailData.restaurantInfo.minPriceRate, [
-        Validators.minLength(1),
-        Validators.required
-      ]),
-      maxPriceRate: new FormControl(this.detailData.restaurantInfo.maxPriceRate, [
-        Validators.minLength(1),
-        Validators.required
-      ]),
-      address: new FormControl(this.detailData.restaurantInfo.address, [
-        Validators.required
-      ]),
-      restaurantType: new FormControl(this.detailData.restaurantInfo.restaurantType, [
-        Validators.required
-      ]),
-      foodCategory: new FormControl(this.detailData.categories),
-      deliveryType: new FormControl(this.detailData.restaurantInfo.deliveryType),
-      paymentMethod: new FormControl(this.detailData.restaurantInfo.paymentMethod),
-      socialContact: this.fb.array(this.detailData.socialContact),
-      businessHour: this.fb.array([
-        this.fb.group({
-          day: new FormControl(null, [
-            Validators.required
-          ]),
-          startTime: new FormControl(null, [
-            Validators.required
-          ]),
-          endTime: new FormControl(null, [
-            Validators.required
-          ]),
-        }, {
-          validators: this.timeRageValidator
-        })
-      ])
-    })
-    if (this.BusinessHourArray.valid) {
-      this.detailData.businessHours.forEach(x => {
-        const newBusinessHourForm = this.fb.group({
-          day: new FormControl(x.day, [
-            Validators.required
-          ]),
-          startTime: new FormControl(x.openTime, [
-            Validators.required
-          ]),
-          endTime: new FormControl(x.closeTime, [
-            Validators.required
-          ]),
-        }, {
-          validators: this.timeRageValidator
-        });
-        this.BusinessHourArray.push(newBusinessHourForm);
-      });
-    }
-    if (this.SocialContactArray.valid) {
-      this.detailData.socialContact.forEach(x => {
-        const newSocialContactForm = this.fb.group({
-          contact: new FormControl(x.socialType, [
-            Validators.required,
-          ]),
-          contactValue: new FormControl(x.contactValue, [
-            Validators.required,
-          ])
-        })
-        this.SocialContactArray.push(newSocialContactForm);
-      });
-    }
-  }
+  // getRestaurantDetailToForm() {
+  //   this.updateRestaurantForm = this.fb.group({
+  //     restaurantName: new FormControl(this.detailData.restaurantInfo.name, [
+  //       Validators.minLength(3),
+  //       Validators.required
+  //     ]),
+  //     minPriceRate: new FormControl(this.detailData.restaurantInfo.minPriceRate, [
+  //       Validators.minLength(1),
+  //       Validators.required
+  //     ]),
+  //     maxPriceRate: new FormControl(this.detailData.restaurantInfo.maxPriceRate, [
+  //       Validators.minLength(1),
+  //       Validators.required
+  //     ]),
+  //     address: new FormControl(this.detailData.restaurantInfo.address, [
+  //       Validators.required
+  //     ]),
+  //     restaurantType: new FormControl(this.detailData.restaurantInfo.restaurantType, [
+  //       Validators.required
+  //     ]),
+  //     foodCategory: new FormControl(this.detailData.categories),
+  //     deliveryType: new FormControl(this.detailData.restaurantInfo.deliveryType),
+  //     paymentMethod: new FormControl(this.detailData.restaurantInfo.paymentMethod),
+  //     socialContact: this.fb.array(this.detailData.socialContact),
+  //     businessHour: this.fb.array([
+  //       this.fb.group({
+  //         day: new FormControl(null, [
+  //           Validators.required
+  //         ]),
+  //         startTime: new FormControl(null, [
+  //           Validators.required
+  //         ]),
+  //         endTime: new FormControl(null, [
+  //           Validators.required
+  //         ]),
+  //       }, {
+  //         validators: this.timeRageValidator
+  //       })
+  //     ])
+  //   })
+  //   if (this.BusinessHourArray.valid) {
+  //     this.detailData.businessHours.forEach(x => {
+  //       const newBusinessHourForm = this.fb.group({
+  //         day: new FormControl(x.day, [
+  //           Validators.required
+  //         ]),
+  //         startTime: new FormControl(x.openTime, [
+  //           Validators.required
+  //         ]),
+  //         endTime: new FormControl(x.closeTime, [
+  //           Validators.required
+  //         ]),
+  //       }, {
+  //         validators: this.timeRageValidator
+  //       });
+  //       this.BusinessHourArray.push(newBusinessHourForm);
+  //     });
+  //   }
+  //   if (this.SocialContactArray.valid) {
+  //     this.detailData.socialContact.forEach(x => {
+  //       const newSocialContactForm = this.fb.group({
+  //         contact: new FormControl(x.socialType, [
+  //           Validators.required,
+  //         ]),
+  //         contactValue: new FormControl(x.contactValue, [
+  //           Validators.required,
+  //         ])
+  //       })
+  //       this.SocialContactArray.push(newSocialContactForm);
+  //     });
+  //   }
+  // }
 
   getUserCurrentLocation() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        this.setMapCoordinate();
-      },
-      (err) => {
-        // User not allowed to get current position
-        // set coordinates at Bangkok, Thailand
-        this.lat = 13.736717;
-        this.lng = 100.523186;
-        this.setMapCoordinate();
-      },
-      {timeout:10000}
-    );
+    // navigator.geolocation.getCurrentPosition(
+    //   (position) => {
+    //     this.lat = position.coords.latitude;
+    //     this.lng = position.coords.longitude;
+    //     this.setMapCoordinate();
+    //   },
+    //   (err) => {
+    //     // User not allowed to get current position
+    //     // set coordinates at Bangkok, Thailand
+    //     this.lat = 13.736717;
+    //     this.lng = 100.523186;
+    //     this.setMapCoordinate();
+    //   },
+    //   {timeout:10000}
+    // );
   }
 
   setMapCoordinate() {
@@ -266,14 +306,14 @@ export class EditRestaurantInfoComponent implements OnInit {
 
   getAddressFromMarker() {
     let geocodeRequest = { 'location': this.markerPositions, 'language': 'th' };
-    this.geocoder
-      .geocode(geocodeRequest)
-      .subscribe((response: MapGeocoderResponse) => {
-        if (response.status === 'OK') {
-          let address = response.results[0].formatted_address;
-          this.formatAddress = address;
-        }
-    });
+    // this.geocoder
+    //   .geocode(geocodeRequest)
+    //   .subscribe((response: MapGeocoderResponse) => {
+    //     if (response.status === 'OK') {
+    //       let address = response.results[0].formatted_address;
+    //       this.formatAddress = address;
+    //     }
+    // });
   }
 
   setRestaurantAddress() {

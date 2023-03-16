@@ -4,7 +4,7 @@
         <!-- upload photo of menu or restaurant -->
         <div class="col">
 
-          <div *ngIf="stage != 3">
+          <div *ngIf="stage == 2">
             <label class="form-label fw-semibold">อัพโหลดรูปภาพเมนูหรือร้านอาหาร <span class="text-danger">*</span></label>
             <p class="px-3 mb-1"><i class="bi bi-dot"></i>สามารถกดค้างและลาก เพื่อจัดอันดับของรูปภาพ</p>
             <p class="px-3 mb-1"><i class="bi bi-dot"></i>รูปแรกเป็นรูปหน้าปกร้าน</p>
@@ -22,13 +22,13 @@
                     class="rounded-2 shadow-sm"
                     style="width: auto; height: 93px; object-fit: cover;"
                   />
-                  <i class="bi bi-x bg-danger text-white rounded-circle position-absolute remove" (click)="removeImage(i)" [hidden]="stage === 4"></i>
+                  <i class="bi bi-x bg-danger text-white rounded-circle position-absolute remove" (click)="removeImage(i)" [hidden]="stage === 3"></i>
                 </div>
               </div>
             </ng-container>
   
             <!-- upload image button -->
-            <label *ngIf="stage != 3" role="button" for="photo"
+            <label *ngIf="stage == 2" role="button" for="photo"
               class="bg-light-grey rounded-2 py-3 px-2 d-flex align-items-center justify-content-center flex-column shadow-sm mt-1 upload-image mt-3"
               [ngClass]="{ 'border-danger': uploadPhotoForm.controls['photo'].invalid && uploadPhotoForm.controls['photo'].touched }">
               <i class="bi bi-camera-fill" style="font-size: 25px;"></i>

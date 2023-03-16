@@ -16,7 +16,6 @@ export class ListReviewInfoModel{
   reviews: Array<ReviewInfoModel>;
 }
 
-
 export class GetReviewInfoRequest {
   userId: string;
   restaurantId: string;
