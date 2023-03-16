@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { GetReviewInfoRequest, ReviewInfoModel } from 'src/models/review-info.model';
+import { GetReviewInfoRequest, ListReviewInfoModel, ReviewInfoModel } from 'src/models/review-info.model';
 import { RestaurantService } from '../restaurant.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
@@ -66,16 +66,17 @@ export class DetailComponent implements OnInit {
 
   getRestaurantReviews() {
     this.restaurantService.getRestaurantReviews(this.restaurantId).subscribe(
-      (response: ResponseModel<Array<ReviewInfoModel>>) => {
+      (response: ResponseModel<ListReviewInfoModel>) => {
         if (response && response?.status === 200) {
-          this.Reviews = response.data;
-
+          this.Reviews = response.data.reviews;
+          
           if (this.Reviews.length != 0) {
             this.TotalReview = this.Reviews.length
             let ratingCount = 0;
+            
             this.Reviews.forEach(x => {
               ratingCount += x.rating
-              this.RecommendMenu = (x.foodRecommendList.length != 0)? [ ...this.RecommendMenu, ...(x.foodRecommendList)] : this.RecommendMenu
+              this.RecommendMenu = (x.foodRecommendList != null)? [ ...this.RecommendMenu, ...(x.foodRecommendList)] : this.RecommendMenu
             });
             this.RecommendMenu = [...new Set(this.RecommendMenu)];
             this.Rating = ratingCount/this.Reviews.length
