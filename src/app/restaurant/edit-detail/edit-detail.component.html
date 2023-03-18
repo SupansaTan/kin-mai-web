@@ -31,16 +31,15 @@
 
 
   <!-- register reviewer form -->
-  <ng-container *ngIf="(stage === 1) || (stage === 3) && test!=''">
-    <div>Info</div>
+  <ng-container *ngIf="(stage === 1) || (stage === 3)">
       <app-edit-restaurant-info #restaurantInfo (isFormValid)="changeStage($event)"
-          (restaurantInfoFormValue)="restaurantInfoFormValue" [stage]="stage" [restaurantInfoData]="restaurantInfoForm">
+          (restaurantInfoFormValue)="restaurantInfoFormValue($event)" [stage]="stage" [restaurantInfoData]="restaurantInfoForm">
       </app-edit-restaurant-info>
   </ng-container>
     
   <ng-container *ngIf="(stage === 2) || (stage === 3)">
-      <app-edit-upload-photo #restaurantPhoto (isFormValid)="changeStage($event)"
-          (restaurantPhotoFormValue)="restaurantPhotoFormValue" [stage]="stage" [restaurantPhotoData]="restaurantPhotoForm">
+      <app-edit-upload-photo #uploadPhoto (isFormValid)="changeStage($event)"
+          (uploadPhotoFormValue)="restaurantPhotoFormValue($event)" [stage]="stage" [restaurantPhotoData]="restaurantPhotoForm">
       </app-edit-upload-photo>
   </ng-container>
     
@@ -54,6 +53,7 @@
         </button>
         <button type="button" class="btn btn-yellow px-5 mx-2" data-cy="nextBtn"
           (click)="stage === 3? submit(): changeToNextStage()"
+          [disabled]="stage === 3 && isSubmit"
         >
           {{ stage === 3? 'ยืนยัน' : 'ถัดไป' }}
         </button>

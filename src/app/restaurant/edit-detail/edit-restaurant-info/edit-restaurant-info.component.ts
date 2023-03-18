@@ -5,7 +5,7 @@ import { DeliveryType } from 'src/constant/delivery-type.constant';
 import { PaymentMethod } from 'src/constant/payment-method.constant';
 import { DrinkAndDessertCategory, FoodCategory } from 'src/constant/food-category.constant';
 import { RestaurantType } from 'src/constant/restaurant-type.constant';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { DayList } from 'src/constant/day-list.constant';
 import { RestaurantTypeEnum } from 'src/enum/restaurant-type.enum';
@@ -49,6 +49,7 @@ export class EditRestaurantInfoComponent implements OnInit {
   options: google.maps.MapOptions;
   markerOptions: google.maps.MarkerOptions = {draggable: true};
   markerPositions: google.maps.LatLngLiteral;
+  map: google.maps.Map;
 
   restaurantId: string;
 
@@ -87,33 +88,17 @@ export class EditRestaurantInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUserCurrentLocation();
-    // this.apiLoaded = this.httpClient
-    //   .jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApi}`, 'callback')
-    //   .pipe(
-    //     map(() => true),
-    //     catchError(() => of(false)),
-    //   );
-    // set google map options
-    this.options = {
-      center: {
-        lat: 13.736717,
-        lng: 100.523186
-      },
-      zoom: 15,
-      streetViewControl: false,
-      mapTypeControl: false,
-      fullscreenControl: false,
-    };
-    
     this.updateRestaurantForm.controls['restaurantName'].setValue(this.restaurantInfoData.restaurantName)
     this.updateRestaurantForm.controls['minPriceRate'].setValue(this.restaurantInfoData.minPriceRate)
     this.updateRestaurantForm.controls['maxPriceRate'].setValue(this.restaurantInfoData.maxPriceRate)
     this.updateRestaurantForm.controls['address'].setValue(this.restaurantInfoData.address.address)
     this.updateRestaurantForm.controls['restaurantType'].setValue(this.restaurantInfoData.restaurantType)
-    this.updateRestaurantForm.controls['foodCategory'].setValue(this.restaurantInfoData.categories)
-    this.updateRestaurantForm.controls['deliveryType'].setValue(this.restaurantInfoData.deliveryType?? [])
-    this.updateRestaurantForm.controls['paymentMethod'].setValue(this.restaurantInfoData.paymentMethods?? [])
+    this.updateRestaurantForm.controls['foodCategory'].setValue((this.restaurantInfoData.categories.length!=0)? this.restaurantInfoData.categories: [])
+    this.updateRestaurantForm.controls['deliveryType'].setValue((this.restaurantInfoData.deliveryType.length!=0)? this.restaurantInfoData.deliveryType: [])
+    this.updateRestaurantForm.controls['paymentMethod'].setValue((this.restaurantInfoData.paymentMethods.length!=0)? this.restaurantInfoData.paymentMethods: [])
+    
+    // this.lat = this.restaurantInfoData.address.latitude
+    // this.lng = this.restaurantInfoData.address.longitude
     
     this.restaurantInfoData.businessHours.forEach(x => {
       let item = this.fb.group({
@@ -126,10 +111,9 @@ export class EditRestaurantInfoComponent implements OnInit {
         endTime: new FormControl(String(x.endTime).slice(0,5), [
           Validators.required
         ]),
-      }, {
-        validators: this.timeRageValidator
-      })
-      this.BusinessHourArray.push(item)
+      });
+      this.BusinessHourArray.markAllAsTouched();
+      this.BusinessHourArray.push(item);
     })
 
     this.restaurantInfoData.contact.forEach(x => {
@@ -140,11 +124,29 @@ export class EditRestaurantInfoComponent implements OnInit {
         contactValue: new FormControl(x.contactValue, [
           Validators.required
         ]),
-      }, {
-        validators: this.timeRageValidator
       })
       this.SocialContactArray.push(item)
     })
+
+
+    this.getUserCurrentLocation();
+    this.apiLoaded = this.httpClient
+      .jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApi}`, 'callback')
+      .pipe(
+        map(() => true),
+        catchError(() => of(false)),
+      );
+    // set google map options
+    this.options = {
+      center: {
+        lat: 13.736717,
+        lng: 100.523186
+      },
+      zoom: 15,
+      streetViewControl: false,
+      mapTypeControl: false,
+      fullscreenControl: false,
+    };
   }
 
   @Input()
@@ -163,21 +165,21 @@ export class EditRestaurantInfoComponent implements OnInit {
   }
 
   getUserCurrentLocation() {
-    // navigator.geolocation.getCurrentPosition(
-    //   (position) => {
-    //     this.lat = position.coords.latitude;
-    //     this.lng = position.coords.longitude;
-    //     this.setMapCoordinate();
-    //   },
-    //   (err) => {
-    //     // User not allowed to get current position
-    //     // set coordinates at Bangkok, Thailand
-    //     this.lat = 13.736717;
-    //     this.lng = 100.523186;
-    //     this.setMapCoordinate();
-    //   },
-    //   {timeout:10000}
-    // );
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        this.setMapCoordinate();
+      },
+      (err) => {
+        // User not allowed to get current position
+        // set coordinates at Bangkok, Thailand
+        this.lat = 13.736717;
+        this.lng = 100.523186;
+        this.setMapCoordinate();
+      },
+      {timeout:10000}
+    );
   }
 
   setMapCoordinate() {
@@ -193,8 +195,7 @@ export class EditRestaurantInfoComponent implements OnInit {
     };
   }
 
-  // addMarker(event: google.maps.MapMouseEvent) {
-  addMarker(event: any) {
+  addMarker(event: google.maps.MapMouseEvent) {
     let position = event.latLng?.toJSON();
     if (position) {
       this.markerPositions = position;
@@ -203,8 +204,7 @@ export class EditRestaurantInfoComponent implements OnInit {
     }
   }
 
-  // setMarkerPosition(event: google.maps.MapMouseEvent) {
-  setMarkerPosition(event: any) {
+  setMarkerPosition(event: google.maps.MapMouseEvent) {
     let position = event.latLng?.toJSON();
     if (position) {
       this.lat = position.lat;
@@ -217,14 +217,14 @@ export class EditRestaurantInfoComponent implements OnInit {
 
   getAddressFromMarker() {
     let geocodeRequest = { 'location': this.markerPositions, 'language': 'th' };
-    // this.geocoder
-    //   .geocode(geocodeRequest)
-    //   .subscribe((response: MapGeocoderResponse) => {
-    //     if (response.status === 'OK') {
-    //       let address = response.results[0].formatted_address;
-    //       this.formatAddress = address;
-    //     }
-    // });
+    this.geocoder
+      .geocode(geocodeRequest)
+      .subscribe((response: MapGeocoderResponse) => {
+        if (response.status === 'OK') {
+          let address = response.results[0].formatted_address;
+          this.formatAddress = address;
+        }
+    });
   }
 
   setRestaurantAddress() {
@@ -436,6 +436,7 @@ export class EditRestaurantInfoComponent implements OnInit {
     restaurantInfo.address.address = this.updateRestaurantForm.controls['address'].value;
     restaurantInfo.address.latitude = this.lat;
     restaurantInfo.address.longitude = this.lng;
+    restaurantInfo.address.markerPosition = this.markerPositions;
 
     for (let i=0; i<this.BusinessHourArray.length; i++) {
       const businessHour = this.BusinessHourArray.controls[i] as FormGroup;
@@ -459,10 +460,8 @@ export class EditRestaurantInfoComponent implements OnInit {
   checkFormIsValid() {
     this.updateRestaurantForm.markAllAsTouched();
     this.updateRestaurantForm.enable();
-
-    // if (this.updateRestaurantForm.valid && this.markerPositions) {
-    if (this.updateRestaurantForm.valid) {
-      console.log(2);
+    
+    if (this.updateRestaurantForm.valid && this.markerPositions) {
       let restaurantInfo = this.getRestaurantInfo();
       this.updateRestaurantForm.disable();
       this.restaurantInfoFormValue.emit(restaurantInfo);

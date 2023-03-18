@@ -7,13 +7,14 @@ import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-succes
 import { EditReataurantStepItems } from 'src/models/step-item.model';
 import { EditUploadPhotoComponent } from './edit-upload-photo/edit-upload-photo.component';
 import { Router } from '@angular/router';
-import { ResBusinessHourModel, ResUpdatePhotoModel, RestaurantDetailModel } from 'src/models/restaurant-info.model';
+import { ResBusinessHourModel, ResUpdatePhotoModel, RestaurantDetailModel, RestaurantUpdateModel } from 'src/models/restaurant-info.model';
 import { ResponseModel } from 'src/models/response.model';
 import { RestaurantService } from '../restaurant.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { FoodCategories } from 'src/enum/food-category.enum';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { PageLink } from 'src/constant/path-link.constant';
 
 @Component({
   selector: 'app-edit-detail',
@@ -30,10 +31,12 @@ export class EditRestaurantDetailComponent implements OnInit {
   steps: Array<StepItem> = new Array<StepItem>();
   stage: number = 1;
   isFormValid: boolean = true;
-  restaurantInfoForm: RestaurantInfoModel = new RestaurantInfoModel();
-  restaurantPhotoForm: ResUpdatePhotoModel = new ResUpdatePhotoModel();
+  isSubmit: boolean = false;
+
+  restaurantInfoForm: RestaurantInfoModel;
+  restaurantPhotoForm: ResUpdatePhotoModel;
+
   restaurantId: string;
-  test : string;
   isLoading: boolean = true;
   
   constructor(
@@ -59,8 +62,6 @@ export class EditRestaurantDetailComponent implements OnInit {
   changeToPreviousStage() {
     if (this.stage > 1) {
       this.stage -= 1;
-    } else {
-      this.onResetUserType.emit();
     }
   }
 
@@ -68,10 +69,8 @@ export class EditRestaurantDetailComponent implements OnInit {
     switch(this.stage) {
       case 1:
         this.restaurantInfo.checkFormIsValid();
-        this.stage = 2
         break;
       case 2:
-        this.stage = 3
         this.uploadPhoto.checkFormIsValid();
         break;
     }
@@ -82,42 +81,46 @@ export class EditRestaurantDetailComponent implements OnInit {
       (response: ResponseModel<RestaurantDetailModel>) => {
         if (response && response?.status === 200) {
           let data = response.data
-          this.restaurantInfoForm.restaurantName = data.restaurantInfo.name
-          this.restaurantInfoForm.maxPriceRate = data.restaurantInfo.maxPriceRate
-          this.restaurantInfoForm.minPriceRate = data.restaurantInfo.minPriceRate
-          this.restaurantInfoForm.paymentMethods = data.restaurantInfo.paymentMethod
-          this.restaurantInfoForm.restaurantType = data.restaurantInfo.restaurantType
-          this.restaurantInfoForm.deliveryType = data.restaurantInfo.deliveryType
+          let resInfo = new RestaurantInfoModel();
+          resInfo.restaurantName = data.restaurantInfo.name
+          resInfo.maxPriceRate = data.restaurantInfo.maxPriceRate
+          resInfo.minPriceRate = data.restaurantInfo.minPriceRate
+          resInfo.paymentMethods = data.restaurantInfo.paymentMethod
+          resInfo.restaurantType = data.restaurantInfo.restaurantType
+          resInfo.deliveryType = data.restaurantInfo.deliveryType
 
-          this.restaurantInfoForm.address = new RestaurantAddressModel()
-          this.restaurantInfoForm.address.address = data.restaurantInfo.address.slice(1,-1)
-          this.restaurantInfoForm.address.latitude = data.restaurantInfo.latitude
-          this.restaurantInfoForm.address.longitude = data.restaurantInfo.longitude
+          resInfo.address = new RestaurantAddressModel()
+          resInfo.address.address = data.restaurantInfo.address.slice(1,-1)
+          resInfo.address.latitude = data.restaurantInfo.latitude
+          resInfo.address.longitude = data.restaurantInfo.longitude
 
           data.businessHours.forEach(x => {
-            this.restaurantInfoForm.businessHours = new Array<BusinessHourModel>()
+            resInfo.businessHours = new Array<BusinessHourModel>()
             let item = new BusinessHourModel()
             item.day = x.day
             item.startTime = x.openTime
             item.endTime = x.closeTime
-            this.restaurantInfoForm.businessHours.push(item)
+            resInfo.businessHours.push(item)
           })
 
           data.categories.forEach(x => {
-            this.restaurantInfoForm.categories = new  Array<FoodCategories>()
-            this.restaurantInfoForm.categories.push(x.categoryType)
+            resInfo.categories = new  Array<FoodCategories>()
+            resInfo.categories.push(x.categoryType)
           })
 
           data.socialContact.forEach(x => {
-            this.restaurantInfoForm.contact = new  Array<RestaurantContactModel>()
+            resInfo.contact = new  Array<RestaurantContactModel>()
             let item = new RestaurantContactModel()
             item.social = x.socialType
             item.contactValue = x.contactValue
-            this.restaurantInfoForm.contact.push(item)
+            resInfo.contact.push(item)
           })
+          this.restaurantInfoForm = resInfo;
 
-          this.restaurantPhotoForm.imageLink = data.restaurantInfo.imageLink?? []
-          this.restaurantPhotoForm.restaurantStatus = data.restaurantInfo.description?? ''
+          let resPhoto = new ResUpdatePhotoModel();
+          resPhoto.imageLink = data.restaurantInfo.imageLink?? []
+          resPhoto.restaurantStatus = data.restaurantInfo.description?? ''
+          this.restaurantPhotoForm =  resPhoto;
           
           this.isLoading = false;
         }
@@ -125,20 +128,48 @@ export class EditRestaurantDetailComponent implements OnInit {
   }
 
   navigateToDetailPage() {
-    this.router.navigate(['restaurant/detail'])
+    this.router.navigate([PageLink.restaurant.detail]);
   }
 
-  set restaurantInfoFormValue(restaurantInfo: RestaurantInfoModel) {
+  restaurantInfoFormValue(restaurantInfo: RestaurantInfoModel) {
     this.restaurantInfoForm = restaurantInfo;
   }
 
-  set restaurantPhotoFormValue(restaurantPhoto: ResUpdatePhotoModel) {
+  restaurantPhotoFormValue(restaurantPhoto: ResUpdatePhotoModel) {
     this.restaurantPhotoForm = restaurantPhoto;
   }
 
 
   submit() {
-    this.successModal.openSuccessModal(true, 'แก้ไขข้อมูลสำเร็จ');
-    this.navigateToDetailPage()
+    this.isSubmit = true;
+    this.spinner.show();
+    let updateInfo = new RestaurantUpdateModel();
+    updateInfo.RestaurantId = this.restaurantId;
+    updateInfo.ResUpdateInfo = this.restaurantInfoForm;
+    updateInfo.ResUpdateInfo.businessHours.forEach(x => {
+      x.startTime = new Date(`01/01/2001 ${x.startTime}:00`);
+      x.endTime = new Date(`01/01/2001 ${x.endTime}:00`);
+    })
+    updateInfo.NewImageFile = this.restaurantPhotoForm.newImg?? [];
+    updateInfo.RemoveImageLink = this.restaurantPhotoForm.removeImg?? [];
+    updateInfo.RestaurantStatus = this.restaurantPhotoForm.restaurantStatus?? '';
+
+    console.log(updateInfo);
+    
+    this.restaurantService.updateRestaurantDetail(updateInfo).subscribe(
+      (response: ResponseModel<boolean>) => {
+        this.spinner.hide();
+
+        if (response?.status === 200) {
+          this.successModal.openSuccessModal(true, 'แก้ไขข้อมูลสำเร็จ');
+          setTimeout(() => {
+            this.isSubmit = false;
+            this.navigateToDetailPage();
+          }, 200);
+        } else {
+          this.successModal.openSuccessModal(false, 'ไม่สามารถแก้ไขข้อมูลได้ในขณะนี้ โปรดลองอีกครั้ง');
+          this.isSubmit = false;
+        }
+    })
   }
 }
