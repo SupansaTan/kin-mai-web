@@ -96,8 +96,10 @@ export class DetailComponent implements OnInit {
         return [RestaurantType.find((i:any) => i.id === 1)?.name]
       case 2:
         return [RestaurantType.find((i:any) => i.id === 1)?.name]
-      default:
+      case 3:
         return [RestaurantType.find((i:any) => i.id === 1)?.name , RestaurantType.find((i:any) => i.id === 2)?.name]
+      default:
+        return [];
     }
   }
 
@@ -109,8 +111,10 @@ export class DetailComponent implements OnInit {
         return PaymentMethod.find((i:any) => i.id === 2)?.name;
       case 3:
         return PaymentMethod.find((i:any) => i.id === 3)?.name;
-      default:
+      case 4:
         return PaymentMethod.find((i:any) => i.id === 4)?.name;
+      default:
+        return null;
     }
   }
 
@@ -122,8 +126,10 @@ export class DetailComponent implements OnInit {
         return this.SocialContact.find((i:any) => i.socialType === 2)?.contactValue;
       case 3:
         return this.SocialContact.find((i:any) => i.socialType === 3)?.contactValue;
-      default:
+      case 4:
         return this.SocialContact.find((i:any) => i.socialType === 4)?.contactValue;
+      default:
+        return "";
     }
   }
 
@@ -143,8 +149,10 @@ export class DetailComponent implements OnInit {
         return DayList.find((i:any) => i.id === 6)?.name
       case 7:
         return DayList.find((i:any) => i.id === 7)?.name
-      default:
+      case 8:
         return DayList.find((i:any) => i.id === 8)?.name
+      default:
+        return "";
     }
   }
 
