@@ -160,7 +160,7 @@ export class EditRestaurantDetailComponent implements OnInit {
       (response: ResponseModel<boolean>) => {
         this.spinner.hide();
 
-        if (response?.status === 200) {
+        if (response && response?.status === 200) {
           this.successModal.openSuccessModal(true, 'แก้ไขข้อมูลสำเร็จ');
           setTimeout(() => {
             this.isSubmit = false;

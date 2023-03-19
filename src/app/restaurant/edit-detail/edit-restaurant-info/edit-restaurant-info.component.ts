@@ -97,8 +97,8 @@ export class EditRestaurantInfoComponent implements OnInit {
     this.updateRestaurantForm.controls['deliveryType'].setValue((this.restaurantInfoData.deliveryType.length!=0)? this.restaurantInfoData.deliveryType: [])
     this.updateRestaurantForm.controls['paymentMethod'].setValue((this.restaurantInfoData.paymentMethods.length!=0)? this.restaurantInfoData.paymentMethods: [])
     
-    // this.lat = this.restaurantInfoData.address.latitude
-    // this.lng = this.restaurantInfoData.address.longitude
+    this.lat = this.restaurantInfoData.address.latitude
+    this.lng = this.restaurantInfoData.address.longitude
     
     this.restaurantInfoData.businessHours.forEach(x => {
       let item = this.fb.group({
@@ -436,7 +436,6 @@ export class EditRestaurantInfoComponent implements OnInit {
     restaurantInfo.address.address = this.updateRestaurantForm.controls['address'].value;
     restaurantInfo.address.latitude = this.lat;
     restaurantInfo.address.longitude = this.lng;
-    restaurantInfo.address.markerPosition = this.markerPositions;
 
     for (let i=0; i<this.BusinessHourArray.length; i++) {
       const businessHour = this.BusinessHourArray.controls[i] as FormGroup;
