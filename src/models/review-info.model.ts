@@ -12,6 +12,10 @@ export class ReviewInfoModel {
   replyComment: string;
 }
 
+export class ListReviewInfoModel{
+  reviews: Array<ReviewInfoModel>;
+}
+
 export class GetReviewInfoRequest {
   userId: string;
   restaurantId: string;
@@ -31,3 +35,4 @@ export class UpdateReviewReplyRequest {
   reviewId: string;
   replyComment: string;
 }
+
