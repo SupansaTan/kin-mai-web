@@ -68,11 +68,6 @@ Feature: Restaurant Homepage
     And I select star
     And I click reset button
     Then I should see reviews
-  
-  # Scenario: Owner invalid reply
-  #   When I click answer box
-  #   And I click reply button
-  #   Then I should see reply is required
 
   Scenario: Owner reply review
     When I click answer box
