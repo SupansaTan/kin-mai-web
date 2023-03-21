@@ -4,16 +4,6 @@ Given(`I visit on login page`, () => {
   cy.visit('/auth/login');
 });
 
-Then('I should see login form', () => {
-  cy.get('[data-cy="loginForm"]').should('be.visible');
-});
-
-Then('I should see button', (dataTable) => {
-  dataTable.hashes().forEach((item: { button: string }) => {
-    cy.get(`[data-cy="${item.button}"]`).should('be.visible');
-  });
-});
-
 When('I complete fill in login form', (dataTable) => {
   dataTable.hashes().forEach((item: { email: string, password: string }) => {
     cy.get('[data-cy="email"]').type(item.email);

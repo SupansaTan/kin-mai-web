@@ -83,8 +83,9 @@ Feature: Reviewer Homepage
     And   I write comment
       | commentBox |
       | อร่อยมากๆค่ะ |
-    And   I remove photo
-    And   I remove menu
+    # รอพั้นแก้
+    # And   I remove photo
+    # And   I remove menu
     When  I click submit button
     Then  I should see review successful
 

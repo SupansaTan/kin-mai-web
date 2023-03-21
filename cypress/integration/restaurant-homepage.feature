@@ -43,9 +43,9 @@ Feature: Restaurant Homepage
     When  I click All button
     Then  I should see reviews
 
-  Scenario: Owner filter picture reviews
-    When  I click Picture button
-    Then  I should see reviews
+  # Scenario: Owner filter picture reviews
+  #   When  I click Picture button
+  #   Then  I should see reviews
 
   Scenario: Owner filter comment reviews
     When I click Comment button

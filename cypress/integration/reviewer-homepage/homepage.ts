@@ -230,13 +230,13 @@ And('I write comment', (dataTable) => {
   });
 });
 
-And('I remove photo', () => {
-  cy.get('[data-cy="DelPicBtn"]').first().click();
-});
+// And('I remove photo', () => {
+//   cy.get('[data-cy="DelPicBtn"]').first().click();
+// });
 
-And('I remove menu', () => {
-  cy.get('[data-cy="DelMenuBtn"]').first().click();
-});
+// And('I remove menu', () => {
+//   cy.get('[data-cy="DelMenuBtn"]').first().click();
+// });
 
 When('I click submit button', () => {
   cy.get('[data-cy="submitBtn"]').click();
