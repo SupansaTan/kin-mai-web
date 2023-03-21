@@ -82,6 +82,7 @@
           [hidden]="stage === 3"
           [attr.disabled]="stage === 3? true:null"
           (onAddressChange)="addressChange($event); placeAutocomplete.value = ''"
+          data-cy="googleAddressAutocomplete"
          
         />
         <ng-container *ngIf="formatAddress" data-cy="formatAddress">

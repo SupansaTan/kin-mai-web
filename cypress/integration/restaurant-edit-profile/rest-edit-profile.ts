@@ -40,33 +40,32 @@ Then(`I should be on restaurant edit page`, () => {
 });
 
 //------valid-----------
-When('I complete fill in the restaurant information form', (dataTable) => {
-  dataTable.hashes().forEach((item: {fieldName: string, value: string}) => {
-    if (item.fieldName === 'address') {
-      cy.get('[data-cy="address"]').type(item.value);
-    }
-    // input type: ng-select
-    else if (['restaurantType', 'foodCategory', 'deliveryType', 'paymentMethod', 'socialContactType', 'day'].indexOf(item.fieldName) > -1)
-    {
-      if (item.fieldName === 'socialContactType') {
-        cy.get('[data-cy="addSocialContact"]').click();
-      }
+When('I remove name of restaurant', () => {
+  cy.get('[data-cy="restaurantName"]').clear();
+});
 
-      if (item.value.includes(',')) {
-        cy.selectMultipleOption(item.fieldName, item.value);
-      } else {
-        cy.selectOption(item.fieldName, item.value);
-      }
-    }
-    else {
-      // input type: text, time
-      cy.get(`[data-cy="${item.fieldName}"]`).type(item.value, {force: true});
-    }
+And('I change name of restaurant', (dataTable) => {
+  dataTable.hashes().forEach((item: { Name : string}) => {
+    cy.get('[data-cy="restaurantName"]').type(item.Name );
   });
 });
 
-And('I click google address', () => {
-  cy.get('[data-cy="GoogleAddress"]').click();
+And('I fill address', (dataTable) => {
+  dataTable.hashes().forEach((item: { address : string}) => {
+    cy.get('[data-cy="googleAddressAutocomplete"]').type(item.address, { delay: 100 });
+    cy.get('.pac-item').eq(0).click({force: true});
+    cy.get('[data-cy="setRestaurantAddress"]', { timeout: 1000 }).click();
+  });
+});
+
+And('I remove old number', () => {
+  cy.get('[data-cy="contactValue"]').clear();
+});
+
+And('I add new number', (dataTable) => {
+  dataTable.hashes().forEach((item: { Number  : string}) => {
+    cy.get('[data-cy="contactValue"]').type(item.Number  );
+  });
 });
 
 And('I click "Next" button', () => {
@@ -99,17 +98,19 @@ And('I click "Submit" button', () => {
 });
 
 Then('I should see successful modal', () => {
-  cy.wait(3000);
   cy.get('[data-cy="successModal"]').should('be.visible');
 });
 
 //-------- invalid--------
 
-When('I fill in some field in the restaurant information form', (dataTable) => {
-  dataTable.hashes().forEach((item: { restaurantName : string}) => {
-    cy.get('[ data-cy="restaurantName"]').type(item.restaurantName );
-  });
+When('I remove name of restaurant', () => {
+  cy.get('[data-cy="restaurantName"]').clear();
 });
+
 And('I click "Next" button', () => {
-  cy.get('[data-cy="SubmitBtn"]').first().click({force: true});
+  cy.get('[data-cy="SubmitBtn"]').first().click();
+});
+
+Then('I should see error message', () => {
+  cy.get('.text-danger').should('be.visible');
 });

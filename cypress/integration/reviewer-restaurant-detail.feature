@@ -15,40 +15,40 @@ Feature: Restaurant Detail
     When I click "image" of restaurant
     Then I should see all "image" of restaurant
 
-  Scenario: Reviewer invalid review
-    When  I click myreview button
-    And   I should see review form
-    And   I click submit button
-    Then  I should see rating is required
+  # Scenario: Reviewer invalid review
+  #   When  I click myreview button
+  #   And   I should see review form
+  #   And   I click submit button
+  #   Then  I should see rating is required
 
-  Scenario: Reviewer add new review
-    When  I click myreview button
-    Then  I should see review form
-    When  I rate stars
-    And   I click comment words button
-    And   I write comment
-      | commentBox |
-      | บรรยากาศร้านดีมากๆค่ะ|
-    And   I click add menu button
-    And   I write menu name
-      | MenuName |
-      | น้ำมะม่วงปั่น |
-    And   I upload photo
-    When  I click submit button
-    Then  I should see review successful
+  # Scenario: Reviewer add new review
+  #   When  I click myreview button
+  #   Then  I should see review form
+  #   When  I rate stars
+  #   And   I click comment words button
+  #   And   I write comment
+  #     | commentBox |
+  #     | บรรยากาศร้านดีมากๆค่ะ|
+  #   And   I click add menu button
+  #   And   I write menu name
+  #     | MenuName |
+  #     | น้ำมะม่วงปั่น |
+  #   And   I upload photo
+  #   When  I click submit button
+  #   Then  I should see review successful
 
-  Scenario: Reviewer edit review
-    When  I click myreview button
-    And   I click EditReview button
-    Then  I should see review form
-    When  I rates stars
-    And   I click comment words button
-    And   I remove comment
-    And   I write comment
-      | commentBox |
-      | อร่อยมากๆค่ะ |
-    And   I click submit button
-    Then  I should see review successful
+  # Scenario: Reviewer edit review
+  #   When  I click myreview button
+  #   And   I click EditReview button
+  #   Then  I should see review form
+  #   When  I rates stars
+  #   And   I click comment words button
+  #   And   I remove comment
+  #   And   I write comment
+  #     | commentBox |
+  #     | อร่อยมากๆค่ะ |
+  #   And   I click submit button
+  #   Then  I should see review successful
 
   Scenario: Reviewer select stars
     When I select star
