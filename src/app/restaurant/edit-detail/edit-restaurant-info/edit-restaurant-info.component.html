@@ -1,10 +1,11 @@
+  
 <form [formGroup]="updateRestaurantForm" data-cy="restaurantInfoForm">
   <div class="row d-flex align-items-center justify-content-center">
     <div class="col-11 col-lg-10 row row-cols-1 row-cols-md-2 bg-white rounded-3 mt-4 pb-4 gy-3">
       <!-- restaurant name -->
       <div class="col">
         <label for="restaurantName" class="form-label fw-semibold">ชื่อร้านอาหาร <span class="text-danger">*</span></label>
-        <input id="restaurantName" type="text" placeholder="ชื่อร้านอาหาร" formControlName="restaurantName" class="form-control shadow-none"
+        <input id="restaurantName" type="text" placeholder="ชื่อร้านอาหาร" formControlName="restaurantName" class="form-control shadow-none" [attr.disabled]="stage === 3? true:null"
           [ngClass]="{ 'border-danger': updateRestaurantForm.controls['restaurantName'].invalid && updateRestaurantForm.controls['restaurantName'].touched }"
           data-cy="restaurantName"
         >
@@ -31,6 +32,7 @@
             <input id="minPriceRate" type="number" placeholder="0" formControlName="minPriceRate" class="form-control shadow-none text-end pe-4"
               [ngClass]="{ 'border-danger': updateRestaurantForm.controls['minPriceRate'].invalid
                                             && updateRestaurantForm.controls['minPriceRate'].touched }"
+              [attr.disabled]="stage === 3? true:null"
               data-cy="minPriceRate"
             >
             <label for="minPriceRate" class="text-muted position-absolute currency-symbol">฿</label>
@@ -40,6 +42,7 @@
             <input id="maxPriceRate" type="number" placeholder="0" formControlName="maxPriceRate" class="form-control shadow-none text-end pe-4"
               [ngClass]="{ 'border-danger': updateRestaurantForm.controls['maxPriceRate'].invalid
                                             && updateRestaurantForm.controls['maxPriceRate'].touched }"
+              [attr.disabled]="stage === 3? true:null"
               data-cy="maxPriceRate"
             >
             <label for="maxPriceRate" class="text-muted position-absolute currency-symbol">฿</label>
@@ -76,18 +79,19 @@
         <input ngx-google-places-autocomplete
           #placeAutocomplete
           class="form-control mb-2 shadow-none"
-          [hidden]="stage !== 2"
+          [hidden]="stage === 3"
+          [attr.disabled]="stage === 3? true:null"
           (onAddressChange)="addressChange($event); placeAutocomplete.value = ''"
          
         />
         <ng-container *ngIf="formatAddress" data-cy="formatAddress">
           <p class="mb-2 bg-light-yellow rounded-2 py-2 px-2">{{ formatAddress }}</p>
-          <label class="px-2 py-1 rounded-4 bg-yellow mb-2" role="button" (click)="setRestaurantAddress()" [hidden]="stage !== 2" >
+          <label class="px-2 py-1 rounded-4 bg-yellow mb-2" role="button" (click)="setRestaurantAddress()" [hidden]="stage === 2" data-cy="setRestaurantAddress">
             <i class="bi bi-geo-alt-fill me-1"></i>ใช้เป็นที่อยู่ร้านอาหาร
           </label>
         </ng-container>
 
-        <!-- <google-map
+        <google-map
           width="100%"
           height="180"
           [options]="options"
@@ -102,7 +106,7 @@
             (mapDragend)="setMarkerPosition($event)"
           >
           </map-marker>
-        </google-map> -->
+        </google-map>
 
         <div *ngIf="isNotSetMarker" class="text-danger mt-2">
           Pin address is required.
@@ -114,6 +118,7 @@
         <label for="address" class="form-label fw-semibold">ที่อยู่ร้านอาหาร <span class="text-danger">*</span></label>
         <textarea id="address" type="text" formControlName="address" class="form-control shadow-none" rows="4" data-cy="address"
           [ngClass]="{ 'border-danger': updateRestaurantForm.controls['address'].invalid && updateRestaurantForm.controls['address'].touched }"
+          [attr.disabled]="stage === 3? true:null"
         >
         </textarea>
 
@@ -129,6 +134,7 @@
         <label for="restaurantType" class="form-label fw-semibold">หมวดหมู่ร้านอาหาร <span class="text-danger">*</span></label>
         <ng-select [items]="restaurantType" bindLabel="name" bindValue="id" placeholder="เลือกหมวดหมู่" formControlName="restaurantType"
           [searchable]="false" (ngModelChange)="setFoodCategorySelector()" data-cy="restaurantType"
+          [readonly]="stage === 3"
         >
         </ng-select>
 
@@ -143,7 +149,9 @@
       <div class="col">
         <label for="foodCategory" class="form-label fw-semibold">ประเภทอาหารที่ขาย</label>
         <ng-select [items]="foodCategory" bindLabel="name" bindValue="id" placeholder="เลือกประเภทอาหาร" formControlName="foodCategory"
-          [multiple]="true" [clearable]="false" [searchable]="false" [closeOnSelect]="false" data-cy="foodCategory">
+          [multiple]="true" [clearable]="false" [searchable]="false" [closeOnSelect]="false" 
+          [readonly]="stage === 3"
+          data-cy="foodCategory">
           <ng-template ng-multi-label-tmp let-item="item" let-items="items" let-clear="clear">
             <label>{{ items.length }} ประเภท</label>
           </ng-template>
@@ -153,7 +161,11 @@
           <ng-container *ngFor="let item of FoodCategoryList; let i = index">
             <div class="px-2 py-1 bg-light-grey rounded-5 d-flex align-items-center mt-2 me-2">
               <span>{{ item }}</span>
-              <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" (click)="removeFoodCategorySelected(i)"></i>
+              <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" 
+                (click)="removeFoodCategorySelected(i)"
+                *ngIf="stage===1"
+              >
+              </i>
             </div>
           </ng-container>
         </div>
@@ -164,6 +176,7 @@
         <label for="deliveryType" class="form-label fw-semibold">ประเภทการจัดส่งที่รองรับ</label>
         <ng-select [items]="deliveryType" bindLabel="name" bindValue="id" placeholder="เลือกประเภทการจัดส่ง" data-cy="deliveryType"
           [multiple]="true" [clearable]="false" formControlName="deliveryType" [searchable]="false" [closeOnSelect]="false"
+          [readonly]="stage === 3"
         >
           <ng-template ng-multi-label-tmp let-item="item" let-items="items">
             <div class="ng-value" *ngIf="items.length < deliveryType.length">
@@ -179,7 +192,11 @@
           <ng-container *ngFor="let item of DeliveryTypeList; let i = index">
             <div class="px-2 py-1 bg-light-grey rounded-5 d-flex align-items-center mt-2 me-2">
               <span>{{ item }}</span>
-              <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" (click)="removeDeliveryTypeSelected(i)"></i>
+              <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" 
+                (click)="removeDeliveryTypeSelected(i)"
+                *ngIf="stage===1"
+              >
+              </i>
             </div>
           </ng-container>
         </div>
@@ -189,7 +206,8 @@
       <div class="col">
         <label for="paymentMethod" class="form-label fw-semibold">วิธีการจ่ายเงินที่รองรับ</label>
         <ng-select [items]="paymentMethod" bindLabel="name" bindValue="id" placeholder="เลือกวิธีการจ่ายเงิน" formControlName="paymentMethod"
-          [multiple]="true" [clearable]="false" [searchable]="false" [closeOnSelect]="false" data-cy="paymentMethod">
+          [multiple]="true" [clearable]="false" [searchable]="false" [closeOnSelect]="false" 
+          [readonly]="stage === 3" data-cy="paymentMethod">
           <ng-template ng-multi-label-tmp let-item="item" let-items="items">
             <div class="ng-value" *ngIf="items.length < paymentMethod.length">
               <span class="ng-value-label font-Sarabun bg-white">{{ items.length }} ประเภท</span>
@@ -204,7 +222,11 @@
           <ng-container *ngFor="let item of PaymentMethodList; let i = index">
             <div class="px-2 py-1 bg-light-grey rounded-5 d-flex align-items-center mt-2 me-2">
               <span>{{ item }}</span>
-              <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" (click)="removePaymentMethodSelected(i)"></i>
+              <i class="bi bi-x-lg ms-2 pe-1 text-muted" role="button" 
+                (click)="removePaymentMethodSelected(i)"
+                *ngIf="stage===1"
+              >
+              </i>
             </div>
           </ng-container>
         </div>
@@ -213,7 +235,7 @@
       <!-- social contact -->
       <div class="col">
         <label for="socialContact" class="form-label fw-semibold">ช่องทางการติดต่อ
-          <span class="mx-2 px-2 py-1 rounded-4 bg-yellow" role="button" (click)="addSocialContact()" [hidden]="stage === 4" data-cy="addSocialContact">
+          <span class="mx-2 px-2 py-1 rounded-4 bg-yellow" role="button" (click)="addSocialContact()" [hidden]="stage === 3" data-cy="addSocialContact">
             <i class="bi bi-plus-circle me-2"></i>เพิ่มช่องทาง
           </span>
         </label>
@@ -223,18 +245,18 @@
             <!-- select social -->
             <div class="col-5" [formGroupName]="i">
               <ng-select [items]="socialContactType" bindLabel="name" bindValue="id" placeholder="เลือกช่องทาง" formControlName="contact"
-                [searchable]="false" [readonly]="stage === 4" data-cy="socialContactType">
+                [searchable]="false" [readonly]="stage === 3" data-cy="socialContactType">
               </ng-select>
             </div>
 
             <!-- contact value -->
             <div class="col ps-0" [formGroupName]="i">
               <input type="text" class="form-control" id="contactValue" name="contactValue"
-                formControlName="contactValue" maxlength="320" [attr.disabled]="stage === 4? true:null" data-cy="contactValue"
+                formControlName="contactValue" maxlength="320" [attr.disabled]="stage === 3? true:null" data-cy="contactValue"
                 [ngClass]="{ 'border-danger' : getContactValueFormControl(i).errors && getContactValueFormControl(i).touched }"
               />
             </div>
-            <i class="bi bi-trash col-auto fs-4 ps-0 text-danger" role="button" (click)="removeSocialContact(i)" [hidden]="stage !== 2"></i>
+            <i class="bi bi-trash col-auto fs-4 ps-0 text-danger" role="button" (click)="removeSocialContact(i)" [hidden]="stage !== 1"></i>
           </div>
 
           <!-- any contact -->
@@ -249,7 +271,7 @@
       <!-- business hours -->
       <div class="col">
         <label for="businessHour" class="form-label fw-semibold">วันและเวลาทำการ <span class="text-danger">*</span>
-          <span class="mx-2 px-2 py-1 rounded-4 bg-yellow" role="button" (click)="addBusinessHour()" [hidden]="stage === 4" data-cy="addBusinessHour">
+          <span class="mx-2 px-2 py-1 rounded-4 bg-yellow" role="button" (click)="addBusinessHour()" [hidden]="stage === 3" data-cy="addBusinessHour">
             <i class="bi bi-plus-circle me-2"></i>เพิ่มวันทำการ
           </span>
         </label>
@@ -259,25 +281,25 @@
             <!-- select day -->
             <div class="col-12 col-xl-4" [formGroupName]="j">
               <ng-select [items]="dayList" bindLabel="name" bindValue="id" placeholder="เลือกวัน" formControlName="day"
-                [searchable]="false" [readonly]="stage === 4" data-cy="day">
+                [searchable]="false" [readonly]="stage === 3" data-cy="day">
               </ng-select>
             </div>
 
             <!-- range of open/close time -->
             <div class="col ps-xl-0 pe-1" [formGroupName]="j">
-              <input type="time" class="form-control shadow-none" formControlName="startTime" [attr.disabled]="stage === 4? true:null"
+              <input type="time" class="form-control shadow-none" formControlName="startTime" [attr.disabled]="stage === 3? true:null"
                 [ngClass]="{ 'border-danger': getStartTimeFormControl(j).invalid && getStartTimeFormControl(j).touched }" data-cy="startTime"
               >
             </div>
             <span class="col-auto px-1 fw-bold">-</span>
             <div class="col ps-1" [formGroupName]="j">
-              <input type="time" class="form-control shadow-none" formControlName="endTime" [attr.disabled]="stage === 4? true:null"
+              <input type="time" class="form-control shadow-none" formControlName="endTime" [attr.disabled]="stage === 3? true:null"
                 [ngClass]="{ 'border-danger': getEndTimeFormControl(j).invalid && getEndTimeFormControl(j).touched }" data-cy="endTime"
               >
             </div>
 
             <i *ngIf="j > 0" class="bi bi-trash col-auto fs-4 ps-0 text-danger" role="button"
-              [hidden]="stage !== 2"
+              [hidden]="stage !== 1"
               (click)="removeBusinessHour(j)"
             >
             </i>
