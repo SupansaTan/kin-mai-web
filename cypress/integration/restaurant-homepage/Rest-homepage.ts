@@ -61,17 +61,6 @@ Then('I should see QR code image', () => {
   cy.get('[data-cy="SaveImgBtn"]').should('be.visible');
 });
 
-//-----can not find review-----//
-// When ('I search in search review', (dataTable) => {
-//   dataTable.hashes().forEach((item: { SearchReview : string }) => {
-//     cy.get(`[data-cy="SearchReview"]`).type(item.SearchReview, {force: true});
-//   });
-// });
-
-// Then('I should see dont have reviews', () => {
-//   cy.get('[data-cy="reviewForm"]').should('be.visible');
-// });
-
 // --------- Search review--------
 When ('I search "อร่อย" in search review', (dataTable) => {
   dataTable.hashes().forEach((item: { SearchReview : string }) => {
@@ -85,7 +74,7 @@ Then('I should see reviews', () => {
 
 //----- select stars------
 When('I select star', () => {
-  cy.get('select').select('3').should('have.value', '3');
+  cy.get('select').select('4').should('have.value', '4');
 });
 
 Then('I should see reviews', () => {

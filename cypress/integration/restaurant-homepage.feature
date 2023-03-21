@@ -5,7 +5,7 @@ Feature: Restaurant Homepage
     Given I visit on login page
     When  I complete fill in login form
       | email                    | password |
-      | natthamon200@gmail.com   | 12345678 |
+      | punch3@gmail.com         | 12345678 |
     And I click on Login button
     And I should be on Restaurant homepage
 
@@ -23,12 +23,6 @@ Feature: Restaurant Homepage
     When  I click save image
     Then  I should see QR code image
   
-  # Scenario: Owner can not find review
-  #   When I search in search review
-  #     | SearchReview |
-  #     | อะไรกันครับเนี่ย     |
-  #   Then I should see dont have reviews
-
   Scenario: Owner can search review
     When I search "อร่อย" in search review
       | SearchReview |
