@@ -38,6 +38,7 @@ export class DetailComponent implements OnInit {
   options: google.maps.MapOptions;
   markerOptions: google.maps.MarkerOptions = {draggable: true};
   markerPositions: google.maps.LatLngLiteral;
+  map: google.maps.Map;
 
   constructor(
     private restaurantService: RestaurantService,
@@ -51,6 +52,7 @@ export class DetailComponent implements OnInit {
     this.getRestaurantReviews();
   }
 
+
   getRestaurantDetail() {
     this.restaurantService.getRestaurantDetail(this.restaurantId).subscribe(
       (response: ResponseModel<RestaurantDetailModel>) => {
@@ -59,6 +61,17 @@ export class DetailComponent implements OnInit {
           this.SocialContact = response.data.socialContact;
           this.Categories = response.data.categories;
           this.BusinessHours = response.data.businessHours;
+          this.options = {
+            center: {
+              lat: response.data.restaurantInfo.latitude,
+              lng: response.data.restaurantInfo.longitude
+            },
+            zoom: 15,
+            streetViewControl: false,
+            mapTypeControl: false,
+            fullscreenControl: false,
+          };
+          this.markerPositions = ({lat: response.data.restaurantInfo.latitude, lng: response.data.restaurantInfo.longitude})
           this.setMarkerPosition()
         }
     })
