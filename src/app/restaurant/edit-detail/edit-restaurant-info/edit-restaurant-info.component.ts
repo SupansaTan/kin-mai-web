@@ -5,19 +5,15 @@ import { DeliveryType } from 'src/constant/delivery-type.constant';
 import { PaymentMethod } from 'src/constant/payment-method.constant';
 import { DrinkAndDessertCategory, FoodCategory } from 'src/constant/food-category.constant';
 import { RestaurantType } from 'src/constant/restaurant-type.constant';
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, FormArray, AbstractControl } from '@angular/forms';
 import { DayList } from 'src/constant/day-list.constant';
 import { RestaurantTypeEnum } from 'src/enum/restaurant-type.enum';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
 import { MapGeocoder, MapGeocoderResponse } from '@angular/google-maps';
-import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { RestaurantService } from '../../restaurant.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
-import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
-import { RestaurantDetailModel } from 'src/models/restaurant-info.model';
-import { ResponseModel } from 'src/models/response.model';
 
 @Component({
   selector: 'app-edit-restaurant-info',
@@ -57,8 +53,6 @@ export class EditRestaurantInfoComponent implements OnInit {
     private fb: FormBuilder,
     private httpClient: HttpClient,
     private geocoder: MapGeocoder,
-    private restaurantService: RestaurantService,
-    private localStorageService: LocalStorageService,
     ) {
     this.updateRestaurantForm = this.fb.group({
       restaurantName: new FormControl('', [
@@ -99,6 +93,12 @@ export class EditRestaurantInfoComponent implements OnInit {
     
     this.lat = this.restaurantInfoData.address.latitude
     this.lng = this.restaurantInfoData.address.longitude
+
+    if (this.restaurantInfoData.address.markerPosition) {
+      this.markerPositions = this.restaurantInfoData.address.markerPosition
+    }
+    this.isNotSetMarker = false;
+    this.getAddressFromMarker();
     
     this.restaurantInfoData.businessHours.forEach(x => {
       let item = this.fb.group({
@@ -167,8 +167,8 @@ export class EditRestaurantInfoComponent implements OnInit {
   getUserCurrentLocation() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
+        this.lat = this.restaurantInfoData.address.latitude;
+        this.lng = this.restaurantInfoData.address.longitude;
         this.setMapCoordinate();
       },
       (err) => {
@@ -434,8 +434,9 @@ export class EditRestaurantInfoComponent implements OnInit {
 
     restaurantInfo.address = new RestaurantAddressModel();
     restaurantInfo.address.address = this.updateRestaurantForm.controls['address'].value;
-    restaurantInfo.address.latitude = this.lat;
-    restaurantInfo.address.longitude = this.lng;
+    restaurantInfo.address.latitude = this.markerPositions.lat;
+    restaurantInfo.address.longitude = this.markerPositions.lng;
+    restaurantInfo.address.markerPosition = this.markerPositions
 
     for (let i=0; i<this.BusinessHourArray.length; i++) {
       const businessHour = this.BusinessHourArray.controls[i] as FormGroup;
