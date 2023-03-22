@@ -95,7 +95,7 @@
           height="180"
           [options]="options"
           [ngClass]="{ 'border-danger border-2': isNotSetMarker }"
-          (mapClick)="addMarker($event)"
+          (mapClick)="stage===1? addMarker($event):false"
           data-cy="GoogleAddress"
         >
           <map-marker *ngIf="markerPositions"
