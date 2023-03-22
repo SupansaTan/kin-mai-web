@@ -93,6 +93,7 @@ export class EditRestaurantDetailComponent implements OnInit {
           resInfo.address.address = data.restaurantInfo.address.slice(1,-1)
           resInfo.address.latitude = data.restaurantInfo.latitude
           resInfo.address.longitude = data.restaurantInfo.longitude
+          resInfo.address.markerPosition = ({lat: data.restaurantInfo.latitude, lng: data.restaurantInfo.longitude})
 
           data.businessHours.forEach(x => {
             resInfo.businessHours = new Array<BusinessHourModel>()
