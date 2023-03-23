@@ -114,7 +114,6 @@ export class RestaurantDashboardComponent implements OnInit {
               element.reviewTimeString = this.getReviewTimeInString(reviewDate)
               element.userName = element.userName.replace(/(?<!^).(?!$)/g, '*')
               this.RecommendMenu = (element.foodRecommendList != null)? [ ...this.RecommendMenu, ...(element.foodRecommendList)] : this.RecommendMenu
-              // this.RecommendMenu = [...new Set(this.RecommendMenu)];
             });
             this.RecommendMenu = [...new Set(this.RecommendMenu)];
 
@@ -219,7 +218,7 @@ export class RestaurantDashboardComponent implements OnInit {
         this.isSelectedOnlyReviewHaveComment = false;
         this.isSelectedOnlyReviewHaveImage = false;
         this.displayReview = this.reviews.filter(item =>
-          item.foodRecommendList.length != 0
+          item.foodRecommendList
           && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
@@ -260,7 +259,7 @@ export class RestaurantDashboardComponent implements OnInit {
       if (element.imageLink?.length !=0) {
         this.totalReviewHaveImage += 1
       }
-      if (element.foodRecommendList?.length !=0) {
+      if (element.foodRecommendList) {
         this.totalReviewHaveFoodRecommend += 1
       }
     });
