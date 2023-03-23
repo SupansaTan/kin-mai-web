@@ -190,8 +190,8 @@
 
   <!-- review list -->
   <div *ngIf="reviewList && reviewList.length > 0" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-2">
-    <div *ngFor="let item of reviewList; index as i;" class="col h-100" data-cy="reviews">
-      <div class="rounded-2 bg-white p-2">
+    <div *ngFor="let item of reviewList; index as i;" class="col" data-cy="reviews">
+      <div class="rounded-2 bg-white p-2 h-100">
         <div class="row px-2 pb-2">
           <!-- avatar -->
           <div class="col-2 px-1 ps-2 pt-1">
@@ -247,6 +247,13 @@
                 <div *ngFor="let item of item.imageReviewList" class="col">
                   <img [src]="awsS3Url + '/' + item" class="rounded mini-img w-100" role="button"/>
                 </div>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="item.restaurantReply && item.restaurantReply.length > 0">
+              <div class="bg-light-grey rounded-2 mt-2">
+                <p class="px-2 pt-1 mb-0 text-dark-red">การตอบกลับของร้านค้า</p>
+                <p class="px-2 pb-2 mb-0 text-break">{{ item.restaurantReply }}</p>
               </div>
             </ng-container>
           </div>

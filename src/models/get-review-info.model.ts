@@ -6,6 +6,7 @@ export class GetReviewInfoModel {
   imageReviewList: Array<string>;
   foodRecommendList: Array<string>;
   reviewLabelList: Array<number>;
+  restaurantReply: string;
 }
 
 export class GetReviewInfoListModel {
