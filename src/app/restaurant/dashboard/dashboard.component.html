@@ -20,7 +20,7 @@
 
         <div class="row d-flex align-items-center mb-2" data-cy="todayRating">
           <div class="d-flex align-items-center" *ngIf="this.todayReview.length != 0">
-            <h3 class="me-4 mb-0" id="numberrate">{{todayRating}}</h3>
+            <h3 class="me-4 mb-0" id="numberrate">{{todayRating.toFixed(1)}}</h3>
             <ngb-rating [rate]="todayRating" [max]="5" id="rating" [readonly]="true">
               <ng-template let-fill="fill" let-index="index">
                 <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color"></i>
