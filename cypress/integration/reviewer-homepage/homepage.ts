@@ -29,6 +29,11 @@ And('I should be on reviewer homepage', () => {
   cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
+//---------see list of restaurant near me----
+Given('I see restaurant near me',() =>{
+  cy.get('[data-cy="RestaurantNearMe"]').should('be.visible');
+});
+
 // -------see restaurant detail--------
 
 When('I click title of Restaurant', () => {
@@ -180,7 +185,6 @@ When('I click submit button', () => {
 });
 
 Then('I should see review successful', () => {
-  // cy.wait(3000);
   cy.get('[data-cy="successModal"]').should('be.visible');
 });
 
@@ -230,19 +234,29 @@ And('I write comment', (dataTable) => {
   });
 });
 
-// And('I remove photo', () => {
-//   cy.get('[data-cy="DelPicBtn"]').first().click();
-// });
-
-// And('I remove menu', () => {
-//   cy.get('[data-cy="DelMenuBtn"]').first().click();
-// });
-
 When('I click submit button', () => {
   cy.get('[data-cy="submitBtn"]').click();
 });
 
 Then('I should see review successful', () => {
-  cy.wait(3000);
   cy.get('[data-cy="successModal"]').should('be.visible');
+});
+
+//----watch review-------
+When ('I search in a search box', (dataTable) => {
+  dataTable.hashes().forEach((item: { searchbox : string }) => {
+    cy.get(`[data-cy="searchbox"]`).type(item.searchbox, {force: true});
+  });
+});
+
+And('I click open button', () => {
+  cy.get(`[data-cy="OpenBtn"]`).first().click();
+});
+
+Then('I should see list of "restaurant" near me', () => {
+  cy.get(`[data-cy="RestaurantFilter"]`).should('be.visible');
+});
+
+When('I click MyReview button', () => {
+  cy.get(`[data-cy="MyReviewBtn"]`).first().click();
 });
