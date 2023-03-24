@@ -138,7 +138,7 @@
         </div>
       </div>
 
-      <div>
+      <div *ngIf="userId">
         <button type="button" class="btn"  data-cy="MyReviewBtn"
           [ngClass]="restaurantDetail.isReview ? 'btn-light-grey':'btn-yellow'"
           (click)="restaurantDetail.isReview? seeExistReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName) : addReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName)"
