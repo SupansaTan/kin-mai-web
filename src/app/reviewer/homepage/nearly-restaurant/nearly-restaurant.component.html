@@ -22,7 +22,7 @@
             <h5 class="col mb-0 mt-2 restaurant-name" role="button" data-cy="restaurantDetailBtn" (click)="routeToRestaurantDetail(item.restaurantId)"
               ellipsis [ellipsis-content]="item.restaurantName">
             </h5>
-            <i class="col-auto bi fs-5" [ngClass]="item.isFavorite ? 'bi-heart-fill text-yellow':'bi-heart'" type="button" data-cy="LoveBtn"
+            <i *ngIf="userId" class="col-auto bi fs-5" [ngClass]="item.isFavorite ? 'bi-heart-fill text-yellow':'bi-heart'" type="button" data-cy="LoveBtn"
               (click)="toggleFavoriteRestaurant(item.restaurantId, item.restaurantName, !item.isFavorite, i)">
             </i>
           </div>
@@ -59,15 +59,17 @@
         </div>
       </div>
 
-      <div class="d-flex justify-content-end position-absolute end-0 bottom-0">
-        <button type="button" class="btn btn-yellow review-btn btn-sm"   data-cy="MyReviewBtn"
-          [ngClass]="item.isReview ? 'btn-yellow':'btn-light-grey'"
-          (click)="item.isReview? seeExistReviewRestaurant(item.restaurantId, item.restaurantName) : addReviewRestaurant(item.restaurantId, item.restaurantName)"
-        >
-          <i class="bi fs-6 me-1" [ngClass]="item.isReview ? 'bi-pencil-square':'bi-eye-fill'"></i>
-          {{ item.isReview ? 'รีวิวของฉัน':'เพิ่มรีวิว' }}
-        </button>
-      </div>
+      <ng-container *ngIf="userId">
+        <div class="d-flex justify-content-end position-absolute end-0 bottom-0">
+          <button type="button" class="btn btn-yellow review-btn btn-sm"   data-cy="MyReviewBtn"
+            [ngClass]="item.isReview ? 'btn-yellow':'btn-light-grey'"
+            (click)="item.isReview? seeExistReviewRestaurant(item.restaurantId, item.restaurantName) : addReviewRestaurant(item.restaurantId, item.restaurantName)"
+          >
+            <i class="bi fs-6 me-1" [ngClass]="item.isReview ? 'bi-pencil-square':'bi-eye-fill'"></i>
+            {{ item.isReview ? 'รีวิวของฉัน':'เพิ่มรีวิว' }}
+          </button>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>
