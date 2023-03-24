@@ -42,6 +42,7 @@ export class RestaurantDetailComponent implements OnInit {
   isLoadingRestaurantInfo: boolean = true;
   isLoadingReviewList: boolean = true;
   restaurantDetail: GetRestaurantDetailModel;
+  userId: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,6 +52,7 @@ export class RestaurantDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
     this.sub = this.route.params.subscribe(params => {
       this.restaurantId = params['restaurantId'];
 

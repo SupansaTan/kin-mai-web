@@ -1,3 +1,4 @@
+import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { DeliveryType } from 'src/enum/delivery-type.enum';
 import { FilterRestaurantRequest } from './../../../../models/reviewer-homepage.model';
 import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
@@ -42,14 +43,17 @@ export class FilterRestaurantComponent implements OnInit {
   awsS3Url = environment.awsS3Url;
   totalRestaurant: number = 0;
   restaurantCumulativeCount: number = 0;
+  userId: string;
   isError: boolean;
   isOpen: boolean;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit(): void {
+    this.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
     this.isCollapsedFilter = (window.innerWidth < 992);
     this.selectedCategory = new Array<number>();
     this.foodCategories = [...FoodCategory, ...DrinkAndDessertCategory];
