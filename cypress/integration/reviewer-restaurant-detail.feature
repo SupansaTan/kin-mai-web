@@ -11,7 +11,10 @@ Feature: Restaurant Detail
     And   I click name of restaurant
     Then  I should be on Restaurant Detail page
 
-  Scenario: Reviewer see all restaurant image
+  Scenario: Reviewer see all restaurant detail
+   Given I see restaurant detail
+
+  Scenario: Reviewer click restaurant image
     When I click "image" of restaurant
     Then I should see all "image" of restaurant
 
@@ -85,6 +88,9 @@ Feature: Restaurant Detail
       | SearchReview |
       | แย่ที่สุด     |
     Then I should see dont have reviews
+  
+  Scenario: Reviewer see owner's reply
+    Given I see reply of owner
     
 
 

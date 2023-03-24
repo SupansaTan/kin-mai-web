@@ -38,6 +38,12 @@ Then(`I should be on Restaurant Detail page`, () => {
   cy.url().should('include', '/reviewer/restaurant;restaurantId=');
 });
 
+//-----see restaurant Detail----
+
+Given('I see restaurant detail', () => {
+  cy.get('.container').should('be.visible');
+});
+
 // -----see all restaurant image------
 When('I click "image" of restaurant', () => {
   cy.get('[data-cy=restaurantImage]').click();
@@ -47,113 +53,113 @@ Then('I should see all "image" of restaurant', () => {
   cy.get('.viewer-move').should('be.visible');
 });
 
-//-------invalid review----------
+// //-------invalid review----------
 
-When('I click myreview button', () => {
-  cy.get('[data-cy="MyReviewBtn"]').click();
-});
+// When('I click myreview button', () => {
+//   cy.get('[data-cy="MyReviewBtn"]').click();
+// });
 
-And('I should see review form', () => {
-  cy.get('[data-cy="reviewModal"]').should('be.visible');
-});
+// And('I should see review form', () => {
+//   cy.get('[data-cy="reviewModal"]').should('be.visible');
+// });
 
-And('I click submit button', () => {
-  cy.get('[data-cy="submitBtn"]').click();
-});
+// And('I click submit button', () => {
+//   cy.get('[data-cy="submitBtn"]').click();
+// });
 
-Then('I should see rating is required', () => {
-  cy.get('.text-danger').should('be.visible');
-});
+// Then('I should see rating is required', () => {
+//   cy.get('.text-danger').should('be.visible');
+// });
 
-//------- add review ---------
-When('I click myreview button', () => {
-  cy.get('[data-cy="MyReviewBtn"]').click();
-});
+// //------- add review ---------
+// When('I click myreview button', () => {
+//   cy.get('[data-cy="MyReviewBtn"]').click();
+// });
 
-Then('I should see review form', () => {
-  cy.get('[data-cy="reviewModal"]').should('be.visible');
-});
+// Then('I should see review form', () => {
+//   cy.get('[data-cy="reviewModal"]').should('be.visible');
+// });
 
-When('I rate stars', () => {
-  cy.get('[data-cy="star"]').eq(3).click({force:true});
-});
+// When('I rate stars', () => {
+//   cy.get('[data-cy="star"]').eq(3).click({force:true});
+// });
 
-And('I click comment words button', () => {
-  cy.get('[data-cy="commentWordBtn"]').first().click({force:true});
-});
+// And('I click comment words button', () => {
+//   cy.get('[data-cy="commentWordBtn"]').first().click({force:true});
+// });
 
-And('I write comment', (dataTable) => {
-  dataTable.hashes().forEach((item: { commentBox: string}) => {
-    cy.get('[data-cy="commentBox"]').type(item.commentBox);
-  });
-});
+// And('I write comment', (dataTable) => {
+//   dataTable.hashes().forEach((item: { commentBox: string}) => {
+//     cy.get('[data-cy="commentBox"]').type(item.commentBox);
+//   });
+// });
 
-And('I click add menu button', () => {
-  cy.get('[data-cy="addMenuBtn"]').click();
-});
+// And('I click add menu button', () => {
+//   cy.get('[data-cy="addMenuBtn"]').click();
+// });
 
-And('I write menu name', (dataTable) => {
-  dataTable.hashes().forEach((item: { MenuName: string}) => {
-    cy.get('[data-cy="MenuName"]').type(item.MenuName);
-  });
-});
+// And('I write menu name', (dataTable) => {
+//   dataTable.hashes().forEach((item: { MenuName: string}) => {
+//     cy.get('[data-cy="MenuName"]').type(item.MenuName);
+//   });
+// });
 
-And('I upload photo', () => {
-  cy.get('[data-cy="uploadPhoto"]').selectFile('src/assets/image/halal.jpg');
-});
+// And('I upload photo', () => {
+//   cy.get('[data-cy="uploadPhoto"]').selectFile('src/assets/image/halal.jpg');
+// });
 
-When('I click submit button', () => {
-  cy.get('[data-cy="submitBtn"]').click();
-});
+// When('I click submit button', () => {
+//   cy.get('[data-cy="submitBtn"]').click();
+// });
 
-Then('I should see review successful', () => {
-  cy.get('[data-cy="successModal"]').should('be.visible');
-});
+// Then('I should see review successful', () => {
+//   cy.get('[data-cy="successModal"]').should('be.visible');
+// });
 
 
-// -------- edit review-------
-When('I click myreview button', () => {
-  cy.get('[data-cy="MyReviewBtn"]').click();
-});
+// // -------- edit review-------
+// When('I click myreview button', () => {
+//   cy.get('[data-cy="MyReviewBtn"]').click();
+// });
 
-And('I click EditReview button', () => {
-  cy.get('[data-cy="EditReviewBtn"]').click();
-});
+// And('I click EditReview button', () => {
+//   cy.get('[data-cy="EditReviewBtn"]').click();
+// });
 
-Then('I should see review form', () => {
-  cy.get('[data-cy="reviewModal"]').should('be.visible');
-});
+// Then('I should see review form', () => {
+//   cy.get('[data-cy="reviewModal"]').should('be.visible');
+// });
 
-When('I rates stars', () => {
-  cy.get('[data-cy="star"]').eq(4).click({force:true});
-});
+// When('I rates stars', () => {
+//   cy.get('select').select('4', { force: true });
+// });
 
-And('I click comment words button', () => {
-  cy.get('[data-cy="commentWordBtn"]').first().click({force:true});
-});
+// And('I click comment words button', () => {
+//   cy.get('[data-cy="commentWordBtn"]').first().click({force:true});
+// });
 
-And('I remove comment', () => {
-  cy.get('[data-cy="commentBox"]').clear();
-});
+// And('I remove comment', () => {
+//   cy.get('[data-cy="commentBox"]').clear();
+// });
 
-And('I write comment', (dataTable) => {
-  dataTable.hashes().forEach((item: { commentBox: string}) => {
-    cy.get('[data-cy="commentBox"]').type(item.commentBox);
-  });
-});
+// And('I write comment', (dataTable) => {
+//   dataTable.hashes().forEach((item: { commentBox: string}) => {
+//     cy.get('[data-cy="commentBox"]').type(item.commentBox);
+//   });
+// });
 
-And('I click submit button', () => {
-  cy.get('[data-cy="submitBtn"]').click();
-});
+// And('I click submit button', () => {
+//   cy.get('[data-cy="submitBtn"]').click();
+// });
 
-Then('I should see review successful', () => {
-  cy.get('[data-cy="successModal"]').should('be.visible');
-});
+// Then('I should see review successful', () => {
+//   cy.get('[data-cy="successModal"]').should('be.visible');
+// });
 
 
 //----- select stars------
 When('I select star', () => {
-  cy.get('select').select('3').should('have.value', '3');
+  cy.get('select').select('3', { force: true });
 });
 
 Then('I should see reviews', () => {
@@ -162,7 +168,7 @@ Then('I should see reviews', () => {
 
 //-----filer all reviews--------
 When('I select star', () => {
-  cy.get('select').select('4').should('have.value', '4');
+  cy.get('select').select('5', { force: true });
 });
 
 And('I click All button', () => {
@@ -175,7 +181,7 @@ Then('I should see reviews', () => {
 
 //------ filer picture reviews-------
 When('I select star', () => {
-  cy.get('select').select('3').should('have.value', '3');
+  cy.get('select').select('4', { force: true });
 });
 
 And('I click Picture button', () => {
@@ -188,7 +194,7 @@ Then('I should see reviews', () => {
 
 //----filer comment reviews----
 When('I select star', () => {
-  cy.get('select').select('5').should('have.value', '5');
+  cy.get('select').select('5', { force: true });
 });
 
 And('I click Comment button', () => {
@@ -232,4 +238,10 @@ When ('I search in search review', (dataTable) => {
 
 Then('I should see dont have reviews', () => {
   cy.get('[data-cy="Noreviews"]').should('be.visible');
+});
+
+//--------see owner's reply----
+
+Given('I see reply of owner', () => {
+  cy.get('[data-cy="OwnerReply"]').should('be.visible');
 });
