@@ -81,6 +81,7 @@
           class="form-control mb-2 shadow-none"
           [hidden]="stage !== 1"
           (onAddressChange)="addressChange($event); placeAutocomplete.value = ''"
+          data-cy="googleAddressAutocomplete"
         />
         <ng-container *ngIf="formatAddress" data-cy="formatAddress">
           <p class="mb-2 bg-light-yellow rounded-2 py-2 px-2"

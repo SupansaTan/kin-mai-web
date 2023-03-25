@@ -71,7 +71,7 @@
   </div>
 
   <!-- not found restaurant -->
-  <div *ngIf="restaurantInfoList?.length === 0 && !isLoading" class="col">
+  <div *ngIf="restaurantInfoList?.length === 0 && !isLoading" class="col" data-cy="NoRestaurantFilter">
     <h4 class="mb-2 fw-bold" data-cy="totalResult">"{{searchKeyword}}" ({{restaurantInfo.totalRestaurant}} ร้าน)</h4>
     <div class="row d-flex align-items-center py-2">
       <img class="mb-3" src="../../../../assets/image/searching.svg" alt="not-found" height="250px">
@@ -80,11 +80,11 @@
   </div>
 
   <!-- restaurant results -->
-  <div *ngIf="restaurantInfoList && restaurantInfoList.length > 0 && !isLoading" class="col">
+  <div *ngIf="restaurantInfoList && restaurantInfoList.length > 0 && !isLoading" class="col" >
     <h4 class="mb-2 fw-bold" data-cy="totalResult">"{{searchKeyword}}" ({{restaurantInfo.totalRestaurant}} ร้าน)</h4>
-    <div class="row row-cols-1 row-cols-lg-2 gx-2 gy-2 mb-2">
+    <div class="row row-cols-1 row-cols-lg-2 gx-2 gy-2 mb-2" data-cy="RestaurantFilter">
       <div *ngFor="let item of restaurantInfoList; index as i;" class="col">
-        <div class="bg-white border-rounded pt-2 px-3 position-relative " data-cy="RestaurantFilter">
+        <div class="bg-white border-rounded pt-2 px-3 position-relative " >
           <div class="row pb-2">
             <!-- image cover -->
             <div class="col-4 col-md-3 col-lg-4 col-xl-4 ps-1">

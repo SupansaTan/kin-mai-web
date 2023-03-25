@@ -4,8 +4,8 @@ Feature: Restaurant Homepage
    Background:
     Given I visit on login page
     When  I complete fill in login form
-      | email               | password |
-      | punch3@gmail.com  | 12345678 |
+      | email                    | password |
+      | punch3@gmail.com         | 12345678 |
     And I click on Login button
     And I should be on Restaurant homepage
 
@@ -23,8 +23,13 @@ Feature: Restaurant Homepage
     When  I click save image
     Then  I should see QR code image
 
+  Scenario: Owner can not find review
+    When I search review
+      | SearchReview |
+      | xxxxxxxxxxxxxxx     | 
+    Then I should not see reviews
 
-  Scenario: Owner search review
+  Scenario: Owner can find review
     When I search "อร่อย" in search review
       | SearchReview |
       | อร่อย      |
@@ -51,7 +56,7 @@ Feature: Restaurant Homepage
     Then I should see reviews
 
   Scenario: Owner search and filter reviews
-    When I search "อร่อย" in search review
+    When I search review
       | SearchReview |
       | อร่อย      |
     And I select star

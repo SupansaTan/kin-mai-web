@@ -32,9 +32,11 @@ Feature: Login page
     When I click on "Don't have an account ?"
     Then I should be on Register page
 
-  # Scenario: User forget password
-  #   Then I should see button
-  #     | button |
-  #     | forgetPasswordBtn |
-  #   When I click on "Forget your password"
-  #   Then I should be on Reset password page
+  Scenario: User forget password
+    When I click on "Forget your password"
+    And I should be on Reset password page
+    And I fill email
+      | email               |
+      | nampunch1@gmail.com | 
+    And I click send button
+    Then I should see email is sent

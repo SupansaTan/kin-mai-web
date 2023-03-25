@@ -46,12 +46,12 @@
   <!-- button group -->
   <div class="row d-flex align-items-center justify-content-center">
       <div class="col-auto my-3">
-        <button type="button" class="btn btn-light-grey mx-2 px-5" data-cy="nextBtn"
+        <button type="button" class="btn btn-light-grey mx-2 px-5" data-cy="BackBtn"
           (click)="stage === 1? navigateToDetailPage() : changeToPreviousStage()"
         >
           {{ stage === 1? 'ยกเลิก' : 'ก่อนหน้า' }}
         </button>
-        <button type="button" class="btn btn-yellow px-5 mx-2" data-cy="nextBtn"
+        <button type="button" class="btn btn-yellow px-5 mx-2" data-cy="SubmitBtn"
           (click)="stage === 3? submit(): changeToNextStage()"
           [disabled]="stage === 3 && isSubmit"
         >
