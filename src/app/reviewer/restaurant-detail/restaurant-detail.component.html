@@ -164,7 +164,14 @@
   </div>
 
   <!-- Reviews filter bar -->
-  <h4 class="mb-1 mt-3 fw-bolder">Reviews</h4>
+  <div class="d-flex align-items-center justify-content-between mb-1 mt-3">
+    <h4 class="fw-bolder me-2">Reviews</h4>
+    <a *ngIf="isChangeFilter" class="text-decoration-none text-black px-3 py-1 bg-yellow rounded-pill"
+      role="button" (click)="resetFilterReview()">
+      ล้างตัวกรอง
+    </a>
+  </div>
+
   <div class="row g-2 mb-3" data-cy="reviewFilter">
     <div class="col-12 col-md">
       <label>Search</label>

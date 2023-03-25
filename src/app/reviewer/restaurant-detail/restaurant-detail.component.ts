@@ -43,6 +43,7 @@ export class RestaurantDetailComponent implements OnInit {
   isLoadingReviewList: boolean = true;
   restaurantDetail: GetRestaurantDetailModel;
   userId: string;
+  isChangeFilter: boolean = false;
 
   options: google.maps.MapOptions;
   markerOptions: google.maps.MarkerOptions = {draggable: false};
@@ -98,6 +99,7 @@ export class RestaurantDetailComponent implements OnInit {
     request.isOnlyReviewHaveImage = this.isSelectedOnlyReviewHaveImage;
     request.isOnlyReviewHaveComment = this.isSelectedOnlyReviewHaveComment;
     request.isOnlyReviewHaveFoodRecommend = this.isSelectedOnlyReviewHaveFoodRecommend;
+    this.isChangeFilter = ((!this.isSelectedTotalReview) || this.keywords?.length > 0 || this.ratingFilter != 6);
 
     this.reviewerService.getRestaurantReviewList(request).subscribe(
       (response: ResponseModel<GetReviewInfoListModel>) => {
@@ -202,6 +204,8 @@ export class RestaurantDetailComponent implements OnInit {
   }
 
   changeFilterButton(i: number) {
+    this.isChangeFilter = ((i > 1) || this.keywords?.length > 0 || this.ratingFilter != 6);
+
     switch(i) {
       case 1:
         this.isSelectedTotalReview = true;
@@ -244,5 +248,16 @@ export class RestaurantDetailComponent implements OnInit {
 
   editReviewRestaurant(restaurantId: string, restaurantName: string) {
     this.modalReview.openReviewModal(true, true, restaurantId, restaurantName);
+  }
+
+  resetFilterReview() {
+    this.keywords = '';
+    this.ratingFilter = 6;
+    this.isChangeFilter = false;
+    this.isSelectedTotalReview = true;
+    this.isSelectedOnlyReviewHaveComment = false;
+    this.isSelectedOnlyReviewHaveFoodRecommend = false;
+    this.isSelectedOnlyReviewHaveImage = false;
+    this.getReviewList();
   }
 }
