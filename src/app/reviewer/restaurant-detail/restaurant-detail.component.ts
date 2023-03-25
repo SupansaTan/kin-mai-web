@@ -44,6 +44,11 @@ export class RestaurantDetailComponent implements OnInit {
   restaurantDetail: GetRestaurantDetailModel;
   userId: string;
 
+  options: google.maps.MapOptions;
+  markerOptions: google.maps.MarkerOptions = {draggable: false};
+  markerPositions: google.maps.LatLngLiteral;
+  map: google.maps.Map;
+
   constructor(
     private route: ActivatedRoute,
     private reviewerService: ReviewerService,
@@ -75,6 +80,7 @@ export class RestaurantDetailComponent implements OnInit {
       (response: ResponseModel<GetRestaurantDetailModel>) => {
         if (response && response?.status === 200) {
           this.restaurantDetail = response.data;
+          this.setMarkerPosition(response.data.latitude, response.data.longitude);
           this.restaurantDetail.socialContactList = response.data.socialContactList.map(function(e) {
             return JSON.parse(e.toString())
           });
@@ -137,6 +143,29 @@ export class RestaurantDetailComponent implements OnInit {
         return 'bi-instagram text-danger';
     }
     return '';
+  }
+
+  setMarkerPosition(lat: number, lng: number) {
+    this.markerPositions = ({
+      lat: lat,
+      lng: lng
+    });
+
+    this.options = {
+      center: {
+        lat: lat,
+        lng: lng
+      },
+      zoom: 15,
+      streetViewControl: false,
+      mapTypeControl: false,
+      fullscreenControl: false,
+      gestureHandling: 'none'
+    };
+  }
+
+  openGoogleMapsUrl(lat: number, lng: number) {
+    window.open(`http://maps.google.com/maps?z=12&t=m&q=loc:${lat}+${lng}`, "_blank");
   }
 
   numberEnding (number: number) {

@@ -8,6 +8,8 @@ import { EllipsisModule } from 'ngx-ellipsis';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxViewerModule } from '@erengee/ngx-viewer';
 import { AvatarModule } from 'ngx-avatar';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 
 import { ReviewerRoutingModule } from './reviewer-routing.module';
 import { ReviewerHomepageComponent } from './homepage/homepage.component';
@@ -43,6 +45,8 @@ import { FavoriteRestaurantComponent } from './favorite-restaurant/favorite-rest
     NgbCollapseModule,
     NgxViewerModule,
     AvatarModule,
+    GoogleMapsModule,
+    GooglePlaceModule
   ],
   providers: [
     ReviewerService,
