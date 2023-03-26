@@ -1,4 +1,4 @@
-import { ReviewInfoModel } from "./review-info.model";
+import { RestaurantInfoModel } from "./register.model";
 
 export class RestaurantInfoListModel {
   restaurantInfo: Array<RestaurantInfoItemModel>;
@@ -80,8 +80,25 @@ export class Restaurant {
 }
 
 export class ResBusinessHourModel
-    {
-        day: number;
-        openTime: Date;
-        closeTime: Date;
-    }
+{
+  day: number;
+  openTime: Date;
+  closeTime: Date;
+}
+
+export class ResUpdatePhotoModel
+{
+  imageLink: Array<string>;
+  removeImg?: Array<string>;
+  newImg?: Array<File>;
+  restaurantStatus?: string;
+}
+
+export class RestaurantUpdateModel
+{
+  RestaurantId: string;
+  ResUpdateInfo: RestaurantInfoModel;
+  RemoveImageLink: Array<string>;
+  NewImageFile: Array<File>;
+  RestaurantStatus: string;
+}

@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<div *ngIf="reviews && !isLoading">
+<div *ngIf="info && reviews && !isLoading">
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-2 pt-3">
   <div class="col">
     <!-- Today Rating -->
@@ -20,7 +20,7 @@
 
         <div class="row d-flex align-items-center mb-2" data-cy="todayRating">
           <div class="d-flex align-items-center" *ngIf="this.todayReview.length != 0">
-            <h3 class="me-4 mb-0" id="numberrate">{{todayRating}}</h3>
+            <h3 class="me-4 mb-0" id="numberrate">{{todayRating.toFixed(1)}}</h3>
             <ngb-rating [rate]="todayRating" [max]="5" id="rating" [readonly]="true">
               <ng-template let-fill="fill" let-index="index">
                 <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color"></i>
@@ -100,7 +100,9 @@
   <div class="row g-2 mb-3" data-cy="reviewFilter">
     <div class="col-12 col-md">
       <label>Search</label>
-      <input data-cy="SearchReview" [(ngModel)]="keywords" (change)="changeFilterButton(1)" #search class="form-control form-control-sm shadow-none" type="text" placeholder="ความคิดเห็น"/>
+      <input data-cy="SearchReview" [(ngModel)]="keywords" 
+        (ngModelChange)="changeFilterButton(1)"
+        #search class="form-control form-control-sm shadow-none" type="text" placeholder="ความคิดเห็น"/>
     </div>
     <div class="col-12 col-md-2">
       <label>จำนวนดาว</label>
@@ -213,9 +215,11 @@
   </div>
 
 
-  <div class="d-flex justify-content-center mt-5" *ngIf="this.reviews.length == 0">
-    <h3>ไม่มีมีรีวิว</h3>
-  </div>
+  <ng-container *ngIf="this.displayReview.length == 0">
+    <div class="row g-3 px-1">
+      <p class="col-12 bg-light-grey rounded px-2 py-3 text-center" data-cy="NoreviewForm">ไม่มีรีวิว</p>
+    </div>
+  </ng-container>
 
 </div>
 

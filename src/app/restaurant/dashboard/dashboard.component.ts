@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Restaurant, RestaurantDetailModel, SocialContactModel } from 'src/models/restaurant-info.model';
-import { GetReviewInfoRequest, UpdateReviewReplyRequest, ReviewInfoModel } from 'src/models/review-info.model';
+import { GetReviewInfoRequest, UpdateReviewReplyRequest, ReviewInfoModel, ListReviewInfoModel } from 'src/models/review-info.model';
 import { RestaurantService } from '../restaurant.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { ResponseModel } from 'src/models/response.model';
@@ -87,12 +87,14 @@ export class RestaurantDashboardComponent implements OnInit {
 
   getRestaurantReviews() {
     this.restaurantService.getRestaurantReviews(this.restaurantId).subscribe(
-      (response: ResponseModel<Array<ReviewInfoModel>>) => {
+      (response: ResponseModel<ListReviewInfoModel>) => {
         if (response && response?.status === 200) {
-          this.reviews = response.data;
+          this.reviews = response.data.reviews;
           this.reviews.reverse();
+          
           this.displayReview = this.reviews;
           this.addReply()
+          
           if (this.reviews.length != 0) {
             this.totalReview = this.reviews.length
             let ratingCount = 0;
@@ -100,7 +102,6 @@ export class RestaurantDashboardComponent implements OnInit {
               ratingCount += x.rating
             });
             this.totalRating = ratingCount/this.reviews.length
-
             this.reviews.forEach(element => {
               let today = new Date();
               let reviewDate = new Date(element.createAt)
@@ -112,9 +113,9 @@ export class RestaurantDashboardComponent implements OnInit {
               }
               element.reviewTimeString = this.getReviewTimeInString(reviewDate)
               element.userName = element.userName.replace(/(?<!^).(?!$)/g, '*')
-              this.RecommendMenu = (element.foodRecommendList.length != 0)? [ ...this.RecommendMenu, ...(element.foodRecommendList)] : this.RecommendMenu
-              this.RecommendMenu = [...new Set(this.RecommendMenu)];
+              this.RecommendMenu = (element.foodRecommendList != null)? [ ...this.RecommendMenu, ...(element.foodRecommendList)] : this.RecommendMenu
             });
+            this.RecommendMenu = [...new Set(this.RecommendMenu)];
 
             this.countReviewFilter();
 
@@ -217,7 +218,7 @@ export class RestaurantDashboardComponent implements OnInit {
         this.isSelectedOnlyReviewHaveComment = false;
         this.isSelectedOnlyReviewHaveImage = false;
         this.displayReview = this.reviews.filter(item =>
-          item.foodRecommendList.length != 0
+          item.foodRecommendList
           && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
@@ -244,18 +245,21 @@ export class RestaurantDashboardComponent implements OnInit {
   }
 
   countReviewFilter() {
+    
     this.totalDisplayReview =  this.displayReview.length;
     this.totalReviewHaveImage = 0;
     this.totalReviewHaveComment = 0;
     this.totalReviewHaveFoodRecommend = 0;
+    
     this.displayReview.forEach(element => {
-      if (element.comment != "") {
+      if (element.comment != "" || element.comment != null) {
         this.totalReviewHaveComment += 1
       }
-      if (element.imageLink.length !=0) {
+      
+      if (element.imageLink?.length !=0) {
         this.totalReviewHaveImage += 1
       }
-      if (element.foodRecommendList.length !=0) {
+      if (element.foodRecommendList) {
         this.totalReviewHaveFoodRecommend += 1
       }
     });
@@ -275,7 +279,6 @@ export class RestaurantDashboardComponent implements OnInit {
     return this.fb.group({
       reviewId: reviewId,
       replyComment: replyComment,
-      isEdit: Boolean,
     })
   }
 
@@ -285,13 +288,14 @@ export class RestaurantDashboardComponent implements OnInit {
       this.replies.push(this.newReply(x.reviewId, x.replyComment));
     });
     this.displayReview.forEach(element => {
-      if (element.replyComment != '') {
+      if (element.replyComment != '' && element.replyComment) {
         this.formEditStatus.push(false)
       }
       else {
         this.formEditStatus.push(true)
       }
     });
+    
   }
 
   onSubmitReplyComment(i:number) {

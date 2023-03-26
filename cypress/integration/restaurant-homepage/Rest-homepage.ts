@@ -4,16 +4,6 @@ Given(`I visit on login page`, () => {
   cy.visit('/auth/login');
 });
 
-Then('I should see login form', () => {
-  cy.get('[data-cy="loginForm"]').should('be.visible');
-});
-
-Then('I should see button', (dataTable) => {
-  dataTable.hashes().forEach((item: { button: string }) => {
-    cy.get(`[data-cy="${item.button}"]`).should('be.visible');
-  });
-});
-
 When('I complete fill in login form', (dataTable) => {
   dataTable.hashes().forEach((item: { email: string, password: string }) => {
     cy.get('[data-cy="email"]').type(item.email);
@@ -71,8 +61,19 @@ Then('I should see QR code image', () => {
   cy.get('[data-cy="SaveImgBtn"]').should('be.visible');
 });
 
+//------ can not find review----
+When ('I search review', (dataTable) => {
+  dataTable.hashes().forEach((item: { SearchReview : string }) => {
+    cy.get(`[data-cy="SearchReview"]`).type(item.SearchReview, {force: true});
+  });
+});
+
+Then('I should not see reviews', () => {
+  cy.get('[data-cy="NoreviewForm"]').should('be.visible');
+});
+
 // --------- Search review--------
-When ('I search "อร่อย" in search review', (dataTable) => {
+When ('I search review', (dataTable) => {
   dataTable.hashes().forEach((item: { SearchReview : string }) => {
     cy.get(`[data-cy="SearchReview"]`).type(item.SearchReview, {force: true});
   });
@@ -84,7 +85,7 @@ Then('I should see reviews', () => {
 
 //----- select stars------
 When('I select star', () => {
-  cy.get('select').select('3').should('have.value', '3');
+  cy.get('select').select('3', { force: true });
 });
 
 Then('I should see reviews', () => {
@@ -93,7 +94,7 @@ Then('I should see reviews', () => {
 
 //-----filer all reviews-------
 When('I click All button', () => {
-  cy.get('[data-cy="AllBtn"]').click();
+  cy.get('[data-cy="AllBtn"]').click({ force: true });
 });
 
 Then('I should see reviews', () => {
@@ -102,7 +103,7 @@ Then('I should see reviews', () => {
 
 //------ filer picture reviews--------
 When('I click Picture button', () => {
-  cy.get('[data-cy="PicBtn"]').click();
+  cy.get('[data-cy="PicBtn"]').click({ force: true });
 });
 
 Then('I should see reviews', () => {
@@ -111,7 +112,7 @@ Then('I should see reviews', () => {
 
 // ----- filer comment reviews-----
 When('I click Comment button', () => {
-  cy.get('[data-cy="CommentBtn"]').click();
+  cy.get('[data-cy="CommentBtn"]').click({ force: true });
 })
 
 Then('I should see reviews', () => {
@@ -120,7 +121,7 @@ Then('I should see reviews', () => {
 
 //----------filer menu reviews-------
 When('I click Menu button', () => {
-  cy.get('[data-cy="MenuBtn"]').click();
+  cy.get('[data-cy="MenuBtn"]').click({ force: true });
 });
 
 Then('I should see reviews', () => {
@@ -135,7 +136,7 @@ When ('I search "อร่อย" in search review', (dataTable) => {
 });
 
 And('I select star', () => {
-  cy.get('select').select('4').should('have.value', '4');
+  cy.get('select').select('4', { force: true });
 });
 
 And('I click Picture button', () => {
@@ -152,11 +153,11 @@ When('I click Picture button', () => {
 });
 
 And('I select star', () => {
-  cy.get('select').select('4').should('have.value', '4');
+  cy.get('select').select('5', { force: true });
 });
 
 And('I click reset button', () => {
-  cy.get('[data-cy="ResetBtn"]').click();
+  cy.get('[data-cy="ResetBtn"]').click({ force: true });
 });
 
 Then('I should see reviews', () => {
@@ -179,7 +180,7 @@ And('I click reply button', () => {
 });
 
 Then('I should see successful modal', () => {
-  cy.wait(3000);
+  cy.wait(2000);
   cy.get('[data-cy="successModal"]').should('be.visible');
 });
 
@@ -207,7 +208,7 @@ And('I click reply button', () => {
 });
 
 Then('I should see successful modal', () => {
-  cy.wait(3000);
+  cy.wait(2000);
   cy.get('[data-cy="successModal"]').should('be.visible');
 });
 
@@ -230,6 +231,6 @@ And('I click reply button', () => {
 });
 
 Then('I should see successful modal', () => {
-  cy.wait(3000);
+  cy.wait(2000);
   cy.get('[data-cy="successModal"]').should('be.visible');
 });

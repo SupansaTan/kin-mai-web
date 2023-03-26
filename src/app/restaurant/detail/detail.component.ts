@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { GetReviewInfoRequest, ReviewInfoModel } from 'src/models/review-info.model';
+import { GetReviewInfoRequest, ListReviewInfoModel, ReviewInfoModel } from 'src/models/review-info.model';
 import { RestaurantService } from '../restaurant.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
@@ -38,6 +38,7 @@ export class DetailComponent implements OnInit {
   options: google.maps.MapOptions;
   markerOptions: google.maps.MarkerOptions = {draggable: true};
   markerPositions: google.maps.LatLngLiteral;
+  map: google.maps.Map;
 
   constructor(
     private restaurantService: RestaurantService,
@@ -51,6 +52,7 @@ export class DetailComponent implements OnInit {
     this.getRestaurantReviews();
   }
 
+
   getRestaurantDetail() {
     this.restaurantService.getRestaurantDetail(this.restaurantId).subscribe(
       (response: ResponseModel<RestaurantDetailModel>) => {
@@ -59,6 +61,17 @@ export class DetailComponent implements OnInit {
           this.SocialContact = response.data.socialContact;
           this.Categories = response.data.categories;
           this.BusinessHours = response.data.businessHours;
+          this.options = {
+            center: {
+              lat: response.data.restaurantInfo.latitude,
+              lng: response.data.restaurantInfo.longitude
+            },
+            zoom: 15,
+            streetViewControl: false,
+            mapTypeControl: false,
+            fullscreenControl: false,
+          };
+          this.markerPositions = ({lat: response.data.restaurantInfo.latitude, lng: response.data.restaurantInfo.longitude})
           this.setMarkerPosition()
         }
     })
@@ -66,16 +79,17 @@ export class DetailComponent implements OnInit {
 
   getRestaurantReviews() {
     this.restaurantService.getRestaurantReviews(this.restaurantId).subscribe(
-      (response: ResponseModel<Array<ReviewInfoModel>>) => {
+      (response: ResponseModel<ListReviewInfoModel>) => {
         if (response && response?.status === 200) {
-          this.Reviews = response.data;
-
+          this.Reviews = response.data.reviews;
+          
           if (this.Reviews.length != 0) {
             this.TotalReview = this.Reviews.length
             let ratingCount = 0;
+            
             this.Reviews.forEach(x => {
               ratingCount += x.rating
-              this.RecommendMenu = (x.foodRecommendList.length != 0)? [ ...this.RecommendMenu, ...(x.foodRecommendList)] : this.RecommendMenu
+              this.RecommendMenu = (x.foodRecommendList != null)? [ ...this.RecommendMenu, ...(x.foodRecommendList)] : this.RecommendMenu
             });
             this.RecommendMenu = [...new Set(this.RecommendMenu)];
             this.Rating = ratingCount/this.Reviews.length
@@ -95,8 +109,10 @@ export class DetailComponent implements OnInit {
         return [RestaurantType.find((i:any) => i.id === 1)?.name]
       case 2:
         return [RestaurantType.find((i:any) => i.id === 1)?.name]
-      default:
+      case 3:
         return [RestaurantType.find((i:any) => i.id === 1)?.name , RestaurantType.find((i:any) => i.id === 2)?.name]
+      default:
+        return [];
     }
   }
 
@@ -108,8 +124,10 @@ export class DetailComponent implements OnInit {
         return PaymentMethod.find((i:any) => i.id === 2)?.name;
       case 3:
         return PaymentMethod.find((i:any) => i.id === 3)?.name;
-      default:
+      case 4:
         return PaymentMethod.find((i:any) => i.id === 4)?.name;
+      default:
+        return null;
     }
   }
 
@@ -121,8 +139,10 @@ export class DetailComponent implements OnInit {
         return this.SocialContact.find((i:any) => i.socialType === 2)?.contactValue;
       case 3:
         return this.SocialContact.find((i:any) => i.socialType === 3)?.contactValue;
-      default:
+      case 4:
         return this.SocialContact.find((i:any) => i.socialType === 4)?.contactValue;
+      default:
+        return "";
     }
   }
 
@@ -142,8 +162,10 @@ export class DetailComponent implements OnInit {
         return DayList.find((i:any) => i.id === 6)?.name
       case 7:
         return DayList.find((i:any) => i.id === 7)?.name
-      default:
+      case 8:
         return DayList.find((i:any) => i.id === 8)?.name
+      default:
+        return "";
     }
   }
 
