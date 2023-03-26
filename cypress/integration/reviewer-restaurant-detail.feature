@@ -89,6 +89,15 @@ Feature: Restaurant Detail
       | แย่ที่สุด     |
     Then I should see dont have reviews
   
+  Scenario: Reviewer reset reviews
+    When I search "อร่อย" in search review
+      | SearchReview |
+      | อร่อย      |
+    And I click Picture button
+    And I reset reviews
+    Then I should see reviews
+
+  
   Scenario: Reviewer see owner's reply
     Given I see reply of owner
     

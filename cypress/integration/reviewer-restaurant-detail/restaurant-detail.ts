@@ -207,7 +207,7 @@ Then('I should see reviews', () => {
 
 //----------filer menu reviews-------------
 When('I click Menu button', () => {
-  cy.get('[data-cy="MenuBtn"]').click();
+  cy.get('[data-cy="MenuBtn"]').click({force:true});
 });
 
 Then('I should see reviews', () => {
@@ -238,6 +238,25 @@ When ('I search in search review', (dataTable) => {
 
 Then('I should see dont have reviews', () => {
   cy.get('[data-cy="Noreviews"]').should('be.visible');
+});
+
+//----reset reviews--------
+When ('I search "อร่อย" in search review', (dataTable) => {
+  dataTable.hashes().forEach((item: { SearchReview : string }) => {
+    cy.get(`[data-cy="SearchReview"]`).type(item.SearchReview, {force: true});
+  });
+});
+
+And('I click Picture button', () => {
+  cy.get('[data-cy="PicBtn"]').click();
+});
+
+And('I reset reviews', () => {
+  cy.get('[data-cy="ResetBtn"]').click();
+});
+
+Then('I should see reviews', () => {
+  cy.get('[data-cy="reviews"]').should('be.visible');
 });
 
 //--------see owner's reply----
