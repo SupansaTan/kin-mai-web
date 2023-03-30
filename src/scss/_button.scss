@@ -1,32 +1,40 @@
 .btn-yellow {
-  background-color: $yellow;
+  background-color: $yellow !important;
+  border-color: $yellow !important;
 
   &:hover, &:focus {
-    background-color: #ffca68;
+    background-color: #ffca68 !important;
+    border-color: #ffca68 !important;
   }
 }
 
 .btn-light-yellow {
-  background-color: $light-yellow;
+  background-color: $light-yellow !important;
+  border-color: $light-yellow !important;
 
-  &:hover, &:focus {
-    background-color: #f8e29b;
+  &:hover, &:focus, &:active {
+    border-color: #f8e29b !important;
+    background-color: #f8e29b !important;
   }
 }
 
 .btn-light-grey {
-  background-color: #dfdfdf;
+  background-color: #dfdfdf !important;
+  border-color: #dfdfdf !important;
 
-  &:hover, &:focus {
-    background-color: #cecdcd;
+  &:hover, &:focus, &:active {
+    border-color: #cecdcd !important;
+    background-color: #cecdcd !important;
   }
 }
 
 .btn-word {
-  background-color: $light-grey;
+  background-color: $light-grey !important;
+  border-color: $light-grey !important;
   border-radius: 15px;
 
   &:hover, &:focus, &:active {
-    background-color: #f8e29b;
+    background-color: #f8e29b !important;
+    border-color: #f8e29b !important;
   }
 }

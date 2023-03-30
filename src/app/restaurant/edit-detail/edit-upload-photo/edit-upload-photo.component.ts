@@ -2,6 +2,8 @@ import { RestaurantPhotoModel } from 'src/models/register.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ResUpdatePhotoModel } from 'src/models/restaurant-info.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-edit-upload-photo',
@@ -9,13 +11,16 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
   styleUrls: ['./edit-upload-photo.component.scss']
 })
 export class EditUploadPhotoComponent implements OnInit {
-
   @Output() isFormValid = new EventEmitter<boolean>();
-  @Output() uploadPhotoFormValue = new EventEmitter<RestaurantPhotoModel>();
+  @Output() uploadPhotoFormValue = new EventEmitter<ResUpdatePhotoModel>();
+  @Input() restaurantPhotoData: ResUpdatePhotoModel;
 
   uploadPhotoForm: FormGroup;
-  currentStage: number = 2;
+  currentStage: number = 0;
+  awsS3Url = environment.awsS3Url
+
   restaurantImageList: Array<string> = new Array<string>();
+  removeImageList: Array<string> = new Array<string>();
   imageFileList: Array<File> = new Array<File>();
 
   constructor(private fb: FormBuilder, private cf: ChangeDetectorRef) {
@@ -30,6 +35,8 @@ export class EditUploadPhotoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.uploadPhotoForm.controls['restaurantStatus'].setValue(this.restaurantPhotoData.restaurantStatus);
+    this.restaurantImageList = this.restaurantPhotoData.imageLink ?? [];
   }
 
   @Input()
@@ -47,6 +54,7 @@ export class EditUploadPhotoComponent implements OnInit {
     return this.currentStage;
   }
 
+  // Upload Photo
   onSelectFile(event: any) {
     let file = event.target.files && event.target.files.length;
     if (file) {
@@ -72,14 +80,15 @@ export class EditUploadPhotoComponent implements OnInit {
 
   removeImage(index: number) {
     if (index > -1) {
+      this.removeImageList.push(this.restaurantImageList[index]);
       this.restaurantImageList.splice(index, 1);
-      this.imageFileList.splice(index, 1);
     }
   }
 
   getRestaurantInfoValue() {
-    let restaurantInfo = new RestaurantPhotoModel();
-    restaurantInfo.imageFiles = this.imageFileList;
+    let restaurantInfo = new ResUpdatePhotoModel();
+    restaurantInfo.removeImg = this.removeImageList ?? [];
+    restaurantInfo.newImg = this.imageFileList ?? [];
     restaurantInfo.restaurantStatus = this.uploadPhotoForm.controls['restaurantStatus']?.value;
     return restaurantInfo;
   }
@@ -87,8 +96,13 @@ export class EditUploadPhotoComponent implements OnInit {
   checkFormIsValid() {
     this.uploadPhotoForm.markAllAsTouched();
     this.uploadPhotoForm.enable();
-
-    if (this.uploadPhotoForm.valid) {
+    if (this.restaurantImageList.length!=0) {
+      let restaurantInfo = this.getRestaurantInfoValue();
+      this.uploadPhotoForm.disable();
+      this.uploadPhotoFormValue.emit(restaurantInfo);
+      this.isFormValid.emit(true);
+    }
+    else if (this.uploadPhotoForm.valid) {
       let restaurantInfo = this.getRestaurantInfoValue();
       this.uploadPhotoForm.disable();
       this.uploadPhotoFormValue.emit(restaurantInfo);

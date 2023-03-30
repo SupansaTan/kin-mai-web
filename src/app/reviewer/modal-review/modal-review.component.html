@@ -3,23 +3,25 @@
     <div class="container pb-2">
       <div class="modal-header">
         <h4 class="m-0">รีวิวร้านอาหาร : {{ restaurantName }}</h4>
-        <button type="button" class="btn-close" (click)="closeModal()"></button>
+        <button type="button" class="btn-close shadow-none" (click)="closeModal()"></button>
       </div>
 
       <div class="modal-body my-2">
         <!-- Rating -->
-        <h5 class="mb-2 me-2 fw-semibold">คุณภาพอาหาร & บรรยากาศร้านอาหาร</h5>
         <div class="row align-items-center justify-content-center mb-3">
           <div class="col-auto mb-2">
-            <ngb-rating [(rate)]="currentRate" [max]="5" id="rating" formControlName="rating" data-cy="star" [readonly]="!isReview" (ngModelChange)="resetRecommendReviewLabel()">
+            <ngb-rating [(rate)]="currentRate" [max]="5" id="rating" formControlName="rating"  [readonly]="!isReview" (ngModelChange)="resetRecommendReviewLabel()">
               <ng-template let-fill="fill" let-index="index">
-                <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color"></i>
+                <i class="bi-star{{fill === 100 ? '-fill' : ''}} star-color" [ngClass]="{ 'border-danger': f['rating'].invalid && f['rating'].touched }"  data-cy="star"></i>
               </ng-template>
             </ngb-rating>
           </div>
           <div class="col-auto d-flex justify-content-center mb-2">
             <div *ngIf="currentRate > 0">
               <h5 class="m-0">{{ getRatingLabel() }} <i class="bi ms-2 fs-5" [ngClass]="getRatingEmoji()"></i></h5>
+            </div>
+            <div *ngIf="f['rating'].invalid && f['rating'].touched">
+              <h5 class="m-0 text-danger">Rating is required.</h5>
             </div>
           </div>
         </div>

@@ -5,7 +5,7 @@ import { AddReviewRequestModel } from './../../../models/add-review.model';
 import { BadReviewLabelItem, GoodReviewLabelItem } from './../../../constant/review-label.constant';
 import { Component, OnInit, EventEmitter, Input, Output, TemplateRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal'
-import { FormControl, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormBuilder, FormArray, AbstractControl } from '@angular/forms';
 import { RestaurantPhotoModel } from 'src/models/register.model';
 import { ReviewerService } from '../reviewer.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
@@ -61,11 +61,18 @@ export class ModalReviewComponent implements OnInit {
 
   initForm() {
     this.reviewForm = this.fb.group({
-      rating: new FormControl<number>(0, Validators.required),
+      rating: new FormControl<number>(0, [
+        Validators.required,
+        Validators.min(1)
+      ]),
       comment: new FormControl<string>(''),
       menus: this.fb.array([]),
       photo: new FormControl([]),
     });
+  }
+
+  get f(): { [key: string]: AbstractControl } {
+    return this.reviewForm.controls;
   }
 
   clearReviewValue() {

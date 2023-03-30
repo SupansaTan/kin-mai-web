@@ -4,8 +4,8 @@ Feature: Restaurant Homepage
    Background:
     Given I visit on login page
     When  I complete fill in login form
-      | email               | password |
-      | punch3@gmail.com  | 12345678 |
+      | email                    | password |
+      | punch3@gmail.com         | 12345678 |
     And I click on Login button
     And I should be on Restaurant homepage
 
@@ -16,8 +16,20 @@ Feature: Restaurant Homepage
     And   I should see recommend menu
     And   I should see reviews
 
-  # -----------------------
-  Scenario: Owner search review
+  Scenario: Owner have QR Code
+    When  I click QR code button
+    Then  I should be on QR code page
+    And   I should see QR code
+    When  I click save image
+    Then  I should see QR code image
+
+  Scenario: Owner can not find review
+    When I search review
+      | SearchReview |
+      | xxxxxxxxxxxxxxx     | 
+    Then I should not see reviews
+
+  Scenario: Owner can find review
     When I search "อร่อย" in search review
       | SearchReview |
       | อร่อย      |
@@ -27,40 +39,63 @@ Feature: Restaurant Homepage
     When I select star
     Then I should see reviews
 
-  Scenario: Owner filer all reviews
-    When I select star
-    And  I click All button
+  Scenario: Owner filter all reviews
+    When  I click All button
+    Then  I should see reviews
+
+  Scenario: Owner filter picture reviews
+    When  I click Picture button
+    Then  I should see reviews
+
+  Scenario: Owner filter comment reviews
+    When I click Comment button
     Then I should see reviews
 
-  Scenario: Owner filer picture reviews
-    When I select star
-    And  I click Picture button
-    Then I should see reviews
-
-  Scenario: Owner filer comment reviews
-    When I select star
-    And  I click Comment button
-    Then I should see reviews
-
-  Scenario: Owner filer menu reviews
-    When I select star
-    And  I click Menu button
+  Scenario: Owner filter menu reviews
+    When I click Menu button
     Then I should see reviews
 
   Scenario: Owner search and filter reviews
-    When I search "อร่อย" in search review
+    When I search review
       | SearchReview |
       | อร่อย      |
     And I select star
     And I click Picture button
     Then I should see reviews
 
+  Scenario: Owner reset reviews
+    When I click Picture button
+    And I select star
+    And I click reset button
+    Then I should see reviews
+
   Scenario: Owner reply review
-    When I type answer box
+    When I click answer box
+    And I type answer box
       | AnswerBox |
       | ขอบคุณสำหรับรีวิวจ้า |
     And I click reply button
-    Then I should see my answer
+    Then I should see successful modal
+
+  Scenario: Owner edit reply
+    When I click edit button
+    And I click answer box
+    And  I remove old reply
+    And  I type answer box
+      | AnswerBox |
+      | จะนำไปปรับปรุงแก้ไขค่ะ |
+    And I click reply button
+    Then I should see successful modal
+
+  Scenario: Owner remove reply
+    When I click edit button
+    And I click answer box
+    And  I remove old reply
+    And I click reply button
+    Then I should see successful modal
+
+
+
 
 
 

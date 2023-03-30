@@ -29,23 +29,20 @@ And('I should be on reviewer homepage', () => {
   cy.location('pathname', { timeout: 5000 }).should('eq', '/reviewer');
 });
 
-// ---fill valid form--------
-When('I click dropdown menu', () => {
+And('I click dropdown menu', () => {
   cy.get('.dropdown-toggle').click();
 });
 
 And('I click edit profile button', () => {
-  cy.get('[data-cy="EditProfileBtn"]').click();
+  cy.get('[data-cy="EditProfileReviewerBtn"]').click();
 });
 
 Then(`I should be on edit profile page`, () => {
   cy.visit('/reviewer/profile');
 });
 
-And('I should see edit form', () => {
-  cy.get('[data-cy="personalInfoForm"]').should('be.visible');
-});
 
+// ---fill valid form--------
 When('I remove old IDname', () => {
   cy.get('[data-cy="username"]').clear();
 });

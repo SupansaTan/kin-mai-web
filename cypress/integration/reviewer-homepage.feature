@@ -8,10 +8,11 @@ Feature: Reviewer Homepage
       | nampunch1@gmail.com | 12345678 |
     And I click on Login button
     And I should be on reviewer homepage
-    And I see searchbox
-    And I see list of restarant near me
+  
+  Scenario: Reviewer see list of restaurant near me
+    Given I see restaurant near me
 
-  Scenario: Reviewer click restaurant detail
+  Scenario: Reviewer watch restaurant detail
     When  I click title of Restaurant
     Then  I should be on Restaurant detail page
 
@@ -23,68 +24,81 @@ Feature: Reviewer Homepage
     When  I click "Love" button
     Then  I should see love button change
 
-  Scenario: Reviewer search restaurant
-    When  I search "Jaidee" in a search box
+  Scenario: Reviewer can not find restaurant
+    When  I search in a search box
       | searchbox |
-      | Jaidee |
-    Then  I should see list of "restaurant" near me
-    And   I should see filter
-    And   I should see restaurant
+      | ร้านลุงดีส้มตำ |
+    Then I should not see list of "restaurant" near me
 
-  Scenario: Reviewer filter restaurant
-    When  I search "test" in a search box
+  Scenario: Reviewer can find restaurant with filter
+    When  I search in a search box
       | searchbox |
       | ร้าน |
-    Then  I should see list of "restaurant" near me
-    And   I should see filter
-    When  I click open button
-    Then  I should see restaurants which open
+    And  I should see filter
+    And  I click open button
+    And  I click food categories
+    Then I should see list of "restaurant" near me
 
-  Scenario: Reviewer see review
-    When  I search "Jaidee" in a search box
+  Scenario: Reviewer invalid review 
+    When  I search in a search box
       | searchbox |
-      | Jaidee |
+      | ร้านบ้านดีคาเฟ่ |
+    And   I click open button
     Then  I should see list of "restaurant" near me
-    And   I should see filter
+    When  I click MyReview button
+    And   I should see review form
+    And   I click submit button
+    Then  I should see rating is required
+
+  Scenario: Reviewer add new review
+    When  I search in a search box
+      | searchbox |
+      | ร้านบ้านดีคาเฟ่ |
+    And I click open button
+    Then  I should see list of "restaurant" near me
     When  I click MyReview button
     Then  I should see review form
+    When  I rate stars
+    And   I click comment words button
+    And   I write comment
+      | commentBox |
+      | บรรยากาศร้านดีมากๆค่ะ |
+    And   I click add menu button
+    And   I write menu name
+      | MenuName |
+      | คุ๊กกี้ขิง |
+    And   I upload photo
+    When  I click submit button
+    Then  I should see review successful
 
   Scenario: Reviewer edit review
-    When  I search "Jaidee" in a search box
+    When  I search in a search box
       | searchbox |
-      | Jaidee |
+      | ร้านบ้านดีคาเฟ่ |
+    And I click open button
     Then  I should see list of "restaurant" near me
-    And   I should see filter
     When  I click MyReview button
     And   I click EditReview button
     Then  I should see review form
     When  I rates stars
     And   I click comment words button
+    And   I remove comment
     And   I write comment
       | commentBox |
-      | เค๊กหน้าตาประหลาด |
-    And   I click add menu button
-    And   I write menu name
-      | MenuName |
-      | บราวนี่เจ้าหญิง |
-    And   I upload photo
+      | อร่อยมากๆค่ะ |
     When  I click submit button
     Then  I should see review successful
-
-  Scenario: Reviewer remove some review
-    When  I search "Jaidee" in a search box
+  
+  Scenario: Reviewer watch review
+    When  I search in a search box
       | searchbox |
-      | Jaidee |
+      | ร้านบ้านดีคาเฟ่ |
+    And I click open button
     Then  I should see list of "restaurant" near me
-    And   I should see filter
     When  I click MyReview button
-    And   I click EditReview button
     Then  I should see review form
-    And   I remove comment
-    And   I remove photo
-    And   I remove menu
-    When  I click submit button
-    Then  I should see review successful
+
+
 
 
 

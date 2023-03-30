@@ -9,10 +9,10 @@
 
 <div *ngIf="restaurantInfoList && !isLoading" class="row row-cols-1 row-cols-lg-2 gy-2 gx-2">
   <div *ngFor="let item of restaurantInfoList; index as i;" class="col">
-    <div class="bg-white border-rounded py-2 px-3" data-cy="RestaurantNearMe">
+    <div class="bg-white border-rounded py-2 px-3 position-relative" data-cy="RestaurantNearMe">
       <div class="row">
         <!-- image cover -->
-        <div class="col-5 col-md-3 col-lg-5 col-xl-4 ps-1">
+        <div class="col-4 col-md-3 col-lg-5 col-xl-4 ps-1">
           <img [src]="awsS3Url + '/' + item.imageCover" class="big-image-cover">
         </div>
 
@@ -22,18 +22,16 @@
             <h5 class="col mb-0 mt-2 restaurant-name" role="button" data-cy="restaurantDetailBtn" (click)="routeToRestaurantDetail(item.restaurantId)"
               ellipsis [ellipsis-content]="item.restaurantName">
             </h5>
-            <i class="col-auto bi fs-5" [ngClass]="item.isFavorite ? 'bi-heart-fill text-yellow':'bi-heart'" type="button" data-cy="LoveBtn"
+            <i *ngIf="userId" class="col-auto bi fs-5" [ngClass]="item.isFavorite ? 'bi-heart-fill text-yellow':'bi-heart'" type="button" data-cy="LoveBtn"
               (click)="toggleFavoriteRestaurant(item.restaurantId, item.restaurantName, !item.isFavorite, i)">
             </i>
           </div>
 
           <!-- rating -->
-          <ng-template #t let-fill="fill" let-index="index">
-            <i class="bi-star-fill position-relative text-grey pe-1 fs-4">
-              <i *ngIf="fill > 0" class="bi-star-fill filled pe-1 text-yellow position-absolute" [style.width.%]="fill"></i>
-            </i>
-          </ng-template>
-          <ngb-rating [(rate)]="item.rating" [starTemplate]="t" [readonly]="true" [max]="5"></ngb-rating>
+          <div class="d-flex align-items-center">
+            <i class="bi bi-star-fill text-yellow fs-5 me-1"></i>
+            <p class="mb-0 me-2 fs-6">{{item.rating}} ({{item.totalReview}})</p>
+          </div>
 
           <!-- business hours -->
           <div class="mt-2">
@@ -60,6 +58,21 @@
           </div>
         </div>
       </div>
+
+      <ng-container *ngIf="userId">
+        <div class="d-flex justify-content-end position-absolute end-0 bottom-0">
+          <button type="button" class="btn btn-yellow review-btn btn-sm"   data-cy="MyReviewBtn"
+            [ngClass]="item.isReview ? 'btn-yellow':'btn-light-grey'"
+            (click)="item.isReview? seeExistReviewRestaurant(item.restaurantId, item.restaurantName) : addReviewRestaurant(item.restaurantId, item.restaurantName)"
+          >
+            <i class="bi fs-6 me-1" [ngClass]="item.isReview ? 'bi-pencil-square':'bi-eye-fill'"></i>
+            {{ item.isReview ? 'รีวิวของฉัน':'เพิ่มรีวิว' }}
+          </button>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>
+
+<!-- review modal -->
+<app-modal-review #reviewModal></app-modal-review>

@@ -38,7 +38,7 @@
       </ng-container>
 
       <!-- Rating -->
-      <div class="col-3">
+      <div class="col">
         <div class="card border-0 rounded-2 mb-2">
           <div class="card-body">
             <h3 class="fw-bold mb-2">Rating</h3>
@@ -79,19 +79,38 @@
 
     <!-- Info -->
     <div class="row my-2">
-
-      <div class="col" data-cy="information">
+      
+      <div class="col-lg" data-cy="information">
+        <!-- restaurant type -->
         <div class="col d-flex align-items-center mb-3">
           <i class="bi bi-shop me-2"></i>
           <span class="rounded-pill bg-white border-grey me-1 px-2"
             *ngFor="let item of getRestaurantType(Info.restaurantType)">
             {{item}}
           </span>
+          <span class="rounded-pill bg-light-yellow border-yellow me-1 px-2">
+            {{Info.minPriceRate}} - {{Info.maxPriceRate}} ฿
+          </span>
         </div>
+        <!-- categories -->
         <div class="col d-flex align-items-center mb-3">
-          <i class="bi bi-clock me-2"></i>
-          เวลาทำการ : 8:00 - 22:00 น.
+          <i class="bi bi-tags me-2"></i>
+          <span class="rounded-pill bg-light-yellow border-yellow me-1 px-2"
+            *ngFor="let item of this.Categories">
+            {{item.categoryName}}
+          </span>
         </div>
+        <!-- BU hours -->
+        <div class="col d-flex align-items-start mb-3">
+          <i class="bi bi-clock me-2"></i>
+          <p class="m-0 me-2 col-auto">เวลาทำการ : </p>
+          <div class="col ">
+            <div *ngFor="let item of BusinessHours">
+              {{getBuHourString(item.day)}} {{item.openTime.toLocaleString().slice(0,5)}} - {{item.closeTime.toLocaleString().slice(0,5)}}
+            </div>
+          </div>
+        </div>
+        <!-- address -->
         <div class="col d-flex mb-2">
           <i class="bi bi-geo-alt-fill me-2"></i>
           {{Info.address.slice(1,-1)}}
@@ -99,13 +118,18 @@
       </div>
 
       <div class="col">
-        <div class="col d-flex align-items-center mb-3 mt-1">
+        <!-- payment method -->
+        <div class="col d-flex mb-3 mt-1">
           <i class="bi bi-cash-coin me-2"></i>
-          <span *ngFor="let item of Info.paymentMethod; index as i;"
-            class="rounded-pill bg-light border-grey px-2 me-1">
-            {{getPaymentMethod(item)}}
-          </span>
+          <div class="mb-2 d-flex flex-wrap">
+            <span *ngFor="let item of Info.paymentMethod; index as i;"
+              class="rounded-pill bg-light border-grey px-2 me-1">
+              {{getPaymentMethod(item)}}
+            </span>
+          </div>
+          
         </div>
+        <!-- social contact -->
         <div *ngFor="let item of this.SocialContact">
           <div class="col d-flex align-items-center mb-3" *ngIf="item.socialType == 1">
             <i class="bi bi-telephone-fill me-2"></i>
@@ -124,23 +148,22 @@
             {{getSocialContactValue(4)}}
           </div>
         </div>
-
       </div>
 
+      <!-- map -->
       <div class="mb-3" data-cy="googleMap">
-        <!-- {{Info.latitude}} {{Info.longitude}} -->
-        <!-- <google-map
+        <google-map
           width="100%"
           height="180"
           [options]="options"
+          data-cy="GoogleAddress"
         >
           <map-marker *ngIf="markerPositions"
             [position]="markerPositions"
             [options]="markerOptions"
-            [markerDraggable]="true"
           >
           </map-marker>
-        </google-map> -->
+        </google-map>
       </div>
 
       <div class="d-flex align-items-center mb-2">

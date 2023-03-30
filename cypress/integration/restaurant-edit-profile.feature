@@ -1,34 +1,39 @@
 Feature: Restaurant Edit Detail
     Restaurant can edit , add and remove their details
-  
+
   Background:
     Given I visit on login page
     When I complete fill in login form
-      | email               | password |
-      | punch3@gmail.com | 12345678 |
+      | email                    | password |
+      | natthamon200@gmail.com   | 12345678 |
     And I click on Login button
     And I should be on Restaurant homepage
+    And I click dropdown menu
+    And I click edit profile button
+    And I should be on restaurant detail
+    And I click edit button
+    And I should be on restaurant edit page
 
-  Scenario: Restaurant owner can edit  detail
-    Given I visit on the Restaurant Detail
-    Then  I should see "edit" button
-    When  I press "edit" button
-    Then  I should be on restaurant edit detail page
-    When  I press "next" button
-    Then  I should see upload form
-    When  I press "next" button
-    Then  I should see status form
+  Scenario: Owner fill valid form
+    When I remove name of restaurant
+    And  I change name of restaurant
+          |Name        |
+          |ส้มตำป้าจงดี   |
+    And I fill address
+      | address           | 
+      | 133 ประชาราษฎร์ 16/2       |
+    And I remove old number
+    And I add new number
+          |Number     |
+          |0948888888 |
+    And   I click "Next" button
+    Then  I should see upload restaurant photo form
+    And   I click "Next" button
+    Then  I should see confirmation register form as restaurant
+    And   I click "Submit" button
+    Then  I should see successful modal
 
-  # Scenario: Restaurant owner with valid form
-  #   Given I visit on the restaurant edit page
-  #   And  I should see edit form
-  #   When  I complete fill in the form
-  #   And   I click "Submit" button
-  #   Then  I should see restaurant detail homepage
-
-  #  Scenario: Restaurant owner with invalid form
-  #   Given I visit on the restaurant edit page
-  #   Then  I should see edit form
-  #   When  I fill in some field in the form
-  #   And   I click "Submit" button
-  #   Then  I should see red border field and message that field is required
+  Scenario: Owner fill invalid form
+    When  I remove name of restaurant
+    And   I click "Next" button
+    Then  I should see error message

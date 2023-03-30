@@ -1,15 +1,15 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Restaurant, RestaurantDetailModel, SocialContactModel } from 'src/models/restaurant-info.model';
-import { GetReviewInfoRequest, UpdateReviewReplyRequest, ReviewInfoModel } from 'src/models/review-info.model';
+import { GetReviewInfoRequest, UpdateReviewReplyRequest, ReviewInfoModel, ListReviewInfoModel } from 'src/models/review-info.model';
 import { RestaurantService } from '../restaurant.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
 import { ResponseModel } from 'src/models/response.model';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { BadReviewLabelItem, GoodReviewLabelItem } from 'src/constant/review-label.constant';
-import {NgForm} from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-success.component';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -53,12 +53,20 @@ export class RestaurantDashboardComponent implements OnInit {
   restaurantId: string;
   RecommendMenu: Array<string> = [];
 
+  replyForm: FormGroup;
+
+  formEditStatus: Array<boolean> = [];
 
   constructor(
     private restaurantService: RestaurantService,
     private localStorageService: LocalStorageService,
     private spinner: NgxSpinnerService,
-  ) { }
+    private fb: FormBuilder,
+  ) {
+    this.replyForm = this.fb.group({
+      replies: this.fb.array([]) ,
+    });
+  }
 
   ngOnInit(): void {
     this.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
@@ -68,10 +76,7 @@ export class RestaurantDashboardComponent implements OnInit {
   }
 
   getRestaurantDetail() {
-    let request = new GetReviewInfoRequest();
-    request.userId = this.userId;
-    request.restaurantId = this.restaurantId;
-    this.restaurantService.getRestaurantDetail(request).subscribe(
+    this.restaurantService.getRestaurantDetail(this.restaurantId).subscribe(
       (response: ResponseModel<RestaurantDetailModel>) => {
         if (response && response?.status === 200) {
           this.info = response.data.restaurantInfo;
@@ -82,11 +87,14 @@ export class RestaurantDashboardComponent implements OnInit {
 
   getRestaurantReviews() {
     this.restaurantService.getRestaurantReviews(this.restaurantId).subscribe(
-      (response: ResponseModel<Array<ReviewInfoModel>>) => {
+      (response: ResponseModel<ListReviewInfoModel>) => {
         if (response && response?.status === 200) {
-          this.reviews = response.data;
+          this.reviews = response.data.reviews;
           this.reviews.reverse();
+          
           this.displayReview = this.reviews;
+          this.addReply()
+          
           if (this.reviews.length != 0) {
             this.totalReview = this.reviews.length
             let ratingCount = 0;
@@ -94,7 +102,6 @@ export class RestaurantDashboardComponent implements OnInit {
               ratingCount += x.rating
             });
             this.totalRating = ratingCount/this.reviews.length
-
             this.reviews.forEach(element => {
               let today = new Date();
               let reviewDate = new Date(element.createAt)
@@ -106,9 +113,9 @@ export class RestaurantDashboardComponent implements OnInit {
               }
               element.reviewTimeString = this.getReviewTimeInString(reviewDate)
               element.userName = element.userName.replace(/(?<!^).(?!$)/g, '*')
-              this.RecommendMenu = (element.foodRecommendList.length != 0)? [ ...this.RecommendMenu, ...(element.foodRecommendList)] : this.RecommendMenu
-              this.RecommendMenu = [...new Set(this.RecommendMenu)];
+              this.RecommendMenu = (element.foodRecommendList != null)? [ ...this.RecommendMenu, ...(element.foodRecommendList)] : this.RecommendMenu
             });
+            this.RecommendMenu = [...new Set(this.RecommendMenu)];
 
             this.countReviewFilter();
 
@@ -119,7 +126,6 @@ export class RestaurantDashboardComponent implements OnInit {
               });
               this.todayRating = ratingCount/this.todayReview.length;
             }
-
           }
           this.isLoading = false;
         }
@@ -180,6 +186,7 @@ export class RestaurantDashboardComponent implements OnInit {
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
         this.countReviewFilter();
+        this.addReply()
         break;
       case 2:
         this.isSelectedOnlyReviewHaveImage = true;
@@ -191,6 +198,7 @@ export class RestaurantDashboardComponent implements OnInit {
           && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
+          this.addReply()
         break;
       case 3:
         this.isSelectedOnlyReviewHaveComment = true;
@@ -202,6 +210,7 @@ export class RestaurantDashboardComponent implements OnInit {
           && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
+          this.addReply()
         break;
       case 4:
         this.isSelectedOnlyReviewHaveFoodRecommend = true;
@@ -209,10 +218,11 @@ export class RestaurantDashboardComponent implements OnInit {
         this.isSelectedOnlyReviewHaveComment = false;
         this.isSelectedOnlyReviewHaveImage = false;
         this.displayReview = this.reviews.filter(item =>
-          item.foodRecommendList.length != 0
+          item.foodRecommendList
           && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
+          this.addReply()
         break;
     }
   }
@@ -235,35 +245,72 @@ export class RestaurantDashboardComponent implements OnInit {
   }
 
   countReviewFilter() {
+    
     this.totalDisplayReview =  this.displayReview.length;
     this.totalReviewHaveImage = 0;
     this.totalReviewHaveComment = 0;
     this.totalReviewHaveFoodRecommend = 0;
+    
     this.displayReview.forEach(element => {
-      if (element.comment != "") {
+      if (element.comment != "" || element.comment != null) {
         this.totalReviewHaveComment += 1
       }
-      if (element.imageLink.length !=0) {
+      
+      if (element.imageLink?.length !=0) {
         this.totalReviewHaveImage += 1
       }
-      if (element.foodRecommendList.length !=0) {
+      if (element.foodRecommendList) {
         this.totalReviewHaveFoodRecommend += 1
       }
     });
   }
 
-  onSubmitReplyComment(f: NgForm, i: number) {
-    this.spinner.show();
-    let data = this.displayReview[i];;
-    let request = new UpdateReviewReplyRequest();
-    request.reviewId = data.reviewId;
-    request.replyComment = f.value.replyComment;
+  // ------------------------------
+
+  editReplyComment(i: number) {
+    this.formEditStatus[i] = true;
+  }
+
+  get replies() : FormArray {
+    return this.replyForm.get("replies") as FormArray
+  }
+
+  newReply(reviewId:string, replyComment: string): FormGroup {
+    return this.fb.group({
+      reviewId: reviewId,
+      replyComment: replyComment,
+    })
+  }
+
+  addReply() {
+    this.replies.clear();
+    this.displayReview.map(x => {
+      this.replies.push(this.newReply(x.reviewId, x.replyComment));
+    });
+    this.displayReview.forEach(element => {
+      if (element.replyComment != '' && element.replyComment) {
+        this.formEditStatus.push(false)
+      }
+      else {
+        this.formEditStatus.push(true)
+      }
+    });
     
+  }
+
+  onSubmitReplyComment(i:number) {
+    this.spinner.show();
+    let request = new UpdateReviewReplyRequest();
+    request.reviewId = this.displayReview[i].reviewId;
+    request.replyComment = this.replies.value[i].replyComment;
+
     this.restaurantService.updateReplyReviewInfo(request).subscribe(
       (response: ResponseModel<boolean>) => {
         this.spinner.hide();
         if (response && response?.status === 200) {
           this.successModal.openSuccessModal(true, 'Update Reply successful');
+          this.displayReview[i].replyComment = this.replies.value[i].replyComment;
+          this.formEditStatus[i] = false;
         } else {
           this.successModal.openSuccessModal(false, response.message);
         }

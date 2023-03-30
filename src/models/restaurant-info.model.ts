@@ -1,4 +1,4 @@
-import { ReviewInfoModel } from "./review-info.model";
+import { RestaurantInfoModel } from "./register.model";
 
 export class RestaurantInfoListModel {
   restaurantInfo: Array<RestaurantInfoItemModel>;
@@ -10,6 +10,7 @@ export class RestaurantInfoItemModel {
   restaurantId: string;
   restaurantName: string;
   rating: number;
+  totalReview: number;
   startTime: string;
   endTime: string;
   distance: number;
@@ -17,6 +18,7 @@ export class RestaurantInfoItemModel {
   maxPriceRate: number;
   imageCover: string;
   isFavorite: boolean;
+  isReview: boolean;
   anotherImageCover: Array<string>;
 }
 
@@ -45,13 +47,19 @@ export class RestaurantCardInfoModel {
 export class RestaurantDetailModel {
   restaurantInfo: Restaurant;
   socialContact: Array<SocialContactModel>;
-  isFavorite: boolean
+  categories: Array<CategoryModel>;
+  businessHours: Array<ResBusinessHourModel>;
 }
 
 
 export class SocialContactModel {
   socialType: number;
   contactValue: string;
+}
+
+export class CategoryModel {
+  categoryType: number;
+  categoryName: string;
 }
 
 export class Restaurant {
@@ -69,4 +77,28 @@ export class Restaurant {
   longitude: number;
   minPriceRate: number;
   maxPriceRate: number;
+}
+
+export class ResBusinessHourModel
+{
+  day: number;
+  openTime: Date;
+  closeTime: Date;
+}
+
+export class ResUpdatePhotoModel
+{
+  imageLink: Array<string>;
+  removeImg?: Array<string>;
+  newImg?: Array<File>;
+  restaurantStatus?: string;
+}
+
+export class RestaurantUpdateModel
+{
+  RestaurantId: string;
+  ResUpdateInfo: RestaurantInfoModel;
+  RemoveImageLink: Array<string>;
+  NewImageFile: Array<File>;
+  RestaurantStatus: string;
 }

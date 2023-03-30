@@ -1,44 +1,46 @@
-<form [formGroup]="uploadPhotoForm" data-cy="uploadform">
+<form [formGroup]="uploadPhotoForm" data-cy="uploadPhotoForm">
     <div class="row d-flex align-items-center justify-content-center">
       <div class="col-11 col-lg-10 row row-cols-1 bg-white rounded-3 mt-4 pb-4 gy-3">
         <!-- upload photo of menu or restaurant -->
         <div class="col">
 
-          <div *ngIf="stage != 3">
+          <div *ngIf="stage === 3">
+            <label class="form-label fw-semibold">รูปภาพเมนูหรือร้านอาหาร <span class="text-danger">*</span></label>
+          </div>
+
+          <div *ngIf="stage === 2">
             <label class="form-label fw-semibold">อัพโหลดรูปภาพเมนูหรือร้านอาหาร <span class="text-danger">*</span></label>
-            <p class="px-3 mb-1"><i class="bi bi-dot"></i>สามารถกดค้างและลาก เพื่อจัดอันดับของรูปภาพ</p>
-            <p class="px-3 mb-1"><i class="bi bi-dot"></i>รูปแรกเป็นรูปหน้าปกร้าน</p>
             <p class="px-3 mb-0"><i class="bi bi-dot"></i>รูปภาพรองรับเฉพาะไฟล์ JPEG และ PNG</p>
           </div>
 
           <div cdkDropListGroup class="d-flex flex-wrap">
             <!-- show all image is selected -->
             <ng-container *ngFor="let image of restaurantImageList; let i = index">
-              <div cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="{item:image,index:i}" (cdkDropListDropped)="drop($event)">
-                <div class="position-relative me-4 mt-3" role="button" cdkDrag>
+              <div cdkDropList cdkDropListOrientation="horizontal">
+                <div class="position-relative mt-3" role="button" cdkDrag>
                   <div *cdkDragPlaceholder></div>
                   <img
-                    [src]="image"
+                    [src]="image.includes('data:image')? image: (awsS3Url + '/' + image)"
                     class="rounded-2 shadow-sm"
                     style="width: auto; height: 93px; object-fit: cover;"
                   />
-                  <i class="bi bi-x bg-danger text-white rounded-circle position-absolute remove" (click)="removeImage(i)" [hidden]="stage === 4"></i>
+                  <i class="bi bi-x fs-6 pt-1 bg-danger text-white rounded-circle position-absolute remove" (click)="removeImage(i)" data-cy="DelPicBtn"></i>
                 </div>
               </div>
             </ng-container>
   
             <!-- upload image button -->
-            <label *ngIf="stage != 3" role="button" for="photo"
+            <label *ngIf="stage == 2" role="button" for="photo"
               class="bg-light-grey rounded-2 py-3 px-2 d-flex align-items-center justify-content-center flex-column shadow-sm mt-1 upload-image mt-3"
-              [ngClass]="{ 'border-danger': uploadPhotoForm.controls['photo'].invalid && uploadPhotoForm.controls['photo'].touched }">
+              [ngClass]="{ 'border-danger': uploadPhotoForm.controls['photo'].invalid && uploadPhotoForm.controls['photo'].touched && this.restaurantImageList.length==0}">
               <i class="bi bi-camera-fill" style="font-size: 25px;"></i>
               <span>อัพโหลดรูป</span>
-              <input id="photo" type="file" [multiple]="true" formControlName="photo" class="d-none"
+              <input id="photo" type="file" [multiple]="true" formControlName="photo" class="d-none" data-cy="selectFile"
                 (change)="onSelectFile($event)" accept="image/png, image/jpeg">
             </label>
           </div>
   
-          <div *ngIf="uploadPhotoForm.controls['photo'].invalid && uploadPhotoForm.controls['photo'].touched"
+          <div *ngIf="uploadPhotoForm.controls['photo'].invalid && uploadPhotoForm.controls['photo'].touched && this.restaurantImageList.length==0"
             class="text-danger mt-2">
             Image of menu or restaurant is reqiured.
           </div>
@@ -47,7 +49,7 @@
         <!-- restaurant status -->
         <div class="col" data-cy="statusform">
           <label for="restaurantStatus" class="form-label fw-semibold">คำแนะนำร้าน</label>
-          <textarea id="restaurantStatus" type="text" rows="3" formControlName="restaurantStatus"
+          <textarea id="restaurantStatus" type="text" rows="3" formControlName="restaurantStatus" data-cy="restaurantStatus"
             class="form-control shadow-none" placeholder="อาหารอร่อยทุกอย่าง มาลองกันได้น้า">
           </textarea>
         </div>

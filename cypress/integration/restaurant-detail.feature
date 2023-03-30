@@ -4,21 +4,25 @@ Feature: Reataurnat Detail
     Background:
     Given I visit on login page
     When   I complete fill in login form
-      | email               | password |
-      | punch3@gmail.com    | 12345678 |
+      | email                    | password |
+      | natthamon200@gmail.com   | 12345678 |
     And I click on Login button
     And I should be on Restaurant homepage
+    And I click dropdown menu
+    And I click edit profile button
+    And I should be on restaurant detail
 
-    Scenario: Restaurant owner can see all restaurant's information
-      Given I visit on Restaurant Detail page
-      And I should see restaurant image
-      And I should see rating
-      And I should see information
-      And I should see google map
-      And I should see edit button
+    Scenario: Owner can see all restaurant's information
+      Given I should see restaurant image
+      And   I should see rating
+      And   I should see information
+      And   I should see edit button
+    
+    Scenario: Owner click image
+      When I click image
+      Then I should see restaurant image
 
-    Scenario: Restaurant owner click edit button
-      Given I visit on Restaurant Detail page
+    Scenario: Owner click edit button
       When I click edit button
       Then I should be on edit page
 

@@ -8,6 +8,8 @@ import { EllipsisModule } from 'ngx-ellipsis';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxViewerModule } from '@erengee/ngx-viewer';
 import { AvatarModule } from 'ngx-avatar';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 
 import { ReviewerRoutingModule } from './reviewer-routing.module';
 import { ReviewerHomepageComponent } from './homepage/homepage.component';
@@ -15,8 +17,6 @@ import { RandomFoodComponent } from './random-food/random-food.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
 import { ModalReviewComponent } from './modal-review/modal-review.component';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
-import { SwiperModule } from "swiper/angular";
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NearlyRestaurantComponent } from './homepage/nearly-restaurant/nearly-restaurant.component';
 import { FilterRestaurantComponent } from './homepage/filter-restaurant/filter-restaurant.component';
 import { SharedModule } from '../shared/shared.module';
@@ -39,14 +39,14 @@ import { FavoriteRestaurantComponent } from './favorite-restaurant/favorite-rest
     ReactiveFormsModule,
     ReviewerRoutingModule,
     NgbRatingModule,
-    SwiperModule,
     FormsModule,
-    MatButtonToggleModule,
     EllipsisModule,
     SharedModule,
     NgbCollapseModule,
     NgxViewerModule,
     AvatarModule,
+    GoogleMapsModule,
+    GooglePlaceModule
   ],
   providers: [
     ReviewerService,

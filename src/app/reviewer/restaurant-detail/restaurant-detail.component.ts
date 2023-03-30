@@ -42,6 +42,13 @@ export class RestaurantDetailComponent implements OnInit {
   isLoadingRestaurantInfo: boolean = true;
   isLoadingReviewList: boolean = true;
   restaurantDetail: GetRestaurantDetailModel;
+  userId: string;
+  isChangeFilter: boolean = false;
+
+  options: google.maps.MapOptions;
+  markerOptions: google.maps.MarkerOptions = {draggable: false};
+  markerPositions: google.maps.LatLngLiteral;
+  map: google.maps.Map;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,6 +58,7 @@ export class RestaurantDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
     this.sub = this.route.params.subscribe(params => {
       this.restaurantId = params['restaurantId'];
 
@@ -73,6 +81,7 @@ export class RestaurantDetailComponent implements OnInit {
       (response: ResponseModel<GetRestaurantDetailModel>) => {
         if (response && response?.status === 200) {
           this.restaurantDetail = response.data;
+          this.setMarkerPosition(response.data.latitude, response.data.longitude);
           this.restaurantDetail.socialContactList = response.data.socialContactList.map(function(e) {
             return JSON.parse(e.toString())
           });
@@ -90,6 +99,7 @@ export class RestaurantDetailComponent implements OnInit {
     request.isOnlyReviewHaveImage = this.isSelectedOnlyReviewHaveImage;
     request.isOnlyReviewHaveComment = this.isSelectedOnlyReviewHaveComment;
     request.isOnlyReviewHaveFoodRecommend = this.isSelectedOnlyReviewHaveFoodRecommend;
+    this.isChangeFilter = ((!this.isSelectedTotalReview) || this.keywords?.length > 0 || this.ratingFilter != 6);
 
     this.reviewerService.getRestaurantReviewList(request).subscribe(
       (response: ResponseModel<GetReviewInfoListModel>) => {
@@ -137,6 +147,29 @@ export class RestaurantDetailComponent implements OnInit {
     return '';
   }
 
+  setMarkerPosition(lat: number, lng: number) {
+    this.markerPositions = ({
+      lat: lat,
+      lng: lng
+    });
+
+    this.options = {
+      center: {
+        lat: lat,
+        lng: lng
+      },
+      zoom: 15,
+      streetViewControl: false,
+      mapTypeControl: false,
+      fullscreenControl: false,
+      gestureHandling: 'none'
+    };
+  }
+
+  openGoogleMapsUrl(lat: number, lng: number) {
+    window.open(`http://maps.google.com/maps?z=12&t=m&q=loc:${lat}+${lng}`, "_blank");
+  }
+
   numberEnding (number: number) {
     return (number > 1) ? 's' : '';
   }
@@ -171,6 +204,8 @@ export class RestaurantDetailComponent implements OnInit {
   }
 
   changeFilterButton(i: number) {
+    this.isChangeFilter = ((i > 1) || this.keywords?.length > 0 || this.ratingFilter != 6);
+
     switch(i) {
       case 1:
         this.isSelectedTotalReview = true;
@@ -213,5 +248,16 @@ export class RestaurantDetailComponent implements OnInit {
 
   editReviewRestaurant(restaurantId: string, restaurantName: string) {
     this.modalReview.openReviewModal(true, true, restaurantId, restaurantName);
+  }
+
+  resetFilterReview() {
+    this.keywords = '';
+    this.ratingFilter = 6;
+    this.isChangeFilter = false;
+    this.isSelectedTotalReview = true;
+    this.isSelectedOnlyReviewHaveComment = false;
+    this.isSelectedOnlyReviewHaveFoodRecommend = false;
+    this.isSelectedOnlyReviewHaveImage = false;
+    this.getReviewList();
   }
 }
