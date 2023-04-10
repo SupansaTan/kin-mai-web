@@ -79,7 +79,7 @@
 
     <!-- Info -->
     <div class="row my-2">
-      
+
       <div class="col-lg" data-cy="information">
         <!-- restaurant type -->
         <div class="col d-flex align-items-center mb-3">
@@ -106,7 +106,7 @@
           <p class="m-0 me-2 col-auto">เวลาทำการ : </p>
           <div class="col ">
             <div *ngFor="let item of BusinessHours">
-              {{getBuHourString(item.day)}} {{item.openTime.toLocaleString().slice(0,5)}} - {{item.closeTime.toLocaleString().slice(0,5)}}
+              {{getBuHourString(item.Day)}} {{item.OpenTime}} - {{item.CloseTime}}
             </div>
           </div>
         </div>
@@ -127,7 +127,7 @@
               {{getPaymentMethod(item)}}
             </span>
           </div>
-          
+
         </div>
         <!-- social contact -->
         <div *ngFor="let item of this.SocialContact">

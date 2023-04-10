@@ -38,7 +38,7 @@ export class EditRestaurantDetailComponent implements OnInit {
 
   restaurantId: string;
   isLoading: boolean = true;
-  
+
   constructor(
     private router: Router,
     private spinner: NgxSpinnerService,
@@ -96,11 +96,12 @@ export class EditRestaurantDetailComponent implements OnInit {
           resInfo.address.markerPosition = ({lat: data.restaurantInfo.latitude, lng: data.restaurantInfo.longitude})
 
           data.businessHours.forEach(x => {
+            let temp = JSON.parse(x.toString());
             resInfo.businessHours = new Array<BusinessHourModel>()
             let item = new BusinessHourModel()
-            item.day = x.day
-            item.startTime = x.openTime
-            item.endTime = x.closeTime
+            item.day = Number(temp.Day)
+            item.startTime = new Date(`01/01/2001 ${temp.OpenTime}:00`)
+            item.endTime = new Date(`01/01/2001 ${temp.CloseTime}:00`)
             resInfo.businessHours.push(item)
           })
 
@@ -122,7 +123,7 @@ export class EditRestaurantDetailComponent implements OnInit {
           resPhoto.imageLink = data.restaurantInfo.imageLink?? []
           resPhoto.restaurantStatus = data.restaurantInfo.description?? ''
           this.restaurantPhotoForm =  resPhoto;
-          
+
           this.isLoading = false;
         }
     })
@@ -156,7 +157,7 @@ export class EditRestaurantDetailComponent implements OnInit {
     updateInfo.RestaurantStatus = this.restaurantPhotoForm.restaurantStatus?? '';
 
     console.log(updateInfo);
-    
+
     this.restaurantService.updateRestaurantDetail(updateInfo).subscribe(
       (response: ResponseModel<boolean>) => {
         this.spinner.hide();

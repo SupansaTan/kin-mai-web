@@ -60,7 +60,9 @@ export class DetailComponent implements OnInit {
           this.Info = response.data.restaurantInfo;
           this.SocialContact = response.data.socialContact;
           this.Categories = response.data.categories;
-          this.BusinessHours = response.data.businessHours;
+          this.BusinessHours = response.data.businessHours.map(function(e) {
+            return JSON.parse(e.toString())
+          });
           this.options = {
             center: {
               lat: response.data.restaurantInfo.latitude,
@@ -82,11 +84,11 @@ export class DetailComponent implements OnInit {
       (response: ResponseModel<ListReviewInfoModel>) => {
         if (response && response?.status === 200) {
           this.Reviews = response.data.reviews;
-          
+
           if (this.Reviews.length != 0) {
             this.TotalReview = this.Reviews.length
             let ratingCount = 0;
-            
+
             this.Reviews.forEach(x => {
               ratingCount += x.rating
               this.RecommendMenu = (x.foodRecommendList != null)? [ ...this.RecommendMenu, ...(x.foodRecommendList)] : this.RecommendMenu
