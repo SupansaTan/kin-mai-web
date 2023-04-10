@@ -73,6 +73,10 @@ export class ResetComponent implements OnInit {
           } else {
             this.successModal.openSuccessModal(false, response?.message);
           }
+      },
+      (error: any) => {
+        this.spinner.hide();
+        this.successModal.openSuccessModal(false, 'ไม่สามารถรีเซ็ตรหัสผ่านได้ในขณะนี้ โปรดลองอีกครั้งในภายหลัง');
       })
     }
   }

@@ -125,6 +125,9 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
         } else {
           this.router.navigate([PageLink.authentication.login]);
         }
+      },
+      (error: any) => {
+        this.router.navigate([PageLink.authentication.login]);
       })
     } else {
       this.router.navigate([PageLink.authentication.login]);
@@ -153,6 +156,11 @@ export class RegisterRestaurantComponent implements OnInit, OnDestroy {
           this.successModal.openSuccessModal(false, 'ไม่สามารถสร้างบัญชีได้ในขณะนี้ โปรดลองอีกครั้ง');
           this.isSubmit = false;
         }
+    },
+    (error: any) => {
+      this.spinner.hide();
+      this.successModal.openSuccessModal(false, 'ไม่สามารถสร้างบัญชีได้ในขณะนี้ โปรดลองอีกครั้ง');
+      this.isSubmit = false;
     })
   }
 }

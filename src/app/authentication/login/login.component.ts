@@ -100,12 +100,20 @@ export class LoginComponent implements OnInit {
                 );
                 this.routePage(resp.data.userType);
               }
+            },
+            (error: any) => {
+              this.spinner.hide();
+              this.successModal.openSuccessModal(false, 'ไม่สามารถเข้าใช้งานได้ในขณะนี้ โปรดลองอีกครั้ง');
             })
           }
         } else {
           this.spinner.hide();
           this.successModal.openSuccessModal(false, response.message);
         }
+      },
+      (error: any) => {
+        this.spinner.hide();
+        this.successModal.openSuccessModal(false, 'ไม่สามารถเข้าใช้งานได้ในขณะนี้ โปรดลองอีกครั้ง');
       });
     }
   }

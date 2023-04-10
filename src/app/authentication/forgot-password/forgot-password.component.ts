@@ -58,6 +58,10 @@ export class ForgotPasswordComponent implements OnInit {
             this.isSentEmail = false;
             this.successModal.openSuccessModal(false, response.message);
           }
+      },
+      (error: any) => {
+        this.spinner.hide();
+        this.successModal.openSuccessModal(false, 'ไม่สามารถส่งคำขอเปลี่ยนรหัสผ่านได้ในขณะนี้ โปรดลองอีกครั้งภายหลัง');
       })
     }
   }
