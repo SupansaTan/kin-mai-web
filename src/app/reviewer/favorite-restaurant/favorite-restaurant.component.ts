@@ -19,6 +19,7 @@ import { PageLink } from 'src/constant/path-link.constant';
 })
 export class FavoriteRestaurantComponent implements OnInit {
   restaurantList: Array<GetFavoriteRestaurantList>;
+  isError: boolean = false;
   awsS3Url = environment.awsS3Url;
 
   constructor(
@@ -48,6 +49,10 @@ export class FavoriteRestaurantComponent implements OnInit {
         } else {
           this.spinner.hide();
         }
+    },
+    (error: any) => {
+      this.spinner.hide();
+      this.isError = true;
     });
   }
 
@@ -89,6 +94,9 @@ export class FavoriteRestaurantComponent implements OnInit {
       } else {
         this.showtoasError(`Disfavor ${restaurant.restaurantName} Unsuccessful`);
       }
+    },
+    (error: any) => {
+      this.showtoasError(`Disfavor ${restaurant.restaurantName} Unsuccessful`);
     })
   }
 }

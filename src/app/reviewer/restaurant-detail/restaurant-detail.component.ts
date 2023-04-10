@@ -88,6 +88,9 @@ export class RestaurantDetailComponent implements OnInit {
           this.isLoadingRestaurantInfo = false;
           this.spinner.hide();
         }
+    },
+    (error: any) => {
+      this.spinner.hide();
     })
   }
 
@@ -111,6 +114,9 @@ export class RestaurantDetailComponent implements OnInit {
           this.totalReviewHaveFoodRecommend = response.data.totalReviewHaveFoodRecommend;
           this.isLoadingReviewList = false;
         }
+    },
+    (error: any) => {
+      this.spinner.hide();
     })
   }
 

@@ -110,6 +110,10 @@ export class ReviewerHomepageComponent implements OnInit {
         this.isError = true;
         this.isLoading = false;
       }
+    },
+    (error: any) => {
+      this.isError = true;
+      this.isLoading = false;
     })
   }
 
@@ -135,6 +139,10 @@ export class ReviewerHomepageComponent implements OnInit {
         this.isError = true;
         this.isLoading = false;
       }
+    },
+    (error: any) => {
+      this.isError = true;
+      this.isLoading = false;
     })
   }
 

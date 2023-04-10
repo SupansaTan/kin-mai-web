@@ -105,7 +105,11 @@ export class EditProfileComponent implements OnInit {
         } else {
           this.successModal.openSuccessModal(false, response.message);
         }
-    })
+      },
+      (error: any) => {
+        this.spinner.hide();
+        this.successModal.openSuccessModal(false, 'ไม่สามารถแก้ไขโปรไฟล์ได้ในขณะนี้ โปรดลองอีกครั้งภายหลัง');
+      })
   }
 
   get f(): { [key: string]: AbstractControl } {
@@ -157,6 +161,10 @@ export class EditProfileComponent implements OnInit {
         } else {
           this.successModal.openSuccessModal(false, response?.message);
         }
-    })
+      },
+      (error: any) => {
+        this.spinner.hide();
+        this.successModal.openSuccessModal(false, 'ไม่สามารถแก้ไขโปรไฟล์ได้ในขณะนี้ โปรดลองอีกครั้ง');
+      })
   }
 }
