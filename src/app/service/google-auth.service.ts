@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from './local-storage.service';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { AccountType } from 'src/enum/account-type.enum';
+import { AccessLevel } from 'src/enum/access-level.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -49,12 +50,14 @@ export class GoogleAuthService {
                 if (resp.status === 200) {
                   this.localStorageService.set(LocalStorageKey.userId, resp.data.userId);
                   this.localStorageService.set(LocalStorageKey.userName, resp.data.userName);
+                  this.localStorageService.set(LocalStorageKey.accessToken, user.idToken);
+                  this.localStorageService.set(LocalStorageKey.restaurantId, resp.data.restaurantId);
                   this.localStorageService.set(LocalStorageKey.restaurantName, resp.data.restaurantName);
                   this.localStorageService.set(LocalStorageKey.userType, resp.data.userType);
                   this.localStorageService.set(LocalStorageKey.viewMode,
                     resp.data.userType === AccountType.Reviewer
-                    ? AccountType.Reviewer
-                    : AccountType.RestaurantOwner
+                    ? AccessLevel.Reviewer
+                    : AccessLevel.RestaurantOwner
                   );
 
                   this.routePage(resp.data.userType);

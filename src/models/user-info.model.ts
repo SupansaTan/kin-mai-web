@@ -1,6 +1,7 @@
 export interface UserInfoModel {
   userId: string;
   userName: string;
+  restaurantId: string;
   restaurantName: string;
   userType: number;
 }
