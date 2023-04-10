@@ -289,6 +289,10 @@ export class ModalReviewComponent implements OnInit {
               this.reviewForm.enable();
               this.successModal.openSuccessModal(false, response.message);
             }
+        },
+        (error: any) => {
+          this.reviewForm.enable();
+          this.successModal.openSuccessModal(false, 'ไม่สามารถอัพเดตข้อมูลการรีวิวได้ในขณะนี้ โปรดลองอีกครั้ง');
         })
       } else {
         let request = this.getReviewInfo();
@@ -302,6 +306,10 @@ export class ModalReviewComponent implements OnInit {
               this.reviewForm.enable();
               this.successModal.openSuccessModal(false, response.message);
             }
+        },
+        (error: any) => {
+          this.reviewForm.enable();
+          this.successModal.openSuccessModal(false, 'ไม่สามารถเพิ่มรีวิวได้ในขณะนี้ โปรดลองอีกครั้ง');
         })
       }
     }
