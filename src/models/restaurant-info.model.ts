@@ -81,9 +81,9 @@ export class Restaurant {
 
 export class ResBusinessHourModel
 {
-  day: number;
-  openTime: Date;
-  closeTime: Date;
+  Day: number;
+  OpenTime: string;
+  CloseTime: string;
 }
 
 export class ResUpdatePhotoModel

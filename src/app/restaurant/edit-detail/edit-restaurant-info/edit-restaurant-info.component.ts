@@ -90,7 +90,7 @@ export class EditRestaurantInfoComponent implements OnInit {
     this.updateRestaurantForm.controls['foodCategory'].setValue((this.restaurantInfoData.categories.length!=0)? this.restaurantInfoData.categories: [])
     this.updateRestaurantForm.controls['deliveryType'].setValue((this.restaurantInfoData.deliveryType.length!=0)? this.restaurantInfoData.deliveryType: [])
     this.updateRestaurantForm.controls['paymentMethod'].setValue((this.restaurantInfoData.paymentMethods.length!=0)? this.restaurantInfoData.paymentMethods: [])
-    
+
     this.lat = this.restaurantInfoData.address.latitude
     this.lng = this.restaurantInfoData.address.longitude
 
@@ -99,16 +99,16 @@ export class EditRestaurantInfoComponent implements OnInit {
     }
     this.isNotSetMarker = false;
     this.getAddressFromMarker();
-    
+
     this.restaurantInfoData.businessHours.forEach(x => {
       let item = this.fb.group({
         day: new FormControl(x.day, [
           Validators.required
         ]),
-        startTime: new FormControl(String(x.startTime).slice(0,5), [
+        startTime: new FormControl(typeof(x.startTime) === 'string'? x.startTime: x.startTime.toTimeString().slice(0,5), [
           Validators.required
         ]),
-        endTime: new FormControl(String(x.endTime).slice(0,5), [
+        endTime: new FormControl(typeof(x.endTime) === 'string'? x.endTime: x.endTime.toTimeString().slice(0,5), [
           Validators.required
         ]),
       });
@@ -460,13 +460,13 @@ export class EditRestaurantInfoComponent implements OnInit {
   checkFormIsValid() {
     this.updateRestaurantForm.markAllAsTouched();
     this.updateRestaurantForm.enable();
-    
+
     if (this.updateRestaurantForm.valid && this.markerPositions) {
       let restaurantInfo = this.getRestaurantInfo();
       this.updateRestaurantForm.disable();
       this.restaurantInfoFormValue.emit(restaurantInfo);
       this.isFormValid.emit(true);
-    } 
+    }
     else {
       if (!this.markerPositions) {
         // user don't set marker
