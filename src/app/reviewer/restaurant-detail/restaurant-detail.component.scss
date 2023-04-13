@@ -22,3 +22,9 @@
   overflow: hidden;
   object-fit: cover;
 }
+
+::ng-deep.toast-top-center {
+  top: 12px;
+  left: 50% !important;
+  transform: translateX(-50%);
+}

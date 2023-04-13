@@ -15,6 +15,7 @@ import { GetReviewInfoFilterModel, GetReviewInfoListModel, GetReviewInfoModel } 
 import { BadReviewLabelItem, GoodReviewLabelItem } from 'src/constant/review-label.constant';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ComponentName } from 'src/enum/component-name.enum';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -29,6 +30,7 @@ export class RestaurantDetailComponent implements OnInit {
   keywords: string = "";
   ratingFilter: number = 6;
   ownerRestaurantId: string;
+  isFromScanQrCode: boolean = false;
   isSelectedTotalReview: boolean = true;
   isSelectedOnlyReviewHaveImage: boolean = false;
   isSelectedOnlyReviewHaveComment: boolean = false;
@@ -57,20 +59,21 @@ export class RestaurantDetailComponent implements OnInit {
     private reviewerService: ReviewerService,
     private localStorageService: LocalStorageService,
     private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
     this.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
     this.ownerRestaurantId = this.localStorageService.get<string>(LocalStorageKey.restaurantId) ?? '';
-    this.sub = this.route.params.subscribe(params => {
+    let params = this.route.snapshot.queryParams;
+    this.isFromScanQrCode = params['fromScanQrCode'] ? true : false;
+    if (params['restaurantId']) {
       this.restaurantId = params['restaurantId'];
 
-      if (this.restaurantId) {
-        this.spinner.show();
-        this.getRestaurantDetail();
-        this.getReviewList();
-      }
-    });
+      this.spinner.show();
+      this.getRestaurantDetail();
+      this.getReviewList();
+    }
   }
 
   getRestaurantDetail() {
@@ -90,6 +93,10 @@ export class RestaurantDetailComponent implements OnInit {
           });
           this.isLoadingRestaurantInfo = false;
           this.spinner.hide();
+
+          if (this.userId === '' && this.isFromScanQrCode) {
+            this.showtoasInfo('ลงชื่อเข้าใช้งานเพื่อรีวิวร้านนี้');
+          }
         }
     },
     (error: any) => {
@@ -270,5 +277,14 @@ export class RestaurantDetailComponent implements OnInit {
     this.isSelectedOnlyReviewHaveFoodRecommend = false;
     this.isSelectedOnlyReviewHaveImage = false;
     this.getReviewList();
+  }
+
+  showtoasInfo(text: string) {
+    this.toastr.info(text, '', {
+      timeOut: 5000,
+      progressBar: true,
+      progressAnimation: 'increasing',
+      positionClass: 'toast-top-center',
+    });
   }
 }

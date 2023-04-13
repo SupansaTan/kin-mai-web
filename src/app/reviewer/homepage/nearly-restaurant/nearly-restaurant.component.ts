@@ -67,9 +67,9 @@ export class NearlyRestaurantComponent implements OnInit {
   }
 
   routeToRestaurantDetail(restaurantId: string) {
-    this.router.navigate([PageLink.reviewer.restaurantDetail, {
-      restaurantId: restaurantId,
-    }]);
+    this.router.navigate([PageLink.reviewer.restaurantDetail], {
+      queryParams: { 'restaurantId': restaurantId }
+    });
   }
 
   addReviewRestaurant(restaurantId: string, restaurantName: string, restaurantIndex: number) {
