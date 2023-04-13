@@ -71,6 +71,13 @@ export class NavbarComponent implements OnInit {
     this.router.navigate([PageLink.reviewer.favoriteRestaurant]);
   }
 
+  login() {
+    this.isMenuCollapsed = true
+    this.router.navigate([PageLink.authentication.login], {
+      queryParams: { 'redirectURL': this.router.url }
+    });
+  }
+
   logout() {
     this.localStorageService.removeAll();
     setTimeout(() => {

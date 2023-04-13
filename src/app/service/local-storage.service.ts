@@ -33,6 +33,10 @@ export class LocalStorageService {
 
   set<Type>(key: string, value: Type): void {
     localStorage.setItem(key, JSON.stringify(value));
+
+    if (key === LocalStorageKey.userName) {
+      this.getUserIsLogin();
+    }
   }
 
   setBulk(keyPairsSet: Array<LocalStorageModel>): void {

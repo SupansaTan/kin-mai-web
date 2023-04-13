@@ -13,6 +13,7 @@ import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { ModalSuccessComponent } from 'src/app/shared/modal-success/modal-success.component';
 import { environment } from 'src/environments/environment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ComponentName } from 'src/enum/component-name.enum';
 
 @Component({
   selector: 'app-modal-review',
@@ -24,6 +25,7 @@ export class ModalReviewComponent implements OnInit {
   @ViewChild('modalReview') modalReview: TemplateRef<any>;
   @Output() closeModalEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() uploadPhotoFormValue = new EventEmitter<RestaurantPhotoModel>();
+  @Output() isReviewSuccess = new EventEmitter<{ componentName: ComponentName, status: boolean }>();
   @ViewChild('successModalComponent') successModal: ModalSuccessComponent;
 
   modalRef: BsModalRef;
@@ -36,6 +38,7 @@ export class ModalReviewComponent implements OnInit {
   restaurantId: string;
   restaurantName: string;
   reviewInfo: ReviewInfoModel;
+  componentName: ComponentName;
   badReviewLabel: Array<{ id: number, name: string, selected: boolean }>;
   goodReviewLabel: Array<{ id: number, name: string, selected: boolean }>;
   selectedRecommendReviewLabel: Array<number> = new Array<number>();
@@ -86,11 +89,18 @@ export class ModalReviewComponent implements OnInit {
     this.reviewInfo = new ReviewInfoModel();
   }
 
-  public openReviewModal(isReview: boolean, isEditReview: boolean, restaurantId: string, restaurantName: string): void {
+  public openReviewModal(
+    isReview: boolean,
+    isEditReview: boolean,
+    restaurantId: string,
+    restaurantName: string,
+    callFromComponent: ComponentName
+  ): void {
     this.isReview = isReview;
     this.isEditReview = isEditReview;
     this.restaurantId = restaurantId;
     this.restaurantName = restaurantName;
+    this.componentName = callFromComponent;
     this.clearReviewValue();
 
     if (!isReview || (isReview && isEditReview)) {
@@ -300,6 +310,7 @@ export class ModalReviewComponent implements OnInit {
           (response: ResponseModel<boolean>) => {
             this.spinner.hide();
             if (response && response?.status === 200) {
+              this.isReviewSuccess.emit({ componentName: this.componentName, status: true });
               this.closeModal();
               this.successModal.openSuccessModal(true, 'Create review successful');
             } else {

@@ -4,7 +4,7 @@ import { DeliveryType } from 'src/enum/delivery-type.enum';
 import { ResponseModel } from 'src/models/response.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalReviewComponent } from '../modal-review/modal-review.component';
-import { GetRestaurantDetailModel, GetRestaurantDetailRequestModel, SocialContactItemModel } from 'src/models/restaurant-detail.model';
+import { GetRestaurantDetailModel, GetRestaurantDetailRequestModel } from 'src/models/restaurant-detail.model';
 import { ReviewerService } from '../reviewer.service';
 import { ActivatedRoute } from '@angular/router';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
@@ -14,6 +14,8 @@ import { DrinkAndDessertCategory, FoodCategory } from 'src/constant/food-categor
 import { GetReviewInfoFilterModel, GetReviewInfoListModel, GetReviewInfoModel } from 'src/models/get-review-info.model';
 import { BadReviewLabelItem, GoodReviewLabelItem } from 'src/constant/review-label.constant';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ComponentName } from 'src/enum/component-name.enum';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -27,6 +29,8 @@ export class RestaurantDetailComponent implements OnInit {
   restaurantId: string;
   keywords: string = "";
   ratingFilter: number = 6;
+  ownerRestaurantId: string;
+  isFromScanQrCode: boolean = false;
   isSelectedTotalReview: boolean = true;
   isSelectedOnlyReviewHaveImage: boolean = false;
   isSelectedOnlyReviewHaveComment: boolean = false;
@@ -55,19 +59,21 @@ export class RestaurantDetailComponent implements OnInit {
     private reviewerService: ReviewerService,
     private localStorageService: LocalStorageService,
     private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
     this.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
-    this.sub = this.route.params.subscribe(params => {
+    this.ownerRestaurantId = this.localStorageService.get<string>(LocalStorageKey.restaurantId) ?? '';
+    let params = this.route.snapshot.queryParams;
+    this.isFromScanQrCode = params['fromScanQrCode'] ? true : false;
+    if (params['restaurantId']) {
       this.restaurantId = params['restaurantId'];
 
-      if (this.restaurantId) {
-        this.spinner.show();
-        this.getRestaurantDetail();
-        this.getReviewList();
-      }
-    });
+      this.spinner.show();
+      this.getRestaurantDetail();
+      this.getReviewList();
+    }
   }
 
   getRestaurantDetail() {
@@ -87,6 +93,10 @@ export class RestaurantDetailComponent implements OnInit {
           });
           this.isLoadingRestaurantInfo = false;
           this.spinner.hide();
+
+          if (this.userId === '' && this.isFromScanQrCode) {
+            this.showtoasInfo('ลงชื่อเข้าใช้งานเพื่อรีวิวร้านนี้');
+          }
         }
     },
     (error: any) => {
@@ -245,15 +255,17 @@ export class RestaurantDetailComponent implements OnInit {
   }
 
   addReviewRestaurant(restaurantId: string, restaurantName: string) {
-    this.modalReview.openReviewModal(true, false, restaurantId, restaurantName);
+    this.modalReview.openReviewModal(true, false, restaurantId, restaurantName, ComponentName.RestaurantDetailComponent);
+  }
+
+  updateReviewStatus(event: any) {
+    if (event?.componentName == ComponentName.RestaurantDetailComponent && event?.status) {
+      this.restaurantDetail.isReview = true;
+    }
   }
 
   seeExistReviewRestaurant(restaurantId: string, restaurantName: string) {
-    this.modalReview.openReviewModal(false, false, restaurantId, restaurantName);
-  }
-
-  editReviewRestaurant(restaurantId: string, restaurantName: string) {
-    this.modalReview.openReviewModal(true, true, restaurantId, restaurantName);
+    this.modalReview.openReviewModal(false, false, restaurantId, restaurantName, ComponentName.RestaurantDetailComponent);
   }
 
   resetFilterReview() {
@@ -265,5 +277,14 @@ export class RestaurantDetailComponent implements OnInit {
     this.isSelectedOnlyReviewHaveFoodRecommend = false;
     this.isSelectedOnlyReviewHaveImage = false;
     this.getReviewList();
+  }
+
+  showtoasInfo(text: string) {
+    this.toastr.info(text, '', {
+      timeOut: 5000,
+      progressBar: true,
+      progressAnimation: 'increasing',
+      positionClass: 'toast-top-center',
+    });
   }
 }

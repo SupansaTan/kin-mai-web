@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { PageLink } from 'src/constant/path-link.constant';
 import { ModalReviewComponent } from '../../modal-review/modal-review.component';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
+import { ComponentName } from 'src/enum/component-name.enum';
 
 @Component({
   selector: 'app-nearly-restaurant',
@@ -23,7 +24,9 @@ export class NearlyRestaurantComponent implements OnInit {
   restaurantInfoList: Array<RestaurantInfoItemModel>;
   restaurantCumulativeCount: number = 0;
   totalRestaurant: number = 0;
+  reviewRestaurantIndex: number;
   awsS3Url = environment.awsS3Url;
+  ownerRestaurantId: string;
   userId: string;
 
   constructor(
@@ -33,6 +36,7 @@ export class NearlyRestaurantComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
+    this.ownerRestaurantId = this.localStorageService.get<string>(LocalStorageKey.restaurantId) ?? '';
   }
 
   @Input()
@@ -63,16 +67,24 @@ export class NearlyRestaurantComponent implements OnInit {
   }
 
   routeToRestaurantDetail(restaurantId: string) {
-    this.router.navigate([PageLink.reviewer.restaurantDetail, {
-      restaurantId: restaurantId,
-    }]);
+    this.router.navigate([PageLink.reviewer.restaurantDetail], {
+      queryParams: { 'restaurantId': restaurantId }
+    });
   }
 
-  addReviewRestaurant(restaurantId: string, restaurantName: string) {
-    this.reviewModal.openReviewModal(true, false, restaurantId, restaurantName);
+  addReviewRestaurant(restaurantId: string, restaurantName: string, restaurantIndex: number) {
+    this.reviewRestaurantIndex = restaurantIndex;
+    this.reviewModal.openReviewModal(true, false, restaurantId, restaurantName, ComponentName.NearlyRestaurantComponent);
   }
 
-  seeExistReviewRestaurant(restaurantId: string, restaurantName: string) {
-    this.reviewModal.openReviewModal(false, false, restaurantId, restaurantName);
+  seeExistReviewRestaurant(restaurantId: string, restaurantName: string, restaurantIndex: number) {
+    this.reviewRestaurantIndex = restaurantIndex;
+    this.reviewModal.openReviewModal(false, false, restaurantId, restaurantName, ComponentName.NearlyRestaurantComponent);
+  }
+
+  updateReviewStatus(event: any) {
+    if (event?.componentName == ComponentName.NearlyRestaurantComponent && event?.status) {
+      this.restaurantInfoList[this.reviewRestaurantIndex].isReview = true;
+    }
   }
 }

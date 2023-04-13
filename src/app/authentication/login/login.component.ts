@@ -3,7 +3,7 @@ import { AccountType } from './../../../enum/account-type.enum';
 import { GoogleAuthService } from './../../service/google-auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { LocalStorageService } from './../../service/local-storage.service';
 import { PageLink } from './../../../constant/path-link.constant';
@@ -22,11 +22,13 @@ import { TokenResponseModel } from 'src/models/token-response.model';
 export class LoginComponent implements OnInit {
   @ViewChild('successModalComponent') successModal: ModalSuccessComponent;
   loginForm: FormGroup;
+  redirectURL: string;
   isShowPassword: boolean = false;
 
   constructor(
       private fb: FormBuilder
     , private router: Router
+    , private route: ActivatedRoute
     , private localStorageService: LocalStorageService
     , private authenticationService: AuthenticationService
     , private authService: SocialAuthService
@@ -50,7 +52,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    let params = this.route.snapshot.queryParams;
+    if (params['redirectURL']) {
+      this.redirectURL = params['redirectURL'];
+    }
   }
 
   get f(): { [key: string]: AbstractControl } {
@@ -58,13 +63,18 @@ export class LoginComponent implements OnInit {
   }
 
   routePage(mode: AccountType) {
-    switch(mode) {
-      case AccountType.Reviewer:
-        this.router.navigate([PageLink.reviewer.homepage]);
-        break;
-      case AccountType.RestaurantOwner:
-        this.router.navigate([PageLink.restaurant.dashboard]);
-        break;
+    if (this.redirectURL) {
+      this.router.navigateByUrl(this.redirectURL,)
+        .catch(() => this.router.navigate([PageLink.reviewer.homepage]))
+    } else {
+      switch(mode) {
+        case AccountType.Reviewer:
+          this.router.navigate([PageLink.reviewer.homepage]);
+          break;
+        case AccountType.RestaurantOwner:
+          this.router.navigate([PageLink.restaurant.dashboard]);
+          break;
+      }
     }
   }
 

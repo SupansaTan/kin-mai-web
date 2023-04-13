@@ -19,7 +19,7 @@
 
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li *ngIf="!isLogin" class="nav-item">
-          <a class="nav-link py-0" routerLink="/auth/login" (click)="isMenuCollapsed = true" data-cy="LoginBtn" >เข้าสู่ระบบ</a>
+          <a class="nav-link py-0" (click)="login()" data-cy="LoginBtn" >เข้าสู่ระบบ</a>
         </li>
 
         <li *ngIf="isLogin" ngbDropdown class="nav-item" container="body" display="dynamic" placement="bottom-end">

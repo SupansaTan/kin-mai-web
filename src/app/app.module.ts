@@ -39,7 +39,9 @@ import { EditProfileComponent } from './reviewer/edit-profile/edit-profile.compo
     NgbModule,
     SharedModule,
     ModalModule.forRoot(),
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      preventDuplicates: true
+    }),
     BrowserAnimationsModule,
     NgProgressModule,
     GoogleMapsModule,
