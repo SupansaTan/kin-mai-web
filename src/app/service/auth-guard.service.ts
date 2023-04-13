@@ -1,13 +1,10 @@
-import { AccountType } from './../../enum/account-type.enum';
 import { LocalStorageService } from './local-storage.service';
-import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { PageLink } from './../../constant/path-link.constant';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
 import { Observable } from "rxjs";
 import { Injectable } from '@angular/core';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { AccessLevel } from 'src/enum/access-level.enum';
-import { DetailComponent } from '../restaurant/detail/detail.component';
 
 @Injectable({
   providedIn: 'root'
@@ -33,25 +30,32 @@ export class AuthGuardService implements CanActivate {
       }
       else {
         // that page can not access by current mode --> route to correct page
-        this.routeByMode(Number(viewMode));
+        this.routeByMode(Number(viewMode), state.url);
         return false;
       }
     } else if (accessLevel?.includes(AccessLevel.Public)) {
       return true;
     } else {
       this.localStorageService.removeAll();
-      this.router.navigate([PageLink.authentication.login]);
+      this.router.navigate([PageLink.authentication.login],{
+        queryParams: { 'redirectURL': state.url }
+      });
       return false;
     }
   }
 
-  routeByMode(mode: AccessLevel) {
-    if (mode === AccessLevel.Reviewer) {
-      this.router.navigate([PageLink.reviewer.homepage]);
-    } else if (mode === AccessLevel.RestaurantOwner) {
-      this.router.navigate([PageLink.restaurant.dashboard]);
+  routeByMode(mode: AccessLevel, url: string) {
+    if (url && url.includes('reviewer')) {
+      this.localStorageService.set(LocalStorageKey.viewMode, AccessLevel.Reviewer);
+      this.router.navigateByUrl(url);
     } else {
-      this.router.navigate([PageLink.reviewer.homepage]);
+      if (mode === AccessLevel.Reviewer) {
+        this.router.navigate([PageLink.reviewer.homepage]);
+      } else if (mode === AccessLevel.RestaurantOwner) {
+        this.router.navigate([PageLink.restaurant.dashboard]);
+      } else {
+        this.router.navigate([PageLink.reviewer.homepage]);
+      }
     }
   }
 }
