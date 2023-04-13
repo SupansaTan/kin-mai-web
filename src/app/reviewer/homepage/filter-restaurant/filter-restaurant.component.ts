@@ -13,6 +13,7 @@ import { PaymentMethod } from 'src/enum/payment-method.enum';
 import { ModalReviewComponent } from '../../modal-review/modal-review.component';
 import { Router } from '@angular/router';
 import { PageLink } from 'src/constant/path-link.constant';
+import { ComponentName } from 'src/enum/component-name.enum';
 
 @Component({
   selector: 'app-filter-restaurant',
@@ -35,6 +36,7 @@ export class FilterRestaurantComponent implements OnInit {
   categoryType: Array<number> = new Array<number>();
   deliveryType: Array<number> = new Array<number>();
   filterType = FilterRestaurantType;
+  reviewRestaurantIndex: number;
   isSelectedOpenRestaurant: boolean = true;
   isSelectedQRCode: boolean = false;
   isSelectedDelivery: boolean = false;
@@ -43,6 +45,7 @@ export class FilterRestaurantComponent implements OnInit {
   awsS3Url = environment.awsS3Url;
   totalRestaurant: number = 0;
   restaurantCumulativeCount: number = 0;
+  ownerRestaurantId: string;
   userId: string;
   isError: boolean;
   isOpen: boolean;
@@ -54,6 +57,7 @@ export class FilterRestaurantComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
+    this.ownerRestaurantId = this.localStorageService.get<string>(LocalStorageKey.restaurantId) ?? '';
     this.isCollapsedFilter = (window.innerWidth < 992);
     this.selectedCategory = new Array<number>();
     this.foodCategories = [...FoodCategory, ...DrinkAndDessertCategory];
@@ -165,17 +169,25 @@ export class FilterRestaurantComponent implements OnInit {
     this.setFilterRestaurantRequest();
   }
 
-  addReviewRestaurant(restaurantId: string, restaurantName: string) {
-    this.reviewModal.openReviewModal(true, false, restaurantId, restaurantName);
+  addReviewRestaurant(restaurantId: string, restaurantName: string, restaurantIndex: number) {
+    this.reviewRestaurantIndex = restaurantIndex;
+    this.reviewModal.openReviewModal(true, false, restaurantId, restaurantName, ComponentName.FilterRestaurantComponent);
   }
 
-  seeExistReviewRestaurant(restaurantId: string, restaurantName: string) {
-    this.reviewModal.openReviewModal(false, false, restaurantId, restaurantName);
+  seeExistReviewRestaurant(restaurantId: string, restaurantName: string, restaurantIndex: number) {
+    this.reviewRestaurantIndex = restaurantIndex;
+    this.reviewModal.openReviewModal(false, false, restaurantId, restaurantName, ComponentName.FilterRestaurantComponent);
+  }
+
+  updateReviewStatus(event: any) {
+    if (event?.componentName == ComponentName.FilterRestaurantComponent && event?.status) {
+      this.restaurantInfoList[this.reviewRestaurantIndex].isReview = true;
+    }
   }
 
   routeToRestaurantDetail(restaurantId: string) {
-    this.router.navigate([PageLink.reviewer.restaurantDetail, {
-      restaurantId: restaurantId,
-    }]);
+    this.router.navigate([PageLink.reviewer.restaurantDetail], {
+      queryParams: { 'restaurantId': restaurantId }
+    });
   }
 }

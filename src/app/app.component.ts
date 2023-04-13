@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     this.router.events
     .pipe(filter((event: any) => event instanceof NavigationEnd))
     .subscribe((event: any) => {
-      this.isLogin = event.urlAfterRedirects === '/auth/login';
+      this.isLogin = event.urlAfterRedirects.includes('/auth/login');
     });
 
     // append google script

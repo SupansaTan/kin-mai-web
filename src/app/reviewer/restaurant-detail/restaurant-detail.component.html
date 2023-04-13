@@ -151,7 +151,7 @@
         </div>
       </div>
 
-      <div *ngIf="userId">
+      <div *ngIf="userId && (ownerRestaurantId === null || (ownerRestaurantId && ownerRestaurantId != restaurantId))">
         <button type="button" class="btn"  data-cy="MyReviewBtn"
           [ngClass]="restaurantDetail.isReview ? 'btn-light-grey':'btn-yellow'"
           (click)="restaurantDetail.isReview? seeExistReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName) : addReviewRestaurant(restaurantDetail.restaurantId, restaurantDetail.restaurantName)"
@@ -297,4 +297,4 @@
 </div>
 
 <!-- Modal -->
-<app-modal-review #modalReviewComponent></app-modal-review>
+<app-modal-review #modalReviewComponent (isReviewSuccess)="updateReviewStatus($event)"></app-modal-review>
