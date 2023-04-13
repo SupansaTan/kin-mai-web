@@ -45,6 +45,7 @@ export class FilterRestaurantComponent implements OnInit {
   awsS3Url = environment.awsS3Url;
   totalRestaurant: number = 0;
   restaurantCumulativeCount: number = 0;
+  ownerRestaurantId: string;
   userId: string;
   isError: boolean;
   isOpen: boolean;
@@ -56,6 +57,7 @@ export class FilterRestaurantComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
+    this.ownerRestaurantId = this.localStorageService.get<string>(LocalStorageKey.restaurantId) ?? '';
     this.isCollapsedFilter = (window.innerWidth < 992);
     this.selectedCategory = new Array<number>();
     this.foodCategories = [...FoodCategory, ...DrinkAndDessertCategory];

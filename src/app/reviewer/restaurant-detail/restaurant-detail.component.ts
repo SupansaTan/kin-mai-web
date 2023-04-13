@@ -28,6 +28,7 @@ export class RestaurantDetailComponent implements OnInit {
   restaurantId: string;
   keywords: string = "";
   ratingFilter: number = 6;
+  ownerRestaurantId: string;
   isSelectedTotalReview: boolean = true;
   isSelectedOnlyReviewHaveImage: boolean = false;
   isSelectedOnlyReviewHaveComment: boolean = false;
@@ -60,6 +61,7 @@ export class RestaurantDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
+    this.ownerRestaurantId = this.localStorageService.get<string>(LocalStorageKey.restaurantId) ?? '';
     this.sub = this.route.params.subscribe(params => {
       this.restaurantId = params['restaurantId'];
 

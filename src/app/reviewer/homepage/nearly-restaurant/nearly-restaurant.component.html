@@ -59,7 +59,7 @@
         </div>
       </div>
 
-      <ng-container *ngIf="userId">
+      <ng-container *ngIf="userId && (ownerRestaurantId === null || (ownerRestaurantId && ownerRestaurantId != item.restaurantId))">
         <div class="d-flex justify-content-end position-absolute end-0 bottom-0">
           <button type="button" class="btn btn-yellow review-btn btn-sm"   data-cy="MyReviewBtn"
             [ngClass]="item.isReview ? 'btn-yellow':'btn-light-grey'"

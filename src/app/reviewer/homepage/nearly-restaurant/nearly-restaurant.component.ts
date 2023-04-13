@@ -26,6 +26,7 @@ export class NearlyRestaurantComponent implements OnInit {
   totalRestaurant: number = 0;
   reviewRestaurantIndex: number;
   awsS3Url = environment.awsS3Url;
+  ownerRestaurantId: string;
   userId: string;
 
   constructor(
@@ -35,6 +36,7 @@ export class NearlyRestaurantComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.localStorageService.get<string>(LocalStorageKey.userId) ?? '';
+    this.ownerRestaurantId = this.localStorageService.get<string>(LocalStorageKey.restaurantId) ?? '';
   }
 
   @Input()
