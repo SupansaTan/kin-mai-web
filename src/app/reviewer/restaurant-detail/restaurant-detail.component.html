@@ -297,4 +297,4 @@
 </div>
 
 <!-- Modal -->
-<app-modal-review #modalReviewComponent></app-modal-review>
+<app-modal-review #modalReviewComponent (isReviewSuccess)="updateReviewStatus($event)"></app-modal-review>
