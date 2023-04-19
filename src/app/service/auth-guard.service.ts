@@ -45,7 +45,7 @@ export class AuthGuardService implements CanActivate {
   }
 
   routeByMode(mode: AccessLevel, url: string) {
-    if (url && url.includes('reviewer')) {
+    if (url && url.includes('reviewer') && this.router.url.includes('redirectURL')) {
       this.localStorageService.set(LocalStorageKey.viewMode, AccessLevel.Reviewer);
       this.router.navigateByUrl(url);
     } else {
