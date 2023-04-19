@@ -29,8 +29,8 @@ export class ReviewerHomepageComponent implements OnInit {
   categoryType: number;
   categoryTypeParam: number;
   skip: number = 0;
-  lat: number;
-  lng: number;
+  lat: number = 13.736717;
+  lng: number = 100.523186;
 
   constructor(
     private reviewerService: ReviewerService,
@@ -46,6 +46,7 @@ export class ReviewerHomepageComponent implements OnInit {
         this.isShowNearMeList = false;
       }
     });
+    this.initFilterRequest();
     this.initComponent();
   }
 
@@ -54,7 +55,6 @@ export class ReviewerHomepageComponent implements OnInit {
     this.isLoading = false;
 
     if (this.isShowNearMeList) {
-      this.initFilterRequest();
       this.getRestaurantNearMeList();
     } else {
       this.categoryType = this.categoryTypeParam;
