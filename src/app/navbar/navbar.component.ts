@@ -39,7 +39,7 @@ export class NavbarComponent implements OnInit {
     const viewMode = this.localStorageService.get<string>(LocalStorageKey.viewMode);
     this.username = username ?? 'Username';
     this.restaurantName = restaurantName ?? 'RestaurantName';
-    this.viewMode = Number(viewMode) ?? 0;
+    this.viewMode = Number(viewMode) ?? AccessLevel.Public;
     this.accountType = Number(userType) ?? 0;
     this.isReviewerAccount = (Number(viewMode) ?? 0) === AccessLevel.Reviewer;
 
@@ -56,11 +56,13 @@ export class NavbarComponent implements OnInit {
       && nextMode === AccountType.RestaurantOwner
     ) {
       // to mode restaurant
+      this.viewMode = AccessLevel.RestaurantOwner;
       this.localStorageService.set(LocalStorageKey.viewMode, AccessLevel.RestaurantOwner);
       this.router.navigate([PageLink.restaurant.dashboard]);
       this.isReviewerAccount = false;
     } else {
       // to mode reviewer
+      this.viewMode = AccessLevel.Reviewer;
       this.localStorageService.set(LocalStorageKey.viewMode, AccessLevel.Reviewer);
       this.router.navigate([PageLink.reviewer.homepage]);
       this.isReviewerAccount = true;
@@ -68,10 +70,9 @@ export class NavbarComponent implements OnInit {
   }
 
   routeByAccountMode() {
-    const viewMode = this.localStorageService.get<string>(LocalStorageKey.viewMode);
-    if (Number(viewMode) === AccessLevel.Reviewer) {
+    if (this.viewMode === AccessLevel.Reviewer) {
       this.router.navigate([PageLink.reviewer.homepage]);
-    } else if (Number(viewMode) === 0) {
+    } else if (this.viewMode === AccessLevel.Public) {
       this.router.navigate([PageLink.reviewer.homepage]);
     } else {
       this.router.navigate([PageLink.restaurant.dashboard]);

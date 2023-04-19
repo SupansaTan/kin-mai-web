@@ -64,8 +64,7 @@ export class LoginComponent implements OnInit {
 
   routePage(mode: AccountType) {
     if (this.redirectURL) {
-      this.router.navigateByUrl(this.redirectURL,)
-        .catch(() => this.router.navigate([PageLink.reviewer.homepage]))
+      this.router.navigateByUrl(this.redirectURL);
     } else {
       switch(mode) {
         case AccountType.Reviewer:
