@@ -206,7 +206,7 @@ export class RestaurantDashboardComponent implements OnInit {
         this.isSelectedOnlyReviewHaveImage = false;
         this.isSelectedOnlyReviewHaveFoodRecommend = false;
         this.displayReview = this.reviews.filter(item =>
-          item.comment.length != 0
+          (item.comment.length != 0 || item.reviewLabelList != null)
           && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
@@ -218,7 +218,7 @@ export class RestaurantDashboardComponent implements OnInit {
         this.isSelectedOnlyReviewHaveComment = false;
         this.isSelectedOnlyReviewHaveImage = false;
         this.displayReview = this.reviews.filter(item =>
-          item.foodRecommendList
+          item.foodRecommendList.length != 0
           && ((this.ratingFilter==6)? true : item.rating == this.ratingFilter)
           && ((this.keywords=="")? true : item.comment.includes(this.keywords))
           );
@@ -252,14 +252,14 @@ export class RestaurantDashboardComponent implements OnInit {
     this.totalReviewHaveFoodRecommend = 0;
     
     this.displayReview.forEach(element => {
-      if (element.comment != "" || element.comment != null) {
+      if (element.comment != "" || element.reviewLabelList != null) {
         this.totalReviewHaveComment += 1
       }
       
-      if (element.imageLink?.length !=0) {
+      if (element.imageLink.length !=0) {
         this.totalReviewHaveImage += 1
       }
-      if (element.foodRecommendList) {
+      if (element.foodRecommendList.length !=0) {
         this.totalReviewHaveFoodRecommend += 1
       }
     });
