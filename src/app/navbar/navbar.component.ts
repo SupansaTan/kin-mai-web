@@ -39,8 +39,8 @@ export class NavbarComponent implements OnInit {
     const viewMode = this.localStorageService.get<string>(LocalStorageKey.viewMode);
     this.username = username ?? 'Username';
     this.restaurantName = restaurantName ?? 'RestaurantName';
-    this.viewMode = Number(viewMode);
-    this.accountType = Number(userType);
+    this.viewMode = Number(viewMode) ?? 0;
+    this.accountType = Number(userType) ?? 0;
     this.isReviewerAccount = (Number(viewMode) ?? 0) === AccessLevel.Reviewer;
 
     if (this.sub) {
@@ -64,6 +64,17 @@ export class NavbarComponent implements OnInit {
       this.localStorageService.set(LocalStorageKey.viewMode, AccessLevel.Reviewer);
       this.router.navigate([PageLink.reviewer.homepage]);
       this.isReviewerAccount = true;
+    }
+  }
+
+  routeByAccountMode() {
+    const viewMode = this.localStorageService.get<string>(LocalStorageKey.viewMode);
+    if (Number(viewMode) === AccessLevel.Reviewer) {
+      this.router.navigate([PageLink.reviewer.homepage]);
+    } else if (Number(viewMode) === 0) {
+      this.router.navigate([PageLink.reviewer.homepage]);
+    } else {
+      this.router.navigate([PageLink.restaurant.dashboard]);
     }
   }
 
