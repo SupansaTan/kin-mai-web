@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { SocialAuthService } from "@abacritt/angularx-social-login";
 import { SocialUser } from "@abacritt/angularx-social-login";
 import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from './local-storage.service';
 import { LocalStorageKey } from 'src/constant/local-storage-key.constant';
 import { AccountType } from 'src/enum/account-type.enum';
@@ -24,6 +24,7 @@ export class GoogleAuthService {
     private authService: SocialAuthService,
     private authenticationService: AuthenticationService,
     private localStorageService: LocalStorageService,
+    private route: ActivatedRoute,
     private router: Router
     ) {
   }
@@ -60,7 +61,13 @@ export class GoogleAuthService {
                     : AccessLevel.RestaurantOwner
                   );
 
-                  this.routePage(resp.data.userType);
+                  if (this.router.url.includes('redirectURL')) {
+                    let url = this.route.snapshot.queryParams['redirectURL'];
+                    this.localStorageService.set(LocalStorageKey.viewMode, AccessLevel.Reviewer);
+                    this.router.navigateByUrl(url);
+                  } else {
+                    this.routePage(resp.data.userType);
+                  }
                 }
               }
             );
