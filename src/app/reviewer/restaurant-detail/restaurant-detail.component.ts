@@ -183,7 +183,7 @@ export class RestaurantDetailComponent implements OnInit {
   }
 
   openGoogleMapsUrl(lat: number, lng: number) {
-    window.open(`http://maps.google.com/maps?z=12&t=m&q=loc:${lat}+${lng}`, "_blank");
+    window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, "_blank");
   }
 
   numberEnding (number: number) {
