@@ -22,7 +22,7 @@ export class GenerateQrCodeComponent implements OnInit {
   ngOnInit(): void {
     let restaurantId = this.localStorageService.get<string>(LocalStorageKey.restaurantId);
     this.restaurantName = this.localStorageService.get<string>(LocalStorageKey.restaurantName) ?? '';
-    this.qrCode = `http://localhost:4200/reviewer/restaurant?restaurantId=${restaurantId}&fromScanQrCode=${true}`
+    this.qrCode = `https://kinmai.net/reviewer/restaurant?restaurantId=${restaurantId}&fromScanQrCode=${true}`
   }
 
   generateImage() {
