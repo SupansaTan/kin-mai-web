@@ -91,10 +91,10 @@ export class RestaurantDashboardComponent implements OnInit {
         if (response && response?.status === 200) {
           this.reviews = response.data.reviews;
           this.reviews.reverse();
-          
+
           this.displayReview = this.reviews;
           this.addReply()
-          
+
           if (this.reviews.length != 0) {
             this.totalReview = this.reviews.length
             let ratingCount = 0;
@@ -245,21 +245,21 @@ export class RestaurantDashboardComponent implements OnInit {
   }
 
   countReviewFilter() {
-    
-    this.totalDisplayReview =  this.displayReview.length;
+
+    this.totalDisplayReview =  this.displayReview?.length;
     this.totalReviewHaveImage = 0;
     this.totalReviewHaveComment = 0;
     this.totalReviewHaveFoodRecommend = 0;
-    
+
     this.displayReview.forEach(element => {
       if (element.comment != "" || element.reviewLabelList != null) {
         this.totalReviewHaveComment += 1
       }
-      
-      if (element.imageLink.length !=0) {
+
+      if (element.imageLink?.length !=0) {
         this.totalReviewHaveImage += 1
       }
-      if (element.foodRecommendList.length !=0) {
+      if (element.foodRecommendList?.length !=0) {
         this.totalReviewHaveFoodRecommend += 1
       }
     });
@@ -295,7 +295,7 @@ export class RestaurantDashboardComponent implements OnInit {
         this.formEditStatus.push(true)
       }
     });
-    
+
   }
 
   onSubmitReplyComment(i:number) {
